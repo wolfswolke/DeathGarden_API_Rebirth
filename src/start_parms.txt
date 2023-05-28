@@ -1,0 +1,17 @@
+Start Parameters
+BackendUrl=
+MirrorsApi=
+FileServiceApi=
+GameNewsApi=
+MetricApi=
+TModerationnApi=
+MetricApi=
+PollSystemApi=
+StashboarApi=
+RepllayApi=
+TAuthenticationApi=
+
+-ServiceApi=
+-UseDatastorePlatform=
+-UseMatchmakingPlatform=
+-UseMirrors=
