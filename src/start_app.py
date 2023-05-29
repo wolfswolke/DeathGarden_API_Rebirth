@@ -67,7 +67,7 @@ def tex_get():
     return jsonify({"status": "success"})
 
 
-@app.route("/api/v1/auth/provider/steam/login", methods=["GET"])
+@app.route("/api/v1/auth/provider/steam/login", methods=["POST"])
 def steam_login():
     # here we want to get the value of user (i.e. ?user=some-value)
     steam_token = request.args.get('token')
