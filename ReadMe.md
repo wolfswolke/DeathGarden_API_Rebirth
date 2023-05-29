@@ -29,3 +29,19 @@ The game server is the Amazon Gamelift SDK.
 The steamAPI.dll cannot be spoofed because Battle Eye checks the signature.
 
 If you have any information, suggestions, etc., please create an issue.
+
+### Currently, known Endpoints and URLs
+
+https://stashboard.live.tex.bhvronline.com  (Stashboard Open Source Status API)
+
+https://latest.live.tex.bhvronline.com/api/v1/services/tex  ()
+
+https://latest.live.tex.bhvronline.com/api/v1/gameDataAnalytics (Game Data Analytics)
+
+https://latest.live.tex.bhvronline.com/api/v1/auth  (Steam Auth)
+
+https://latest.live.tex.bhvronline.com/api/v1/healthcheck   (Keep Alive)
+
+https://latest.live.tex.bhvronline.com/metrics  (Tells Server HTTP Codes and time for requests)
+
+https://latest.live.tex.bhvronline.com/tex  ()
