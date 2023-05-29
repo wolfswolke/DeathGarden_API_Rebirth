@@ -1,0 +1,28 @@
+Original:
+GET http://test.steampowered.com/204 HTTP/1.1
+GET https://latest.live.tex.bhvronline.com/api/v1/healthcheck HTTP/1.1
+GET https://stashboard.live.tex.bhvronline.com/api/v1/services/tex HTTP/1.1
+GET https://stashboard.live.tex.bhvronline.com/api/v1/auth/login?token=TOKENTOKENTOKENTOKEN HTTP/1.1
+
+ON ERROR:
+POST https://latest.live.tex.bhvronline.com/metrics/client/event HTTP/1.1
+{
+	"playerUniqueId": "76561199169781285",
+	"clientEvent": "BackendIsOffline",
+	"eventType": "Client"
+}
+
+POST https://latest.live.tex.bhvronline.com/api/v1/gameDataAnalytics HTTP/1.1
+{"timestamp":1685394406,"eventType":"ClientMetric","eventTypeVersion":1,"userId":"76561199169781285","data":{"playerUniqueId":"76561199169781285","clientEvent":"BackendIsOffline","eventType":"Client"}}
+
+POST https://latest.live.tex.bhvronline.com/metrics/httplog/event HTTP/1.1
+{
+	"apiMethod": "MetricClientEvent",
+	"uRL": "https://latest.live.tex.bhvronline.com/metrics/client/event",
+	"httpCode": 200,
+	"elapsedTime": 0.08066260814666748,
+	"eventType": "Client"
+}
+
+POST https://latest.live.tex.bhvronline.com/api/v1/gameDataAnalytics/batch HTTP/1.1
+{"body":[{"timestamp":1685394394,"eventType":"gm_session_started","eventTypeVersion":1,"userId":"","eventId":"75E8E9764AFD8FEB7608F99E18DECC75","data":{"event_id":"75e8e976-4afd-8feb-7608-f99e18decc75","event_type":"gm_session_started","event_time":"2023-05-29T21:06:34.334Z","event_order":1,"session_id":"65e04df5-47e4-31eb-dfd1-91849f137b34"}},{"timestamp":1685394414,"eventType":"gm_session_ended","eventTypeVersion":1,"userId":"","eventId":"763CF74F43C8760925DC45BCAC555F71","data":{"event_id":"763cf74f-43c8-7609-25dc-45bcac555f71","event_type":"gm_session_ended","event_time":"2023-05-29T21:06:54.191Z","event_order":2,"session_id":"65e04df5-47e4-31eb-dfd1-91849f137b34"}}]}
