@@ -1,0 +1,3 @@
+flask
+yaml
+elasticsearch==7.14
