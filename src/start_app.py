@@ -4,7 +4,7 @@
 # ------------------------------------------------------- #
 # imports
 # ------------------------------------------------------- #
-from flask import Flask, send_from_directory, request, jsonify
+from flask import Flask, send_from_directory, request, jsonify, render_template
 from threading import Thread
 import os
 import yaml
@@ -21,12 +21,20 @@ def load_config():
     return config_file
 
 
+def log_upload(index, message):
+    if use_es:
+        es_upload(server=es_server, index=index, log_message=message)
+    else:
+        print("Elasticsearch is not enabled. Skipping upload.")
+        print("Message:", message)
+
+
 app = Flask(__name__)
 
 
 @app.route("/")
 def root():
-    return "<p>Development Server for Death Garden API!</p>"
+    return render_template("index.html")
 
 
 @app.route('/favicon.ico')
@@ -38,14 +46,14 @@ def favicon():
 def receive_event():
     print("Responded to Metrics api call POST")
     data = request.get_json()
-    es_upload(server=es_server, index="client_event", log_message=data)
+    log_upload(index="client_event", message=data)
     return jsonify({"status": "success"})
 
 
 @app.route("/metrics/httplog/event", methods=["POST"])
 def metrics_httplog_event():
     data = request.get_json()
-    es_upload(server=es_server, index="metrics_httplog_event", log_message=data)
+    log_upload(index="metrics_httplog_event", message=data)
     return jsonify({"status": "success"})
 
 
@@ -57,16 +65,17 @@ def healthcheck():
 @app.route("/api/v1/services/tex")
 def services_tex():
     print("Responded to tex api call GET")
-    return jsonify({"status": "success", "online": "true", "Version": "te-18f25613-36778-ue4-374f864b",
-                    "ProjectID": "F72FA5E64FA43E878DC72896AD677FB5",
-                    "DefaultFactoryName": "HttpNetworkReplayStreaming", "ServeMatchDelayInMin": "30.0f"})
+    return {"status": "success"}
+    # return jsonify({"status": "success", "online": "true", "Version": "te-18f25613-36778-ue4-374f864b",
+    #                "ProjectID": "F72FA5E64FA43E878DC72896AD677FB5",
+    #                "DefaultFactoryName": "HttpNetworkReplayStreaming", "ServeMatchDelayInMin": "30.0f"})
 
 
 @app.route("/api/v1/gameDataAnalytics", methods=["POST"])
 def analytics_post():
     print("Responded to analytics api call POST")
     data = request.get_json()
-    es_upload(server=es_server, index="game_data_analytics", log_message=data)
+    log_upload(index="game_data_analytics", message=data)
     return jsonify({"status": "success"})
 
 
@@ -74,16 +83,16 @@ def analytics_post():
 def analytics_batch_post():
     print("Responded to analytics batch api call POST")
     data = request.get_json()
-    es_upload(server=es_server, index="game_data_analytics_batch", log_message=data)
+    log_upload(index="game_data_analytics_batch", message=data)
     return jsonify({"status": "success"})
 
 
 @app.route("/api/v1/auth/provider/steam/login", methods=["POST"])
 def steam_login():
     steam_token = request.args.get('token')
-    es_upload(server=es_server, index="steam_login", log_message=steam_token)
+    log_upload(index="steam_login", message=steam_token)
     # return jsonify({"clientData":{"catalogId": "3.6.0_281460live", "consentId": "3.6.0_281460live"}})
-    return jsonify({"clientData": "3.0.1"})
+    return jsonify({"ProjectVersion": "te-18f25613-36778-ue4-374f864b"})
 
 
 # [Backend]
@@ -107,6 +116,7 @@ def keep_alive():
 # ------------------------------------------------------- #
 
 config = load_config()
+use_es = config['elasticsearch']['use']
 es_server = config['elasticsearch']['host']
 
 
