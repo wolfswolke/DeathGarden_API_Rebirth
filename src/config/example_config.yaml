@@ -1,3 +1,7 @@
 elasticsearch:
   host: http://IP:PORT
-  use: true
+  use: false
+
+graylog:
+    host: host
+    use: false
