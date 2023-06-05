@@ -11,6 +11,7 @@ from threading import Thread
 import os
 import yaml
 import graypy
+import requests
 
 
 # ------------------------------------------------------- #
@@ -160,10 +161,24 @@ def steam_login():
     try:
         steam_session_token = request.args.get('token')
         graylog_logger("Login by Session Ticket: " + steam_session_token, "info")
-        response = make_response()
-        # This is a TEST cookie. It does NOT work!
-        response.set_cookie("bhvrSession", '0ShiciK0Gthwlc_wrvDAE6A.x0Ye670Dwfe3X657Z2Y2tfkIEoM0a13Mqzm-FErDacC2pKpUJPeyAjEApxgJGFIiS4__blAn4zsk0FOHL-PtUOxHSTWCEc_FKMb2RL41KJBKAXdnGcvCw-4PRLuSfxMBrN9FErAwwbRV9HIKSH39vpm-mpAwmVVCNiQK3XD2T1Ud2N0fiJPHHqvHNiXfOoclQZL3qcnu-fMa6NS4qxEpkS1RwtjSJ1FI9eWFZtlZodvpTiTHnPnadcz22G8lhAi9a.1603079556863.86400000.4U3 4PGSyJ8YEVvATGkmJhiCeCIPuHaD7MVXzPaGYYZ8')
-        return response
+        headers = {
+            'X-Kraken-Client-Platform': 'steam',
+            'X-Kraken-Client-Provider': 'steam',
+            'X-Kraken-Client-Resolution': '3440x1440',
+            'X-Kraken-Client-Timezone-Offset': '-120',
+            'X-Kraken-Client-Os': '10.0.22621.1.256.64bit',
+            'X-Kraken-Client-Version': '3.6.1',
+            'User-Agent': 'TheExit/++UE4+Release-4.21-CL-0 Windows/10.0.19045.1.256.64bit',
+        }
+
+        params = {
+            'token': steam_session_token,
+        }
+        response = requests.post('https://steam.live.bhvrdbd.com/api/v1/auth/provider/steam/login', params=params,
+                                 headers=headers)
+        print("DEBUG: " + str(response.json()))
+        # Read: Doc -> AUTH
+        return response.json()
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
