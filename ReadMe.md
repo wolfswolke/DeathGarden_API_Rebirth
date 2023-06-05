@@ -45,3 +45,20 @@ https://latest.live.tex.bhvronline.com/api/v1/healthcheck   (Keep Alive)
 https://latest.live.tex.bhvronline.com/metrics  (Tells Server HTTP Codes and time for requests)
 
 https://latest.live.tex.bhvronline.com/tex  ()
+
+https://latest.live.tex.bhvronline.com/api/v1/utils/contentVersion/latest/2.11
+
+https://latest.live.tex.bhvronline.com/api/v1/modifierCenter/modifiers/me
+
+https://latest.live.tex.bhvronline.com/api/v1/consent/eula2
+
+https://latest.live.tex.bhvronline.com/moderation/check/username
+
+https://latest.live.tex.bhvronline.com/metrics/server/event
+
+https://stashboard.live.tex.bhvronline.com/api/v1/extensions/quitters/getQuitterState
+
+https://stashboard.live.tex.bhvronline.com/api/v1/extensions/progression/initOrGetGroups
+
+https://stashboard.live.tex.bhvronline.com/api/v1/me/richPresence
+
