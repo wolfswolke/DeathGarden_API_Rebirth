@@ -14,9 +14,7 @@ preferredLanguage = Steam Language
 
 providerId = Steam ID (See SteamDB)
 
-id = Unknown
-
-userId = Unknown
+id = userId = Unknown
 
 tokenId = Unknown
 
