@@ -184,6 +184,103 @@ def steam_login():
         return jsonify({"status": "error"})
 
 
+@app.route("/api/v1/utils/contentVersion/latest/2.11", methods=["GET"])
+def content_version():
+    get_remote_ip()
+    try:
+        print("Responded to content version api call GET")
+        return jsonify({"status": "success", "contentVersion": "2.11"}) # Don't know if this is correct. Just testing.
+    except TimeoutError:
+        print("Timeout error")
+        return jsonify({"status": "error"})
+
+
+@app.route("/api/v1/modifierCenter/modifiers/me", methods=["GET"])
+def modifiers():
+    get_remote_ip()
+    try:
+        print("Responded to modifiers api call GET")
+        return jsonify({"status": "success", "modifiers": []}) # Don't know. Added as Placeholder.
+    except TimeoutError:
+        print("Timeout error")
+        return jsonify({"status": "error"})
+
+
+@app.route("/api/v1/consent/eula2", methods=["GET"])
+def consent_eula():
+    get_remote_ip()
+    try:
+        print("Responded to consent eula api call GET")
+        return jsonify({"status": "success", "consent": "true"}) # Don't know. Added as Placeholder.
+    except TimeoutError:
+        print("Timeout error")
+        return jsonify({"status": "error"})
+
+
+# Logging
+@app.route("/api/v1/extensions/quitters/getQuitterState", methods=["POST"])
+def get_quitter_state():
+    get_remote_ip()
+    try:
+        print("Responded to get quitter state api call POST")
+        graylog_logger("Get quitter state: " + str(request.get_json()), "info")
+        return jsonify({"status": "success"})
+    except TimeoutError:
+        print("Timeout error")
+        return jsonify({"status": "error"})
+
+# Logging
+@app.route("/api/v1/extensions/progression/initOrGetGroups", methods=["POST"])
+def extension_progression_init_or_get_groups():
+    get_remote_ip()
+    try:
+        print("Responded to extension progression init or get groups api call POST")
+        graylog_logger("Extension progression init or get groups: " + str(request.get_json()), "info")
+        return jsonify({"status": "success"})
+    except TimeoutError:
+        print("Timeout error")
+        return jsonify({"status": "error"})
+
+
+# Logging
+@app.route("/api/v1/me/richPresence", methods=["POST"])
+def me_rich_presence():
+    get_remote_ip()
+    try:
+        print("Responded to me rich presence api call POST")
+        graylog_logger("Me_richPresence: " + str(request.get_json()), "info")
+        return jsonify({"status": "success"})
+    except TimeoutError:
+        print("Timeout error")
+        return jsonify({"status": "error"})
+
+
+
+@app.route("/moderation/check/username", methods=["POST"])
+def moderation_check_username():
+    get_remote_ip()
+    try:
+        print("Responded to moderation check username api call POST")
+        graylog_logger("Moderation check username: " + str(request.get_json()), "info")
+        return jsonify({"status": "success", "isAllowed": "true"}) # CLIENT: {"userId": "ID-ID-ID-ID-SEE-AUTH",	"username": "Name-Name-Name"}
+    except TimeoutError:
+        print("Timeout error")
+        return jsonify({"status": "error"})
+
+
+# Logging for Server Events
+@app.route("/metrics/server/event", methods=["POST"])
+def metrics_server_event():
+    get_remote_ip()
+    try:
+        print("Responded to metrics server event api call POST")
+        graylog_logger("Metrics server event: " + str(request.get_json()), "info")
+        return jsonify({"status": "success"})
+    except TimeoutError:
+        print("Timeout error")
+        return jsonify({"status": "error"})
+
+
 # [Backend]
 @app.route("/tex", methods=["GET"])
 def tex_get():
