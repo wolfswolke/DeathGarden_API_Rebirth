@@ -1,10 +1,25 @@
-Original:
+Client:
 GET http://test.steampowered.com/204 HTTP/1.1
+Client:
 GET https://latest.live.tex.bhvronline.com/api/v1/healthcheck HTTP/1.1
+Client:
 GET https://stashboard.live.tex.bhvronline.com/api/v1/services/tex HTTP/1.1
+Client:
 GET https://stashboard.live.tex.bhvronline.com/api/v1/auth/login?token=TOKENTOKENTOKENTOKEN HTTP/1.1
+Client:
+POST /api/v1/auth/provider/steam/login?token=Steam-Signed-Ticket-here HTTP/1.1
+Server:
+{"expire":1686091031,"fixedMyFriendsUserPlatformId":{"steam":true},"friends":[],"friendsFirstSync":{"steam":true},"generated":1686004631,"id":"xx000x00-x000-00x0-x0xx-x0000000000x","preferredLanguage":"en","provider":{"providerId":"00000000000000000","providerName":"steam","userId":"xx000x00-x000-00x0-x0xx-x0000000000x"},"providers":[{"providerId":"00000000000000000","providerName":"steam"}],"token":"0x0000x0-00x0-0xxx-00x0-x00x0x000x0x","tokenId":"0x0000x0-00x0-0xxx-00x0-x00x0x000x0x","triggerResults":{"error":[],"success":[]},"userId":"xx000x00-x000-00x0-x0xx-x0000000000x"}
+Client:
+GET /api/v1/utils/contentVersion/latest/2.11 HTTP/1.1
+Client:
+GET /api/v1/modifierCenter/modifiers/me HTTP/1.1
+Client:
+POST /api/v1/gameDataAnalytics HTTP/1.1
+{"timestamp":1686068930,"eventType":"ClientMetric","eventTypeVersion":1,"userId":"xx000x00-x000-00x0-x0xx-x0000000000x","data":{"playerId":"xx000x00-x000-00x0-x0xx-x0000000000x","playerSessionId":"XXXXXX00000000XXXXXXX","hasPurchasedGame":true,"eventType":"Client"}}
 
-ON ERROR:
+
+ERROR Logging:
 POST https://latest.live.tex.bhvronline.com/metrics/client/event HTTP/1.1
 {
 	"playerUniqueId": "76561199169781285",
