@@ -32,33 +32,31 @@ If you have any information, suggestions, etc., please create an issue.
 
 ### Currently, known Endpoints and URLs
 
-https://stashboard.live.tex.bhvronline.com  (Stashboard Open Source Status API)
+POST https://stashboard.live.tex.bhvronline.com  (Stashboard Open Source Status API)
 
-https://latest.live.tex.bhvronline.com/api/v1/services/tex  ()
+GET https://latest.live.tex.bhvronline.com/api/v1/services/tex  ()
 
-https://latest.live.tex.bhvronline.com/api/v1/gameDataAnalytics (Game Data Analytics)
+POST https://latest.live.tex.bhvronline.com/api/v1/gameDataAnalytics (Game Data Analytics)
 
-https://latest.live.tex.bhvronline.com/api/v1/auth  (Steam Auth)
+Post https://latest.live.tex.bhvronline.com/api/v1/auth  (API auth with Steam Session Ticket)
 
-https://latest.live.tex.bhvronline.com/api/v1/healthcheck   (Keep Alive)
+GET https://latest.live.tex.bhvronline.com/api/v1/healthcheck   (Keep Alive)
 
-https://latest.live.tex.bhvronline.com/metrics  (Tells Server HTTP Codes and time for requests)
+POST https://latest.live.tex.bhvronline.com/metrics  (Tells Server HTTP Codes and time for requests)
 
-https://latest.live.tex.bhvronline.com/tex  ()
+GET https://latest.live.tex.bhvronline.com/api/v1/utils/contentVersion/latest/2.11
 
-https://latest.live.tex.bhvronline.com/api/v1/utils/contentVersion/latest/2.11
+GET https://latest.live.tex.bhvronline.com/api/v1/modifierCenter/modifiers/me
 
-https://latest.live.tex.bhvronline.com/api/v1/modifierCenter/modifiers/me
+GET https://latest.live.tex.bhvronline.com/api/v1/consent/eula2
 
-https://latest.live.tex.bhvronline.com/api/v1/consent/eula2
+POST https://latest.live.tex.bhvronline.com/moderation/check/username
 
-https://latest.live.tex.bhvronline.com/moderation/check/username
+POST https://latest.live.tex.bhvronline.com/metrics/server/event
 
-https://latest.live.tex.bhvronline.com/metrics/server/event
+POST https://stashboard.live.tex.bhvronline.com/api/v1/extensions/quitters/getQuitterState
 
-https://stashboard.live.tex.bhvronline.com/api/v1/extensions/quitters/getQuitterState
+POST https://stashboard.live.tex.bhvronline.com/api/v1/extensions/progression/initOrGetGroups
 
-https://stashboard.live.tex.bhvronline.com/api/v1/extensions/progression/initOrGetGroups
-
-https://stashboard.live.tex.bhvronline.com/api/v1/me/richPresence
+POST https://stashboard.live.tex.bhvronline.com/api/v1/me/richPresence
 
