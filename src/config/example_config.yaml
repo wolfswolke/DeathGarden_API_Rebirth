@@ -5,3 +5,5 @@ elasticsearch:
 graylog:
     host: host
     use: false
+steam:
+  api_key: XXXXXXXXXXXX
