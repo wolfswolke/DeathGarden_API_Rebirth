@@ -1,8 +1,6 @@
 """
 
 """
-import logging
-
 # ------------------------------------------------------- #
 # imports
 # ------------------------------------------------------- #
@@ -12,6 +10,10 @@ import os
 import yaml
 import graypy
 import requests
+import logging
+
+from logic.mongodb_handler import user_db_handler
+from logic.time_handler import get_time
 
 
 # ------------------------------------------------------- #
@@ -179,21 +181,23 @@ def steam_login():
                 steam_api_key, steam_session_token), params=params,
             headers=headers)
         print("DEBUG: " + str(response.json()))
-        steamid = response.json()["response"]["params"]["result"]["steamid"]
-        owner_id = response.json()["response"]["params"]["result"]["ownersteamid"]  # This is providerId
+        steamid = response.json()["response"]["params"]["steamid"]
+        # owner_id = response.json()["response"]["params"]["result"]["ownersteamid"]  # This is providerId
+
+        userid, token = user_db_handler(steamid, mongo_host, mongo_db, mongo_collection)
+        current_time, expire_time = get_time()
+
+        graylog_logger("User {} logged in".format(steamid), "info")
+        print("User {} logged in".format(steamid))
         # Read: Doc -> AUTH
         # You can copy and paste the JSON from the Auth Doc here. If you don't have a steam api key.
         # The Client does not validate this and just uses it.
         # Game id = 555440
-        return jsonify({"preferredLanguage": "en", "friendsFirstSync": {"steam": True},
-                        "fixedMyFriendsUserPlatformId": {"steam": True}, "id": "xx000x00-x000-00x0-x0xx-x0000000000x",
-                        "provider": {"providerId": {steamid}, "providerName": "steam",
-                                     "userId": "xx000x00-x000-00x0-x0xx-x0000000000x"},
-                        "providers": [{"providerName": "steam", "providerId": {steamid}}], "friends": [],
-                        "triggerResults": {"success": [], "error": []},
-                        "tokenId": "xx000x00-x000-00x0-x0xx-x0000000000x",
-                        "generated": 1686004631, "expire": 1686091031, "userId": "xx000x00-x000-00x0-x0xx-x0000000000x",
-                        "token": "0x0000x0-00x0-0xxx-00x0-x00x0x000x0x"})
+        return jsonify({"preferredLanguage": "en", "friendsFirstSync": {"steam": True},"fixedMyFriendsUserPlatformId":
+            {"steam": True}, "id": userid, "provider": {"providerId": steamid, "providerName": "steam", "userId":
+            userid}, "providers": [{"providerName": "steam", "providerId": steamid}], "friends": [], "triggerResults":
+            {"success": [], "error": []}, "tokenId": userid, "generated": current_time, "expire": expire_time,
+                        "userId": userid, "token": token})
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
@@ -326,6 +330,9 @@ config = load_config()
 use_graylog = config['graylog']['use']
 graylog_server = config['graylog']['host']
 steam_api_key = config['steam']['api_key']
+mongo_host = config['mongodb']['host']
+mongo_db = config['mongodb']['db']
+mongo_collection = config['mongodb']['collection']
 
 # ------------------------------------------------------- #
 # main
