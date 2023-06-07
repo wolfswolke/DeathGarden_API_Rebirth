@@ -162,25 +162,9 @@ def steam_login():
     # The Session Ticket allways starts with: 14000000
     try:
         steam_session_token = request.args.get('token')
-        graylog_logger("Login by Session Ticket: " + steam_session_token, "info")
-        headers = {
-            'X-Kraken-Client-Platform': 'steam',
-            'X-Kraken-Client-Provider': 'steam',
-            'X-Kraken-Client-Resolution': '3440x1440',
-            'X-Kraken-Client-Timezone-Offset': '-120',
-            'X-Kraken-Client-Os': '10.0.22621.1.256.64bit',
-            'X-Kraken-Client-Version': '3.6.1',
-            'User-Agent': 'TheExit/++UE4+Release-4.21-CL-0 Windows/10.0.19045.1.256.64bit',
-        }
-
-        params = {
-            'token': steam_session_token,
-        }
         response = requests.get(
             'https://api.steampowered.com/ISteamUserAuth/AuthenticateUserTicket/v1/?key={}&ticket={}&appid=555440'.format(
-                steam_api_key, steam_session_token), params=params,
-            headers=headers)
-        print("DEBUG: " + str(response.json()))
+                steam_api_key, steam_session_token))
         steamid = response.json()["response"]["params"]["steamid"]
         # owner_id = response.json()["response"]["params"]["result"]["ownersteamid"]  # This is providerId
 
