@@ -11,6 +11,7 @@ import yaml
 import graypy
 import requests
 import logging
+import time
 
 from logic.mongodb_handler import user_db_handler
 from logic.time_handler import get_time
@@ -176,7 +177,6 @@ def steam_login():
         # Read: Doc -> AUTH
         # You can copy and paste the JSON from the Auth Doc here. If you don't have a steam api key.
         # The Client does not validate this and just uses it.
-        # Game id = 555440
         return jsonify({"preferredLanguage": "en", "friendsFirstSync": {"steam": True},"fixedMyFriendsUserPlatformId":
             {"steam": True}, "id": userid, "provider": {"providerId": steamid, "providerName": "steam", "userId":
             userid}, "providers": [{"providerName": "steam", "providerId": steamid}], "friends": [], "triggerResults":
@@ -301,9 +301,14 @@ def run():
 
 
 def keep_alive():
-    t = Thread(target=run)
-
-    t.start()
+    try:
+        t = Thread(target=run)
+        t.daemon = True
+        t.start()
+        while True:
+            time.sleep(100)
+    except (KeyboardInterrupt, SystemExit):
+        print('Received keyboard interrupt, quitting threads.')
 
 
 # ------------------------------------------------------- #
@@ -323,5 +328,3 @@ mongo_collection = config['mongodb']['collection']
 # ------------------------------------------------------- #
 setup_graylog()
 keep_alive()
-print("Exiting...")
-exit(0)
