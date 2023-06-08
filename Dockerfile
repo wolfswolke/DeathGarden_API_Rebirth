@@ -6,6 +6,8 @@ WORKDIR /app/src
 
 RUN pip install -r requirements.txt
 
+RUN apk add curl
+
 EXPOSE 8080
 
 HEALTHCHECK CMD curl --fail http://localhost:8080/
