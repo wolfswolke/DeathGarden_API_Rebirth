@@ -1,7 +1,3 @@
-elasticsearch:
-  host: http://IP:PORT
-  use: false
-
 graylog:
     host: host
     use: false
