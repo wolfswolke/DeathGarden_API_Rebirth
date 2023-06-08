@@ -48,6 +48,8 @@ def graylog_logger(message, level):
             my_logger.error(message)
         if level == "info":
             my_logger.info(message)
+        else:
+            print("No valid log level specified.")
     else:
         print("Graylog disabled. Not sending any Logs.")
 
@@ -65,9 +67,12 @@ app = Flask(__name__)
 
 @app.route("/")
 def root():
-    get_remote_ip()
-    return jsonify({"status": "success"})
-    # return render_template("index.html")
+    try:
+        get_remote_ip()
+        return jsonify({"status": "success"})
+        # return render_template("index.html")
+    except Exception as e:
+        graylog_logger("API ERROR: " + str(e), "error")
 
 
 @app.route('/favicon.ico')
@@ -79,6 +84,8 @@ def favicon():
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
+    except Exception as e:
+        graylog_logger("API ERROR: " + str(e), "error")
 
 
 @app.route("/metrics/client/event", methods=["POST"])
@@ -87,11 +94,13 @@ def receive_event():
     try:
         print("Responded to Metrics api call POST")
         data = request.get_json()
-        graylog_logger("Metric API: " + str(data), "info")
+        graylog_logger(data, "info")
         return jsonify({"status": "success"})
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
+    except Exception as e:
+        graylog_logger("API ERROR: " + str(e), "error")
 
 
 @app.route("/metrics/httplog/event", methods=["POST"])
@@ -99,11 +108,13 @@ def metrics_httplog_event():
     get_remote_ip()
     try:
         data = request.get_json()
-        graylog_logger("Upload: " + str(data), "info")
+        graylog_logger(data, "info")
         return jsonify({"status": "success"})
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
+    except Exception as e:
+        graylog_logger("API ERROR: " + str(e), "error")
 
 
 @app.route("/api/v1/healthcheck", methods=["GET"])
@@ -114,6 +125,8 @@ def healthcheck():
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
+    except Exception as e:
+        graylog_logger("API ERROR: " + str(e), "error")
 
 
 @app.route("/api/v1/services/tex")
@@ -128,6 +141,8 @@ def services_tex():
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
+    except Exception as e:
+        graylog_logger("API ERROR: " + str(e), "error")
 
 
 @app.route("/api/v1/gameDataAnalytics", methods=["POST"])
@@ -136,11 +151,13 @@ def analytics_post():
     try:
         print("Responded to analytics api call POST")
         data = request.get_json()
-        graylog_logger("DataAnalytics: " + str(data), "info")
+        graylog_logger(data, "info")
         return jsonify({"status": "success"})
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
+    except Exception as e:
+        graylog_logger("API ERROR: " + str(e), "error")
 
 
 @app.route("/api/v1/gameDataAnalytics/batch", methods=["POST"])
@@ -149,18 +166,19 @@ def analytics_batch_post():
     try:
         print("Responded to analytics batch api call POST")
         data = request.get_json()
-        graylog_logger("Batch upload: " + str(data), "info")
+        graylog_logger(data, "info")
         return jsonify({"status": "success"})
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
+    except Exception as e:
+        graylog_logger("API ERROR: " + str(e), "error")
 
 
 @app.route("/api/v1/auth/provider/steam/login", methods=["POST"])
 def steam_login():
     get_remote_ip()
-    # Here the Client sends a signed session ticket as a hex string to the Server.
-    # The Session Ticket allways starts with: 14000000
+    # Read Doc\SteamAuth.md for more information
     try:
         steam_session_token = request.args.get('token')
         response = requests.get(
@@ -185,6 +203,8 @@ def steam_login():
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
+    except Exception as e:
+        graylog_logger("API ERROR: " + str(e), "error")
 
 
 @app.route("/api/v1/utils/contentVersion/latest/2.11", methods=["GET"])
@@ -196,6 +216,8 @@ def content_version():
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
+    except Exception as e:
+        graylog_logger("API ERROR: " + str(e), "error")
 
 
 @app.route("/api/v1/modifierCenter/modifiers/me", methods=["GET"])
@@ -207,6 +229,8 @@ def modifiers():
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
+    except Exception as e:
+        graylog_logger("API ERROR: " + str(e), "error")
 
 
 @app.route("/api/v1/consent/eula2", methods=["GET"])
@@ -218,6 +242,8 @@ def consent_eula():
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
+    except Exception as e:
+        graylog_logger("API ERROR: " + str(e), "error")
 
 
 # Logging
@@ -226,11 +252,13 @@ def get_quitter_state():
     get_remote_ip()
     try:
         print("Responded to get quitter state api call POST")
-        graylog_logger("Get quitter state: " + str(request.get_json()), "info")
+        graylog_logger(request.get_json(), "info")
         return jsonify({"status": "success"})
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
+    except Exception as e:
+        graylog_logger("API ERROR: " + str(e), "error")
 
 
 # Logging
@@ -239,11 +267,13 @@ def extension_progression_init_or_get_groups():
     get_remote_ip()
     try:
         print("Responded to extension progression init or get groups api call POST")
-        graylog_logger("Extension progression init or get groups: " + str(request.get_json()), "info")
+        graylog_logger(request.get_json(), "info")
         return jsonify({"status": "success"})
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
+    except Exception as e:
+        graylog_logger("API ERROR: " + str(e), "error")
 
 
 # Logging
@@ -252,11 +282,13 @@ def me_rich_presence():
     get_remote_ip()
     try:
         print("Responded to me rich presence api call POST")
-        graylog_logger("Me_richPresence: " + str(request.get_json()), "info")
+        graylog_logger(request.get_json(), "info")
         return jsonify({"status": "success"})
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
+    except Exception as e:
+        graylog_logger("API ERROR: " + str(e), "error")
 
 
 @app.route("/moderation/check/username", methods=["POST"])
@@ -264,12 +296,14 @@ def moderation_check_username():
     get_remote_ip()
     try:
         print("Responded to moderation check username api call POST")
-        graylog_logger("Moderation check username: " + str(request.get_json()), "info")
+        graylog_logger(request.get_json(), "info")
         return jsonify({"status": "success",
                         "isAllowed": "true"})  # CLIENT: {"userId": "ID-ID-ID-ID-SEE-AUTH",	"username": "Name-Name-Name"}
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
+    except Exception as e:
+        graylog_logger("API ERROR: " + str(e), "error")
 
 
 # Logging for Server Events
@@ -278,11 +312,13 @@ def metrics_server_event():
     get_remote_ip()
     try:
         print("Responded to metrics server event api call POST")
-        graylog_logger("Metrics server event: " + str(request.get_json()), "info")
+        graylog_logger(request.get_json(), "info")
         return jsonify({"status": "success"})
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
+    except Exception as e:
+        graylog_logger("API ERROR: " + str(e), "error")
 
 
 # [Backend]
@@ -294,6 +330,8 @@ def tex_get():
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
+    except Exception as e:
+        graylog_logger("API ERROR: " + str(e), "error")
 
 
 def run():
@@ -309,6 +347,7 @@ def keep_alive():
             time.sleep(100)
     except (KeyboardInterrupt, SystemExit):
         print('Received keyboard interrupt, quitting threads.')
+        graylog_logger("Api shutting down do to keyboard interrupt.", "info")
 
 
 # ------------------------------------------------------- #
