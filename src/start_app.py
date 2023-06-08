@@ -4,7 +4,7 @@
 # ------------------------------------------------------- #
 # imports
 # ------------------------------------------------------- #
-from flask import Flask, send_from_directory, request, jsonify, render_template, make_response
+from flask import Flask, send_from_directory, request, jsonify, abort
 from threading import Thread
 import os
 import yaml
@@ -60,6 +60,7 @@ def get_remote_ip():
     else:
         ip_addr = request.environ['HTTP_X_FORWARDED_FOR']
     print("New Connection from: " + ip_addr)
+    return ip_addr
 
 
 app = Flask(__name__)
@@ -177,8 +178,13 @@ def analytics_batch_post():
 
 @app.route("/api/v1/auth/provider/steam/login", methods=["POST"])
 def steam_login():
-    get_remote_ip()
     # Read Doc\SteamAuth.md for more information
+    ip = get_remote_ip()
+    user_agent = request.headers.get('User-Agent')
+    if user_agent != allowed_user_agent:
+        graylog_logger("Unauthorized User Agent {} connected from IP {}".format(user_agent, ip), "error")
+        abort(401, "Unauthorized")
+
     try:
         steam_session_token = request.args.get('token')
         response = requests.get(
@@ -361,6 +367,7 @@ steam_api_key = config['steam']['api_key']
 mongo_host = config['mongodb']['host']
 mongo_db = config['mongodb']['db']
 mongo_collection = config['mongodb']['collection']
+allowed_user_agent = "TheExit/++UE4+Release-4.21-CL-0 Windows/10.0.19045.1.256.64bit"
 
 # ------------------------------------------------------- #
 # main
