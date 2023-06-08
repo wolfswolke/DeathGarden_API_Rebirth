@@ -1,3 +1,5 @@
+Start with this: -ServiceApi=https://api.zkwolf.com -BackendUrl=https://api.zkwolf.com
+
 Start Parameters
 BackendUrl=
 MirrorsApi=
