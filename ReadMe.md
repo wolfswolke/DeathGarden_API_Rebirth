@@ -3,12 +3,21 @@
 
 This project is MORE than just a WIP!
 
+Current Progress: Logging (Stashboard, Metrics, gameDataAnalytics), Steam Login.
+
 The goal of this project is to revive the Deathgarden backend and servers.
 
 If you have any old HTTP captures of the traffic between the game and server, please submit them here!
 
 I am currently reverse-engineering the files to find all the API endpoints and requests.
 Current knowledge
+
+## What you need
+
+To launch this api for yourself you need:
+
+Steam API Key, Python, requirements.txt, either Fiddler or the parameters
+in the start_parms.txt file.
 
 ## Current knowledge
 
@@ -29,6 +38,8 @@ The "Status" API is Stashboard. Stashboard has been discontinued in 2019 but is 
 The game server is the Amazon Gamelift SDK.
 
 The steamAPI.dll cannot be spoofed because Battle Eye checks the signature.
+
+There is a API Key which is NOT used by the game.
 
 If you have any information, suggestions, etc., please create an issue.
 
