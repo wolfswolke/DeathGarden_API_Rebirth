@@ -16,6 +16,8 @@ The game uses Unreal Engine 4.21.0.
 
 The anticheat is Battleye.
 
+The newest game Version is: te-18f25613-36778-ue4-374f864b
+
 The backend and server can be changed with start parameters.
 
 The in-game console can be re-enabled.
@@ -59,4 +61,6 @@ POST https://stashboard.live.tex.bhvronline.com/api/v1/extensions/quitters/getQu
 POST https://stashboard.live.tex.bhvronline.com/api/v1/extensions/progression/initOrGetGroups
 
 POST https://stashboard.live.tex.bhvronline.com/api/v1/me/richPresence
+
+GET https://client-data.live.tex.bhvronline.com/te-18f25613-36778-ue4-374f864b/catalog
 
