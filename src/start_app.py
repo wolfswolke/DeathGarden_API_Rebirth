@@ -247,7 +247,9 @@ def consent_eula():
         return jsonify({"status": "success", "consent": "true"}) # Don't know. Added as Placeholder.
     except TimeoutError:
         print("Timeout error")
-        return jsonify({"status": "error"})
+        return jsonify({"id": "eula", "language": ["de", "en", "es", "es-MX", "fr", "it", "ja", "ko", "nl", "pl",
+                                                   "pt-BR", "ru", "sv", "th", "tr", "zh-Hans", "zh-Hant"],
+                        "platform": ["steam", "xbox", "xsx", "switch", "grdk", "stadia"]})
     except Exception as e:
         graylog_logger("API ERROR: " + str(e), "error")
 
@@ -330,6 +332,18 @@ def metrics_server_event():
 # [Backend]
 @app.route("/tex", methods=["GET"])
 def tex_get():
+    get_remote_ip()
+    try:
+        return jsonify({"status": "success"})
+    except TimeoutError:
+        print("Timeout error")
+        return jsonify({"status": "error"})
+    except Exception as e:
+        graylog_logger("API ERROR: " + str(e), "error")
+
+
+@app.route("/te-18f25613-36778-ue4-374f864b/catalog", methods=["GET"])
+def catalog_get():
     get_remote_ip()
     try:
         return jsonify({"status": "success"})
