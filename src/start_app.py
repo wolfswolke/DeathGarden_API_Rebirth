@@ -215,9 +215,18 @@ def steam_login():
     print("USER AGENT: " + user_agent)
     print("####################################################")
 
-    if user_agent.startswith("TheExit/++UE4+Release-4.21-CL-0 Windows"):
-        return_val = steam_login_function(555440)
+    if user_agent == "TheExit/++UE4+Release-4.21-CL-0 Windows/6.2.9200.1.256.64bit":
+        return_val = steam_login_function(854040)
         return return_val
+
+    elif user_agent.startswith("TheExit/++UE4+Release-4.21-CL-0 Windows"):
+        try:
+            return_val = steam_login_function(555440)
+            return return_val
+        except Exception as e:
+            print("EXCEPTION: " + str(e))
+            return_val = steam_login_function(854040)
+            return return_val
 
     elif user_agent.startswith("game=TheExit, engine=UE4, version="):
         return_val = steam_login_function(854040)
@@ -233,8 +242,7 @@ def content_version():
     get_remote_ip()
     try:
         print("Responded to content version api call GET")
-        return jsonify({
-                           "latestSupportedVersion": "te-18f25613-36778-ue4-374f864b"})  # Don't know if this is correct. Just testing.
+        return jsonify({"latestSupportedVersion": "te-18f25613-36778-ue4-374f864b"})  # Don't know if this is correct. Just testing.
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
@@ -336,7 +344,7 @@ def extension_progression_init_or_get_groups():
         print("Responded to extension progression init or get groups api call POST")
         print(request.get_json())
         graylog_logger(request.get_json(), "info")
-        return jsonify({"status": "success"})
+        return jsonify({'data': {'skipProgressionGroups': True, 'skipMetadataGroups': True}})
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
@@ -458,7 +466,7 @@ def wallet_currencies():
     get_remote_ip()
     try:
         print("Responded to wallet currencies api call GET")
-        return jsonify({"status": "success", "currencies": "EUR"})
+        return jsonify({"currencies": "EUR"})
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
@@ -498,12 +506,11 @@ def crashreporter_check_report():
 def content_version_latest():
     get_remote_ip()
     try:
-        print("Responded to content cversion api call GET")
-        return jsonify({{
-            "availableVersions": {
+        print("Responded to content version api call GET")
+        return jsonify({"availableVersions": {
                 "10.0.19045.1.256live": "te-18f25613-36778-ue4-374f864b",
                 "3.3.0_241792live": "te-f9b4768a-26590-ue4-cefc1aee",
-                "3.3.0_244688live": "3.3.0_244688live-1573508813", }}})
+                "3.3.0_244688live": "3.3.0_244688live-1573508813"}})
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
@@ -558,7 +565,73 @@ def progression_experience():
         print("Responded to progression experience api call POST")
         print(request.get_json())
         # graylog_logger(request.get_json(), "info")
-        return jsonify({"groupExperiences":[{"objectId":"HuntersGroup","experience":1245,"version":2},{"objectId":"RunnersGroup","experience":512,"version":1},{"objectId":"RunnerCharacter1","experience":2584,"version":5},{"objectId":"RunnerCharacter2","experience":9552,"version":4},{"objectId":"RunnerCharacter3","experience":8885,"version":9},{"objectId":"RunnerCharacter4","experience":4218,"version":8},{"objectId":"RunnerCharacter5","experience":9953,"version":6},{"objectId":"HunterCharacter1","experience":2222,"version":8},{"objectId":"HunterCharacter2","experience":6541,"version":2},{"objectId":"HunterCharacter3","experience":6634,"version":7},{"objectId":"HunterCharacter4","experience":2112,"version":5},{"objectId":"HunterCharacter5","experience":1414,"version":6}]})
+        return jsonify({'groupExperiences': [{'objectId': 'PlayerProgression', 'experience': 0.57, 'version': 1}, {'objectId': 'RunnerProgression', 'experience': 0.555, 'version': 1}, {'objectId': 'HunterProgression', 'experience': 0.67, 'version': 1}]})
+    except TimeoutError:
+        print("Timeout error")
+        return jsonify({"status": "error"})
+    except Exception as e:
+        graylog_logger("API ERROR: " + str(e), "error")
+
+
+@app.route("/file/te-f9b4768a-26590-ue4-cefc1aee/1686509333/Survival-Biome_Definition_DES_Mayan", methods=["POST"])
+def file_survival_biome_definition_des_mayan():
+    get_remote_ip()
+    try:
+        print("Responded to file survival biome definition des mayan api call POST")
+        graylog_logger(request.get_json(), "info")
+        return jsonify({"status": "success"})
+    except TimeoutError:
+        print("Timeout error")
+        return jsonify({"status": "error"})
+    except Exception as e:
+        graylog_logger("API ERROR: " + str(e), "error")
+
+
+@app.route("/api/v1/extensions/challenges/getChallenges", methods=["POST"])
+def challenges_get_challenges():
+    get_remote_ip()
+    try:
+        print("Responded to challenges get challenges api call POST")
+        graylog_logger(request.get_json(), "info")
+        return jsonify({"status": "success"})
+    except TimeoutError:
+        print("Timeout error")
+        return jsonify({"status": "error"})
+    except Exception as e:
+        graylog_logger("API ERROR: " + str(e), "error")
+
+
+@app.route("/gamenews/messages", methods=["GET"])
+def gamenews():
+    get_remote_ip()
+    try:
+        print("Responded to aaaaa api call GET")
+        return jsonify({"news":[{"contentTags":["steam","xbox","ps4","grdk","xsx","ps5","egs","stadia","switch"],"description":"It's not The Clown's Bottles making you see double.<br/><br/>From September 1st 11AM ET - September 8th 11AM ET, earn twice the XP from Trials and Emblems.","dwnImagePath":"","imageHeight":"","imagePath":"","isHidden":False,"startDate":"2022-09-01T15:00:00","title":"Double XP Event","type":5,"version":"6.2.0","weight":40990.0}]})
+    except TimeoutError:
+        print("Timeout error")
+        return jsonify({"status": "error"})
+    except Exception as e:
+        graylog_logger("API ERROR: " + str(e), "error")
+
+
+@app.route("/api/v1/config/VER_LATEST_CLIENT_DATA", methods=["GET"])
+def config_ver_latest_client_data():
+    get_remote_ip()
+    try:
+        print("Responded to config ver latest client data api call GET")
+        return jsonify({"status": "success", "value": "6.2.0"})
+    except TimeoutError:
+        print("Timeout error")
+        return jsonify({"status": "error"})
+    except Exception as e:
+        graylog_logger("API ERROR: " + str(e), "error")
+
+@app.route("/api/v1/inventories", methods=["GET"])
+def inventories():
+    get_remote_ip()
+    try:
+        print("Responded to inventories api call GET")
+        return jsonify({})
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
