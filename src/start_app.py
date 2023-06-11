@@ -63,6 +63,36 @@ def get_remote_ip():
     return ip_addr
 
 
+def steam_login_function(appid):
+    try:
+        steam_session_token = request.args.get('token')
+        response = requests.get(
+            'https://api.steampowered.com/ISteamUserAuth/AuthenticateUserTicket/v1/?key={}&ticket={}&appid={}'.format(
+                steam_api_key, steam_session_token, appid))
+        steamid = response.json()["response"]["params"]["steamid"]
+        # owner_id = response.json()["response"]["params"]["result"]["ownersteamid"]  # This is providerId
+
+        userid, token = user_db_handler(steamid, mongo_host, mongo_db, mongo_collection)
+        current_time, expire_time = get_time()
+
+        graylog_logger("User {} logged in".format(steamid), "info")
+        print("User {} logged in".format(steamid))
+        # Read: Doc -> AUTH
+        # You can copy and paste the JSON from the Auth Doc here. If you don't have a steam api key.
+        # The Client does not validate this and just uses it.
+        return jsonify({"preferredLanguage": "en", "friendsFirstSync": {"steam": True}, "fixedMyFriendsUserPlatformId":
+            {"steam": True}, "id": userid, "provider": {"providerId": steamid, "providerName": "steam", "userId":
+            userid}, "providers": [{"providerName": "steam", "providerId": steamid}], "friends": [], "triggerResults":
+                            {"success": [], "error": []}, "tokenId": userid, "generated": current_time,
+                        "expire": expire_time,
+                        "userId": userid, "token": token})
+    except TimeoutError:
+        print("Timeout error")
+        return jsonify({"status": "error"})
+    except Exception as e:
+        graylog_logger("API ERROR: " + str(e), "error")
+
+
 app = Flask(__name__)
 
 
@@ -181,36 +211,40 @@ def steam_login():
     # Read Doc\SteamAuth.md for more information
     ip = get_remote_ip()
     user_agent = request.headers.get('User-Agent')
-    if user_agent != allowed_user_agent:
+    print("####################################################")
+    print("USER AGENT: " + user_agent)
+    print("####################################################")
+    if user_agent == allowed_user_agent_1:
+        return_val = steam_login_function(555440)
+        return return_val
+
+    elif user_agent == allowed_user_agent_2:
+        return_val = steam_login_function(555440)
+        return return_val
+
+    elif user_agent == allowed_user_agent_3:
+        return_val = steam_login_function(854040)
+        return return_val
+
+    elif user_agent == allowed_user_agent_4:
+        return_val = steam_login_function(555440)
+        return return_val
+
+    elif user_agent == allowed_user_agent_5:
+        return_val = steam_login_function(555440)
+        return return_val
+
+    elif user_agent == allowed_user_agent_6:
+        return_val = steam_login_function(854040)
+        return return_val
+    elif user_agent == allowed_user_agent_7:
+        return_val = steam_login_function(555440)
+        return return_val
+
+
+    else:
         graylog_logger("Unauthorized User Agent {} connected from IP {}".format(user_agent, ip), "error")
         abort(401, "Unauthorized")
-
-    try:
-        steam_session_token = request.args.get('token')
-        response = requests.get(
-            'https://api.steampowered.com/ISteamUserAuth/AuthenticateUserTicket/v1/?key={}&ticket={}&appid=555440'.format(
-                steam_api_key, steam_session_token))
-        steamid = response.json()["response"]["params"]["steamid"]
-        # owner_id = response.json()["response"]["params"]["result"]["ownersteamid"]  # This is providerId
-
-        userid, token = user_db_handler(steamid, mongo_host, mongo_db, mongo_collection)
-        current_time, expire_time = get_time()
-
-        graylog_logger("User {} logged in".format(steamid), "info")
-        print("User {} logged in".format(steamid))
-        # Read: Doc -> AUTH
-        # You can copy and paste the JSON from the Auth Doc here. If you don't have a steam api key.
-        # The Client does not validate this and just uses it.
-        return jsonify({"preferredLanguage": "en", "friendsFirstSync": {"steam": True},"fixedMyFriendsUserPlatformId":
-            {"steam": True}, "id": userid, "provider": {"providerId": steamid, "providerName": "steam", "userId":
-            userid}, "providers": [{"providerName": "steam", "providerId": steamid}], "friends": [], "triggerResults":
-            {"success": [], "error": []}, "tokenId": userid, "generated": current_time, "expire": expire_time,
-                        "userId": userid, "token": token})
-    except TimeoutError:
-        print("Timeout error")
-        return jsonify({"status": "error"})
-    except Exception as e:
-        graylog_logger("API ERROR: " + str(e), "error")
 
 
 @app.route("/api/v1/utils/contentVersion/latest/2.11", methods=["GET"])
@@ -218,7 +252,36 @@ def content_version():
     get_remote_ip()
     try:
         print("Responded to content version api call GET")
-        return jsonify({"latestSupportedVersion": "te-18f25613-36778-ue4-374f864b"})  # Don't know if this is correct. Just testing.
+        return jsonify({
+                           "latestSupportedVersion": "te-18f25613-36778-ue4-374f864b"})  # Don't know if this is correct. Just testing.
+    except TimeoutError:
+        print("Timeout error")
+        return jsonify({"status": "error"})
+    except Exception as e:
+        graylog_logger("API ERROR: " + str(e), "error")
+
+
+@app.route("/api/v1/utils/contentVersion/latest/0", methods=["GET"])
+def content_version0():
+    get_remote_ip()
+    try:
+        print("Responded to content version api call GET")
+        return jsonify({
+                           "latestSupportedVersion": "te-18f25613-36778-ue4-374f864b"})  # Don't know if this is correct. Just testing.
+    except TimeoutError:
+        print("Timeout error")
+        return jsonify({"status": "error"})
+    except Exception as e:
+        graylog_logger("API ERROR: " + str(e), "error")
+
+
+@app.route("/api/v1/utils/contentVersion/latest/1.1", methods=["GET"])
+def content_version1():
+    get_remote_ip()
+    try:
+        print("Responded to content version api call GET")
+        return jsonify({
+                           "latestSupportedVersion": "te-18f25613-36778-ue4-374f864b"})  # Don't know if this is correct. Just testing.
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
@@ -231,7 +294,7 @@ def modifiers():
     get_remote_ip()
     try:
         print("Responded to modifiers api call GET")
-        return jsonify({"status": "success", "modifiers": []}) # Don't know. Added as Placeholder.
+        return jsonify({"status": "success", "modifiers": []})  # Don't know. Added as Placeholder.
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
@@ -244,7 +307,7 @@ def consent_eula():
     get_remote_ip()
     try:
         print("Responded to consent eula api call GET")
-        return jsonify({"status": "success", "consent": "true"}) # Don't know. Added as Placeholder.
+        return jsonify({"status": "success", "consent": "true"})  # Don't know. Added as Placeholder.
     except TimeoutError:
         print("Timeout error")
         return jsonify({"id": "eula", "language": ["de", "en", "es", "es-MX", "fr", "it", "ja", "ko", "nl", "pl",
@@ -252,6 +315,21 @@ def consent_eula():
                         "platform": ["steam", "xbox", "xsx", "switch", "grdk", "stadia"]})
     except Exception as e:
         graylog_logger("API ERROR: " + str(e), "error")
+
+@app.route("/api/v1/consent/eula", methods=["GET"])
+def consent_eula0():
+    get_remote_ip()
+    try:
+        print("Responded to consent eula api call GET")
+        return jsonify({"status": "success", "consent": "true"})  # Don't know. Added as Placeholder.
+    except TimeoutError:
+        print("Timeout error")
+        return jsonify({"id": "eula", "language": ["de", "en", "es", "es-MX", "fr", "it", "ja", "ko", "nl", "pl",
+                                                   "pt-BR", "ru", "sv", "th", "tr", "zh-Hans", "zh-Hant"],
+                        "platform": ["steam", "xbox", "xsx", "switch", "grdk", "stadia"]})
+    except Exception as e:
+        graylog_logger("API ERROR: " + str(e), "error")
+
 
 
 # Logging
@@ -275,6 +353,7 @@ def extension_progression_init_or_get_groups():
     get_remote_ip()
     try:
         print("Responded to extension progression init or get groups api call POST")
+        print(request.get_json())
         graylog_logger(request.get_json(), "info")
         return jsonify({"status": "success"})
     except TimeoutError:
@@ -354,6 +433,158 @@ def catalog_get():
         graylog_logger("API ERROR: " + str(e), "error")
 
 
+@app.route("/api/v1/players/me/splinteredstates/TheExit_Achievements", methods=["GET"])
+def achievements_get():
+    get_remote_ip()
+    try:
+        print("Responded to achievements api call GET")
+        return jsonify({"status": "success", "achievements": []})  # Don't know. Added as Placeholder.
+    except TimeoutError:
+        print("Timeout error")
+        return jsonify({"status": "error"})
+    except Exception as e:
+        graylog_logger("API ERROR: " + str(e), "error")
+
+
+@app.route("/crashreport/unreal/CrashReporter/Ping", methods=["GET"])
+def crashreporter_ping():
+    get_remote_ip()
+    try:
+        print("Responded to crashreporter ping api call GET")
+        return jsonify({"status": "success"})
+    except TimeoutError:
+        print("Timeout error")
+        return jsonify({"status": "error"})
+    except Exception as e:
+        graylog_logger("API ERROR: " + str(e), "error")
+
+
+@app.route("/api/v1/players/ban/status", methods=["GET"])
+def ban_status():
+    get_remote_ip()
+    try:
+        print("Responded to ban status api call GET")
+        return jsonify({"banned": "false"})
+    except TimeoutError:
+        print("Timeout error")
+        return jsonify({"status": "error"})
+    except Exception as e:
+        graylog_logger("API ERROR: " + str(e), "error")
+
+
+@app.route("/api/v1/wallet/currencies", methods=["GET"])
+def wallet_currencies():
+    get_remote_ip()
+    try:
+        print("Responded to wallet currencies api call GET")
+        return jsonify({"status": "success", "currencies": "EUR"})
+    except TimeoutError:
+        print("Timeout error")
+        return jsonify({"status": "error"})
+    except Exception as e:
+        graylog_logger("API ERROR: " + str(e), "error")
+
+
+@app.route("/api/v1/extensions/inventory/unlockSpecialItems", methods=["POST"])
+def inventory_unlock_special_items():
+    get_remote_ip()
+    try:
+        print("Responded to Inventory Unlocik Speical Items event api call POST")
+        graylog_logger(request.get_json(), "info")
+        return jsonify({"status": "success"})
+    except TimeoutError:
+        print("Timeout error")
+        return jsonify({"status": "error"})
+    except Exception as e:
+        graylog_logger("API ERROR: " + str(e), "error")
+
+
+@app.route("/crashreport/unreal/CrashReporter/CheckReport", methods=["POST"])
+def crashreporter_check_report():
+    get_remote_ip()
+    try:
+        print("Responded to crashreporter check report api call POST")
+        # TODO: Add Crashreporter
+        return jsonify({"status": "success"})
+    except TimeoutError:
+        print("Timeout error")
+        return jsonify({"status": "error"})
+    except Exception as e:
+        graylog_logger("API ERROR: " + str(e), "error")
+
+
+@app.route("/api/v1/utils/contentVersion/latest/2.2", methods=["GET"])
+def content_version_latest():
+    get_remote_ip()
+    try:
+        print("Responded to content cversion api call GET")
+        return jsonify({{
+            "availableVersions": {
+                "10.0.19045.1.256live": "te-18f25613-36778-ue4-374f864b",
+                "3.3.0_241792live": "te-f9b4768a-26590-ue4-cefc1aee",
+                "3.3.0_244688live": "3.3.0_244688live-1573508813", }}})
+    except TimeoutError:
+        print("Timeout error")
+        return jsonify({"status": "error"})
+    except Exception as e:
+        graylog_logger("API ERROR: " + str(e), "error")
+
+
+@app.route("/gameservers.dev", methods=["POST"])
+def gameservers_dev():
+    get_remote_ip()
+    try:
+        print("Responded to Gameserver event api call POST")
+        # graylog_logger(request.get_json(), "warning")
+        return jsonify({"status": "success"})
+    except TimeoutError:
+        print("Timeout error")
+        return jsonify({"status": "error"})
+    except Exception as e:
+        graylog_logger("API ERROR: " + str(e), "error")
+
+
+@app.route("/api/v1/config/UseMirrorsMM_Steam", methods=["GET"])
+def config_use_mirrors_mm_steam():
+    get_remote_ip()
+    try:
+        print("Responded to config use mirrors mm steam api call GET")
+        return jsonify({"status": "success", "value": "true"})
+    except TimeoutError:
+        print("Timeout error")
+        return jsonify({"status": "error"})
+    except Exception as e:
+        graylog_logger("API ERROR: " + str(e), "error")
+
+
+@app.route("/api/v1/players/me/splinteredstates/ProgressionGroups", methods=["GET"])
+def progression_groups():
+    get_remote_ip()
+    try:
+        print("Responded to progression groups api call GET")
+        return jsonify({"status": "success", "progressionGroups": [1]})  # Don't know. Added as Placeholder.
+    except TimeoutError:
+        print("Timeout error")
+        return jsonify({"status": "error"})
+    except Exception as e:
+        graylog_logger("API ERROR: " + str(e), "error")
+
+
+@app.route("/api/v1/progression/experience", methods=["POST"])
+def progression_experience():
+    get_remote_ip()
+    try:
+        print("Responded to progression experience api call POST")
+        print(request.get_json())
+        # graylog_logger(request.get_json(), "info")
+        return jsonify({'groupExperiences': [{'objectId': 'HuntersGroup', 'experience': 1, 'version': 1}, {'objectId': 'RunnersGroup', 'experience': 2, 'version': 1}, {'objectId': 'RunnerCharacter1', 'experience': 3, 'version': 1}, {'objectId': 'RunnerCharacter2', 'experience': 4, 'version': 1}, {'objectId': 'RunnerCharacter3', 'experience': 5, 'version': 1}, {'objectId': 'RunnerCharacter4', 'experience': 6, 'version': 1}, {'objectId': 'RunnerCharacter5', 'experience': 7, 'version': 1}, {'objectId': 'HunterCharacter1', 'experience': 8, 'version': 1}, {'objectId': 'HunterCharacter2', 'experience': 9, 'version': 1}, {'objectId': 'HunterCharacter3', 'experience': 10, 'version': 1}, {'objectId': 'HunterCharacter4', 'experience': 11, 'version': 1}, {'objectId': 'HunterCharacter5', 'experience': 12, 'version': 1}]})
+    except TimeoutError:
+        print("Timeout error")
+        return jsonify({"status": "error"})
+    except Exception as e:
+        graylog_logger("API ERROR: " + str(e), "error")
+
+
 def run():
     app.run(host='0.0.0.0', port=8080)
 
@@ -381,7 +612,13 @@ steam_api_key = config['steam']['api_key']
 mongo_host = config['mongodb']['host']
 mongo_db = config['mongodb']['db']
 mongo_collection = config['mongodb']['collection']
-allowed_user_agent = "TheExit/++UE4+Release-4.21-CL-0 Windows/10.0.19045.1.256.64bit"
+allowed_user_agent_1 = "TheExit/++UE4+Release-4.21-CL-0 Windows/10.0.19045.1.256.64bit"
+allowed_user_agent_2 = "TheExit/++UE4+Release-4.21-CL-0 Windows/10.0.22621.1.256.64bit"
+allowed_user_agent_3 = "TheExit/++UE4+Release-4.21-CL-0 Windows/6.2.9200.1.256.64bit"
+allowed_user_agent_4 = "game=TheExit, engine=UE4, version=4.19.1-0+++UE4+Release-4.19, platform=Windows, osver=6.2.9200.1.256.64bit"
+allowed_user_agent_5 = "TheExit/++UE4+Release-4.21-CL-0 Windows/10.0.19045.1.768.64bit"
+allowed_user_agent_6 = "game=TheExit, engine=UE4, version=4.18.1-0+++UE4+Release-4.18, platform=Windows, osver=6.2.9200.1.256.64bit"
+allowed_user_agent_7 = "TheExit/++UE4+Release-4.21-CL-0 Windows/10.0.17763.1.256.64bit"
 
 # ------------------------------------------------------- #
 # main
