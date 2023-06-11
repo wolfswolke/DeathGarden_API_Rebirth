@@ -214,33 +214,14 @@ def steam_login():
     print("####################################################")
     print("USER AGENT: " + user_agent)
     print("####################################################")
-    if user_agent == allowed_user_agent_1:
+
+    if user_agent.startswith("TheExit/++UE4+Release-4.21-CL-0 Windows"):
         return_val = steam_login_function(555440)
         return return_val
 
-    elif user_agent == allowed_user_agent_2:
-        return_val = steam_login_function(555440)
-        return return_val
-
-    elif user_agent == allowed_user_agent_3:
+    elif user_agent.startswith("game=TheExit, engine=UE4, version="):
         return_val = steam_login_function(854040)
         return return_val
-
-    elif user_agent == allowed_user_agent_4:
-        return_val = steam_login_function(555440)
-        return return_val
-
-    elif user_agent == allowed_user_agent_5:
-        return_val = steam_login_function(555440)
-        return return_val
-
-    elif user_agent == allowed_user_agent_6:
-        return_val = steam_login_function(854040)
-        return return_val
-    elif user_agent == allowed_user_agent_7:
-        return_val = steam_login_function(555440)
-        return return_val
-
 
     else:
         graylog_logger("Unauthorized User Agent {} connected from IP {}".format(user_agent, ip), "error")
@@ -577,7 +558,7 @@ def progression_experience():
         print("Responded to progression experience api call POST")
         print(request.get_json())
         # graylog_logger(request.get_json(), "info")
-        return jsonify({'groupExperiences': [{'objectId': 'HuntersGroup', 'experience': 1, 'version': 1}, {'objectId': 'RunnersGroup', 'experience': 2, 'version': 1}, {'objectId': 'RunnerCharacter1', 'experience': 3, 'version': 1}, {'objectId': 'RunnerCharacter2', 'experience': 4, 'version': 1}, {'objectId': 'RunnerCharacter3', 'experience': 5, 'version': 1}, {'objectId': 'RunnerCharacter4', 'experience': 6, 'version': 1}, {'objectId': 'RunnerCharacter5', 'experience': 7, 'version': 1}, {'objectId': 'HunterCharacter1', 'experience': 8, 'version': 1}, {'objectId': 'HunterCharacter2', 'experience': 9, 'version': 1}, {'objectId': 'HunterCharacter3', 'experience': 10, 'version': 1}, {'objectId': 'HunterCharacter4', 'experience': 11, 'version': 1}, {'objectId': 'HunterCharacter5', 'experience': 12, 'version': 1}]})
+        return jsonify({"groupExperiences":[{"objectId":"HuntersGroup","experience":1245,"version":2},{"objectId":"RunnersGroup","experience":512,"version":1},{"objectId":"RunnerCharacter1","experience":2584,"version":5},{"objectId":"RunnerCharacter2","experience":9552,"version":4},{"objectId":"RunnerCharacter3","experience":8885,"version":9},{"objectId":"RunnerCharacter4","experience":4218,"version":8},{"objectId":"RunnerCharacter5","experience":9953,"version":6},{"objectId":"HunterCharacter1","experience":2222,"version":8},{"objectId":"HunterCharacter2","experience":6541,"version":2},{"objectId":"HunterCharacter3","experience":6634,"version":7},{"objectId":"HunterCharacter4","experience":2112,"version":5},{"objectId":"HunterCharacter5","experience":1414,"version":6}]})
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
@@ -612,13 +593,6 @@ steam_api_key = config['steam']['api_key']
 mongo_host = config['mongodb']['host']
 mongo_db = config['mongodb']['db']
 mongo_collection = config['mongodb']['collection']
-allowed_user_agent_1 = "TheExit/++UE4+Release-4.21-CL-0 Windows/10.0.19045.1.256.64bit"
-allowed_user_agent_2 = "TheExit/++UE4+Release-4.21-CL-0 Windows/10.0.22621.1.256.64bit"
-allowed_user_agent_3 = "TheExit/++UE4+Release-4.21-CL-0 Windows/6.2.9200.1.256.64bit"
-allowed_user_agent_4 = "game=TheExit, engine=UE4, version=4.19.1-0+++UE4+Release-4.19, platform=Windows, osver=6.2.9200.1.256.64bit"
-allowed_user_agent_5 = "TheExit/++UE4+Release-4.21-CL-0 Windows/10.0.19045.1.768.64bit"
-allowed_user_agent_6 = "game=TheExit, engine=UE4, version=4.18.1-0+++UE4+Release-4.18, platform=Windows, osver=6.2.9200.1.256.64bit"
-allowed_user_agent_7 = "TheExit/++UE4+Release-4.21-CL-0 Windows/10.0.17763.1.256.64bit"
 
 # ------------------------------------------------------- #
 # main
