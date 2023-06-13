@@ -60,7 +60,7 @@ def steam_login():
             abort(401, "Unauthorized")
 
     elif user_agent.startswith("game=TheExit, engine=UE4, version="):
-        return_val = steam_login_function(854040)
+        return_val = steam_login_function()
         return return_val
 
     else:
