@@ -1,7 +1,6 @@
 import pymongo
 import uuid
-import logging
-logger = logging.getLogger(__name__)
+from logic.logging_handler import graylog_logger
 
 
 def user_db_handler(steamid, server, db, collection):
@@ -28,7 +27,8 @@ def user_db_handler(steamid, server, db, collection):
             }
 
             collection.insert_one(new_document)
+            graylog_logger(level="info", handler="mongodb", message=f"New user added to database: {steamid}")
             return userId, token
     except Exception as e:
-        logger.error("Error in mongodb_handler -> " + str(e))
+        graylog_logger(level="error", handler="mongodb", message=f"Error in mongodb_handler: {e}")
         return None, None

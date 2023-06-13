@@ -34,7 +34,7 @@ def keep_alive():
             time.sleep(100)
     except (KeyboardInterrupt, SystemExit):
         print('Received keyboard interrupt, quitting threads.')
-        # graylog_logger("Api shutting down do to keyboard interrupt.", "info")
+        graylog_logger(level="info", handler="api", message={"event": "api stopped."})
 
 
 # ------------------------------------------------------- #

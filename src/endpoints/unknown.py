@@ -10,7 +10,7 @@ def catalog_get():
         print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
-        graylog_logger("API ERROR: " + str(e), "error")
+        graylog_logger(level="error", handler="unknown_catalog", message=str(e))
 
 
 @app.route("/api/v1/extensions/inventory/unlockSpecialItems", methods=["POST"])
@@ -18,10 +18,11 @@ def inventory_unlock_special_items():
     get_remote_ip()
     try:
         print("Responded to Inventory Unlock Special Items event api call POST")
-        graylog_logger(request.get_json(), "info")
+        graylog_logger(level="info", handler="unknown_unlockSpecialItems",
+                       message=request.get_json())
         return jsonify({"status": "success"})
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
-        graylog_logger("API ERROR: " + str(e), "error")
+        graylog_logger(level="error", handler="unknown_unlockSpecialItems", message=str(e))

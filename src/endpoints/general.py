@@ -7,20 +7,20 @@ def file_survival_biome_definition_des_mayan():
     get_remote_ip()
     try:
         print("Responded to file survival biome definition des mayan api call POST")
-        graylog_logger(request.get_json(), "info")
+        graylog_logger(level="info", handler="general-File-Handle", message=request.get_json())
         return jsonify({"status": "success"})
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
-        graylog_logger("API ERROR: " + str(e), "error")
+        graylog_logger(level="error", handler="general-File-Handle", message=f"Error in file_survival_biome_definition_des_mayan: {e}")
 
 
 @app.route("/gamenews/messages", methods=["GET"])
 def gamenews():
     get_remote_ip()
     try:
-        print("Responded to aaaaa api call GET")
+        print("Responded to game news api call GET")
         return jsonify({"news": [
             {"contentTags": ["steam", "xbox", "ps4", "grdk", "xsx", "ps5", "egs", "stadia", "switch"],
              "description": "It's not The Clown's Bottles making you see double.<br/><br/>From September 1st 11AM ET - September 8th 11AM ET, earn twice the XP from Trials and Emblems.",
@@ -31,7 +31,7 @@ def gamenews():
         print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
-        graylog_logger("API ERROR: " + str(e), "error")
+        graylog_logger(level="error", handler="general-Game-News", message=f"Error in gamenews: {e}")
 
 
 @app.route("/api/v1/config/VER_LATEST_CLIENT_DATA", methods=["GET"])
@@ -44,7 +44,7 @@ def config_ver_latest_client_data():
         print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
-        graylog_logger("API ERROR: " + str(e), "error")
+        graylog_logger(level="error", handler="general-ver-latest-data", message=f"Error in config_ver_latest_client_data: {e}")
 
 
 @app.route("/api/v1/utils/contentVersion/latest/2.2", methods=["GET"])
@@ -60,7 +60,7 @@ def content_version_latest():
         print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
-        graylog_logger("API ERROR: " + str(e), "error")
+        graylog_logger(level="error", handler="general-content-version", message=f"Error in content_version_latest: {e}")
 
 
 @app.route("/gameservers.dev", methods=["POST"])
@@ -74,7 +74,7 @@ def gameservers_dev():
         print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
-        graylog_logger("API ERROR: " + str(e), "error")
+        graylog_logger(level="error", handler="general-gameserver-dev", message=f"Error in gameservers_dev: {e}")
 
 
 @app.route("/api/v1/config/UseMirrorsMM_Steam", methods=["GET"])
@@ -87,7 +87,7 @@ def config_use_mirrors_mm_steam():
         print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
-        graylog_logger("API ERROR: " + str(e), "error")
+        graylog_logger(level="error", handler="general-use-mirrors-mm-steam", message=f"Error in config_use_mirrors_mm_steam: {e}")
 
 
 @app.route("/crashreport/unreal/CrashReporter/Ping", methods=["GET"])
@@ -100,7 +100,7 @@ def crashreporter_ping():
         print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
-        graylog_logger("API ERROR: " + str(e), "error")
+        graylog_logger(level="error", handler="general-crashreporter-ping", message=f"Error in crashreporter_ping: {e}")
 
 
 @app.route("/tex", methods=["GET"])
@@ -112,7 +112,7 @@ def tex_get():
         print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
-        graylog_logger("API ERROR: " + str(e), "error")
+        graylog_logger(level="error", handler="general-tex", message=f"Error in tex_get: {e}")
 
 
 @app.route("/")
@@ -122,7 +122,7 @@ def root():
         return jsonify({"status": "success"})
         # return render_template("index.html")
     except Exception as e:
-        graylog_logger("API ERROR: " + str(e), "error")
+        graylog_logger(level="error", handler="general-root", message=f"Error in root: {e}")
 
 
 @app.route('/favicon.ico')
@@ -135,7 +135,7 @@ def favicon():
         print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
-        graylog_logger("API ERROR: " + str(e), "error")
+        graylog_logger(level="error", handler="general-favicon", message=f"Error in favicon: {e}")
 
 
 @app.route("/api/v1/healthcheck", methods=["GET"])
@@ -147,7 +147,7 @@ def healthcheck():
         print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
-        graylog_logger("API ERROR: " + str(e), "error")
+        graylog_logger(level="error", handler="general-healthcheck", message=f"Error in healthcheck: {e}")
 
 
 @app.route("/api/v1/services/tex")
@@ -163,7 +163,7 @@ def services_tex():
         print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
-        graylog_logger("API ERROR: " + str(e), "error")
+        graylog_logger(level="error", handler="general-services-tex", message=f"Error in services_tex: {e}")
 
 
 @app.route("/api/v1/utils/contentVersion/latest/2.11", methods=["GET"])
@@ -177,7 +177,7 @@ def content_version():
         print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
-        graylog_logger("API ERROR: " + str(e), "error")
+        graylog_logger(level="error", handler="general-content-version", message=f"Error in content_version: {e}")
 
 
 @app.route("/api/v1/utils/contentVersion/latest/0", methods=["GET"])
@@ -191,7 +191,7 @@ def content_version0():
         print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
-        graylog_logger("API ERROR: " + str(e), "error")
+        graylog_logger(level="error", handler="general-content-version0", message=f"Error in content_version0: {e}")
 
 
 @app.route("/api/v1/utils/contentVersion/latest/1.1", methods=["GET"])
@@ -205,7 +205,7 @@ def content_version1():
         print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
-        graylog_logger("API ERROR: " + str(e), "error")
+        graylog_logger(level="error", handler="general-content-version1", message=f"Error in content_version1: {e}")
 
 
 @app.route("/api/v1/consent/eula2", methods=["GET"])
@@ -220,7 +220,7 @@ def consent_eula():
                                                    "pt-BR", "ru", "sv", "th", "tr", "zh-Hans", "zh-Hant"],
                         "platform": ["steam", "xbox", "xsx", "switch", "grdk", "stadia"]})
     except Exception as e:
-        graylog_logger("API ERROR: " + str(e), "error")
+        graylog_logger(level="error", handler="general-consent-eula", message=f"Error in consent_eula: {e}")
 
 
 @app.route("/api/v1/consent/eula", methods=["GET"])
@@ -235,4 +235,4 @@ def consent_eula0():
                                                    "pt-BR", "ru", "sv", "th", "tr", "zh-Hans", "zh-Hant"],
                         "platform": ["steam", "xbox", "xsx", "switch", "grdk", "stadia"]})
     except Exception as e:
-        graylog_logger("API ERROR: " + str(e), "error")
+        graylog_logger(level="error", handler="general-consent-eula0", message=f"Error in consent_eula0: {e}")
