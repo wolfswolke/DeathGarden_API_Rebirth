@@ -128,3 +128,77 @@ def crashreporter_check_report():
         return jsonify({"status": "error"})
     except Exception as e:
         graylog_logger(level="error", handler="logging_crashreporter_CheckReport", message=str(e))
+
+
+@app.route("/metrics/matchmaking/event", methods=["POST"])
+def metrics_matchmaking_event():
+    get_remote_ip()
+    try:
+        print("Responded to metrics matchmaking event api call POST")
+        graylog_logger(level="info", handler="logging_matchmaking_Event", message=request.get_json())
+        return jsonify({"status": "success"})
+    except TimeoutError:
+        print("Timeout error")
+        return jsonify({"status": "error"})
+    except Exception as e:
+        graylog_logger(level="error", handler="logging_matchmaking_Event", message=str(e))
+
+
+@app.route("/api/v1/extensions/progression/playerEndOfMatch", methods=["POST"])
+def progression_player_end_of_match():
+    get_remote_ip()
+    try:
+        print("Responded to progression player end of match api call POST")
+        graylog_logger(level="info", handler="logging_playerEndOfMatch", message=request.get_json())
+        return jsonify({"status": "success"})
+    except TimeoutError:
+        print("Timeout error")
+        return jsonify({"status": "error"})
+    except Exception as e:
+        graylog_logger(level="error", handler="logging_playerEndOfMatch", message=str(e))
+
+
+@app.route("/api/v1/extensions/challenges/executeChallengeProgressionOperationBatch", methods=["POST"])
+def challenges_execute_challenge_progression_operation_batch():
+    get_remote_ip()
+    try:
+        print("Responded to challenges execute challenge progression operation batch api call POST")
+        graylog_logger(level="info", handler="logging_executeChallengeProgressionOperationBatch", message=request.get_json())
+        return jsonify({"status": "success"})
+    except TimeoutError:
+        print("Timeout error")
+        return jsonify({"status": "error"})
+    except Exception as e:
+        graylog_logger(level="error", handler="logging_executeChallengeProgressionOperationBatch", message=str(e))
+
+
+@app.route("/api/v1/queue", methods=["POST"])
+def queue():
+    get_remote_ip()
+    try:
+        print("Responded to queue api call POST")
+        graylog_logger(level="info", handler="logging_queue", message=request.get_json())
+        return jsonify({"status": "success"})
+    except TimeoutError:
+        print("Timeout error")
+        return jsonify({"status": "error"})
+    except Exception as e:
+        graylog_logger(level="error", handler="logging_queue", message=str(e))
+
+
+@app.route("/api/v1/extensions/challenges/getChallengeProgressionBatch", methods=["POST"])
+def challenges_get_challenge_progression_batch():
+    get_remote_ip()
+    try:
+        print("DEBUG HEADERS:")
+        print(request.headers)
+        print("##############################################")
+        print("Responded to challenges get challenge progression batch api call POST")
+        graylog_logger(level="info", handler="logging_getChallengeProgressionBatch", message=request.get_json())
+        return jsonify({"status": "success"})
+    except TimeoutError:
+        print("Timeout error")
+        return jsonify({"status": "error"})
+
+    except Exception as e:
+        graylog_logger(level="error", handler="logging_getChallengeProgressionBatch", message=str(e))

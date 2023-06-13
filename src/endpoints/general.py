@@ -213,12 +213,12 @@ def consent_eula():
     get_remote_ip()
     try:
         print("Responded to consent eula api call GET")
-        return jsonify({"status": "success", "consent": "true"})  # Don't know. Added as Placeholder.
-    except TimeoutError:
-        print("Timeout error")
         return jsonify({"id": "eula", "language": ["de", "en", "es", "es-MX", "fr", "it", "ja", "ko", "nl", "pl",
                                                    "pt-BR", "ru", "sv", "th", "tr", "zh-Hans", "zh-Hant"],
-                        "platform": ["steam", "xbox", "xsx", "switch", "grdk", "stadia"]})
+                        "platform": ["steam", "xbox", "xsx", "switch", "grdk", "stadia"]})  # Don't know. Added as Placeholder.
+    except TimeoutError:
+        print("Timeout error")
+        return jsonify({"status": "error"})
     except Exception as e:
         graylog_logger(level="error", handler="general-consent-eula", message=f"Error in consent_eula: {e}")
 
@@ -228,11 +228,40 @@ def consent_eula0():
     get_remote_ip()
     try:
         print("Responded to consent eula api call GET")
-        return jsonify({"status": "success", "consent": "true"})  # Don't know. Added as Placeholder.
-    except TimeoutError:
-        print("Timeout error")
         return jsonify({"id": "eula", "language": ["de", "en", "es", "es-MX", "fr", "it", "ja", "ko", "nl", "pl",
                                                    "pt-BR", "ru", "sv", "th", "tr", "zh-Hans", "zh-Hant"],
-                        "platform": ["steam", "xbox", "xsx", "switch", "grdk", "stadia"]})
+                        "platform": ["steam", "xbox", "xsx", "switch", "grdk", "stadia"]})  # Don't know. Added as Placeholder.
+    except TimeoutError:
+        print("Timeout error")
+        return jsonify({"status": "error"})
     except Exception as e:
         graylog_logger(level="error", handler="general-consent-eula0", message=f"Error in consent_eula0: {e}")
+
+
+@app.route("/api/v1/consent/privacyPolicy", methods=["GET"])
+def privacy_policy():
+    get_remote_ip()
+    try:
+        print("Responded to consent privacyPolicy api call GET")
+        return jsonify({"id":"privacy","language":["de","en","es","es-MX","fr","it","ja","ko","nl","pl","pt-BR","ru",
+                                                   "sv","th","tr","zh-Hans","zh-Hant"],
+                        "platform":["steam","xbox","xsx","switch","grdk","ps4","ps5","stadia"]})
+    except TimeoutError:
+        print("Timeout error")
+        return jsonify({"status": "error"})
+    except Exception as e:
+        graylog_logger(level="error", handler="general-privacy-policy", message=f"Error in consent_eula0: {e}")
+
+
+@app.route("/api/v1/utils/contentVersion/latest/2.5", methods=["GET"])
+def content_version2_5():
+    get_remote_ip()
+    try:
+        print("Responded to content version api call GET")
+        return jsonify({
+            "latestSupportedVersion": "te-18f25613-36778-ue4-374f864b"})  # Don't know if this is correct. Just testing.
+    except TimeoutError:
+        print("Timeout error")
+        return jsonify({"status": "error"})
+    except Exception as e:
+        graylog_logger(level="error", handler="general-content-version2_5", message=f"Error in content_version2_5: {e}")

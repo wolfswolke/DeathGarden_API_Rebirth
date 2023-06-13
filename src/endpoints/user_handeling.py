@@ -176,7 +176,12 @@ def wallet_currencies():
 def achievements_get():
     get_remote_ip()
     try:
-        return jsonify({"status": "success", "achievements": []})  # Don't know. Added as Placeholder.
+        return jsonify({"gameName":"Deathgarden: BLOODHARVEST","achievements":
+            [{"apiname":"EFAB89E6465D1163D62A07B11048F2B6","achieved":1,"unlocktime":1587140058},
+             {"apiname":"2CAEBB354D506D7C43B941BC1DA775A0","achieved":1,"unlocktime":1586792410},
+             {"apiname":"E51981B946BEE3D45C5C41B2FCFF310B","achieved":1,"unlocktime":1586788872},
+             {"apiname":"AAD05B9D46471DC811BBE0BA91916AB7","achieved":1,"unlocktime":1586788872},
+             {"apiname":"BA2D4A5445CB70276A8F5D9E1AFCE080","achieved":1,"unlocktime":1586788872}],"success":True})
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
