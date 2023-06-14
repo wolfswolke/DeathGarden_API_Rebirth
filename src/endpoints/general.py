@@ -1,3 +1,4 @@
+import flask_definitions
 from flask_definitions import *
 import os
 
@@ -208,19 +209,27 @@ def content_version1():
         graylog_logger(level="error", handler="general-content-version1", message=f"Error in content_version1: {e}")
 
 
-@app.route("/api/v1/consent/eula2", methods=["GET"])
+@app.route("/api/v1/consent/eula2", methods=["PUT", "GET"])
 def consent_eula():
     get_remote_ip()
-    try:
-        print("Responded to consent eula api call GET")
-        return jsonify({"id": "eula", "language": ["de", "en", "es", "es-MX", "fr", "it", "ja", "ko", "nl", "pl",
-                                                   "pt-BR", "ru", "sv", "th", "tr", "zh-Hans", "zh-Hant"],
-                        "platform": ["steam", "xbox", "xsx", "switch", "grdk", "stadia"]})  # Don't know. Added as Placeholder.
-    except TimeoutError:
-        print("Timeout error")
-        return jsonify({"status": "error"})
-    except Exception as e:
-        graylog_logger(level="error", handler="general-consent-eula", message=f"Error in consent_eula: {e}")
+    if request.method == "PUT":
+        try:
+            print("Responded to consent eula api call PUT")
+            return jsonify({"status": "success"})
+        except TimeoutError:
+            print("Timeout error")
+            return jsonify({"status": "error"})
+        except Exception as e:
+            graylog_logger(level="error", handler="general-consent-eula", message=f"Error in consent_eula: {e}")
+    elif request.method == "GET":
+        try:
+            print("Responded to consent eula api call GET")
+            return jsonify({"isGiven": True})
+        except TimeoutError:
+            print("Timeout error")
+            return jsonify({"status": "error"})
+        except Exception as e:
+            graylog_logger(level="error", handler="general-consent-eula", message=f"Error in consent_eula: {e}")
 
 
 @app.route("/api/v1/consent/eula", methods=["GET"])
