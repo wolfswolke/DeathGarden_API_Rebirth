@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request, send_from_directory, abort
 from logic.global_handlers import get_remote_ip, load_config
-from logic.logging_handler import graylog_logger
+from logic.logging_handler import logger
 
 app = Flask(__name__)
 
