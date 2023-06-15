@@ -5,20 +5,6 @@ from flask_definitions import *
 import os
 
 
-@app.route("/file/te-f9b4768a-26590-ue4-cefc1aee/1686509333/Survival-Biome_Definition_DES_Mayan", methods=["POST"])
-def file_survival_biome_definition_des_mayan():
-    get_remote_ip()
-    try:
-        print("Responded to file survival biome definition des mayan api call POST")
-        logger.graylog_logger(level="info", handler="general-File-Handle", message=request.get_json())
-        return jsonify({"status": "success"})
-    except TimeoutError:
-        print("Timeout error")
-        return jsonify({"status": "error"})
-    except Exception as e:
-        logger.graylog_logger(level="error", handler="general-File-Handle", message=f"Error in file_survival_biome_definition_des_mayan: {e}")
-
-
 @app.route("/gamenews/messages", methods=["GET"])
 def gamenews():
     get_remote_ip()
