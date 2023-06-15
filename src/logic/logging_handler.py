@@ -1,33 +1,34 @@
 import logging
 import graypy
 
-my_logger = logging.getLogger('deathgarden_api')
 
+class Logger:
+    def __init__(self):
+        self.my_logger = logging.getLogger('deathgarden_api')
+        self.dynamic_use_graylog = False
 
-def setup_graylog(use_graylog, graylog_server):
-    if use_graylog:
-        my_logger.setLevel(logging.DEBUG)
-        handler = graypy.GELFUDPHandler(graylog_server, 12201)
-        my_logger.addHandler(handler)
-        my_logger.info({"level": "info", "handler": "api", "message": {"event": "api started."}})
-    else:
-        print("Graylog disabled. Not sending any Logs.")
-
-
-def graylog_logger(level, handler, message):
-    use_graylog = True
-    if use_graylog:
-        if handler == "mongodb":
-            my_logger.info({"level": level, "handler": handler, "message": message})
-        if level == "debug":
-            my_logger.debug({"level": level, "handler": handler, "message": message})
-        elif level == "warning":
-            my_logger.warning({"level": level, "handler": handler, "message": message})
-        elif level == "error":
-            my_logger.error({"level": level, "handler": handler, "message": message})
-        elif level == "info":
-            my_logger.info({"level": level, "handler": handler, "message": message})
+    def setup_graylog(self, use_graylog, graylog_server):
+        self.dynamic_use_graylog = use_graylog
+        if self.dynamic_use_graylog:
+            self.my_logger.setLevel(logging.DEBUG)
+            handler = graypy.GELFUDPHandler(graylog_server, 12201)
+            self.my_logger.addHandler(handler)
+            self.my_logger.info({"level": "info", "handler": "api", "message": {"event": "api started."}})
         else:
-            print("ERROR: No valid log level specified.")
-    else:
-        print("Graylog disabled. Not sending any Logs.")
+            print("Graylog disabled. Not sending any Logs.")
+
+    def graylog_logger(self, level, handler, message):
+        use_graylog = True
+        if use_graylog:
+            log_methods = {"debug": self.my_logger.debug, "warning": self.my_logger.warning,
+                           "error": self.my_logger.error, "info": self.my_logger.info}
+            log_method = log_methods.get(level)
+            if log_method:
+                log_method({"level": level, "handler": handler, "message": message})
+            else:
+                print("ERROR: No valid log level specified.")
+        else:
+            print("Graylog disabled. Not sending any Logs.")
+
+
+logger = Logger()
