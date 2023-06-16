@@ -279,7 +279,7 @@ def file_gold_rush(seed, map_name, game_version):
 
     if request.method == "GET":
         if os.path.isfile(file_path):
-            with open(file_name, "r") as files:
+            with open(file_path, "r") as files:
                 data = files.read()
                 encoded_data = base64.b64encode(data)
                 return encoded_data
