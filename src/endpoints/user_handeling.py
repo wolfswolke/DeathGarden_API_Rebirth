@@ -164,8 +164,8 @@ def ban_status():
     get_remote_ip()
     try:
         print("Responded to ban status api call GET")
-        return jsonify({"BanPeriod": 33464688741, "BanReason": "TEST", "BanStart": 1592247140, "BanEnd": 33464688740,
-                        "Confirmed": True, "Pending": False})
+        return jsonify({"IsBanned": False, "BanInfo": {"BanPeriod": 10, "BanReason": "None", "BanStart": 1592247140, "BanEnd": 33464688740,
+                        "Confirmed": True, "Pending": False}})
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
