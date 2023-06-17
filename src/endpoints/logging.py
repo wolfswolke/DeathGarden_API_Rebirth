@@ -15,20 +15,6 @@ def get_quitter_state():
         logger.graylog_logger(level="error", handler="logging_getQuitterState", message=str(e))
 
 
-@app.route("/api/v1/extensions/progression/initOrGetGroups", methods=["POST"])
-def extension_progression_init_or_get_groups():
-    get_remote_ip()
-    try:
-        print("Responded to extension progression init or get groups api call POST")
-        logger.graylog_logger(level="info", handler="logging_initOrGetGroups", message=request.get_json())
-        return jsonify({'data': {'skipProgressionGroups': True, 'skipMetadataGroups': True}})
-    except TimeoutError:
-        print("Timeout error")
-        return jsonify({"status": "error"})
-    except Exception as e:
-        logger.graylog_logger(level="error", handler="logging_initOrGetGroups", message=str(e))
-
-
 @app.route("/metrics/client/event", methods=["POST"])
 def receive_event():
     get_remote_ip()
