@@ -120,8 +120,8 @@ def tex_get():
 def root():
     try:
         get_remote_ip()
-        return jsonify({"status": "success"})
-        # return render_template("index.html")
+        # return jsonify({"status": "success"})
+        return render_template("index.html")
     except Exception as e:
         logger.graylog_logger(level="error", handler="general-root", message=f"Error in root: {e}")
 
