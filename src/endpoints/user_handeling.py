@@ -178,7 +178,8 @@ def wallet_currencies():
     get_remote_ip()
     try:
         print("Responded to wallet currencies api call GET")
-        return jsonify({"currencies": "EUR"})
+        return jsonify([{"Currency": 1, "Amount": 1}, {"Currency": 2, "Amount": 1}, {"Currency": 3, "Amount": 1},
+                        {"Currency": 4, "Amount": 1}, {"Currency": 5, "Amount": 1}])
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
@@ -231,3 +232,30 @@ def moderation_check_chat():
     except Exception as e:
         logger.graylog_logger(level="error", handler="moderation_check_chat", message=str(e))
 
+
+@app.route("/api/v1/extensions/progression/initOrGetGroups", methods=["POST"])
+def extension_progression_init_or_get_groups():
+    get_remote_ip()
+    try:
+        print("Responded to extension progression init or get groups api call POST")
+        logger.graylog_logger(level="info", handler="logging_initOrGetGroups", message=request.get_json())
+        return jsonify({"ProgressionGroups": [{"ObjectId": "","SchemaVersion": 000,"Version": 000,"Data": {"Experience": 000,"Version": 000}}],"MetadataGroups": [{"Version": 000,"Rewards": {"Amount": 0.000, "Id": ""}}]})
+    except TimeoutError:
+        print("Timeout error")
+        return jsonify({"status": "error"})
+    except Exception as e:
+        logger.graylog_logger(level="error", handler="logging_initOrGetGroups", message=str(e))
+
+
+@app.route("/api/v1/extensions/inventory/unlockSpecialItems", methods=["POST"])
+def inventory_unlock_special_items():
+    get_remote_ip()
+    try:
+        print("Responded to Inventory Unlock Special Items event api call POST")
+        logger.graylog_logger(level="info", handler="unknown_unlockSpecialItems", message=request.get_json())
+        return jsonify({"UnlockedItems": []})
+    except TimeoutError:
+        print("Timeout error")
+        return jsonify({"status": "error"})
+    except Exception as e:
+        logger.graylog_logger(level="error", handler="unknown_unlockSpecialItems", message=str(e))
