@@ -4,7 +4,7 @@ from logic.time_handler import get_time
 from logic.mongodb_handler import mongo
 
 
-@app.route("/debug", methods=["Get"])
+@app.route("/debug/", methods=["Get"])
 def debug_root():
     endpoint_descriptions = {
         '/debug/user': 'Endpoint to debug user information',
@@ -18,12 +18,14 @@ def debug_root():
     return f'<h1>Debug Endpoints:</h1>{endpoints_html}'
 
 
-@app.route("/debug/user", methods=["Get"])
+@app.route("/debug/user/", methods=["Get"])
 def debug_user():
     if request.args.get('steamid') is None:
         return jsonify({'error': 'No steamid. Please call with ?steamid=<steamID64>'}), 400
     steam_id = request.args.get('steamid')
     user_data = mongo.get_debug(steamid=steam_id, server=mongo_host, db=mongo_db, collection=mongo_collection)
+    if user_data.get('status') == 'error':
+        return jsonify(user_data), 400
     user_data['_id'] = str(user_data.get('_id'))
     steamid = user_data.get('steamid')
     userId = user_data.get('userId')
