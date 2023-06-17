@@ -4,6 +4,8 @@ import flask_definitions
 from flask_definitions import *
 import os
 
+from logic.mongodb_handler import mongo
+
 
 @app.route("/gamenews/messages", methods=["GET"])
 def gamenews():
@@ -209,24 +211,27 @@ def content_version1():
 @app.route("/api/v1/consent/eula2", methods=["PUT", "GET"])
 def consent_eula():
     get_remote_ip()
-    if request.method == "PUT":
-        try:
-            print("Responded to consent eula api call PUT")
-            return jsonify({"status": "success"})
-        except TimeoutError:
-            print("Timeout error")
-            return jsonify({"status": "error"})
-        except Exception as e:
-            logger.graylog_logger(level="error", handler="general-consent-eula", message=f"Error in consent_eula: {e}")
-    elif request.method == "GET":
-        try:
-            print("Responded to consent eula api call GET")
-            return jsonify({"isGiven": True})
-        except TimeoutError:
-            print("Timeout error")
-            return jsonify({"status": "error"})
-        except Exception as e:
-            logger.graylog_logger(level="error", handler="general-consent-eula", message=f"Error in consent_eula: {e}")
+    try:
+        if request.method == "PUT":
+            userid = request.cookies.get('bhvrSession')
+            try:
+                mongo.eula(userId=userid, get_eula=False, server=mongo_host, db=mongo_db, collection=mongo_collection)
+                print("Responded to consent eula api call PUT")
+                return jsonify({"isGiven": True})
+            except TimeoutError:
+                print("Timeout error")
+                return jsonify({"status": "error"})
+            except Exception as e:
+                logger.graylog_logger(level="error", handler="general-consent-eula", message=f"Error in consent_eula: {e}")
+        elif request.method == "GET":
+            userid = request.cookies.get('bhvrSession')
+            is_given = mongo.eula(userId=userid, get_eula=True, server=mongo_host, db=mongo_db, collection=mongo_collection)
+            if is_given:
+                return jsonify({"isGiven": True})
+            else:
+                return jsonify({"isGiven": False})
+    except Exception as e:
+        logger.graylog_logger(level="error", handler="general-consent-eula", message=f"Error in consent_eula: {e}")
 
 
 @app.route("/api/v1/consent/eula", methods=["GET"])

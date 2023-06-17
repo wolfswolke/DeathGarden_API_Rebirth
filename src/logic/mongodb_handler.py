@@ -32,7 +32,8 @@ class Mongo:
                 new_document = {
                     'steamid': steamid,
                     'userId': userId,
-                    'token': token
+                    'token': token,
+                    'eula': False
                 }
 
                 self.dyn_collection.insert_one(new_document)
@@ -59,6 +60,29 @@ class Mongo:
             else:
                 print(f"No user found with userId: {userId}")
                 return 0000000000000000000, 0000000000000000000
+        except Exception as e:
+            print(e)
+            return None, None
+
+    def eula(self, userId, get_eula, server, db, collection):
+        try:
+            self.dyn_server = server
+            self.dyn_db = db
+            self.dyn_collection = collection
+            client = pymongo.MongoClient(self.dyn_server)
+            self.dyn_db = client[self.dyn_db]
+            self.dyn_collection = self.dyn_db[self.dyn_collection]
+            existing_document = self.dyn_collection.find_one({'userId': userId})
+            if existing_document:
+                if get_eula:
+                    eula = existing_document['eula']
+                    return eula
+                else:
+                    self.dyn_collection.update_one({'userId': userId}, {'$set': {'eula': True}})
+                    return True
+            else:
+                print(f"No user found with userId: {userId}")
+                return False
         except Exception as e:
             print(e)
             return None, None
