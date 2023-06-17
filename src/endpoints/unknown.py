@@ -19,7 +19,7 @@ def inventory_unlock_special_items():
     try:
         print("Responded to Inventory Unlock Special Items event api call POST")
         logger.graylog_logger(level="info", handler="unknown_unlockSpecialItems", message=request.get_json())
-        return jsonify({"status": "success"})
+        return jsonify({"UnlockedItems": []})
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
