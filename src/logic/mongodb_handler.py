@@ -33,7 +33,12 @@ class Mongo:
                     'steamid': steamid,
                     'userId': userId,
                     'token': token,
-                    'eula': False
+                    'eula': False,
+                    'xp': 0,
+                    'currency_blood_cells': 0,
+                    'currency_iron': 0,
+                    'currency_ink_cells': 0,
+                    'unlocked_items': []
                 }
 
                 self.dyn_collection.insert_one(new_document)

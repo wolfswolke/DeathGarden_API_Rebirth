@@ -224,6 +224,8 @@ def consent_eula():
             except Exception as e:
                 logger.graylog_logger(level="error", handler="general-consent-eula", message=f"Error in consent_eula: {e}")
         elif request.method == "GET":
+            if request.cookies.get('bhvrSession') is None:
+                return jsonify({"isGiven": True})
             userid = request.cookies.get('bhvrSession')
             is_given = mongo.eula(userId=userid, get_eula=True, server=mongo_host, db=mongo_db, collection=mongo_collection)
             if is_given:
