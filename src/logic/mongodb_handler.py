@@ -64,7 +64,7 @@ class Mongo:
                 return steamid, token
             else:
                 print(f"No user found with userId: {userId}")
-                return 0000000000000000000, 0000000000000000000
+                return "10000000aa000000gg00001", "10000000aa000000gg00001"
         except Exception as e:
             print(e)
             return None, None
