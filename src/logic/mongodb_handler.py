@@ -92,5 +92,22 @@ class Mongo:
             print(e)
             return None, None
 
+    def get_debug(self, steamid, server, db, collection):
+        try:
+            self.dyn_server = server
+            self.dyn_db = db
+            self.dyn_collection = collection
+            client = pymongo.MongoClient(self.dyn_server)
+            self.dyn_db = client[self.dyn_db]
+            self.dyn_collection = self.dyn_db[self.dyn_collection]
+            existing_document = self.dyn_collection.find_one({'steamid': steamid})
+            if existing_document:
+                return existing_document
+            else:
+                return {"status": "error", "message": "No user found with steamid: " + steamid}
+        except Exception as e:
+            print(e)
+            return {"status": "error", "message": "Error in mongodb_handler"}
+
 
 mongo = Mongo()
