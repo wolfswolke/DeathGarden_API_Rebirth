@@ -8,14 +8,23 @@ import os
 @app.route("/gamenews/messages", methods=["GET"])
 def gamenews():
     get_remote_ip()
+    # /gamenews/messages?sortDesc=true&gameVersion=0&platform=PC&language=EN&messageType=InGameNews&faction=Runner&playerLevel=1
     try:
+        sort_desc = request.args.get('sortDesc')
+        gameVersion = request.args.get('gameVersion')
+        platform = request.args.get('platform')
+        language = request.args.get('language')
+        messageType = request.args.get('messageType')
+        faction = request.args.get('faction')
+        playerLevel = request.args.get('playerLevel')
         print("Responded to game news api call GET")
-        return jsonify({"news": [
-            {"contentTags": ["steam", "xbox", "ps4", "grdk", "xsx", "ps5", "egs", "stadia", "switch"],
-             "description": "It's not The Clown's Bottles making you see double.<br/><br/>From September 1st 11AM ET - September 8th 11AM ET, earn twice the XP from Trials and Emblems.",
-             "dwnImagePath": "", "imageHeight": "", "imagePath": "", "isHidden": False,
-             "startDate": "2022-09-01T15:00:00", "title": "Double XP Event", "type": 5, "version": "6.2.0",
-             "weight": 40990.0}]})
+        return jsonify({"status": "success","data": {"messages": [{"id": 12345,"title": "Welcome, Runner!","content": "Test UwU.","date": "2023-06-17","type": "InGameNews"},{"id": 67890,"title": "Level up and unlock new abilities!","content": "Congratulations on reaching level 1! As a Runner, you've unlocked the ability to perform powerful parkour moves. Use them to your advantage!","date": "2023-06-16","type": "InGameNews"},{"id": 54321,"title": "Special Event: Test 3.","content": "This is a Test!","date": "2023-06-15","type": "InGameNews"}]}})
+        # return jsonify({"news": [
+        #    {"contentTags": ["steam", "xbox", "ps4", "grdk", "xsx", "ps5", "egs", "stadia", "switch"],
+        #     "description": "It's not The Clown's Bottles making you see double.<br/><br/>From September 1st 11AM ET - September 8th 11AM ET, earn twice the XP from Trials and Emblems.",
+        #     "dwnImagePath": "", "imageHeight": "", "imagePath": "", "isHidden": False,
+        #     "startDate": "2022-09-01T15:00:00", "title": "Double XP Event", "type": 5, "version": "6.2.0",
+        #     "weight": 40990.0}]})
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
@@ -272,22 +281,20 @@ def file_gold_rush(seed, map_name, game_version):
     print(seed)
     print(map_name)
 
-    file_name = f"{game_version}_{seed}_{map_name}.b64"
+    file_name = f"{game_version}_{seed}_{map_name}.raw"
     folder_path = os.path.join(app.root_path, "map_seeds")
     file_path = os.path.join(folder_path, file_name)
     os.makedirs(folder_path, exist_ok=True)
 
     if request.method == "GET":
         if os.path.isfile(file_path):
-            with open(file_path, "r") as files:
+            with open(file_path, "rb") as files:
                 data = files.read()
-                encoded_data = base64.b64encode(data)
-                return encoded_data
+                return data
 
     if request.method == "POST":
         data = request.get_data()
-        decoded_data = base64.b64decode(data)
         with open(file_path, "wb") as files:
-            files.write(decoded_data)
+            files.write(data)
         return {"status": "success"}
 
