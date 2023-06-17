@@ -213,3 +213,21 @@ def messages_count():
         return jsonify({"status": "error"})
     except Exception as e:
         logger.graylog_logger(level="error", handler="messages_count", message=str(e))
+
+
+@app.route("/moderation/check/chat", methods=["POST"])
+def moderation_check_chat():
+    get_remote_ip()
+    try:
+        data = request.get_json()
+        userid = data["userId"]
+        language = data["language"]
+        message = data["message"]
+        # Why should we care? Can we get in trouble if we don't?
+        return jsonify({"status": "success", "result": "OK"})  # Testing stuff
+    except TimeoutError:
+        print("Timeout error")
+        return jsonify({"status": "error"})
+    except Exception as e:
+        logger.graylog_logger(level="error", handler="moderation_check_chat", message=str(e))
+
