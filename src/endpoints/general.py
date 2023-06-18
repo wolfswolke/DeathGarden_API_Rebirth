@@ -305,11 +305,11 @@ def leaderboard_get_scores():
     if request.method == "POST":
         print("Responded to leaderboard getScores api call POST")
         logger.graylog_logger(level="info", handler="general-leaderboard-get-scores", message=f"Leaderboard getScores: {request.get_json()}")
-        return "", 200
+        return jsonify({"data": []})
     else:
         try:
             print("Responded to leaderboard getScores api call GET")
-            return "", 200
+            return jsonify({"data": []})
         except TimeoutError:
             print("Timeout error")
             return jsonify({"status": "error"})
