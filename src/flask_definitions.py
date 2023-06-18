@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request, send_from_directory, abort, render_template
+from flask import Flask, jsonify, request, send_from_directory, abort, render_template, url_for
 from logic.global_handlers import get_remote_ip, load_config
 from logic.logging_handler import logger
 

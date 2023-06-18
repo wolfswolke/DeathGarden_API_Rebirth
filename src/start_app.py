@@ -13,6 +13,7 @@ import endpoints.user_handeling
 import endpoints.general
 import endpoints.logging
 import endpoints.debug
+import endpoints.web
 
 
 # ------------------------------------------------------- #
