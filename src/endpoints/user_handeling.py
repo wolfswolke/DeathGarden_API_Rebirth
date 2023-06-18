@@ -239,7 +239,10 @@ def extension_progression_init_or_get_groups():
     try:
         print("Responded to extension progression init or get groups api call POST")
         logger.graylog_logger(level="info", handler="logging_initOrGetGroups", message=request.get_json())
-        return jsonify({"ProgressionGroups": [{"ObjectId": "","SchemaVersion": 000,"Version": 000,"Data": {"Experience": 000,"Version": 000}}],"MetadataGroups": [{"Version": 000,"Rewards": {"Amount": 0.000, "Id": ""}}]})
+        return jsonify({"ProgressionGroups":
+                            [{"ObjectId": "","SchemaVersion": 000,"Version": 000,
+                              "Data": {"Experience": 000,"Version": 000}}],
+                        "MetadataGroups": [{"Version": 000,"Rewards": {"Amount": 0.000, "Id": "0"}}]})
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
