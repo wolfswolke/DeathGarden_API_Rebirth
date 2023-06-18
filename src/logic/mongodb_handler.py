@@ -104,7 +104,7 @@ class Mongo:
             if existing_document:
                 return existing_document
             else:
-                return {"status": "error", "message": "No user found with steamid: " + steamid}
+                return None
         except Exception as e:
             print(e)
             return {"status": "error", "message": "Error in mongodb_handler"}

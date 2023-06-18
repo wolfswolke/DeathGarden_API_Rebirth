@@ -160,16 +160,6 @@ def tex_get():
         logger.graylog_logger(level="error", handler="general-tex", message=f"Error in tex_get: {e}")
 
 
-@app.route("/")
-def root():
-    try:
-        get_remote_ip()
-        # return jsonify({"status": "success"})
-        return render_template("index.html")
-    except Exception as e:
-        logger.graylog_logger(level="error", handler="general-root", message=f"Error in root: {e}")
-
-
 @app.route('/favicon.ico')
 def favicon():
     get_remote_ip()

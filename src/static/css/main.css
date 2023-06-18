@@ -1,0 +1,93 @@
+@font-face {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    src: url("/static/fonts/Roboto-Regular.ttf");
+}
+
+@font-face {
+    font-family: Roboto;
+    font-style: italic;
+    font-weight: normal;
+    src: url("/static/fonts/Roboto-Italic.ttf");
+}
+
+@font-face {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    src: url("/static/fonts/Roboto-Bold.ttf");
+}
+
+@font-face {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 100;
+    src: url("/static/fonts/Roboto-Thin.ttf");
+}
+
+body {
+    font-family: Roboto, serif;
+    background-color: #222222;
+    color: #eeeeee;
+    font-size: 125%;
+}
+
+.align-center {
+    display:flex;
+    align-items: center;
+    align-content: center;
+    flex-direction: column;
+}
+
+.input-box {
+    margin-top: 2em;
+    width: 35%;
+    padding: 0 1em 1em 1em;
+    border-radius: 15px;
+    box-shadow: #ffffff69 0 0 20px 0;
+    background-color: #333333;
+}
+
+.input-box .input-field {
+    border-radius: 5px;
+    background-color: #b7b7b7;
+}
+
+.button {
+    margin-top: 1em;
+    padding: 0.25em 4em;
+    font-weight: bold;
+}
+
+.error-box {
+    padding: 0.5em 3em;
+    margin-bottom: 1em;
+    background-color: rgba(170, 0, 0, 0.78);
+    border-radius: 5px;
+    font-size: 0.9em;
+    box-shadow: #111111ee 0 0 20px 0;
+}
+
+.error-box span {
+    font-weight: bold;
+}
+
+table {
+    box-shadow: #ffffff69 0 0 20px 0;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+table th, td {
+    padding: 0.2em 2em;
+}
+
+table tr {
+    background-color: #333333;
+    padding: 2em;
+}
+
+table tr:nth-of-type(even) {
+    background-color: #444444;
+}

@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Debug User Infos</title>
+    <link rel="stylesheet" href="{{  url_for('static', filename='css/main.css') }}">
+  </head>
+  <body>
+    <div class="align-center">
+        <h1>User Info</h1>
+
+        {# When there is no Steam id specified in the URL #}
+        {% if is_id_set == False %}
+        <p>
+            No SteamID64 Given, please Enter one at the end of the URL<br>
+            Example: /debug/user/XXXXXXXXXX
+        </p>
+
+        {# When the Steam ID isnt found in the DB #}
+        {% elif id_not_found == False %}
+        <p>
+            A user with the SteamID64 {{ steam_id }} doesn't currently exists in the Database.
+        </p>
+        {% else  %}
+            <table>
+                <tbody>
+                    <tr>
+                        <td>SteamID64</td>
+                        <td>{{ steam_id }}</td>
+                    </tr>
+                    <tr>
+                        <td>Accepted EULA</td>
+                        <td>{{ eula }}</td>
+                    </tr>
+                    <tr>
+                        <td>Blood cells</td>
+                        <td>{{ currency_blood_cells }}</td>
+                    </tr>
+                    <tr>
+                        <td>Ink cells</td>
+                        <td>{{ currency_ink_cells }}</td>
+                    </tr>
+                    <tr>
+                        <td>Iron</td>
+                        <td>{{ currency_iron }}</td>
+                    </tr>
+                    <tr>
+                        <td>Unlocked Items</td>
+                        <td>{{ unlocked_items }}</td>
+                    </tr>
+                    <tr>
+                        <td>UserID</td>
+                        <td>{{ userId }}</td>
+                    </tr>
+                    <tr>
+                        <td>XP</td>
+                        <td>{{ xp }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        {% endif %}
+        <div class="input-box align-center">
+            <h3>Search for Another User</h3>
+
+            <div class="error-box align-center" style="visibility: collapse">
+                <span id="error_text">Test Error</span>
+            </div>
+
+            <label for="steam_id">SteamID64</label>
+            <input class="input-field" id="steam_id" type="text" placeholder="XXXXXXXX" maxlength="32" minlength="2">
+
+            <input id="search_button" class="button" type="button" value="Search">
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('search_button').addEventListener('click', () => {
+            let inputText = document.getElementById('steam_id').value;
+
+            //check if the input only contains numbers, if not show error message
+            if(inputText.empty === '' || /^\d+$/.test(inputText) === false) {
+                showError('SteamID64 only contains Numbers');
+                return;
+            }
+
+            // redirect to search
+            window.location = "/debug/user/" + inputText;
+        })
+
+        let showError = (message) => {
+            let errorText = document.getElementById('error_text');
+            // Set error text
+            errorText.textContent = message;
+
+            // Make box visible
+            errorText.parentElement.style.visibility = 'visible';
+        }
+    </script>
+  </body>
+</html>
