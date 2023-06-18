@@ -20,13 +20,41 @@ def gamenews():
         faction = request.args.get('faction')
         playerLevel = request.args.get('playerLevel')
         print("Responded to game news api call GET")
-        return jsonify({"status": "success","data": {"messages": [{"id": 12345,"title": "Welcome, Runner!","content": "Test.","date": "2023-06-17","type": "InGameNews"},{"id": 67890,"title": "Level up and unlock new abilities!","content": "Congratulations on reaching level 1! As a Runner, you've unlocked the ability to perform powerful parkour moves. Use them to your advantage!","date": "2023-06-16","type": "InGameNews"},{"id": 54321,"title": "Special Event: Test 3.","content": "This is a Test!","date": "2023-06-15","type": "InGameNews"}]}})
-        # return jsonify({"news": [
-        #    {"contentTags": ["steam", "xbox", "ps4", "grdk", "xsx", "ps5", "egs", "stadia", "switch"],
-        #     "description": "It's not The Clown's Bottles making you see double.<br/><br/>From September 1st 11AM ET - September 8th 11AM ET, earn twice the XP from Trials and Emblems.",
-        #     "dwnImagePath": "", "imageHeight": "", "imagePath": "", "isHidden": False,
-        #     "startDate": "2022-09-01T15:00:00", "title": "Double XP Event", "type": 5, "version": "6.2.0",
-        #     "weight": 40990.0}]})
+        return {"data": [
+  {
+    "Id": "1",
+    "MessageType": 2,
+    "IsOneTimeGameNews": False,
+    "ShouldQuitTheGame": False,
+    "OnlyForPlayersThatCompletedAtLeastOneMatch": False,
+    "RedirectMode": 0,
+    "RedirectItem": "",
+    "RedirectUrl": "",
+    "EmbeddedBackgroundImage": "game/UI/ImageAssets/NewsAssets/GeneralAnnouncement_Large",
+    "EmbeddedInGameNewsBackgroundImage": "game/UI/ImageAssets/NewsAssets/ClosedAlphaWelcomseBanner",
+    "EmbeddedInGameNewsThumbnailImage": "game/UI/ImageAssets/NewsAssets/CrossPromo",
+    "FromDate": 1655511433,
+    "ToDate": 1718669833,
+    "Translations": [
+      {
+        "Language": 0,
+        "Body": "Test EN"
+      },
+      {
+        "Language": 1,
+        "Body": "Test Fr"
+      },
+      {
+        "Language": 2,
+        "Body": "Test IT"
+      },
+      {
+        "Language": 3,
+        "Body": "Test Es"
+      }
+    ]
+  }
+]}
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
@@ -78,6 +106,22 @@ def gameservers_dev():
         logger.graylog_logger(level="error", handler="general-gameserver-dev", message=f"Error in gameservers_dev: {e}")
 
 
+@app.route("/gameservers.uat", methods=["POST"])
+def gameservers_uat():
+    get_remote_ip()
+    try:
+        print("Responded to Gameserver event api call POST")
+        # graylog_logger(request.get_json(), "warning")
+        return jsonify({"status": "success"})
+    except TimeoutError:
+        print("Timeout error")
+        return jsonify({"status": "error"})
+    except Exception as e:
+        # logger.graylog_logger(level="error", handler="general-gameserver-dev", message=f"Error in gameservers_dev: {e}")
+        print(e)
+        return jsonify({"status": "error"})
+
+
 @app.route("/api/v1/config/UseMirrorsMM_Steam", methods=["GET"])
 def config_use_mirrors_mm_steam():
     get_remote_ip()
@@ -108,7 +152,7 @@ def crashreporter_ping():
 def tex_get():
     get_remote_ip()
     try:
-        return jsonify({"status": "success"})
+        return jsonify({"current-event": {}, "status": {}, "id": "live", "message": "test"})
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
@@ -156,7 +200,7 @@ def services_tex():
     get_remote_ip()
     try:
         print("Responded to tex api call GET")
-        return {"status": "success"}
+        return {"current-event": {"status": {"id": "live"}, "message": "test"}}
         # return jsonify({"status": "success", "online": "true", "Version": "te-18f25613-36778-ue4-374f864b",
         #                "ProjectID": "F72FA5E64FA43E878DC72896AD677FB5",
         #                "DefaultFactoryName": "HttpNetworkReplayStreaming", "ServeMatchDelayInMin": "30.0f"})
@@ -271,11 +315,11 @@ def leaderboard_get_scores():
     if request.method == "POST":
         print("Responded to leaderboard getScores api call POST")
         logger.graylog_logger(level="info", handler="general-leaderboard-get-scores", message=f"Leaderboard getScores: {request.get_json()}")
-        return jsonify({"status": "success"})
+        return "", 200
     else:
         try:
             print("Responded to leaderboard getScores api call GET")
-            return jsonify({"status": "success", "scores": []})
+            return "", 200
         except TimeoutError:
             print("Timeout error")
             return jsonify({"status": "error"})
