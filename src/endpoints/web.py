@@ -28,7 +28,7 @@ def debug_user(steamid):
         'debug/user.html',
         is_id_set=True,
         is_not_found=False,
-        steam_id=request.args.get('steamid'),
+        steam_id=user_data.get('steamid'),
         eula=user_data.get('eula'),
         currency_blood_cells=user_data.get('currency_blood_cells'),
         currency_ink_cells=user_data.get('currency_ink_cells'),
