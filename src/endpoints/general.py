@@ -92,12 +92,12 @@ def content_version_latest(version):
         logger.graylog_logger(level="error", handler="general-content-version", message=f"Error in content_version_latest: {e}")
 
 
-@app.route("/gameservers.dev", methods=["POST"])
+@app.route("/gameservers.dev", methods=["POST", "GET"])
 def gameservers_dev():
     get_remote_ip()
     try:
         print("Responded to Gameserver event api call POST")
-        # graylog_logger(request.get_json(), "warning")
+        # logger.graylog_logger(level="info", handler="logging_gameservers-dev", message=request.get_json())
         return jsonify({"status": "success"})
     except TimeoutError:
         print("Timeout error")
@@ -120,6 +120,20 @@ def gameservers_uat():
         # logger.graylog_logger(level="error", handler="general-gameserver-dev", message=f"Error in gameservers_dev: {e}")
         print(e)
         return jsonify({"status": "error"})
+
+
+@app.route("/gameservers.live", methods=["POST", "GET"])
+def gameservers_live():
+    get_remote_ip()
+    try:
+        print("Responded to Gameserver event api call X")
+        # graylog_logger(request.get_json(), "warning")
+        return jsonify({"status": "success"})
+    except TimeoutError:
+        print("Timeout error")
+        return jsonify({"status": "error"})
+    except Exception as e:
+        logger.graylog_logger(level="error", handler="general-gameserver-dev", message=f"Error in gameservers_dev: {e}")
 
 
 @app.route("/api/v1/config/UseMirrorsMM_Steam", methods=["GET"])
@@ -152,7 +166,7 @@ def crashreporter_ping():
 def tex_get():
     get_remote_ip()
     try:
-        return jsonify({"current-event": {}, "status": {}, "id": "live", "message": "test"})
+        return jsonify({"current-event": {}, "status": {}, "id": "live", "message": "Warning msg 1"})
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
@@ -190,7 +204,7 @@ def services_tex():
     get_remote_ip()
     try:
         print("Responded to tex api call GET")
-        return {"current-event": {"status": {"id": "live"}, "message": "test"}}
+        return {"current-event": {"status": {"id": "live"}, "message": "Warning MSG 2"}} # Alpha 2 WARNING Msg text?!?!
         # return jsonify({"status": "success", "online": "true", "Version": "te-18f25613-36778-ue4-374f864b",
         #                "ProjectID": "F72FA5E64FA43E878DC72896AD677FB5",
         #                "DefaultFactoryName": "HttpNetworkReplayStreaming", "ServeMatchDelayInMin": "30.0f"})
@@ -305,7 +319,7 @@ def leaderboard_get_scores():
     if request.method == "POST":
         print("Responded to leaderboard getScores api call POST")
         logger.graylog_logger(level="info", handler="general-leaderboard-get-scores", message=f"Leaderboard getScores: {request.get_json()}")
-        return jsonify({"data": []})
+        return jsonify({"playerID": "a-1-b-2", "PlayerName": "Hans", "Rank": 1, "Score": 10,  "Percentile": 1})
     else:
         try:
             print("Responded to leaderboard getScores api call GET")
