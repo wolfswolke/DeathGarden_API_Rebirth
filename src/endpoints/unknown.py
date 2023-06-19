@@ -65,7 +65,7 @@ def catalog_get(game_version):
             2,
             ""
          ],
-         "Gender":0
+         "Gender":1
       }
    }
 ])
