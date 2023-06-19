@@ -38,7 +38,9 @@ class Mongo:
                     'currency_blood_cells': 0,
                     'currency_iron': 0,
                     'currency_ink_cells': 0,
-                    'unlocked_items': []
+                    'unlocked_items': [],
+                    'is_banned': False,
+                    'special_unlocks': []
                 }
 
                 self.dyn_collection.insert_one(new_document)
@@ -108,6 +110,26 @@ class Mongo:
         except Exception as e:
             print(e)
             return {"status": "error", "message": "Error in mongodb_handler"}
+
+    def get_data_with_list(self, login, items, server, db, collection):
+        try:
+            document = {}
+            self.dyn_server = server
+            self.dyn_db = db
+            self.dyn_collection = collection
+            client = pymongo.MongoClient(self.dyn_server)
+            self.dyn_db = client[self.dyn_db]
+            self.dyn_collection = self.dyn_db[self.dyn_collection]
+            existing_document = self.dyn_collection.find_one({"userid": login})
+            if existing_document:
+                for item in items:
+                    document[item] = existing_document.get(item)
+            else:
+                print(f"No user found with userId: {login}")
+                return None
+        except Exception as e:
+            print(e)
+            return None
 
 
 mongo = Mongo()
