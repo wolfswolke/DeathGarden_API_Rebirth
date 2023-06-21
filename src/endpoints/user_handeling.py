@@ -2,6 +2,7 @@ from flask_definitions import *
 import requests
 from logic.mongodb_handler import mongo
 from logic.time_handler import get_time
+from DataModels.Steam.LoginModel import SteamLoginResponse
 
 global steam_api_key, mongo_db, mongo_collection, mongo_host
 
@@ -13,6 +14,8 @@ def steam_login_function():
         response = requests.get(
             'https://api.steampowered.com/ISteamUserAuth/AuthenticateUserTicket/v1/?key={}&ticket={}&appid={}'.format(
                 steam_api_key, steam_session_token, appid))
+        steam_login_response: SteamLoginResponse = SteamLoginResponse(response)
+
         if response.json() == {"response":{"error":{"errorcode":102,"errordesc":"Ticket for other app"}}}:
             appid = 854040
             response = requests.get(

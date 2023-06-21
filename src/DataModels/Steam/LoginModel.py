@@ -1,4 +1,3 @@
-from __future__ import annotations
 from requests import Response
 from datetime import datetime
 import json
@@ -10,12 +9,20 @@ class FriendsFirstSyncModel:
     def __init__(self, steam: bool):
         self.steam = steam
 
+    def to_json(self) -> str:
+        """Converts class to json string"""
+        return json.dumps({"steam": self.steam})
+
 
 class FixedFriendsUSerPlatformId:
     steam: bool
 
     def __init__(self, steam: bool):
         self.steam = steam
+
+    def to_json(self) -> str:
+        """Converts class to json string"""
+        return json.dumps({"steam": self.steam})
 
 
 class SteamProvider:
@@ -28,6 +35,16 @@ class SteamProvider:
         self.provider_name = json_object['providerName']
         self.user_id = json_object['userId']
 
+    def to_json(self) -> str:
+        """Converts object to json string"""
+        return json.dumps(
+            {
+                "providerId": self.provider_id,
+                "providerName": self.provider_name,
+                "userId": self.user_id,
+            }
+        )
+
 
 class ProviderListEntry:
     provider_name: str
@@ -36,6 +53,15 @@ class ProviderListEntry:
     def __init__(self, json_data):
         self.provider_name = json_data['providerName']
         self.provider_id = json_data['providerId']
+
+    def to_json(self) -> str:
+        """Converts class to json string"""
+        return json.dumps(
+            {
+                "providerName": self.provider_name,
+                "providerId": self.provider_id,
+            }
+        )
 
 
 class TriggerResult:
@@ -46,6 +72,14 @@ class TriggerResult:
         self.success = json_data['success']
         self.error = json_data['error']
 
+    def to_json(self) -> str:
+        """Converts class to json string"""
+        return json.dumps(
+            {
+                "success": self.success,
+                "error": self.error,
+            }
+        )
 
 class SteamLoginResponse:
     # Response Parameters
@@ -96,3 +130,27 @@ class SteamLoginResponse:
     def is_successfully_parsed(self) -> bool:
         """Returns if the Parsing was successfull"""
         return self.successfully_parsed
+
+    def to_json(self) -> json:
+        providers: list = []
+
+        for entry in self.providers:
+            providers.append(entry.to_json())
+
+        return_json = {
+                "preferredLanguage": self.preferred_language,
+                "friendsFirstSync": self.friends_first_sync.to_json(),
+                "fixedMyFriendsUserPlatformId": self.fixed_friends_user_platform_id.to_json(),
+                "id": self.user_id,
+                "provider": self.provider.to_json(),
+                "providers": providers,
+                "friends": self.friends,
+                "triggerResults": self.trigger_results.to_json(),
+                "tokenId": self.token_id,
+                "generated": self.generation_time.timestamp(),
+                "expire": self.expiration_time.timestamp(),
+                "userId": self.user_id,
+                "token": self.token,
+            }
+        return json.dumps(return_json)
+
