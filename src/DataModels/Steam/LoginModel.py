@@ -1,6 +1,10 @@
-from requests import Response
-from datetime import datetime
+from flask_definitions import *
+import requests
+from datetime import datetime, timedelta
+from logic.mongodb_handler import mongo
 import json
+
+global steam_api_key, mongo_db, mongo_host, mongo_collection
 
 
 class FriendsFirstSyncModel:
@@ -30,11 +34,6 @@ class SteamProvider:
     provider_name: str
     user_id: str
 
-    def __init__(self, json_object):
-        self.provider_id = json_object['providerId']
-        self.provider_name = json_object['providerName']
-        self.user_id = json_object['userId']
-
     def to_json(self) -> str:
         """Converts object to json string"""
         return json.dumps(
@@ -50,10 +49,6 @@ class ProviderListEntry:
     provider_name: str
     provider_id: str
 
-    def __init__(self, json_data):
-        self.provider_name = json_data['providerName']
-        self.provider_id = json_data['providerId']
-
     def to_json(self) -> str:
         """Converts class to json string"""
         return json.dumps(
@@ -68,10 +63,6 @@ class TriggerResult:
     success: list = []
     error: list = []
 
-    def __init__(self, json_data):
-        self.success = json_data['success']
-        self.error = json_data['error']
-
     def to_json(self) -> str:
         """Converts class to json string"""
         return json.dumps(
@@ -81,55 +72,70 @@ class TriggerResult:
             }
         )
 
+
 class SteamLoginResponse:
-    # Response Parameters
-    preferred_language: str
-    friends_first_sync: FriendsFirstSyncModel
-    fixed_friends_user_platform_id: FixedFriendsUSerPlatformId
-    id: str
-    provider: SteamProvider
-    providers: list[ProviderListEntry]
-    friends: list = []  # not implemented yet, maybe later
-    trigger_results: TriggerResult
-    token_id: str
-    generation_time: datetime
-    expiration_time: datetime
+    APP_ID = 555440
+    APP_ID_SOFTLAUNCH = 854040
+
+    # User id's and tokens
+    steam_id: str
     user_id: str
     token: str
-    successfully_parsed: bool = False
 
-    def __init__(self, response: Response):
-        """ Tries to parse a response to the Model, check if the parse was successfull with is_successfully_parsed()"""
+    # stuff the game wants
+    preferred_language: str = "en"
+    friends_first_sync: FriendsFirstSyncModel(True)
+    fixed_friends_user_platform_id: FixedFriendsUSerPlatformId(True)
 
-        json_data = json.loads(response.json())
-        try:
-            self.preferred_language = json_data['preferredLanguage']
-            self.friends_first_sync = FriendsFirstSyncModel(json_data['friendsFirstSync']['steam'])
-            self.fixed_friends_user_platform_id = FixedFriendsUSerPlatformId(
-                json_data['fixedMyFriendsUserPlatformId']['steam'])
-            self.id = json_data['id']
-            self.provider = SteamProvider(json_data['provider'])
+    provider: SteamProvider
+    providers: list[ProviderListEntry]
 
-            # Loop over Providers and add them to our array
-            providers: list = json_data['providers']
-            for entry in providers:
-                self.providers.append(ProviderListEntry(entry))
+    friends: list = []  # not implemented yet, maybe later
+    trigger_results: TriggerResult = TriggerResult()
 
-            self.friends = json_data['friends']
-            self.trigger_results = json_data['triggerResults']
-            self.token_id = json_data['tokenId']
-            self.generation_time = datetime.fromtimestamp(json_data['generated'])
-            self.expiration_time = datetime.fromtimestamp(json_data['expire'])
-            self.user_id = json_data['userId']
-            self.token = json_data['token']
-            self.successfully_parsed = True
+    generation_time: datetime
+    expiration_time: datetime
 
-        except TypeError as e:
-            print("Could not parse or fully parse Response in SteamLoginResponse Class")
+    def __init__(self, steam_session_token):
+        """Makes a request to the steam api and generates a response for the game"""
 
-    def is_successfully_parsed(self) -> bool:
-        """Returns if the Parsing was successfull"""
-        return self.successfully_parsed
+        response = requests.get(self.get_url(steam_api_key, steam_session_token, self.APP_ID))
+        json_body = response.json()
+
+        if "error" in json_body["response"]:
+            error_code = json_body["response"]["error"]["errorcode"]
+            print("Retrieving Steam ID failed, Error Code:{}, {}".format(
+                error_code,
+                json_body["response"]["error"]["errordesc"],
+            )
+            )
+
+            if error_code == 102:
+                print("Known error code, trying with alternative App ID")
+                response = requests.get(self.get_url(steam_api_key, steam_session_token, self.APP_ID_SOFTLAUNCH))
+
+        self.steam_id = response.json()["response"]["params"]["steamid"]
+
+        self.user_id, self.token = mongo.user_db_handler(self.steam_id, mongo_host, mongo_db, mongo_collection)
+        self.generation_time = datetime.now()
+        self.expiration_time = datetime.now() + timedelta(days=1)
+
+        # Set Provider
+        provider: SteamProvider = SteamProvider()
+        provider.provider_id = self.steam_id
+        provider.provider_name = "steam"
+        provider.user_id = self.user_id
+        self.provider = provider
+
+        # set Providers Array
+        providers_entry: ProviderListEntry = ProviderListEntry()
+        providers_entry.provider_id = self.steam_id
+        providers_entry.provider_name = "steam"
+        self.providers.append(providers_entry)
+
+        logger.graylog_logger(level="info", handler="steam_login", message="User {} logged in".format(self.steam_id))
+        # Read: Doc -> AUTH
+        # The Client does not validate this and just uses it.
 
     def to_json(self) -> json:
         providers: list = []
@@ -138,25 +144,24 @@ class SteamLoginResponse:
             providers.append(entry.to_json())
 
         return_json = {
-                "preferredLanguage": self.preferred_language,
-                "friendsFirstSync": self.friends_first_sync.to_json(),
-                "fixedMyFriendsUserPlatformId": self.fixed_friends_user_platform_id.to_json(),
-                "id": self.user_id,
-                "provider": self.provider.to_json(),
-                "providers": providers,
-                "friends": self.friends,
-                "triggerResults": self.trigger_results.to_json(),
-                "tokenId": self.token_id,
-                "generated": self.generation_time.timestamp(),
-                "expire": self.expiration_time.timestamp(),
-                "userId": self.user_id,
-                "token": self.token,
-            }
+            "preferredLanguage": self.preferred_language,
+            "friendsFirstSync": self.friends_first_sync.to_json(),
+            "fixedMyFriendsUserPlatformId": self.fixed_friends_user_platform_id.to_json(),
+            "id": self.user_id,
+            "provider": self.provider.to_json(),
+            "providers": providers,
+            "friends": self.friends,
+            "triggerResults": self.trigger_results.to_json(),
+            "tokenId": self.user_id,
+            "generated": self.generation_time.timestamp(),
+            "expire": self.expiration_time.timestamp(),
+            "userId": self.user_id,
+            "token": self.token,
+        }
         return json.dumps(return_json)
 
-
     @staticmethod
-    def get_url(steam_api_key: str, steam_session_token: str, app_id: int):
+    def get_url(api_key: str, steam_session_token: str, app_id: int):
         return 'https://api.steampowered.com/ISteamUserAuth/AuthenticateUserTicket/v1/?key={}&ticket={}&appid={}'.format(
-            steam_api_key, steam_session_token, app_id
+            api_key, steam_session_token, app_id
         )
