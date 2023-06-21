@@ -134,7 +134,10 @@ def challenges_get_challenges():
     try:
         print("Responded to challenges get challenges api call POST")
         logger.graylog_logger(level="info", handler="challenges_get_challenges", message=request.get_json())
-        return jsonify({"Id": "C90F72FC4D61B1F2FBC73F8A4685EA41", "Type": 2, "Title": "Hunter_DroneCharger_Name", "Body": "Hunter_DroneCharger_DESC", "Progress": 1, "ValueToReach": 10, "TimeLeft": 1440000000, "ShouldShowCompleteAnimation": True, "Rewards": [{"Type": "", "Id": "ECCBA78D4055676F9C17D79B9D5FA2D4", "Amount": 1.0, "Claimed": False}]})
+        return jsonify({"Id": "ECCBA78D4055676F9C17D79B9D5FA2D4", "Type": 2, "Title": "Hunter_DroneCharger_Name",
+                        "Body": "Hunter_DroneCharger_DESC", "Progress": 1, "ValueToReach": 10, "TimeLeft": 1440000000,
+                        "ShouldShowCompleteAnimation": True, "Rewards":
+                            [{"Type": "", "Id": "C90F72FC4D61B1F2FBC73F8A4685EA41", "Amount": 1.0, "Claimed": False}]})
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
@@ -150,7 +153,8 @@ def inventories():
         print(request.cookies.get('bhvrSession'))
         userid = request.cookies.get('bhvrSession')
         # return jsonify({"code":200,"message":"OK","data":{"playerId":userid,"inventory":[{"objectId":"Runner.Ink","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Runner.Ghost","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Runner.Smoke","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Runner.Sawbones","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Runner.Switch","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Runner.Dash","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Hunter.Stalker","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Hunter.Poacher","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Hunter.Inquisitor","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Hunter.Mass","quantity":1,"lastUpdateAt":1665866946},{"objectId":"HairColor.White","quantity":1,"lastUpdateAt":1665866946},{"objectId":"HairColor.Red","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Class.Hunter","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Class.HunterTypeA","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Class.HunterTypeB","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Class.HunterTypeC","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Class.HunterTypeD","quantity":1,"lastUpdateAt":1665866946},{"objectId":"HairColor.Auburn","quantity":1,"lastUpdateAt":1665866946},{"objectId":"HairColor.Black","quantity":1,"lastUpdateAt":1665866946},{"objectId":"HairColor.Brown","quantity":1,"lastUpdateAt":1665866946},{"objectId":"HairColor.Blond","quantity":1,"lastUpdateAt":1665866946},{"objectId":"HairColor.Gray","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Class.Runner","quantity":1,"lastUpdateAt":1665866946},{"objectId":"ClassVariation.HT.ShortRange","quantity":1,"lastUpdateAt":1665866946},{"objectId":"ClassVariation.HT.MediumRange","quantity":1,"lastUpdateAt":1665866946},{"objectId":"ClassVariation.HT.LongRange","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Gender","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Gender.Male","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Gender.Female","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Weapon","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Weapon.ICR","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Weapon.BareFist","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Weapon.Bow","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Weapon.EmptyHands","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Mod.NPI","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Mod.Bow","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Consumable","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Consumable.AmmoPack","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Consumable.MedPack","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Consumable.RepairKit","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Color.Blue","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Color.Green","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Color.Yellow","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Color.Orange","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Color.Red","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Color.Purple","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Color.Pink","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Color.White","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Accessory","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Accessory.Armour","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Accessory.Bonus","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Accessory.Wargear1","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Accessory.Wargear2","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Accessory.Perk","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Accessory.Trinket","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Accessory.CaptureKey","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Accessory.Standard","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Accessory.JumpPack","quantity":1,"lastUpdateAt":1665866946},{"objectId":"RewardBox","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Ability","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Ability.Fade","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Ability.SpawnTurret","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Ability.Supercharge","quantity":1,"lastUpdateAt":1665866946},{"objectId":"DifficultyLevel.Normal","quantity":1,"lastUpdateAt":1665866946},{"objectId":"DifficultyLevel.Hard","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Warlord","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Role.AutonomousProxy","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Role.SimulatedProxy","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Markable","quantity":1,"lastUpdateAt":1665866946},{"objectId":"LifeTimeOwner","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Revealable","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Weapon.AssaultRifle","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Mod.Assaultrifle.Top","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Mod.Assaultrifle.Front","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Mod.Assaultrifle.Rear","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Mod.Assaultrifle.Muzzle","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Mod.Assaultrifle.Sight","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Mod.Assaultrifle.Handle","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Mod.Assaultrifle.Ammo","quantity":1,"lastUpdateAt":1665866946},{"objectId":"SkinTone","quantity":1,"lastUpdateAt":1665866946},{"objectId":"SkinTone.Expresso","quantity":1,"lastUpdateAt":1665866946},{"objectId":"SkinTone.Cocoa","quantity":1,"lastUpdateAt":1665866946},{"objectId":"SkinTone.Mocha","quantity":1,"lastUpdateAt":1665866946},{"objectId":"SkinTone.Toffee","quantity":1,"lastUpdateAt":1665866946},{"objectId":"SkinTone.Dolce","quantity":1,"lastUpdateAt":1665866946},{"objectId":"SkinTone.Chai","quantity":1,"lastUpdateAt":1665866946},{"objectId":"SkinTone.Honey","quantity":1,"lastUpdateAt":1665866946},{"objectId":"SkinTone.Caramel","quantity":1,"lastUpdateAt":1665866946},{"objectId":"SkinTone.Latte","quantity":1,"lastUpdateAt":1665866946},{"objectId":"SkinTone.Peaches","quantity":1,"lastUpdateAt":1665866946},{"objectId":"SkinTone.Creme","quantity":1,"lastUpdateAt":1665866946},{"objectId":"SkinTone.Milk","quantity":1,"lastUpdateAt":1665866946},{"objectId":"WeaponType.ShortRange","quantity":1,"lastUpdateAt":1665866946},{"objectId":"WeaponType.MediumRange","quantity":1,"lastUpdateAt":1665866946},{"objectId":"WeaponType.LongRange","quantity":1,"lastUpdateAt":1665866946},{"objectId":"HairColor","quantity":1,"lastUpdateAt":1665866946},{"objectId":"UnverifiedAsset","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Ability.Stun","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Censored","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Accessory.Consumable","quantity":1,"lastUpdateAt":1665866946}]}})
-        return jsonify({"code":200,"message":"OK","data":{}})
+        return jsonify({"Code": 200, "Message": "OK", "Data": {"PlayerId": userid, "Inventory": [
+            {"ObjectId": "56B7B6F6473712D0B7A2F992BB2C16CD", "Quantity": 1, "LastUpdateAt": 1687377305}], "NextPage": 0}})
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
@@ -186,13 +190,39 @@ def ban_status():
         logger.graylog_logger(level="error", handler="ban_status", message=str(e))
 
 
+@app.route("/api/v1/players/ban/getbaninfo", methods=["GET"])
+def get_ban_info():
+    get_remote_ip()
+    try:
+        print("Responded to ban status api call GET")
+        return jsonify({"BanPeriod": None, "BanReason": None, "BanStart": None, "BanEnd": None,
+                                    "Confirmed": True})
+    except TimeoutError:
+        print("Timeout error")
+        return jsonify({"status": "error"})
+    except Exception as e:
+        logger.graylog_logger(level="error", handler="ban_status", message=str(e))
+
+
 @app.route("/api/v1/wallet/currencies", methods=["GET"])
 def wallet_currencies():
     get_remote_ip()
     try:
         print("Responded to wallet currencies api call GET")
-        return jsonify([{"Currency": 1, "Amount": 1}, {"Currency": 2, "Amount": 1}, {"Currency": 3, "Amount": 1},
-                        {"Currency": 4, "Amount": 1}, {"Currency": 5, "Amount": 1}])
+        return jsonify([{"Currency": 1, "Amount": 10}, {"Currency": 2, "Amount": 10}, {"Currency": 3, "Amount": 10}])
+    except TimeoutError:
+        print("Timeout error")
+        return jsonify({"status": "error"})
+    except Exception as e:
+        logger.graylog_logger(level="error", handler="currencies", message=str(e))
+
+
+@app.route("/api/v1/wallet/currencies/PROGRESSION_CURRENCY", methods=["GET"])
+def wallet_currencies_progression():
+    get_remote_ip()
+    try:
+        print("Responded to wallet currencies PROGRESSION_CURRENCY api call GET")
+        return jsonify([{"Currency": 1, "Amount": 10}, {"Currency": 2, "Amount": 10}, {"Currency": 3, "Amount": 10}])
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
@@ -253,9 +283,19 @@ def extension_progression_init_or_get_groups():
         print("Responded to extension progression init or get groups api call POST")
         logger.graylog_logger(level="info", handler="logging_initOrGetGroups", message=request.get_json())
         return jsonify({"ProgressionGroups":
-                            [{"ObjectId": "","SchemaVersion": 000,"Version": 000,
-                              "Data": {"Experience": 000,"Version": 000}}],
-                        "MetadataGroups": [{"Version": 000,"Rewards": {"Amount": 0.000, "Id": "0"}}]})
+                            [{"ObjectId": "","SchemaVersion": 1,"Version": 1,
+                              "Data": {"Experience": 1,"Version": 1}}],
+                        "MetadataGroups": [{"CharacterId": {"TagName": "Runner.Smoke"}, "PrestigeLevel": 1,
+                                            "Equipment": ["Primary Weapon","Bonus 1","Bonus 2","Perk 1",
+                                                          "Perk 2","Ability"],
+                                            "EquippedPerks": ["20FF1865462FD26B0253A08F18EFAA10",
+                                                              "20FF1865-462FD26B-0253A08F-18EFAA10"],
+                                            "EquippedPowers": ["C8AF3D534973F82FADBB40BDA96F9DCD"],
+                                            "EquippedWeapons": ["492232504161420C872A0F82FC16ACDB"],
+                                            "EquippedBonuses": ["1E08AFFA485E92BAFF2C1BB85CEFB81E",
+                                                                "1F5CD9004224C56746D81991AA40448A"],
+                                            "PickedChallanges": [{"ItemId": "Progression_Shimmy",
+                                                                  "Name": "Runner_ProgressionSpecificShimmy_Name"}]}]})
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
