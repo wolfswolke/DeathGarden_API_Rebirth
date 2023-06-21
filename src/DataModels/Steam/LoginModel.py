@@ -154,3 +154,9 @@ class SteamLoginResponse:
             }
         return json.dumps(return_json)
 
+
+    @staticmethod
+    def get_url(steam_api_key: str, steam_session_token: str, app_id: int):
+        return 'https://api.steampowered.com/ISteamUserAuth/AuthenticateUserTicket/v1/?key={}&ticket={}&appid={}'.format(
+            steam_api_key, steam_session_token, app_id
+        )
