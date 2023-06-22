@@ -34,13 +34,21 @@ class Mongo:
                     'userId': userId,
                     'token': token,
                     'eula': False,
-                    'xp': 0,
+                    'account_xp': 0,
+                    'prestige_xp': 0,
+                    'runner_xp': 0,
+                    'hunter_xp': 0,
                     'currency_blood_cells': 0,
                     'currency_iron': 0,
                     'currency_ink_cells': 0,
                     'unlocked_items': [],
                     'is_banned': False,
-                    'special_unlocks': []
+                    'ban_reason': "NoReasonGiven",
+                    'ban_start': 2177449139,
+                    'ban_expire': 253392484149,
+                    'special_unlocks': [],
+                    'finished_challanges': [],
+                    'open_challanges': []
                 }
 
                 self.dyn_collection.insert_one(new_document)
@@ -111,22 +119,30 @@ class Mongo:
             print(e)
             return {"status": "error", "message": "Error in mongodb_handler"}
 
-    def get_data_with_list(self, login, items, server, db, collection):
+    def get_data_with_list(self, login, login_steam, items, server, db, collection):
         try:
             document = {}
+            login = str(login)
             self.dyn_server = server
             self.dyn_db = db
             self.dyn_collection = collection
             client = pymongo.MongoClient(self.dyn_server)
             self.dyn_db = client[self.dyn_db]
             self.dyn_collection = self.dyn_db[self.dyn_collection]
-            existing_document = self.dyn_collection.find_one({"userid": login})
+            if login_steam:
+                existing_document = self.dyn_collection.find_one({'steamid': login})
+            else:
+                existing_document = self.dyn_collection.find_one({"userId": login})
             if existing_document:
                 for item in items:
                     document[item] = existing_document.get(item)
             else:
-                print(f"No user found with userId: {login}")
+                if login_steam:
+                    print(f"No user found with steamid: {login}")
+                else:
+                    print(f"No user found with userId: {login}")
                 return None
+            return document
         except Exception as e:
             print(e)
             return None

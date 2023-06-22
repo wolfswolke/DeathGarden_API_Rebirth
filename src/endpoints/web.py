@@ -35,5 +35,14 @@ def debug_user(steamid):
         currency_iron=user_data.get('currency_iron'),
         unlocked_items=user_data.get('unlocked_items'),
         userId=user_data.get('userId'),
-        xp=user_data.get('xp')
+        account_xp=user_data.get('account_xp'),
+        runner_xp=user_data.get('runner_xp'),
+        hunter_xp=user_data.get('hunter_xp'),
+        is_banned=user_data.get('is_banned'),
+        ban_reason=user_data.get('ban_reason'),
+        ban_start=user_data.get('ban_start'),
+        ban_expire=user_data.get('ban_expire'),
+        special_unlocks=user_data.get('special_unlocks'),
+        finished_challanges=user_data.get('finished_challanges'),
+        open_challanges=user_data.get('open_challanges')
     )
