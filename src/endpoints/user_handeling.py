@@ -154,7 +154,25 @@ def inventories():
         userid = request.cookies.get('bhvrSession')
         # return jsonify({"code":200,"message":"OK","data":{"playerId":userid,"inventory":[{"objectId":"Runner.Ink","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Runner.Ghost","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Runner.Smoke","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Runner.Sawbones","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Runner.Switch","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Runner.Dash","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Hunter.Stalker","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Hunter.Poacher","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Hunter.Inquisitor","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Hunter.Mass","quantity":1,"lastUpdateAt":1665866946},{"objectId":"HairColor.White","quantity":1,"lastUpdateAt":1665866946},{"objectId":"HairColor.Red","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Class.Hunter","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Class.HunterTypeA","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Class.HunterTypeB","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Class.HunterTypeC","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Class.HunterTypeD","quantity":1,"lastUpdateAt":1665866946},{"objectId":"HairColor.Auburn","quantity":1,"lastUpdateAt":1665866946},{"objectId":"HairColor.Black","quantity":1,"lastUpdateAt":1665866946},{"objectId":"HairColor.Brown","quantity":1,"lastUpdateAt":1665866946},{"objectId":"HairColor.Blond","quantity":1,"lastUpdateAt":1665866946},{"objectId":"HairColor.Gray","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Class.Runner","quantity":1,"lastUpdateAt":1665866946},{"objectId":"ClassVariation.HT.ShortRange","quantity":1,"lastUpdateAt":1665866946},{"objectId":"ClassVariation.HT.MediumRange","quantity":1,"lastUpdateAt":1665866946},{"objectId":"ClassVariation.HT.LongRange","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Gender","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Gender.Male","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Gender.Female","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Weapon","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Weapon.ICR","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Weapon.BareFist","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Weapon.Bow","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Weapon.EmptyHands","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Mod.NPI","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Mod.Bow","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Consumable","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Consumable.AmmoPack","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Consumable.MedPack","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Consumable.RepairKit","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Color.Blue","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Color.Green","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Color.Yellow","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Color.Orange","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Color.Red","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Color.Purple","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Color.Pink","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Color.White","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Accessory","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Accessory.Armour","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Accessory.Bonus","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Accessory.Wargear1","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Accessory.Wargear2","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Accessory.Perk","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Accessory.Trinket","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Accessory.CaptureKey","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Accessory.Standard","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Accessory.JumpPack","quantity":1,"lastUpdateAt":1665866946},{"objectId":"RewardBox","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Ability","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Ability.Fade","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Ability.SpawnTurret","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Ability.Supercharge","quantity":1,"lastUpdateAt":1665866946},{"objectId":"DifficultyLevel.Normal","quantity":1,"lastUpdateAt":1665866946},{"objectId":"DifficultyLevel.Hard","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Warlord","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Role.AutonomousProxy","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Role.SimulatedProxy","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Markable","quantity":1,"lastUpdateAt":1665866946},{"objectId":"LifeTimeOwner","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Revealable","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Weapon.AssaultRifle","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Mod.Assaultrifle.Top","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Mod.Assaultrifle.Front","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Mod.Assaultrifle.Rear","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Mod.Assaultrifle.Muzzle","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Mod.Assaultrifle.Sight","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Mod.Assaultrifle.Handle","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Mod.Assaultrifle.Ammo","quantity":1,"lastUpdateAt":1665866946},{"objectId":"SkinTone","quantity":1,"lastUpdateAt":1665866946},{"objectId":"SkinTone.Expresso","quantity":1,"lastUpdateAt":1665866946},{"objectId":"SkinTone.Cocoa","quantity":1,"lastUpdateAt":1665866946},{"objectId":"SkinTone.Mocha","quantity":1,"lastUpdateAt":1665866946},{"objectId":"SkinTone.Toffee","quantity":1,"lastUpdateAt":1665866946},{"objectId":"SkinTone.Dolce","quantity":1,"lastUpdateAt":1665866946},{"objectId":"SkinTone.Chai","quantity":1,"lastUpdateAt":1665866946},{"objectId":"SkinTone.Honey","quantity":1,"lastUpdateAt":1665866946},{"objectId":"SkinTone.Caramel","quantity":1,"lastUpdateAt":1665866946},{"objectId":"SkinTone.Latte","quantity":1,"lastUpdateAt":1665866946},{"objectId":"SkinTone.Peaches","quantity":1,"lastUpdateAt":1665866946},{"objectId":"SkinTone.Creme","quantity":1,"lastUpdateAt":1665866946},{"objectId":"SkinTone.Milk","quantity":1,"lastUpdateAt":1665866946},{"objectId":"WeaponType.ShortRange","quantity":1,"lastUpdateAt":1665866946},{"objectId":"WeaponType.MediumRange","quantity":1,"lastUpdateAt":1665866946},{"objectId":"WeaponType.LongRange","quantity":1,"lastUpdateAt":1665866946},{"objectId":"HairColor","quantity":1,"lastUpdateAt":1665866946},{"objectId":"UnverifiedAsset","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Ability.Stun","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Censored","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Accessory.Consumable","quantity":1,"lastUpdateAt":1665866946}]}})
         return jsonify({"Code": 200, "Message": "OK", "Data": {"PlayerId": userid, "Inventory": [
-            {"ObjectId": "56B7B6F6473712D0B7A2F992BB2C16CD", "Quantity": 1, "LastUpdateAt": 1687377305}], "NextPage": 0}})
+            {"ObjectId": "56B7B6F6473712D0B7A2F992BB2C16CD", "Quantity": 1, "LastUpdateAt": 1687377305},
+            {"ObjectId": "56B7B6F6473712D0B7A2F992BB2C16CD", "Quantity": 1, "LastUpdateAt": 1687377305},
+            {"ObjectId": "20FF1865462FD26B0253A08F18EFAA10", "Quantity": 1, "LastUpdateAt": 1687377305},
+            {"ObjectId": "C8AF3D534973F82FADBB40BDA96F9DCD", "Quantity": 1, "LastUpdateAt": 1687377305},
+            {"ObjectId": "492232504161420C872A0F82FC16ACDB", "Quantity": 1, "LastUpdateAt": 1687377305},
+            {"ObjectId": "1E08AFFA485E92BAFF2C1BB85CEFB81E", "Quantity": 1, "LastUpdateAt": 1687377305},
+            {"ObjectId": "20FF1865462FD26B0253A08F18EFAA10", "Quantity": 1, "LastUpdateAt": 1687377305},
+            {"ObjectId": "C8AF3D534973F82FADBB40BDA96F9DCD", "Quantity": 1, "LastUpdateAt": 1687377305},
+            {"ObjectId": "492232504161420C872A0F82FC16ACDB", "Quantity": 1, "LastUpdateAt": 1687377305},
+            {"ObjectId": "1E08AFFA485E92BAFF2C1BB85CEFB81E", "Quantity": 1, "LastUpdateAt": 1687377305},
+            {"ObjectId": "1F5CD9004224C56746D81991AA40448A", "Quantity": 1, "LastUpdateAt": 1687377305},
+            {"ObjectId": "F055513D48AACBAC280B2AA00A984180", "Quantity": 1, "LastUpdateAt": 1687377305},
+            {"ObjectId": "5998C1C548AB7BDA80C87295F2764C5D", "Quantity": 1, "LastUpdateAt": 1687377305},
+            {"ObjectId": "0DC38EC14AA02FC83456E5B02B7B4870", "Quantity": 1, "LastUpdateAt": 1687377305},
+            {"ObjectId": "50D3005B437066E4C4D99F9397CF1B0B", "Quantity": 1, "LastUpdateAt": 1687377305},
+            {"ObjectId": "973C9176404A29F926D13BACB76A2425", "Quantity": 1, "LastUpdateAt": 1687377305},
+            {"ObjectId": "1098BEE241B1515B44013A87EDB16BDC", "Quantity": 1, "LastUpdateAt": 1687377305},
+            {"ObjectId": "EDB6D6B742023AE61AD8718CAC073C0E", "Quantity": 1, "LastUpdateAt": 1687377305}
+        ], "NextPage": 0}})
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
@@ -167,8 +185,17 @@ def progression_groups():
     get_remote_ip()
     try:
         print("Responded to progression groups api call GET")
-        return jsonify({"ObjectId": "",
-                        "SchemaVersion": 11111111, "Version": 11111111, "Data": [{"Level": 1, "Ratio": 0.111}]})  # Don't know. Added as Placeholder.
+        return jsonify({"List": [{"ObjectId": "Runner.Sawbones",
+                                  "SchemaVersion": 11111111,
+                                  "Version": 11111111,
+                                  "Data":
+                                      [{"Level": 1, "Ratio": 0.111}]},
+                                 {"ObjectId": "Hunter.Stalker",
+                                  "SchemaVersion": 11111111,
+                                  "Version": 11111111,
+                                  "Data":
+                                      [{"Level": 1, "Ratio": 0.111}]}
+                                 ]})
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
@@ -179,15 +206,19 @@ def progression_groups():
 @app.route("/api/v1/players/ban/status", methods=["GET"])
 def ban_status():
     get_remote_ip()
+    login_cookie = request.cookies.get("bhvrSession")
     try:
-        print("Responded to ban status api call GET")
-        return jsonify({"IsBanned": False, "BanInfo": {"BanPeriod": 10, "BanReason": "None", "BanStart": 1592247140, "BanEnd": 33464688740,
-                        "Confirmed": True, "Pending": False}})
+        ban_data = mongo.get_data_with_list(login=login_cookie, login_steam=False, items={"is_banned", "ban_reason", "ban_start", "ban_expire"}, server=mongo_host, db=mongo_db, collection=mongo_collection)
+        return jsonify({"IsBanned": ban_data["is_banned"], "BanInfo": {"BanPeriod": 10,
+                                                                       "BanReason": ban_data["ban_reason"],
+                                                                       "BanStart": ban_data["ban_start"],
+                                                                       "BanEnd": ban_data["ban_expire"],
+                                                                       "Confirmed": True, "Pending": False}})
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
-        logger.graylog_logger(level="error", handler="ban_status", message=str(e))
+        logger.graylog_logger(level="error", handler="ban_status", message=e)
 
 
 @app.route("/api/v1/players/ban/getbaninfo", methods=["GET"])
@@ -209,7 +240,7 @@ def wallet_currencies():
     get_remote_ip()
     try:
         print("Responded to wallet currencies api call GET")
-        return jsonify([{"Currency": 1, "Amount": 10}, {"Currency": 2, "Amount": 10}, {"Currency": 3, "Amount": 10}])
+        return jsonify({"wallet":[{"Currency": 1, "Amount": 10}, {"Currency": 2, "Amount": 10}, {"Currency": 3, "Amount": 10}, {"Currency": 4, "Amount": 10}, {"Currency": 5, "Amount": 10}]})
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
@@ -283,19 +314,33 @@ def extension_progression_init_or_get_groups():
         print("Responded to extension progression init or get groups api call POST")
         logger.graylog_logger(level="info", handler="logging_initOrGetGroups", message=request.get_json())
         return jsonify({"ProgressionGroups":
-                            [{"ObjectId": "","SchemaVersion": 1,"Version": 1,
+                            [{"ObjectId": "696969","SchemaVersion": 1,"Version": 1,
+                              "Data": {"Experience": 1,"Version": 1}}, {"ObjectId": "420420420","SchemaVersion": 1,"Version": 1,
                               "Data": {"Experience": 1,"Version": 1}}],
                         "MetadataGroups": [{"CharacterId": {"TagName": "Runner.Smoke"}, "PrestigeLevel": 1,
                                             "Equipment": ["Primary Weapon","Bonus 1","Bonus 2","Perk 1",
                                                           "Perk 2","Ability"],
-                                            "EquippedPerks": ["20FF1865462FD26B0253A08F18EFAA10",
-                                                              "20FF1865-462FD26B-0253A08F-18EFAA10"],
+                                            "EquippedPerks": ["20FF1865462FD26B0253A08F18EFAA10"],
                                             "EquippedPowers": ["C8AF3D534973F82FADBB40BDA96F9DCD"],
                                             "EquippedWeapons": ["492232504161420C872A0F82FC16ACDB"],
                                             "EquippedBonuses": ["1E08AFFA485E92BAFF2C1BB85CEFB81E",
                                                                 "1F5CD9004224C56746D81991AA40448A"],
                                             "PickedChallanges": [{"ItemId": "Progression_Shimmy",
-                                                                  "Name": "Runner_ProgressionSpecificShimmy_Name"}]}]})
+                                                                  "Name": "Runner_ProgressionSpecificShimmy_Name"}]},
+
+                                           {"CharacterId": {"TagName": "Hunter.Stalker"}, "PrestigeLevel": 1,
+                                            "Equipment": ["Primary Weapon", "Bonus 1", "Bonus 2", "Perk 1",
+                                                          "Perk 2", "Ability", "Sidearm"],
+                                            "EquippedPerks": ["F055513D48AACBAC280B2AA00A984180",
+                                                              "5998C1C548AB7BDA80C87295F2764C5D"],
+                                            "EquippedPowers": ["0DC38EC14AA02FC83456E5B02B7B4870"],
+                                            "EquippedWeapons": ["50D3005B437066E4C4D99F9397CF1B0B",
+                                                                "973C9176404A29F926D13BACB76A2425"],
+                                            "EquippedBonuses": ["1098BEE241B1515B44013A87EDB16BDC",
+                                                                "EDB6D6B742023AE61AD8718CAC073C0E"],
+                                            "PickedChallanges": [{"ItemId": "Progression_Turrets_Hunter",
+                                                                  "Name": "Hunter_ProgressionSpecificTurret_Name"}]}
+                                           ]})
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
