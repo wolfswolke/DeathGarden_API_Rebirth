@@ -201,7 +201,7 @@ def services_tex():
     try:
         print("Responded to tex api call GET")
         return {"current-event": {"status": {"id": "live"}, "message": ""}} # Alpha 2 WARNING Msg text?!?!
-        # return jsonify({"status": "success", "online": "true", "Version": "te-18f25613-36778-ue4-374f864b",
+        #return jsonify({"status": "success", "online": "true", "Version": "te-18f25613-36778-ue4-374f864b",
         #                "ProjectID": "F72FA5E64FA43E878DC72896AD677FB5",
         #                "DefaultFactoryName": "HttpNetworkReplayStreaming", "ServeMatchDelayInMin": "30.0f"})
     except TimeoutError:
@@ -301,11 +301,16 @@ def leaderboard_get_scores():
     if request.method == "POST":
         print("Responded to leaderboard getScores api call POST")
         logger.graylog_logger(level="info", handler="general-leaderboard-get-scores", message=f"Leaderboard getScores: {request.get_json()}")
-        return jsonify([{"playerID": "a-1-b-2", "PlayerName": "Hans", "Rank": 1, "Score": 10, "Percentile": 1},
+        return jsonify({"TopScores":{"Scores":[{"playerID": "a-1-b-2", "PlayerName": "Hans", "Rank": 1, "Score": 10, "Percentile": 1},
                         {"playerID": "a-2-b-2", "PlayerName": "Peter", "Rank": 2, "Score": 9, "Percentile": 2},
                         {"playerID": "a-3-b-3", "PlayerName": "Lukas", "Rank": 3, "Score": 8, "Percentile": 3},
                         {"playerID": "a-4-b-4", "PlayerName": "Jonas", "Rank": 4, "Score": 7, "Percentile": 4},
-                        {"playerID": "a-5-b-5", "PlayerName": "Mark", "Rank": 5, "Score": 6, "Percentile": 5}])
+                        {"playerID": "a-5-b-5", "PlayerName": "Mark", "Rank": 5, "Score": 6, "Percentile": 5}]},
+                        "PlayerScores": {"Scores":[{"playerID": "a-1-b-2", "PlayerName": "Hans", "Rank": 1, "Score": 10, "Percentile": 1},
+                        {"playerID": "a-2-b-2", "PlayerName": "Peter", "Rank": 2, "Score": 9, "Percentile": 2},
+                        {"playerID": "a-3-b-3", "PlayerName": "Lukas", "Rank": 3, "Score": 8, "Percentile": 3},
+                        {"playerID": "a-4-b-4", "PlayerName": "Jonas", "Rank": 4, "Score": 7, "Percentile": 4},
+                        {"playerID": "a-5-b-5", "PlayerName": "Mark", "Rank": 5, "Score": 6, "Percentile": 5}]}})
     else:
         try:
             print("Responded to leaderboard getScores api call GET")
