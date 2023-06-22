@@ -96,10 +96,18 @@ class SteamLoginResponse:
     generation_time: datetime
     expiration_time: datetime
 
+    __was_successful: bool = False
+
     def __init__(self, steam_session_token):
         """Makes a request to the steam api and generates a response for the game"""
 
-        response = requests.get(self.get_url(steam_api_key, steam_session_token, self.APP_ID))
+        try:
+            response = requests.get(self.get_url(steam_api_key, steam_session_token, self.APP_ID))
+
+        except TimeoutError as e:
+            print("could not reach Steam API.")
+            return
+
         json_body = response.json()
 
         if "error" in json_body["response"]:
@@ -113,6 +121,13 @@ class SteamLoginResponse:
             if error_code == 102:
                 print("Known error code, trying with alternative App ID")
                 response = requests.get(self.get_url(steam_api_key, steam_session_token, self.APP_ID_SOFTLAUNCH))
+
+            else:
+                raise Exception(
+                    "Could not retrieve users steam ID for unknown reasons\n" +
+                    "Steam Response error code: {}\n".format(error_code) +
+                    "Error Description: {}".format(json_body["response"]["error"]["errordesc"])
+                )
 
         self.steam_id = response.json()["response"]["params"]["steamid"]
 
@@ -138,6 +153,9 @@ class SteamLoginResponse:
         # The Client does not validate this and just uses it.
 
     def to_json(self) -> json:
+        if self.__was_successful:
+            return json.dumps({"status": "error"})
+
         providers: list = []
 
         for entry in self.providers:
