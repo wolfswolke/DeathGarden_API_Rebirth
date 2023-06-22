@@ -28,7 +28,7 @@ def gamenews():
     "RedirectItem": "",
     "RedirectUrl": "",
     "EmbeddedBackgroundImage": "game/UI/ImageAssets/NewsAssets/GeneralAnnouncement_Large",
-    "EmbeddedInGameNewsBackgroundImage": "game/UI/ImageAssets/NewsAssets/ClosedAlphaWelcomseBanner",
+    "EmbeddedInGameNewsBackgroundImage": "game/UI/ImageAssets/NewsAssets/ClosedAlphaWelcomeBanner",
     "EmbeddedInGameNewsThumbnailImage": "game/UI/ImageAssets/NewsAssets/CrossPromo",
     "FromDate": 1655511433,
     "ToDate": 1718669833,
