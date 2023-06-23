@@ -1,24 +1,89 @@
 from flask_definitions import *
 
 
+# Idk if this works but Dev crashes and Live not...
 @app.route("/<game_version>/catalog", methods=["GET"])
 def catalog_get(game_version):
     print("Game Version of Catalog: " + game_version)
     get_remote_ip()
     try:
-        return jsonify({"Result":[{
-         "Id":"56B7B6F6473712D0B7A2F992BB2C16CD",
-         "DisplayName":"Ghost_Shimsmey1_Name ",
-         "Purchasable":True,"Consumable":False,"IsWeapon":False,
-         "InitialQuantity":1,"DefaultCost":{"CurrencyId":3,"Price":10},"EventCostList":{"Name":"","StartDate":1624038140,
-            "EndDate":1718732540,"Cost":{"CurrencyId":3,"Price":10}},"MetaData":{"GameplayTags":{
-            "TagName":"Class.Runner"
-            },"BundleItems":[],"RewardBundleItems":[],"RequiredChallangesToComplete":[],"BundlePartOf":"","PrerequisiteItem":"",
-            "FollowingItem":"","BundleDiscountPercent":69,"MinPlayerLevel":1,"MinCharacterLevel":1,"Origin":2},"Faction":2,
-            "GameplayTagContainer":{"GameplayTags":{
-            "TagName":"Class.Runner"},"ParentTags":{
-            "TagName":"Class.Runner"}},
-            "CustomizationGameplayTagByFaction":[2,""],"Gender":1}]})
+        return jsonify({
+   "data":{
+      "Result":[
+         {
+            "Id":"69055D534DF27180C4B36CAB4B651054",
+            "DisplayName":"Runner_GhostWeaponHeal001_DisplayName",
+            "Purchasable":True,
+            "Consumable":False,
+            "IsWeapon":False,
+            "InitialQuantity":1,
+            "DefaultCost":[
+               {
+                  "CurrencyId":"CurrencyC",
+                  "Price":250
+               }],
+               "EventCostList":[
+                  {
+                     "Name":"",
+                     "StartDate":1656011734,
+                     "EndDate":1684869334,
+                     "Cost":[
+                        {
+                           "CurrencyId":"CurrencyC",
+                           "Price":250
+                        }
+                     ]
+                  }
+               ],
+               "MetaData":{
+                  "GameplayTags":[
+                     {
+                        "TagName":"Weapon.ICR"
+                     }
+                  ],
+                  "BundleItems":[
+                        ""
+                  ],
+                  "RewardBundleItems":[
+                        ""
+                  ],
+                  "RequiredChallengesToComplete":[
+                        ""
+                  ],
+                  "BundlePartOf":"",
+                  "PrerequisiteItem":"",
+                  "FollowingItem":"A1C4E2FB4BC74EB560F431B210C5094C",
+                  "BundleDiscountPercent":10,
+                  "MinPlayerLevel":1,
+                  "MinCharacterLevel":1,
+                  "Origin":"None"
+               },
+               "Faction":"Runner",
+               "GameplayTagContainer":{
+                  "GameplayTags":[
+                     {
+                        "TagName":"Weapon.ICR"
+                     }
+                  ],
+                  "ParentTags":[
+                     {
+                        "TagName":"Runner.Smoke"
+                     }
+                  ]
+               },
+               "CustomizationGameplayTagByFaction":[
+                  "Runner",
+                  {
+                     "TagName":"Class.Runner"
+                  }
+               ],
+               "Gender":"Male"
+         }
+      ]
+   }
+})
+        #return jsonify({"data":[{"categories":["character"],"id":"Dwight","metaData":{"character":"0",
+        #"hiddenIfNotOwned":False,"role":"Runner"},"nonSecure":False,"purchasable":False,"unique":True}]})
 
     except TimeoutError:
         print("Timeout error")
