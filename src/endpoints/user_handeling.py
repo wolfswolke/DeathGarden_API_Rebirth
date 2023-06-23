@@ -42,6 +42,7 @@ def steam_login_function():
         logger.graylog_logger(level="error", handler="steam_login", message=str(e))
 
 
+# This works
 @app.route("/api/v1/auth/provider/steam/login", methods=["POST"])
 def steam_login():
     # Read Doc\SteamAuth.md for more information
@@ -79,7 +80,7 @@ def steam_login():
                                                                                "User-Agent": user_agent, "IP": ip})
         abort(401, "Unauthorized")
 
-
+# Dont know if this works
 @app.route("/api/v1/modifierCenter/modifiers/me", methods=["GET"])
 def modifiers():
     get_remote_ip()
@@ -94,6 +95,7 @@ def modifiers():
         logger.graylog_logger(level="error", handler="modifiers_me", message=str(e))
 
 
+# This works
 @app.route("/moderation/check/username", methods=["POST"])
 def moderation_check_username():
     get_remote_ip()
@@ -113,14 +115,27 @@ def moderation_check_username():
         logger.graylog_logger(level="error", handler="moderation_check_username", message=str(e))
 
 
+# Doesn't work
 @app.route("/api/v1/progression/experience", methods=["POST"])
 def progression_experience():
+    if request.json:
+        print(request.get_json())
     get_remote_ip()
     try:
         # graylog_logger(request.get_json(), "info")
-        return jsonify({'groupExperiences': [{'objectId': 'PlayerProgression', 'experience': 0.57, 'version': 1},
-                                             {'objectId': 'RunnerProgression', 'experience': 0.555, 'version': 1},
-                                             {'objectId': 'HunterProgression', 'experience': 0.67, 'version': 1}]})
+        return jsonify({"List": [
+	{"ObjectId": "PlayerProgression", "SchemaVersion": 11122233344, "Version": 11122233345, "Data": {"ObjectId": "PlayerProgression", "Experience": 100, "Version": 1}},
+	{"ObjectId": "RunnerProgression", "SchemaVersion": 11122233345, "Version": 11122233345, "Data": {"ObjectId": "Runner.Smoke", "Experience": 100, "Version": 1}},
+	{"ObjectId": "RunnerProgression", "SchemaVersion": 11122233346, "Version": 11122233346, "Data": {"ObjectId": "Runner.Ghost", "Experience": 100, "Version": 1}},
+            {"ObjectId": "RunnerProgression", "SchemaVersion": 11122233346, "Version": 11122233346,"Data": {"ObjectId": "Runner.Ink", "Experience": 100, "Version": 1}},
+            {"ObjectId": "RunnerProgression", "SchemaVersion": 11122233346, "Version": 11122233346,"Data": {"ObjectId": "Runner.Sawbones", "Experience": 100, "Version": 1}},
+            {"ObjectId": "RunnerProgression", "SchemaVersion": 11122233346, "Version": 11122233346,"Data": {"ObjectId": "Runner.Switch", "Experience": 100, "Version": 1}},
+            {"ObjectId": "RunnerProgression", "SchemaVersion": 11122233346, "Version": 11122233346,"Data": {"ObjectId": "Runner.Dash", "Experience": 100, "Version": 1}},
+            {"ObjectId": "HunterProgression", "SchemaVersion": 11122233346, "Version": 11122233346,"Data": {"ObjectId": "Hunter.Inquisitor", "Experience": 100, "Version": 1}},
+            {"ObjectId": "HunterProgression", "SchemaVersion": 11122233346, "Version": 11122233346,"Data": {"ObjectId": "Hunter.Stalker", "Experience": 100, "Version": 1}},
+            {"ObjectId": "HunterProgression", "SchemaVersion": 11122233346, "Version": 11122233346,"Data": {"ObjectId": "Hunter.Poacher", "Experience": 100, "Version": 1}},
+            {"ObjectId": "HunterProgression", "SchemaVersion": 11122233346, "Version": 11122233346,"Data": {"ObjectId": "Hunter.Mass", "Experience": 100, "Version": 1}}
+]})
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
@@ -128,6 +143,7 @@ def progression_experience():
         logger.graylog_logger(level="error", handler="progression_experience", message=str(e))
 
 
+# idk dont think it works
 @app.route("/api/v1/extensions/challenges/getChallenges", methods=["POST"])
 def challenges_get_challenges():
     get_remote_ip()
@@ -145,6 +161,7 @@ def challenges_get_challenges():
         logger.graylog_logger(level="error", handler="getChallanges", message=str(e))
 
 
+# idk dont think it works
 @app.route("/api/v1/inventories", methods=["GET"])
 def inventories():
     get_remote_ip()
@@ -180,6 +197,7 @@ def inventories():
         logger.graylog_logger(level="error", handler="inventories", message=str(e))
 
 
+# idk if this works
 @app.route("/api/v1/players/me/splinteredstates/ProgressionGroups", methods=["GET"])
 def progression_groups():
     get_remote_ip()
@@ -203,6 +221,7 @@ def progression_groups():
         logger.graylog_logger(level="error", handler="ProgressionGroups", message=str(e))
 
 
+# This works
 @app.route("/api/v1/players/ban/status", methods=["GET"])
 def ban_status():
     get_remote_ip()
@@ -221,6 +240,7 @@ def ban_status():
         logger.graylog_logger(level="error", handler="ban_status", message=e)
 
 
+# broken. no need to fix... OG DG endpoint. Not needed.
 @app.route("/api/v1/players/ban/getbaninfo", methods=["GET"])
 def get_ban_info():
     get_remote_ip()
@@ -235,12 +255,25 @@ def get_ban_info():
         logger.graylog_logger(level="error", handler="ban_status", message=str(e))
 
 
+# This works
 @app.route("/api/v1/wallet/currencies", methods=["GET"])
 def wallet_currencies():
     get_remote_ip()
     try:
         print("Responded to wallet currencies api call GET")
-        return jsonify({"wallet":[{"Currency": 1, "Amount": 10}, {"Currency": 2, "Amount": 10}, {"Currency": 3, "Amount": 10}, {"Currency": 4, "Amount": 10}, {"Currency": 5, "Amount": 10}]})
+        currencies = mongo.get_data_with_list(login=request.cookies.get("bhvrSession"), login_steam=False,
+                                              items={"currency_blood_cells", "currency_iron", "currency_ink_cells"},
+                                              server=mongo_host, db=mongo_db, collection=mongo_collection)
+        return jsonify({"List":[{"Currency": "CurrencyA", "Balance": currencies["currency_iron"],
+                                 "CurrencyGroup": "SoftCurrencyGroup", "LastRefillTimeStamp": "1684862187"},
+                                {"Currency": "CurrencyB", "Balance": currencies["currency_blood_cells"],
+                                 "CurrencyGroup": "SoftCurrencyGroup", "LastRefillTimeStamp": "1684862187"},
+                                {"Currency": "CurrencyC", "Balance": currencies["currency_ink_cells"],
+                                 "CurrencyGroup": "SoftCurrencyGroup", "LastRefillTimeStamp": "1684862187"},
+                                {"Currency": "HARD_CURRENCY", "Balance": 21,
+                                 "CurrencyGroup": "HardCurrencyGroup", "LastRefillTimeStamp": "1684862187"},
+                                {"Currency": "PROGRESSION_CURRENCY", "Balance": 19,
+                                 "CurrencyGroup": "HardCurrencyGroup", "LastRefillTimeStamp": "1684862187"}]})
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
@@ -248,6 +281,7 @@ def wallet_currencies():
         logger.graylog_logger(level="error", handler="currencies", message=str(e))
 
 
+# Does not work. Old DG endpoint. Not needed.
 @app.route("/api/v1/wallet/currencies/PROGRESSION_CURRENCY", methods=["GET"])
 def wallet_currencies_progression():
     get_remote_ip()
@@ -261,6 +295,7 @@ def wallet_currencies_progression():
         logger.graylog_logger(level="error", handler="currencies", message=str(e))
 
 
+# Dont know if this works. Dont think it does.
 @app.route("/api/v1/players/me/splinteredstates/TheExit_Achievements", methods=["GET"])
 def achievements_get():
     get_remote_ip()
@@ -278,6 +313,7 @@ def achievements_get():
         logger.graylog_logger(level="error", handler="Achievment_handler", message=str(e))
 
 
+# Does not work
 @app.route("/api/v1/messages/count", methods=["GET"])
 def messages_count():
     get_remote_ip()
@@ -290,6 +326,7 @@ def messages_count():
         logger.graylog_logger(level="error", handler="messages_count", message=str(e))
 
 
+# Temp response.
 @app.route("/moderation/check/chat", methods=["POST"])
 def moderation_check_chat():
     get_remote_ip()
@@ -307,6 +344,7 @@ def moderation_check_chat():
         logger.graylog_logger(level="error", handler="moderation_check_chat", message=str(e))
 
 
+# Dont know if this works. Dont think it does.
 @app.route("/api/v1/extensions/progression/initOrGetGroups", methods=["POST"])
 def extension_progression_init_or_get_groups():
     get_remote_ip()
@@ -348,6 +386,7 @@ def extension_progression_init_or_get_groups():
         logger.graylog_logger(level="error", handler="logging_initOrGetGroups", message=str(e))
 
 
+# dont know if this works. Hope it does.
 @app.route("/api/v1/extensions/inventory/unlockSpecialItems", methods=["POST"])
 def inventory_unlock_special_items():
     get_remote_ip()
