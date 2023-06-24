@@ -2,3 +2,6 @@
 src/test/
 src/config/api_config.yaml
 important_stuff.txt
+
+tools/ItemParser/ItemsToParse
+!tools/ItemParser/ItemsToParse/.keep

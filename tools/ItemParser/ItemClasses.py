@@ -34,3 +34,10 @@ class MetaData:
     min_player_level: int
     min_character_level: int
     origin: str
+
+
+class TerminalStyle:
+    RED = "\033[31m"
+    GREEN = "\033[32m"
+    BLUE = "\033[34m"
+    RESET = "\033[0m"
