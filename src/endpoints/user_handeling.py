@@ -188,7 +188,19 @@ def inventories():
             {"ObjectId": "50D3005B437066E4C4D99F9397CF1B0B", "Quantity": 1, "LastUpdateAt": 1687377305},
             {"ObjectId": "973C9176404A29F926D13BACB76A2425", "Quantity": 1, "LastUpdateAt": 1687377305},
             {"ObjectId": "1098BEE241B1515B44013A87EDB16BDC", "Quantity": 1, "LastUpdateAt": 1687377305},
-            {"ObjectId": "EDB6D6B742023AE61AD8718CAC073C0E", "Quantity": 1, "LastUpdateAt": 1687377305}
+            {"ObjectId": "EDB6D6B742023AE61AD8718CAC073C0E", "Quantity": 1, "LastUpdateAt": 1687377305},
+            {"ObjectId": "69055D534DF27180C4B36CAB4B651054", "Quantity": 1, "LastUpdateAt": 1687377305},
+            {"ObjectId": "A1C4E2FB4BC74EB560F431B210C5094C", "Quantity": 1, "LastUpdateAt": 1687377305},
+            {"ObjectId": "89AD14A848DE42DC2A5CAB94BB25FCF9", "Quantity": 1, "LastUpdateAt": 1687377305},
+            {"ObjectId": "895471FA4A8A74AB2FEE16BF35FC9D04", "Quantity": 1, "LastUpdateAt": 1687377305},
+            {"ObjectId": "D7D7D07B4FB0FABDBF8C3CBE62EB6E96", "Quantity": 1, "LastUpdateAt": 1687377305},
+            {"ObjectId": "8AD5A0194A0528BDC957EFABCFF03CA4", "Quantity": 1, "LastUpdateAt": 1687377305},
+            {"ObjectId": "667B362746F7049D78BFC08A996D2876", "Quantity": 1, "LastUpdateAt": 1687377305},
+            {"ObjectId": "8BF4B8E24F4CD5AB9DEA78851D73A0CC", "Quantity": 1, "LastUpdateAt": 1687377305},
+            {"ObjectId": "A82051B5470DC62447DCB0800F756A9E", "Quantity": 1, "LastUpdateAt": 1687377305},
+            {"ObjectId": "5CFA81324913D8C90C16E399A33B3A3A", "Quantity": 1, "LastUpdateAt": 1687377305},
+            {"ObjectId": "755D4DFE40DA1512B01E3D8CFF3C8D4D", "Quantity": 1, "LastUpdateAt": 1687377305}
+
         ], "NextPage": 0}})
     except TimeoutError:
         print("Timeout error")
@@ -228,6 +240,9 @@ def ban_status():
     login_cookie = request.cookies.get("bhvrSession")
     try:
         ban_data = mongo.get_data_with_list(login=login_cookie, login_steam=False, items={"is_banned", "ban_reason", "ban_start", "ban_expire"}, server=mongo_host, db=mongo_db, collection=mongo_collection)
+        if ban_data == None:
+            print("Error in ban_data_database")
+            return jsonify({"status": "error"})
         return jsonify({"IsBanned": ban_data["is_banned"], "BanInfo": {"BanPeriod": 10,
                                                                        "BanReason": ban_data["ban_reason"],
                                                                        "BanStart": ban_data["ban_start"],
