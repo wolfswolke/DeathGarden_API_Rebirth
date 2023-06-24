@@ -19,6 +19,15 @@ class ItemResult:
     customization_gameplay_tag_by_faction: list
     gender: str
 
+    def parse_ability_item(self, json_data: json):
+        """Parse json items with thy Type of "BP_Ability_Item_C\""""
+        properties: json = json_data["BP_Ability_Item_C"]
+        self.id = properties["Guid"].replace('-', '')
+        self.display_name = properties["DisplayName"]["Key"]
+        self.initial_quantity = properties["InitialQuantity"]
+
+        for tag in properties["TagContainer"]:
+            self.meta_data.gameplay_tags.append(GameplayTag(tag))
 
 def create_not_found_message(key: str, object_index) -> str:
     return f'{key} not Found in object {TerminalStyle.BLUE + object_index}'
