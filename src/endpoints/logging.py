@@ -178,10 +178,6 @@ def queue():
 def challenges_get_challenge_progression_batch():
     get_remote_ip()
     try:
-        print("DEBUG HEADERS:")
-        print(request.headers)
-        print("##############################################")
-        print("Responded to challenges get challenge progression batch api call POST")
         logger.graylog_logger(level="info", handler="logging_getChallengeProgressionBatch",
                                 message=request.get_json())
         return jsonify({"status": "success"})

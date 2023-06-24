@@ -144,7 +144,7 @@ class Mongo:
                 return None
             return document
         except Exception as e:
-            print(e)
+            logger.graylog_logger(level="error", handler="mongo_get_data_with_list", message=e)
             return None
 
 
