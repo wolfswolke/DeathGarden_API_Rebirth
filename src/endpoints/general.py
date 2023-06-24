@@ -20,13 +20,11 @@ def gamenews():
         return {"data": [
   {
     "Id": "1",
-    "MessageType": 2,
+    "MessageType": "Daily",
     "IsOneTimeGameNews": False,
     "ShouldQuitTheGame": False,
     "OnlyForPlayersThatCompletedAtLeastOneMatch": False,
-    "RedirectMode": 0,
-    "RedirectItem": "",
-    "RedirectUrl": "",
+    "RedirectMode": "None",
     "EmbeddedBackgroundImage": "game/UI/ImageAssets/NewsAssets/GeneralAnnouncement_Large",
     "EmbeddedInGameNewsBackgroundImage": "game/UI/ImageAssets/NewsAssets/ClosedAlphaWelcomeBanner",
     "EmbeddedInGameNewsThumbnailImage": "game/UI/ImageAssets/NewsAssets/CrossPromo",
@@ -34,19 +32,19 @@ def gamenews():
     "ToDate": 1718669833,
     "Translations": [
       {
-        "Language": 0,
+        "Language": "EN",
         "Body": "Test EN"
       },
       {
-        "Language": 1,
+        "Language": "FR",
         "Body": "Test Fr"
       },
       {
-        "Language": 2,
+        "Language": "IT",
         "Body": "Test IT"
       },
       {
-        "Language": 3,
+        "Language": "ES",
         "Body": "Test Es"
       }
     ]
@@ -326,16 +324,3 @@ def leaderboard_get_scores():
 def submit():
     get_remote_ip()
     return jsonify({"status": "success"})
-
-
-@app.route("/api/v1/queue/info", methods=["GET"])
-def queue_info():
-    # ?category=Steam-te-23ebf96c-27498-ue4-7172a3f5&gameMode=Default&region=US&countA=1&countB=5
-    get_remote_ip()
-    category = request.args.get("category")
-    game_mode = request.args.get("gameMode")
-    region = request.args.get("region")
-    count_a = request.args.get("countA") # Hunter Count
-    count_b = request.args.get("countB") # Runner Count
-    return {"A": {"Size": 1, "ETA": 1, "stable": True}, "B": {"Size": 5, "ETA": 1, "stable": True}, "SizeA": count_a, "SizeB": count_b}
-

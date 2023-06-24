@@ -160,20 +160,6 @@ def challenges_execute_challenge_progression_operation_batch():
                                 message=str(e))
 
 
-@app.route("/api/v1/queue", methods=["POST"])
-def queue():
-    get_remote_ip()
-    try:
-        print("Responded to queue api call POST")
-        logger.graylog_logger(level="info", handler="logging_queue", message=request.get_json())
-        return jsonify({"status": "success"})
-    except TimeoutError:
-        print("Timeout error")
-        return jsonify({"status": "error"})
-    except Exception as e:
-        logger.graylog_logger(level="error", handler="logging_queue", message=str(e))
-
-
 @app.route("/api/v1/extensions/challenges/getChallengeProgressionBatch", methods=["POST"])
 def challenges_get_challenge_progression_batch():
     get_remote_ip()
