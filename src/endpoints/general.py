@@ -17,7 +17,7 @@ def gamenews():
         faction = request.args.get('faction')
         playerLevel = request.args.get('playerLevel')
         print("Responded to game news api call GET")
-        return {"data": [
+        return jsonify({"data": [
   {
     "Id": "1",
     "MessageType": "Daily",
@@ -49,7 +49,7 @@ def gamenews():
       }
     ]
   }
-]}
+        ]})
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
