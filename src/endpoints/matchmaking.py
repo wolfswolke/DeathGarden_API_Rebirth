@@ -82,7 +82,7 @@ def queue():
 
 @app.route("/api/v1/match/create", methods=["POST", "GET"])
 def match_create():
-    #{'category': 'Steam-te-18f25613-36778-ue4-374f864b', 'region': 'US', 'playersA': [],
+    # {'category': 'Steam-te-18f25613-36778-ue4-374f864b', 'region': 'US', 'playersA': [],
     # 'playersB': ['00658d11-2dfd-41e8-b6d2-2462e8f3aa47', '95041085-e7e4-4759-be3d-e72c69167578',
     # '0385496c-f0ae-44d3-a777-26092750f39c'],
     # 'props': {'MatchConfiguration': '/Game/Configuration/MatchConfig/MatchConfig_Demo.MatchConfig_Demo'}, 'latencies': []}
@@ -122,3 +122,17 @@ def match_create():
         data = jsonify(data)
         data.set_cookie("match_id", match_id)
         return data
+
+
+@app.route("/api/v1/extensions/progression/playerEndOfMatch", methods=["POST"])
+def progression_player_end_of_match():
+    get_remote_ip()
+    try:
+        print("Responded to progression player end of match api call POST")
+        logger.graylog_logger(level="info", handler="logging_playerEndOfMatch", message=request.get_json())
+        return jsonify({"status": "success"})
+    except TimeoutError:
+        print("Timeout error")
+        return jsonify({"status": "error"})
+    except Exception as e:
+        logger.graylog_logger(level="error", handler="logging_playerEndOfMatch", message=e)

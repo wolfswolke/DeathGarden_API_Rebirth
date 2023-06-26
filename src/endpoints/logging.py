@@ -130,20 +130,6 @@ def metrics_matchmaking_event():
         logger.graylog_logger(level="error", handler="logging_matchmaking_Event", message=str(e))
 
 
-@app.route("/api/v1/extensions/progression/playerEndOfMatch", methods=["POST"])
-def progression_player_end_of_match():
-    get_remote_ip()
-    try:
-        print("Responded to progression player end of match api call POST")
-        logger.graylog_logger(level="info", handler="logging_playerEndOfMatch", message=request.get_json())
-        return jsonify({"status": "success"})
-    except TimeoutError:
-        print("Timeout error")
-        return jsonify({"status": "error"})
-    except Exception as e:
-        logger.graylog_logger(level="error", handler="logging_playerEndOfMatch", message=str(e))
-
-
 @app.route("/api/v1/extensions/challenges/executeChallengeProgressionOperationBatch", methods=["POST"])
 def challenges_execute_challenge_progression_operation_batch():
     get_remote_ip()
