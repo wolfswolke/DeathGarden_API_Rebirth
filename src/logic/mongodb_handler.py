@@ -147,5 +147,27 @@ class Mongo:
             logger.graylog_logger(level="error", handler="mongo_get_data_with_list", message=e)
             return None
 
+    def write_data_with_list(self, steamid, items_dict, server, db, collection):
+        try:
+            steam_id = str(steamid)
+            self.dyn_db = db
+            self.dyn_collection = collection
+            client = pymongo.MongoClient(server)
+            self.dyn_db = client[self.dyn_db]
+            self.dyn_collection = self.dyn_db[self.dyn_collection]
+            existing_document = self.dyn_collection.find_one({'steamid': steamid})
+
+            if existing_document:
+                update_query = {'$set': items_dict}
+                self.dyn_collection.update_one({'steamid': steamid}, update_query)
+                return {"status": "success", "message": "Data updated"}
+            else:
+                print(f"No user found with steamid: {steam_id}")
+                return None
+        except Exception as e:
+            print(e)
+            logger.graylog_logger(level="error", handler="mongo_write_data_with_list", message=e)
+            return None
+
 
 mongo = Mongo()
