@@ -166,42 +166,39 @@ def challenges_get_challenges():
 def inventories():
     get_remote_ip()
     try:
+        page = request.args.get('page', default=0, type=int)
+        limit = request.args.get('limit', default=500, type=int)
         print("Responded to inventories api call GET")
         print(request.cookies.get('bhvrSession'))
         userid = request.cookies.get('bhvrSession')
-        # return jsonify({"code":200,"message":"OK","data":{"playerId":userid,"inventory":[{"objectId":"Runner.Ink","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Runner.Ghost","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Runner.Smoke","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Runner.Sawbones","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Runner.Switch","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Runner.Dash","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Hunter.Stalker","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Hunter.Poacher","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Hunter.Inquisitor","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Hunter.Mass","quantity":1,"lastUpdateAt":1665866946},{"objectId":"HairColor.White","quantity":1,"lastUpdateAt":1665866946},{"objectId":"HairColor.Red","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Class.Hunter","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Class.HunterTypeA","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Class.HunterTypeB","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Class.HunterTypeC","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Class.HunterTypeD","quantity":1,"lastUpdateAt":1665866946},{"objectId":"HairColor.Auburn","quantity":1,"lastUpdateAt":1665866946},{"objectId":"HairColor.Black","quantity":1,"lastUpdateAt":1665866946},{"objectId":"HairColor.Brown","quantity":1,"lastUpdateAt":1665866946},{"objectId":"HairColor.Blond","quantity":1,"lastUpdateAt":1665866946},{"objectId":"HairColor.Gray","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Class.Runner","quantity":1,"lastUpdateAt":1665866946},{"objectId":"ClassVariation.HT.ShortRange","quantity":1,"lastUpdateAt":1665866946},{"objectId":"ClassVariation.HT.MediumRange","quantity":1,"lastUpdateAt":1665866946},{"objectId":"ClassVariation.HT.LongRange","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Gender","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Gender.Male","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Gender.Female","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Weapon","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Weapon.ICR","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Weapon.BareFist","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Weapon.Bow","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Weapon.EmptyHands","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Mod.NPI","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Mod.Bow","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Consumable","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Consumable.AmmoPack","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Consumable.MedPack","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Consumable.RepairKit","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Color.Blue","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Color.Green","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Color.Yellow","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Color.Orange","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Color.Red","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Color.Purple","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Color.Pink","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Color.White","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Accessory","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Accessory.Armour","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Accessory.Bonus","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Accessory.Wargear1","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Accessory.Wargear2","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Accessory.Perk","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Accessory.Trinket","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Accessory.CaptureKey","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Accessory.Standard","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Accessory.JumpPack","quantity":1,"lastUpdateAt":1665866946},{"objectId":"RewardBox","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Ability","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Ability.Fade","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Ability.SpawnTurret","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Ability.Supercharge","quantity":1,"lastUpdateAt":1665866946},{"objectId":"DifficultyLevel.Normal","quantity":1,"lastUpdateAt":1665866946},{"objectId":"DifficultyLevel.Hard","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Warlord","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Role.AutonomousProxy","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Role.SimulatedProxy","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Markable","quantity":1,"lastUpdateAt":1665866946},{"objectId":"LifeTimeOwner","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Revealable","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Weapon.AssaultRifle","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Mod.Assaultrifle.Top","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Mod.Assaultrifle.Front","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Mod.Assaultrifle.Rear","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Mod.Assaultrifle.Muzzle","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Mod.Assaultrifle.Sight","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Mod.Assaultrifle.Handle","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Mod.Assaultrifle.Ammo","quantity":1,"lastUpdateAt":1665866946},{"objectId":"SkinTone","quantity":1,"lastUpdateAt":1665866946},{"objectId":"SkinTone.Expresso","quantity":1,"lastUpdateAt":1665866946},{"objectId":"SkinTone.Cocoa","quantity":1,"lastUpdateAt":1665866946},{"objectId":"SkinTone.Mocha","quantity":1,"lastUpdateAt":1665866946},{"objectId":"SkinTone.Toffee","quantity":1,"lastUpdateAt":1665866946},{"objectId":"SkinTone.Dolce","quantity":1,"lastUpdateAt":1665866946},{"objectId":"SkinTone.Chai","quantity":1,"lastUpdateAt":1665866946},{"objectId":"SkinTone.Honey","quantity":1,"lastUpdateAt":1665866946},{"objectId":"SkinTone.Caramel","quantity":1,"lastUpdateAt":1665866946},{"objectId":"SkinTone.Latte","quantity":1,"lastUpdateAt":1665866946},{"objectId":"SkinTone.Peaches","quantity":1,"lastUpdateAt":1665866946},{"objectId":"SkinTone.Creme","quantity":1,"lastUpdateAt":1665866946},{"objectId":"SkinTone.Milk","quantity":1,"lastUpdateAt":1665866946},{"objectId":"WeaponType.ShortRange","quantity":1,"lastUpdateAt":1665866946},{"objectId":"WeaponType.MediumRange","quantity":1,"lastUpdateAt":1665866946},{"objectId":"WeaponType.LongRange","quantity":1,"lastUpdateAt":1665866946},{"objectId":"HairColor","quantity":1,"lastUpdateAt":1665866946},{"objectId":"UnverifiedAsset","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Ability.Stun","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Censored","quantity":1,"lastUpdateAt":1665866946},{"objectId":"Accessory.Consumable","quantity":1,"lastUpdateAt":1665866946}]}})
-        return jsonify({"Code": 200, "Message": "OK", "Data": {"PlayerId": userid, "Inventory": [
-            {"ObjectId": "56B7B6F6473712D0B7A2F992BB2C16CD", "Quantity": 1, "LastUpdateAt": 1687377305},
-            {"ObjectId": "56B7B6F6473712D0B7A2F992BB2C16CD", "Quantity": 1, "LastUpdateAt": 1687377305},
-            {"ObjectId": "20FF1865462FD26B0253A08F18EFAA10", "Quantity": 1, "LastUpdateAt": 1687377305},
-            {"ObjectId": "C8AF3D534973F82FADBB40BDA96F9DCD", "Quantity": 1, "LastUpdateAt": 1687377305},
-            {"ObjectId": "492232504161420C872A0F82FC16ACDB", "Quantity": 1, "LastUpdateAt": 1687377305},
-            {"ObjectId": "1E08AFFA485E92BAFF2C1BB85CEFB81E", "Quantity": 1, "LastUpdateAt": 1687377305},
-            {"ObjectId": "20FF1865462FD26B0253A08F18EFAA10", "Quantity": 1, "LastUpdateAt": 1687377305},
-            {"ObjectId": "C8AF3D534973F82FADBB40BDA96F9DCD", "Quantity": 1, "LastUpdateAt": 1687377305},
-            {"ObjectId": "492232504161420C872A0F82FC16ACDB", "Quantity": 1, "LastUpdateAt": 1687377305},
-            {"ObjectId": "1E08AFFA485E92BAFF2C1BB85CEFB81E", "Quantity": 1, "LastUpdateAt": 1687377305},
-            {"ObjectId": "1F5CD9004224C56746D81991AA40448A", "Quantity": 1, "LastUpdateAt": 1687377305},
-            {"ObjectId": "F055513D48AACBAC280B2AA00A984180", "Quantity": 1, "LastUpdateAt": 1687377305},
-            {"ObjectId": "5998C1C548AB7BDA80C87295F2764C5D", "Quantity": 1, "LastUpdateAt": 1687377305},
-            {"ObjectId": "0DC38EC14AA02FC83456E5B02B7B4870", "Quantity": 1, "LastUpdateAt": 1687377305},
-            {"ObjectId": "50D3005B437066E4C4D99F9397CF1B0B", "Quantity": 1, "LastUpdateAt": 1687377305},
-            {"ObjectId": "973C9176404A29F926D13BACB76A2425", "Quantity": 1, "LastUpdateAt": 1687377305},
-            {"ObjectId": "1098BEE241B1515B44013A87EDB16BDC", "Quantity": 1, "LastUpdateAt": 1687377305},
-            {"ObjectId": "EDB6D6B742023AE61AD8718CAC073C0E", "Quantity": 1, "LastUpdateAt": 1687377305},
-            {"ObjectId": "69055D534DF27180C4B36CAB4B651054", "Quantity": 1, "LastUpdateAt": 1687377305},
-            {"ObjectId": "A1C4E2FB4BC74EB560F431B210C5094C", "Quantity": 1, "LastUpdateAt": 1687377305},
-            {"ObjectId": "89AD14A848DE42DC2A5CAB94BB25FCF9", "Quantity": 1, "LastUpdateAt": 1687377305},
-            {"ObjectId": "895471FA4A8A74AB2FEE16BF35FC9D04", "Quantity": 1, "LastUpdateAt": 1687377305},
-            {"ObjectId": "D7D7D07B4FB0FABDBF8C3CBE62EB6E96", "Quantity": 1, "LastUpdateAt": 1687377305},
-            {"ObjectId": "8AD5A0194A0528BDC957EFABCFF03CA4", "Quantity": 1, "LastUpdateAt": 1687377305},
-            {"ObjectId": "667B362746F7049D78BFC08A996D2876", "Quantity": 1, "LastUpdateAt": 1687377305},
-            {"ObjectId": "8BF4B8E24F4CD5AB9DEA78851D73A0CC", "Quantity": 1, "LastUpdateAt": 1687377305},
-            {"ObjectId": "A82051B5470DC62447DCB0800F756A9E", "Quantity": 1, "LastUpdateAt": 1687377305},
-            {"ObjectId": "5CFA81324913D8C90C16E399A33B3A3A", "Quantity": 1, "LastUpdateAt": 1687377305},
-            {"ObjectId": "755D4DFE40DA1512B01E3D8CFF3C8D4D", "Quantity": 1, "LastUpdateAt": 1687377305}
-
-        ], "NextPage": 0}})
+        if page == 0:
+            return jsonify({"Code": 200, "Message": "OK", "Data": {"PlayerId": userid, "Inventory": [
+                {"ObjectId": "CCA2272D-408ED953-87F017BE-D437FF9A", "Quantity": 1, "LastUpdateAt": 1687377305},
+                {"ObjectId": "51595917-43CBF0B5-7EC6FEB3-341960D6", "Quantity": 1, "LastUpdateAt": 1687377305},
+                {"ObjectId": "08DC38B6-470A7A5B-0BA025B9-6279DAA8", "Quantity": 1, "LastUpdateAt": 1687377305},
+                {"ObjectId": "7902D836-470BBB49-DE9B9D97-F17C9DB5", "Quantity": 1, "LastUpdateAt": 1687377305},
+                {"ObjectId": "1069E6DF-40AB4CAE-F2AF03B4-FD60BB22", "Quantity": 1, "LastUpdateAt": 1687377305},
+                {"ObjectId": "5998C1C5-48AB7BDA-80C87295-F2764C5D", "Quantity": 1, "LastUpdateAt": 1687377305},
+                {"ObjectId": "F055513D-48AACBAC-280B2AA0-0A984180", "Quantity": 1, "LastUpdateAt": 1687377305},
+                {"ObjectId": "EDB6D6B7-42023AE6-1AD8718C-AC073C0E", "Quantity": 1, "LastUpdateAt": 1687377305},
+                {"ObjectId": "1098BEE2-41B1515B-44013A87-EDB16BDC", "Quantity": 1, "LastUpdateAt": 1687377305},
+                {"ObjectId": "973C9176-404A29F9-26D13BAC-B76A2425", "Quantity": 1, "LastUpdateAt": 1687377305},
+                {"ObjectId": "50D3005B-437066E4-C4D99F93-97CF1B0B", "Quantity": 1, "LastUpdateAt": 1687377305},
+                {"ObjectId": "B83A141A-45FB8D96-D48A5185-CD607AA3", "Quantity": 1, "LastUpdateAt": 1687377305},
+                {"ObjectId": "9281A7AB-4EE28B4F-B6341886-DFD50391", "Quantity": 1, "LastUpdateAt": 1687377305},
+                {"ObjectId": "4886DDC4-46B96FEE-1255D6A2-AB114B0D", "Quantity": 1, "LastUpdateAt": 1687377305},
+                {"ObjectId": "0C6D2A46-48B95C22-64312783-F977F211", "Quantity": 1, "LastUpdateAt": 1687377305},
+                {"ObjectId": "C215B81F-4E421961-03ECE989-49892499", "Quantity": 1, "LastUpdateAt": 1687377305},
+                {"ObjectId": "30363336-4217BE70-33C637B7-EE7D9CE8", "Quantity": 1, "LastUpdateAt": 1687377305},
+                {"ObjectId": "5889A14A-44DEC8EA-D019F69C-FD3C5A44", "Quantity": 1, "LastUpdateAt": 1687377305},
+                {"ObjectId": "DA7C176F-48525599-C9477C95-137C7369", "Quantity": 1, "LastUpdateAt": 1687377305}
+            ], "NextPage": 1}})
+        elif page == 1:
+            return jsonify({"Code": 200, "Message": "OK", "Data": {"PlayerId": userid, "Inventory": [
+                {"ObjectId": "DA7C176F-48525599-C9477C95-137C7369", "Quantity": 1, "LastUpdateAt": 1687377305},
+                {"ObjectId": "CAC131D2482955DA298BA59AA3C862A7", "Quantity": 1, "LastUpdateAt": 1687377305},
+                {"ObjectId": "C1672541-4A4B16B9-AD557C9E-E865D113", "Quantity": 1, "LastUpdateAt": 1687377305}
+            ], "NextPage": 0}})
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
@@ -333,12 +330,29 @@ def achievements_get():
 def messages_count():
     get_remote_ip()
     try:
-        return jsonify({"Received": 1687192383, "Flag": "", "Message": [{"Title": "Test_Title", "Body": "Test_Body", "Claimable": [{}]}]})
+        return jsonify({"Count": 69})
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
         logger.graylog_logger(level="error", handler="messages_count", message=str(e))
+
+
+@app.route("/api/v1/messages/list", methods=["GET"])
+def messages_list():
+    get_remote_ip()
+    try:
+        limit = request.args.get("limit")
+        return jsonify({"Messages": [{"Received": 1687192383, "Flag": "Reliable", "Message":
+            {"Title": "Message from the Rebirth Team.", "Body": "Welcome to Project Deathgarden Rebirth!  The goal of "
+                                                                "this Project is to rebuild the Deathgarden API. "
+                                                                "For more Info visit our Github Repo!", "Claimable": [{}]}, "Tag": "Direct", "ExpireAt": 1787192383,
+                                      "Origin": "Warning", "RecipientId": "6969696969696969"}], "NetPage": "None"})
+    except TimeoutError:
+        print("Timeout error")
+        return jsonify({"status": "error"})
+    except Exception as e:
+        logger.graylog_logger(level="error", handler="messages_list", message=str(e))
 
 
 # Temp response.
