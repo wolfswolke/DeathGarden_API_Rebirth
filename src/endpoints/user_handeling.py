@@ -148,17 +148,48 @@ def progression_experience():
 def challenges_get_challenges():
     get_remote_ip()
     try:
-        print("Responded to challenges get challenges api call POST")
-        logger.graylog_logger(level="info", handler="challenges_get_challenges", message=request.get_json())
-        return jsonify({"Id": "ECCBA78D4055676F9C17D79B9D5FA2D4", "Type": 2, "Title": "Hunter_DroneCharger_Name",
-                        "Body": "Hunter_DroneCharger_DESC", "Progress": 1, "ValueToReach": 10, "TimeLeft": 1440000000,
-                        "ShouldShowCompleteAnimation": True, "Rewards":
-                            [{"Type": "", "Id": "C90F72FC4D61B1F2FBC73F8A4685EA41", "Amount": 1.0, "Claimed": False}]})
+        challenge_type = request.get_json()
+        if challenge_type == "Weekly":
+            return jsonify({"Challenges": ["ARBDamage_HunterWeekly", "AssaultRifleWins_HunterWeekly",
+                                           "BleedOut_HunterWeekly", "BleedOut_RunnerWeekly", "Damage_HunterWeekly",
+                                           "Double_HunterWeekly", "ActivateDrones", "Efficient_HunterWeekly",
+                                           "Emotional_HunterWeekly", "Emotional_RunnerWeekly", "Greed_HunterWeekly",
+                                           "Greed_RunnerWeekly", "Headshot", "HuntingShotgun_HunterWeekly",
+                                           "InDenial_HunterWeekly", "LMGWins_HunterWeekly", "Hunter_WeeklyMines_Name",
+                                           "Mines_RunnerWeekly", "Reveals_HunterWeekly", "RingOut_HunterWeekly",
+                                           "Shields_RunnerWeekly", "ShotgunDowns_HunterWeekly", "Speed_HunterWeekly",
+                                           "Speed_RunnerWeekly", "Stuns_RunnerWeekly", "Turrets_HunterWeekly",
+                                           "Turrets_RunnerWeekly", "BleedOut_RunnerWeekly", "Wasteful_HunterWeekly",
+                                           "Wasteful_RunnerWeekly", "WUP_HunterWeekly", "WUP_RunnerWeekly"]})
+        elif challenge_type == "Daily":
+            return jsonify({"Challenges": ["Daily_Domination_Hunter", "Daily_Domination_Runner"]})
+        else:
+            return jsonify({"status": "error"})
+
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
-        logger.graylog_logger(level="error", handler="getChallanges", message=str(e))
+        logger.graylog_logger(level="error", handler="getChallanges", message=e)
+
+
+@app.route("/api/v1/extensions/challenges/executeChallengeProgressionOperationBatch", methods=["POST"])
+def challenges_execute_challenge_progression_operation_batch():
+    get_remote_ip()
+    try:
+        print("Responded to challenges execute challenge progression operation batch api call POST")
+        logger.graylog_logger(level="info", handler="logging_executeChallengeProgressionOperationBatch",
+                                message=request.get_json())
+        return jsonify({"Id": "AssaultRifleWins_HunterWeekly", "Type": 2, "Title": "Hunter_DroneCharger_Name",
+                        "Body": "Hunter_DroneCharger_DESC", "Progress": 1, "ValueToReach": 10, "TimeLeft": 1440000000,
+                        "ShouldShowCompleteAnimation": True, "Rewards":
+                            [{"Type": "Weekly", "Id": "C90F72FC4D61B1F2FBC73F8A4685EA41", "Amount": 1.0, "Claimed": False}]})
+    except TimeoutError:
+        print("Timeout error")
+        return jsonify({"status": "error"})
+    except Exception as e:
+        logger.graylog_logger(level="error", handler="logging_executeChallengeProgressionOperationBatch",
+                                message=str(e))
 
 
 # idk dont think it works
@@ -312,6 +343,11 @@ def wallet_currencies_progression():
 def achievements_get():
     get_remote_ip()
     try:
+        userid = request.cookies.get("bhvrSession")
+        return jsonify({"UserId": userid, "StateName": "", "Segment": "", "List": [
+            {"ObjectId": "", "Version": 11111, "SchemaVersion": 1111, "Data": {}}
+        ]})
+        # This works but lemme test smthing...
         return jsonify({"gameName":"Deathgarden: BLOODHARVEST","achievements":
             [{"apiname":"EFAB89E6465D1163D62A07B11048F2B6","achieved":1,"unlocktime":1587140058},
              {"apiname":"2CAEBB354D506D7C43B941BC1DA775A0","achieved":1,"unlocktime":1586792410},
@@ -330,7 +366,7 @@ def achievements_get():
 def messages_count():
     get_remote_ip()
     try:
-        return jsonify({"Count": 69})
+        return jsonify({"Count": 1})
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
