@@ -281,3 +281,9 @@ fabric.properties
 .idea/**/azureSettings.xml
 
 # End of https://www.toptal.com/developers/gitignore/api/flask,pycharm
+
+
+## Out Stuff
+src/test/
+src/config/api_config.yaml
+important_stuff.txt
