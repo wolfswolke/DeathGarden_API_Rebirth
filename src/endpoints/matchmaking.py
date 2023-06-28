@@ -56,15 +56,13 @@ def queue():
     folder_path = os.path.join(app.root_path, "match_ids", user)
     file_path = os.path.join(folder_path, file_name)
 
-    if folder_path:
+    if os.path.exists(file_path):
         match_data = json.load(open(file_path, "r"))
         return_val = {"status": "WaitingForPlayers", "QueueData":
             {"Position": 1, "ETA": 1, "Stable": True, "SizeA": count_a, "SizeB": count_b},
                         "MatchData": match_data}
         return jsonify(return_val)
-
-    try:
-        print("Responded to queue api call POST")
+    else:
         logger.graylog_logger(level="info", handler="logging_queue", message=request.get_json())
         return jsonify({"status": "WaitingForPlayers", "QueueData":
             {"Position": 10, "ETA": 1000, "Stable": True, "SizeA": count_a, "SizeB": count_b},
@@ -73,11 +71,7 @@ def queue():
                                       "ExcludeClanMembers": False, "Status": "WaitingForPlayers", "Creator": userid,
                                       "Players": [userid], "SideA": [], "SideB": [userid], "CustomData": {}, "Props": {},
                                       "Schema": 11122334455666}})
-    except TimeoutError:
-        print("Timeout error")
-        return jsonify({"status": "error"})
-    except Exception as e:
-        logger.graylog_logger(level="error", handler="logging_queue", message=str(e))
+
 
 
 @app.route("/api/v1/match/create", methods=["POST", "GET"])
