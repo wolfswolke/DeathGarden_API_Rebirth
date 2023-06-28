@@ -204,7 +204,15 @@ def inventories():
         userid = request.cookies.get('bhvrSession')
         if page == 0:
             return jsonify({"Code": 200, "Message": "OK", "Data": {"PlayerId": userid, "Inventory": [
-                {"ObjectId": "CCA2272D-408ED953-87F017BE-D437FF9A", "Quantity": 1, "LastUpdateAt": 1687377305},
+                {"ObjectId": "56B7B6F6-473712D0-B7A2F992-BB2C16CD", "Quantity": 1, "LastUpdateAt": 16873773050},
+                {"ObjectId": "759E44DD-469C2841-75C2D6A1-AB0B0FA7", "Quantity": 1, "LastUpdateAt": 16873773050},
+                {"ObjectId": "EF96A202-49884D43-7B87A6A4-BDE81B7F", "Quantity": 1, "LastUpdateAt": 16873773050},
+                {"ObjectId": "755D4DFE-40DA1512-B01E3D8C-FF3C8D4D", "Quantity": 1, "LastUpdateAt": 16873773050},
+                {"ObjectId": "CCA2272D-408ED953-87F017BE-D437FF9A", "Quantity": 1, "LastUpdateAt": 16873773050},
+                {"ObjectId": "C50FFFBF-46866131-82F45890-651797CE", "Quantity": 1, "LastUpdateAt": 16873773050},
+                {"ObjectId": "606129DC-45AB9D16-B69E2FA5-C99A9835", "Quantity": 1, "LastUpdateAt": 16873773050},
+                {"ObjectId": "234FFD46-4C55514B-6C1E7386-45993CAA", "Quantity": 1, "LastUpdateAt": 16873773050},
+                {"ObjectId": "0EA4B7BD-456E322E-E1F0E1BD-6D92F269", "Quantity": 1, "LastUpdateAt": 1687377305},
                 {"ObjectId": "51595917-43CBF0B5-7EC6FEB3-341960D6", "Quantity": 1, "LastUpdateAt": 1687377305},
                 {"ObjectId": "08DC38B6-470A7A5B-0BA025B9-6279DAA8", "Quantity": 1, "LastUpdateAt": 1687377305},
                 {"ObjectId": "7902D836-470BBB49-DE9B9D97-F17C9DB5", "Quantity": 1, "LastUpdateAt": 1687377305},
@@ -227,7 +235,6 @@ def inventories():
         elif page == 1:
             return jsonify({"Code": 200, "Message": "OK", "Data": {"PlayerId": userid, "Inventory": [
                 {"ObjectId": "DA7C176F-48525599-C9477C95-137C7369", "Quantity": 1, "LastUpdateAt": 1687377305},
-                {"ObjectId": "CAC131D2482955DA298BA59AA3C862A7", "Quantity": 1, "LastUpdateAt": 1687377305},
                 {"ObjectId": "C1672541-4A4B16B9-AD557C9E-E865D113", "Quantity": 1, "LastUpdateAt": 1687377305}
             ], "NextPage": 0}})
     except TimeoutError:
@@ -345,7 +352,7 @@ def achievements_get():
     try:
         userid = request.cookies.get("bhvrSession")
         return jsonify({"UserId": userid, "StateName": "", "Segment": "", "List": [
-            {"ObjectId": "", "Version": 11111, "SchemaVersion": 1111, "Data": {}}
+            {"ObjectId": "EFAB89E6465D1163D62A07B11048F2B6", "Version": 11, "SchemaVersion": 11, "Data": {}}
         ]})
         # This works but lemme test smthing...
         return jsonify({"gameName":"Deathgarden: BLOODHARVEST","achievements":
