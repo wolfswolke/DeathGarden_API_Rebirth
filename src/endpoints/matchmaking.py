@@ -49,7 +49,7 @@ def queue():
     count_a = request.json.get("countA")
     count_b = request.json.get("countB")
     epoch = datetime.now().timestamp()
-    match_id = uuid.uuid4()
+    match_id = str(uuid.uuid4())
     user = request.cookies.get("bhvrSession")
 
     file_name = "session.match"

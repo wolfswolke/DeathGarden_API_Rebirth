@@ -297,7 +297,7 @@ def get_ban_info():
     try:
         print("Responded to ban status api call GET")
         return jsonify({"BanPeriod": None, "BanReason": None, "BanStart": None, "BanEnd": None,
-                                    "Confirmed": True})
+                                    "Confirmed": False})
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
