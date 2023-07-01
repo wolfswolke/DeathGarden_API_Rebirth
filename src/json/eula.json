@@ -1,0 +1,30 @@
+{
+   "id":"eula",
+   "language":[
+      "de",
+      "en",
+      "es",
+      "es-MX",
+      "fr",
+      "it",
+      "ja",
+      "ko",
+      "nl",
+      "pl",
+      "pt-BR",
+      "ru",
+      "sv",
+      "th",
+      "tr",
+      "zh-Hans",
+      "zh-Hant"
+   ],
+   "platform":[
+      "steam",
+      "xbox",
+      "xsx",
+      "switch",
+      "grdk",
+      "stadia"
+   ]
+}

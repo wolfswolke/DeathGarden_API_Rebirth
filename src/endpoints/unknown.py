@@ -1,6 +1,4 @@
 from flask_definitions import *
-import json
-import os
 
 
 # Do NOT change Result to ANYTHING or Add anything before it. Game will crash. Doesnt mean it 100% works tho XD
@@ -9,7 +7,6 @@ def catalog_get(game_version):
     print("Game Version of Catalog: " + game_version)
     get_remote_ip()
     try:
-        # output = json.load(open(os.path.join(app.root_path, "catalog", game_version, "catalog.json"), "r"))
         output = json.load(open(os.path.join(app.root_path, "json", "catalog", game_version, "catalog.json"), "r"))
         return jsonify(output)
 
@@ -21,5 +18,6 @@ def catalog_get(game_version):
 
 
 @app.errorhandler(404)
-def debug_404(e):
+def debug_404():
+    logger.graylog_logger(level="error", handler="404-handler", message=f"Path: {request.path} Endpoint: {request.endpoint}")
     return jsonify({"message": "Endpoint not found"}), 404

@@ -1,0 +1,35 @@
+{
+   "data":[
+      {
+         "Id":"1",
+         "MessageType":"Daily",
+         "IsOneTimeGameNews":false,
+         "ShouldQuitTheGame":false,
+         "OnlyForPlayersThatCompletedAtLeastOneMatch":false,
+         "RedirectMode":"None",
+         "EmbeddedBackgroundImage":"game/UI/ImageAssets/NewsAssets/GeneralAnnouncement_Large",
+         "EmbeddedInGameNewsBackgroundImage":"game/UI/ImageAssets/NewsAssets/ClosedAlphaWelcomeBanner",
+         "EmbeddedInGameNewsThumbnailImage":"game/UI/ImageAssets/NewsAssets/CrossPromo",
+         "FromDate":1655511433,
+         "ToDate":1718669833,
+         "Translations":[
+            {
+               "Language":"EN",
+               "Body":"Test EN"
+            },
+            {
+               "Language":"FR",
+               "Body":"Test Fr"
+            },
+            {
+               "Language":"IT",
+               "Body":"Test IT"
+            },
+            {
+               "Language":"ES",
+               "Body":"Test Es"
+            }
+         ]
+      }
+   ]
+}

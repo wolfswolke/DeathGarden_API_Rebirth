@@ -17,44 +17,13 @@ def gamenews():
         faction = request.args.get('faction')
         playerLevel = request.args.get('playerLevel')
         print("Responded to game news api call GET")
-        return jsonify({"data": [
-  {
-    "Id": "1",
-    "MessageType": "Daily",
-    "IsOneTimeGameNews": False,
-    "ShouldQuitTheGame": False,
-    "OnlyForPlayersThatCompletedAtLeastOneMatch": False,
-    "RedirectMode": "None",
-    "EmbeddedBackgroundImage": "game/UI/ImageAssets/NewsAssets/GeneralAnnouncement_Large",
-    "EmbeddedInGameNewsBackgroundImage": "game/UI/ImageAssets/NewsAssets/ClosedAlphaWelcomeBanner",
-    "EmbeddedInGameNewsThumbnailImage": "game/UI/ImageAssets/NewsAssets/CrossPromo",
-    "FromDate": 1655511433,
-    "ToDate": 1718669833,
-    "Translations": [
-      {
-        "Language": "EN",
-        "Body": "Test EN"
-      },
-      {
-        "Language": "FR",
-        "Body": "Test Fr"
-      },
-      {
-        "Language": "IT",
-        "Body": "Test IT"
-      },
-      {
-        "Language": "ES",
-        "Body": "Test Es"
-      }
-    ]
-  }
-        ]})
+        output = json.load(open(os.path.join(app.root_path, "json", "placeholders", "gamenews.json"), "r"))
+        return jsonify(output)
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
-        logger.graylog_logger(level="error", handler="general-Game-News", message=f"Error in gamenews: {e}")
+        logger.graylog_logger(level="error", handler="general-Game-News", message=e)
 
 
 @app.route("/api/v1/config/VER_LATEST_CLIENT_DATA", methods=["GET"])
@@ -67,7 +36,7 @@ def config_ver_latest_client_data():
         print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
-        logger.graylog_logger(level="error", handler="general-ver-latest-data", message=f"Error in config_ver_latest_client_data: {e}")
+        logger.graylog_logger(level="error", handler="general-ver-latest-data", message=e)
 
 
 @app.route("/api/v1/utils/contentVersion/latest/<version>", methods=["GET"])
@@ -81,7 +50,7 @@ def content_version_latest(version):
         print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
-        logger.graylog_logger(level="error", handler="general-content-version", message=f"Error in content_version_latest: {e}")
+        logger.graylog_logger(level="error", handler="general-content-version", message=e)
 
 
 @app.route("/gameservers.dev", methods=["POST", "GET"])
@@ -95,7 +64,7 @@ def gameservers_dev():
         print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
-        logger.graylog_logger(level="error", handler="general-gameserver-dev", message=f"Error in gameservers_dev: {e}")
+        logger.graylog_logger(level="error", handler="general-gameserver-dev", message=e)
 
 
 @app.route("/gameservers.uat", methods=["POST"])
@@ -125,7 +94,7 @@ def gameservers_live():
         print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
-        logger.graylog_logger(level="error", handler="general-gameserver-dev", message=f"Error in gameservers_dev: {e}")
+        logger.graylog_logger(level="error", handler="general-gameserver-dev", message=e)
 
 
 @app.route("/api/v1/config/UseMirrorsMM_Steam", methods=["GET"]) # What is this even???
@@ -138,7 +107,7 @@ def config_use_mirrors_mm_steam():
         print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
-        logger.graylog_logger(level="error", handler="general-use-mirrors-mm-steam", message=f"Error in config_use_mirrors_mm_steam: {e}")
+        logger.graylog_logger(level="error", handler="general-use-mirrors-mm-steam", message=e)
 
 
 @app.route("/crashreport/unreal/CrashReporter/Ping", methods=["GET"])
@@ -151,7 +120,7 @@ def crashreporter_ping():
         print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
-        logger.graylog_logger(level="error", handler="general-crashreporter-ping", message=f"Error in crashreporter_ping: {e}")
+        logger.graylog_logger(level="error", handler="general-crashreporter-ping", message=e)
 
 
 @app.route("/tex", methods=["GET"])
@@ -163,7 +132,7 @@ def tex_get():
         print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
-        logger.graylog_logger(level="error", handler="general-tex", message=f"Error in tex_get: {e}")
+        logger.graylog_logger(level="error", handler="general-tex", message=e)
 
 
 @app.route('/favicon.ico')
@@ -176,7 +145,7 @@ def favicon():
         print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
-        logger.graylog_logger(level="error", handler="general-favicon", message=f"Error in favicon: {e}")
+        logger.graylog_logger(level="error", handler="general-favicon", message=e)
 
 
 @app.route("/api/v1/healthcheck", methods=["GET"])
@@ -184,13 +153,13 @@ def healthcheck():
     get_remote_ip()
     try:
         # return jsonify({"status": "success", "online": "true"})
-        return jsonify({"PublicIp": "192.168.1.1", "KrakenVersion": "3.6.1", "Kraken": [{"Running": False, "Errors": {}}]})
+        return jsonify({"Health": "Alive"})
         # {"Health": "Alive"}
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
-        logger.graylog_logger(level="error", handler="general-healthcheck", message=f"Error in healthcheck: {e}")
+        logger.graylog_logger(level="error", handler="general-healthcheck", message=e)
 
 
 @app.route("/api/v1/services/tex")
@@ -206,7 +175,7 @@ def services_tex():
         print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
-        logger.graylog_logger(level="error", handler="general-services-tex", message=f"Error in services_tex: {e}")
+        logger.graylog_logger(level="error", handler="general-services-tex", message=e)
 
 
 @app.route("/api/v1/consent/eula2", methods=["PUT", "GET"])
@@ -234,7 +203,7 @@ def consent_eula():
             else:
                 return jsonify({"isGiven": False})
     except Exception as e:
-        logger.graylog_logger(level="error", handler="general-consent-eula", message=f"Error in consent_eula: {e}")
+        logger.graylog_logger(level="error", handler="general-consent-eula", message=e)
 
 
 @app.route("/api/v1/consent/eula", methods=["GET"])
@@ -242,14 +211,13 @@ def consent_eula0():
     get_remote_ip()
     try:
         print("Responded to consent eula api call GET")
-        return jsonify({"id": "eula", "language": ["de", "en", "es", "es-MX", "fr", "it", "ja", "ko", "nl", "pl",
-                                                   "pt-BR", "ru", "sv", "th", "tr", "zh-Hans", "zh-Hant"],
-                        "platform": ["steam", "xbox", "xsx", "switch", "grdk", "stadia"]})  # Don't know. Added as Placeholder.
+        output = json.load(open(os.path.join(app.root_path, "json", "eula.json"), "r"))
+        return jsonify(output)
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
-        logger.graylog_logger(level="error", handler="general-consent-eula0", message=f"Error in consent_eula0: {e}")
+        logger.graylog_logger(level="error", handler="general-consent-eula0", message=e)
 
 
 @app.route("/api/v1/consent/privacyPolicy", methods=["GET"])
@@ -257,14 +225,13 @@ def privacy_policy():
     get_remote_ip()
     try:
         print("Responded to consent privacyPolicy api call GET")
-        return jsonify({"id":"privacy","language":["de","en","es","es-MX","fr","it","ja","ko","nl","pl","pt-BR","ru",
-                                                   "sv","th","tr","zh-Hans","zh-Hant"],
-                        "platform":["steam","xbox","xsx","switch","grdk","ps4","ps5","stadia"]})
+        output = json.load(open(os.path.join(app.root_path, "json", "eula.json"), "r"))
+        return jsonify(output)
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
-        logger.graylog_logger(level="error", handler="general-privacy-policy", message=f"Error in consent_eula0: {e}")
+        logger.graylog_logger(level="error", handler="general-privacy-policy", message=e)
 
 
 @app.route("/file/<game_version>/<seed>/<map_name>", methods=["POST", "GET"])
@@ -299,16 +266,8 @@ def leaderboard_get_scores():
     if request.method == "POST":
         print("Responded to leaderboard getScores api call POST")
         logger.graylog_logger(level="info", handler="general-leaderboard-get-scores", message=f"Leaderboard getScores: {request.get_json()}")
-        return jsonify({"TopScores":{"Scores":[{"playerID": "a-1-b-2", "PlayerName": "Hans", "Rank": 1, "Score": 10, "Percentile": 1},
-                        {"playerID": "a-2-b-2", "PlayerName": "Peter", "Rank": 2, "Score": 9, "Percentile": 2},
-                        {"playerID": "a-3-b-3", "PlayerName": "Lukas", "Rank": 3, "Score": 8, "Percentile": 3},
-                        {"playerID": "a-4-b-4", "PlayerName": "Jonas", "Rank": 4, "Score": 7, "Percentile": 4},
-                        {"playerID": "a-5-b-5", "PlayerName": "Mark", "Rank": 5, "Score": 6, "Percentile": 5}]},
-                        "PlayerScores": {"Scores":[{"playerID": "a-1-b-2", "PlayerName": "Hans", "Rank": 1, "Score": 10, "Percentile": 1},
-                        {"playerID": "a-2-b-2", "PlayerName": "Peter", "Rank": 2, "Score": 9, "Percentile": 2},
-                        {"playerID": "a-3-b-3", "PlayerName": "Lukas", "Rank": 3, "Score": 8, "Percentile": 3},
-                        {"playerID": "a-4-b-4", "PlayerName": "Jonas", "Rank": 4, "Score": 7, "Percentile": 4},
-                        {"playerID": "a-5-b-5", "PlayerName": "Mark", "Rank": 5, "Score": 6, "Percentile": 5}]}})
+        data = json.load(open(os.path.join(app.root_path, "json", "placeholders", "leaderboard.json"), "r"))
+        return jsonify(data)
     else:
         try:
             print("Responded to leaderboard getScores api call GET")
@@ -317,7 +276,7 @@ def leaderboard_get_scores():
             print("Timeout error")
             return jsonify({"status": "error"})
         except Exception as e:
-            logger.graylog_logger(level="error", handler="general-leaderboard-get-scores", message=f"Error in leaderboard_get_scores: {e}")
+            logger.graylog_logger(level="error", handler="general-leaderboard-get-scores", message=e)
 
 
 @app.route("/submit/", methods=["POST"])

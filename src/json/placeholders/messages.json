@@ -1,0 +1,22 @@
+{
+   "Messages":[
+      {
+         "Received":1687192383,
+         "Flag":"Reliable",
+         "Message":{
+            "Title":"Message from the Rebirth Team.",
+            "Body":"Welcome to Project Deathgarden Rebirth!  The goal of this Project is to rebuild the Deathgarden API. For more Info visit our Github Repo!",
+            "Claimable":[
+               {
+
+               }
+            ]
+         },
+         "Tag":"Direct",
+         "ExpireAt":1787192383,
+         "Origin":"Warning",
+         "RecipientId":"6969696969696969"
+      }
+   ],
+   "NetPage":"None"
+}

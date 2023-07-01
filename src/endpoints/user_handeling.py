@@ -1,3 +1,5 @@
+import time
+
 from flask_definitions import *
 import requests
 from logic.mongodb_handler import mongo
@@ -250,6 +252,7 @@ def progression_groups():
     get_remote_ip()
     try:
         print("Responded to progression groups api call GET")
+        return jsonify({"ObjectId": "FSTRING", "Version": 11, "SchemaVersion": 11, "Data": {}})
         return jsonify({"List": [{"ObjectId": "Runner.Sawbones",
                                   "SchemaVersion": 11111111,
                                   "Version": 11111111,
@@ -274,15 +277,28 @@ def ban_status():
     get_remote_ip()
     login_cookie = request.cookies.get("bhvrSession")
     try:
-        ban_data = mongo.get_data_with_list(login=login_cookie, login_steam=False, items={"is_banned", "ban_reason", "ban_start", "ban_expire"}, server=mongo_host, db=mongo_db, collection=mongo_collection)
+        time.sleep(0.5)
+        ban_data = mongo.get_data_with_list(login=login_cookie, login_steam=False,
+                                            items={"is_banned", "ban_reason", "ban_start", "ban_expire"},
+                                            server=mongo_host, db=mongo_db, collection=mongo_collection)
         if ban_data == None:
             print("Error in ban_data_database")
             return jsonify({"status": "error"})
-        return jsonify({"IsBanned": ban_data["is_banned"], "BanInfo": {"BanPeriod": 10,
+        elif ban_data["is_banned"] == True:
+            return jsonify({"IsBanned": ban_data["is_banned"], "BanInfo": {"BanPeriod": 10,
                                                                        "BanReason": ban_data["ban_reason"],
                                                                        "BanStart": ban_data["ban_start"],
                                                                        "BanEnd": ban_data["ban_expire"],
-                                                                       "Confirmed": True, "Pending": False}})
+                                                                       "Confirmed": False, "Pending": False}})
+        elif ban_data["is_banned"] == False:
+            return jsonify({"IsBanned": ban_data["is_banned"], "BanInfo": {"BanPeriod": 0,
+                                                                       "BanReason": "None",
+                                                                       "BanStart": 0,
+                                                                       "BanEnd": 0,
+                                                                       "Confirmed": False, "Pending": False}})
+        else:
+            print("Error in ban_data_database")
+            return jsonify({"status": "error"})
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
@@ -386,11 +402,8 @@ def messages_list():
     get_remote_ip()
     try:
         limit = request.args.get("limit")
-        return jsonify({"Messages": [{"Received": 1687192383, "Flag": "Reliable", "Message":
-            {"Title": "Message from the Rebirth Team.", "Body": "Welcome to Project Deathgarden Rebirth!  The goal of "
-                                                                "this Project is to rebuild the Deathgarden API. "
-                                                                "For more Info visit our Github Repo!", "Claimable": [{}]}, "Tag": "Direct", "ExpireAt": 1787192383,
-                                      "Origin": "Warning", "RecipientId": "6969696969696969"}], "NetPage": "None"})
+        output = json.load(open(os.path.join(app.root_path, "json", "placeholders", "messages.json"), "r"))
+        return jsonify(output)
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
