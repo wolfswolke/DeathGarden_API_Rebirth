@@ -55,7 +55,7 @@ class Mongo:
                 logger.graylog_logger(level="info", handler="mongodb", message=f"New user added to database: {steamid}")
                 return userId, token
         except Exception as e:
-            logger.graylog_logger(level="error", handler="mongodb", message=f"Error in mongodb_handler: {e}")
+            logger.graylog_logger(level="error", handler="mongodb_user_db_handler", message=e)
             return None, None
 
     def get_user_info(self, userId, server, db, collection):
@@ -76,7 +76,7 @@ class Mongo:
                 print(f"No user found with userId: {userId}")
                 return "10000000aa000000gg00001", "10000000aa000000gg00001"
         except Exception as e:
-            print(e)
+            logger.graylog_logger(level="error", handler="mongodb_get_user_info", message=e)
             return None, None
 
     def eula(self, userId, get_eula, server, db, collection):
