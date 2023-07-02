@@ -870,7 +870,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":1100
          }
       ],
@@ -907,7 +907,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":1650
          }
       ],
@@ -944,7 +944,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":1650
          }
       ],
@@ -981,7 +981,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":1100
          }
       ],
@@ -1018,7 +1018,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":1650
          }
       ],
@@ -1166,7 +1166,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":600
          }
       ],
@@ -1203,7 +1203,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":900
          }
       ],
@@ -1240,7 +1240,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":900
          }
       ],
@@ -1277,7 +1277,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":600
          }
       ],
@@ -1314,7 +1314,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":900
          }
       ],
@@ -1462,7 +1462,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":1800
          }
       ],
@@ -1499,7 +1499,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":2700
          }
       ],
@@ -1536,7 +1536,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":2700
          }
       ],
@@ -1573,7 +1573,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":1800
          }
       ],
@@ -1610,7 +1610,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":2700
          }
       ],
@@ -1832,7 +1832,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":1650
          }
       ],
@@ -1869,7 +1869,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":1100
          }
       ],
@@ -1906,7 +1906,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":1650
          }
       ],
@@ -1943,7 +1943,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":1100
          }
       ],
@@ -1980,7 +1980,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":1650
          }
       ],
@@ -2017,7 +2017,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":2750
          }
       ],
@@ -2054,7 +2054,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":2750
          }
       ],
@@ -2202,7 +2202,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":900
          }
       ],
@@ -2239,7 +2239,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":600
          }
       ],
@@ -2276,7 +2276,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":900
          }
       ],
@@ -2313,7 +2313,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":600
          }
       ],
@@ -2350,7 +2350,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":900
          }
       ],
@@ -2387,7 +2387,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":1500
          }
       ],
@@ -2424,7 +2424,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":1500
          }
       ],
@@ -2572,7 +2572,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":2700
          }
       ],
@@ -2609,7 +2609,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":1800
          }
       ],
@@ -2646,7 +2646,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":2700
          }
       ],
@@ -2683,7 +2683,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":1800
          }
       ],
@@ -2720,7 +2720,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":2700
          }
       ],
@@ -2757,7 +2757,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":4500
          }
       ],
@@ -2794,7 +2794,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":4500
          }
       ],
@@ -2831,7 +2831,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":1
          }
       ],
@@ -2905,7 +2905,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyC",
+            "CurrencyId":"CurrencyC",
             "Price":5000
          }
       ],
@@ -2942,7 +2942,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":5500
          }
       ],
@@ -2979,7 +2979,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyC",
+            "CurrencyId":"CurrencyC",
             "Price":5000
          }
       ],
@@ -3090,7 +3090,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":1650
          }
       ],
@@ -3127,7 +3127,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":1650
          }
       ],
@@ -3164,7 +3164,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":1100
          }
       ],
@@ -3201,7 +3201,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":1100
          }
       ],
@@ -3238,7 +3238,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":1650
          }
       ],
@@ -3312,7 +3312,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyC",
+            "CurrencyId":"CurrencyC",
             "Price":2500
          }
       ],
@@ -3349,7 +3349,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":3000
          }
       ],
@@ -3386,7 +3386,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyC",
+            "CurrencyId":"CurrencyC",
             "Price":2500
          }
       ],
@@ -3497,7 +3497,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":900
          }
       ],
@@ -3534,7 +3534,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":900
          }
       ],
@@ -3571,7 +3571,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":600
          }
       ],
@@ -3608,7 +3608,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":600
          }
       ],
@@ -3645,7 +3645,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":900
          }
       ],
@@ -3719,7 +3719,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyC",
+            "CurrencyId":"CurrencyC",
             "Price":6500
          }
       ],
@@ -3756,7 +3756,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":9000
          }
       ],
@@ -3793,7 +3793,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyC",
+            "CurrencyId":"CurrencyC",
             "Price":6500
          }
       ],
@@ -3830,7 +3830,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":2700
          }
       ],
@@ -3867,7 +3867,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":2700
          }
       ],
@@ -3904,7 +3904,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":1800
          }
       ],
@@ -3941,7 +3941,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":1800
          }
       ],
@@ -3978,7 +3978,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":2700
          }
       ],
@@ -4015,7 +4015,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":1
          }
       ],
@@ -4237,7 +4237,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":1100
          }
       ],
@@ -4274,7 +4274,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":1650
          }
       ],
@@ -4311,7 +4311,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":1650
          }
       ],
@@ -4348,7 +4348,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":1650
          }
       ],
@@ -4385,7 +4385,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":1100
          }
       ],
@@ -4533,7 +4533,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":900
          }
       ],
@@ -4570,7 +4570,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":900
          }
       ],
@@ -4607,7 +4607,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":600
          }
       ],
@@ -4644,7 +4644,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":600
          }
       ],
@@ -4681,7 +4681,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":900
          }
       ],
@@ -4718,7 +4718,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":2700
          }
       ],
@@ -4755,7 +4755,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":2700
          }
       ],
@@ -4792,7 +4792,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":1800
          }
       ],
@@ -4829,7 +4829,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":1800
          }
       ],
@@ -4866,7 +4866,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":2700
          }
       ],
@@ -5014,7 +5014,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":900
          }
       ],
@@ -5051,7 +5051,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":600
          }
       ],
@@ -5088,7 +5088,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":900
          }
       ],
@@ -5125,7 +5125,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":900
          }
       ],
@@ -5162,7 +5162,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":600
          }
       ],
@@ -5199,7 +5199,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":2700
          }
       ],
@@ -5236,7 +5236,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":1800
          }
       ],
@@ -5273,7 +5273,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":2700
          }
       ],
@@ -5310,7 +5310,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":2700
          }
       ],
@@ -5347,7 +5347,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":1800
          }
       ],
@@ -5421,7 +5421,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":1
          }
       ],
@@ -5606,7 +5606,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":1100
          }
       ],
@@ -5643,7 +5643,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":1650
          }
       ],
@@ -5680,7 +5680,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":1100
          }
       ],
@@ -5717,7 +5717,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":1100
          }
       ],
@@ -5754,7 +5754,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":2200
          }
       ],
@@ -5865,7 +5865,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":600
          }
       ],
@@ -5902,7 +5902,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":900
          }
       ],
@@ -5939,7 +5939,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":600
          }
       ],
@@ -5976,7 +5976,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":600
          }
       ],
@@ -6013,7 +6013,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":1200
          }
       ],
@@ -6048,10 +6048,11 @@
          "Consumable":false,
          "IsWeapon":false,
          "InitialQuantity":1,
-		"DefaultCost": {
-			"CurrencyId": 3,
-			"Price": 10
-		},
+		"DefaultCost": [
+          {
+            "CurrencyId": "CurrencyB",
+            "Price": 10
+          }],
 		"MetaData": {
 			"BundleDiscountPercent": 69,
 			"MinPlayerLevel": 1,
@@ -6124,10 +6125,9 @@
             ]
          },
           "CustomizationGameplayTagByFaction": [
-              "Runner",
-              {
-                  "TagName": "Class.Runner"
-              }
+            {"key":  2,
+              "value": {"TagName": "Class.Runner"}
+            }
           ],
           "Gender": "Male"
       },
@@ -6252,7 +6252,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":500
          }
       ],
@@ -6289,7 +6289,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":750
          }
       ],
@@ -6326,7 +6326,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":750
          }
       ],
@@ -6363,7 +6363,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":500
          }
       ],
@@ -6400,7 +6400,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":750
          }
       ],
@@ -6548,7 +6548,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":750
          }
       ],
@@ -6585,7 +6585,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":500
          }
       ],
@@ -6622,7 +6622,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":750
          }
       ],
@@ -6659,7 +6659,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":500
          }
       ],
@@ -6696,7 +6696,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":750
          }
       ],
@@ -6733,7 +6733,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":1250
          }
       ],
@@ -6770,7 +6770,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":1250
          }
       ],
@@ -6844,7 +6844,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyC",
+            "CurrencyId":"CurrencyC",
             "Price":2000
          }
       ],
@@ -6881,7 +6881,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":2500
          }
       ],
@@ -6918,7 +6918,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyC",
+            "CurrencyId":"CurrencyC",
             "Price":2000
          }
       ],
@@ -7029,7 +7029,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":750
          }
       ],
@@ -7066,7 +7066,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":750
          }
       ],
@@ -7103,7 +7103,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":500
          }
       ],
@@ -7140,7 +7140,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":500
          }
       ],
@@ -7177,7 +7177,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":750
          }
       ],
@@ -7399,7 +7399,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":750
          }
       ],
@@ -7436,7 +7436,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":750
          }
       ],
@@ -7473,7 +7473,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":500
          }
       ],
@@ -7510,7 +7510,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":500
          }
       ],
@@ -7547,7 +7547,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":750
          }
       ],
@@ -7621,7 +7621,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":2500
          }
       ],
@@ -7658,7 +7658,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyC",
+            "CurrencyId":"CurrencyC",
             "Price":2000
          }
       ],
@@ -7695,7 +7695,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyC",
+            "CurrencyId":"CurrencyC",
             "Price":2000
          }
       ],
@@ -7806,7 +7806,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":750
          }
       ],
@@ -7843,7 +7843,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":500
          }
       ],
@@ -7880,7 +7880,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":750
          }
       ],
@@ -7917,7 +7917,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":750
          }
       ],
@@ -7954,7 +7954,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":500
          }
       ],
@@ -8102,7 +8102,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":500
          }
       ],
@@ -8139,7 +8139,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":750
          }
       ],
@@ -8176,7 +8176,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":500
          }
       ],
@@ -8213,7 +8213,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":500
          }
       ],
@@ -8250,7 +8250,7 @@
       "InitialQuantity":1,
       "DefaultCost":[
          {
-            "CurrencyId":"EGMCurrency::CurrencyB",
+            "CurrencyId":"CurrencyB",
             "Price":1000
          }
       ],
