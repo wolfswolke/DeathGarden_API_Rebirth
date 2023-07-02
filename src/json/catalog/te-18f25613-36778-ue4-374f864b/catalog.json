@@ -6042,16 +6042,16 @@
       }
    },
               {
-		"Id":"759E44DD-469C2841-75C2D6A1-AB0B0FA7",
-         "DisplayName":"Runner_Dash_NAME",
+		"Id":"755D4DFE-40DA1512-B01E3D8C-FF3C8D4D",
+         "DisplayName":"Runner_Sawbone_DisplayName",
          "Purchasable":true,
          "Consumable":false,
          "IsWeapon":false,
          "InitialQuantity":1,
 		"DefaultCost": [
           {
-            "CurrencyId": "CurrencyB",
-            "Price": 10
+            "CurrencyId": "CurrencyC",
+            "Price": 8000
           }],
 		"MetaData": {
 			"BundleDiscountPercent": 69,
@@ -6059,24 +6059,22 @@
 			"MinCharacterLevel": 1,
 			"Origin": "None",
           "BundleItems": [
-                            "907E22C4-48D304A8-4147B19A-F958089E",
-                            "18D077C2-4D7418C1-2CDE2297-CC661AF7",
-                            "7B2C394F-46245407-23117D83-A6752CED",
-                            "33E6325A-4E098D5D-47DBD48A-DE746024"
+                            "63A7C0BF-4FF01454-4C218FA9-E1B3516E",
+                            "DEA476E4-4FCCDCEC-4821B5B6-C0DD158F",
+                            "BB7B6E22-4B1A58EA-9FBFD6A0-924D3B4F",
+                            "5881CA7B-47C74C8D-15DAF09B-5860EBC9"
                         ],
                         "RewardBundleItems": [
-                            "907E22C4-48D304A8-4147B19A-F958089E",
-                            "18D077C2-4D7418C1-2CDE2297-CC661AF7",
-                            "7B2C394F-46245407-23117D83-A6752CED",
-                            "33E6325A-4E098D5D-47DBD48A-DE746024"
+                            "63A7C0BF-4FF01454-4C218FA9-E1B3516E",
+                            "DEA476E4-4FCCDCEC-4821B5B6-C0DD158F",
+                            "BB7B6E22-4B1A58EA-9FBFD6A0-924D3B4F",
+                            "5881CA7B-47C74C8D-15DAF09B-5860EBC9"
                         ]
 		},
 		"Faction": "Runner",
 		"GameplayTagContainer":{
          "GameplayTags":[
-            {
-               "TagName":"Runner.Dash"
-            }
+           {"TagName":  "Class.Runner"}
          ],
          "ParentTags":[
             {
@@ -6084,7 +6082,7 @@
             }
          ]
       },
-		"Gender": "Male"
+		"Gender": "Female"
 },
 
 
@@ -6124,11 +6122,11 @@
                }
             ]
          },
-          "CustomizationGameplayTagByFaction": [
-            {"key":  2,
-              "value": {"TagName": "Class.Runner"}
-            }
-          ],
+          "CustomizationGameplayTagByFaction": {
+            "Runner": {
+        "TagName": "Faction.Runner"
+      }
+          },
           "Gender": "Male"
       },
 
@@ -6155,20 +6153,26 @@
          "MinCharacterLevel":1,
          "Origin":"None"
       },
-      "Faction":"Runner",
-      "GameplayTagContainer":{
-         "GameplayTags":[
-            {
-               "TagName":"Customization.RN.Character.Vambrace"
-            }
-         ],
-         "ParentTags":[
-            {
-               "TagName":"Runner.Dash"
-            }
-         ]
+         "Faction":"Runner",
+         "GameplayTagContainer":{
+            "GameplayTags":[
+               {
+                  "TagName":"Customization.RN.Character.Vambrace"
+               }
+            ],
+            "ParentTags":[
+               {
+                  "TagName":"Runner.Smoke"
+               }
+            ]
+         },
+          "CustomizationGameplayTagByFaction": {
+            "Runner": {
+        "TagName": "Faction.Runner"
       }
-   },
+          },
+          "Gender": "Male"
+      },
    {
       "Id":"3D4A5A79-4DC103C0-54FB6EB5-83FEAF68",
       "DisplayName":"Scavenger_Dash_Vambrace002_NAME",
@@ -6192,20 +6196,26 @@
          "MinCharacterLevel":1,
          "Origin":"None"
       },
-      "Faction":"Runner",
-      "GameplayTagContainer":{
-         "GameplayTags":[
-            {
-               "TagName":"Customization.RN.Character.Vambrace"
-            }
-         ],
-         "ParentTags":[
-            {
-               "TagName":"Runner.Dash"
-            }
-         ]
+         "Faction":"Runner",
+         "GameplayTagContainer":{
+            "GameplayTags":[
+               {
+                  "TagName":"Customization.RN.Character.Vambrace"
+               }
+            ],
+            "ParentTags":[
+               {
+                  "TagName":"Runner.Smoke"
+               }
+            ]
+         },
+          "CustomizationGameplayTagByFaction": {
+            "Runner": {
+        "TagName": "Faction.Runner"
       }
-   },
+          },
+          "Gender": "Male"
+      },
    {
       "Id":"915A26C6-4B1F2F76-534DC5A0-B3141749",
       "DisplayName":"Scavenger_Dash_Vambrace002_NAME",
@@ -6229,20 +6239,26 @@
          "MinCharacterLevel":1,
          "Origin":"None"
       },
-      "Faction":"Runner",
-      "GameplayTagContainer":{
-         "GameplayTags":[
-            {
-               "TagName":"Customization.RN.Character.Vambrace"
-            }
-         ],
-         "ParentTags":[
-            {
-               "TagName":"Runner.Dash"
-            }
-         ]
+         "Faction":"Runner",
+         "GameplayTagContainer":{
+            "GameplayTags":[
+               {
+                  "TagName":"Customization.RN.Character.Vambrace"
+               }
+            ],
+            "ParentTags":[
+               {
+                  "TagName":"Runner.Smoke"
+               }
+            ]
+         },
+          "CustomizationGameplayTagByFaction": {
+            "Runner": {
+        "TagName": "Faction.Runner"
       }
-   },
+          },
+          "Gender": "Male"
+      },
    {
       "Id":"5846CD4A-4B6E464F-32723D84-87E11379",
       "DisplayName":"Scavenger_DASH_Vambrace_STR001_GreenCammo_NAME",
@@ -6266,20 +6282,26 @@
          "MinCharacterLevel":1,
          "Origin":"None"
       },
-      "Faction":"Runner",
-      "GameplayTagContainer":{
-         "GameplayTags":[
-            {
-               "TagName":"Customization.RN.Character.Vambrace"
-            }
-         ],
-         "ParentTags":[
-            {
-               "TagName":"Runner.Dash"
-            }
-         ]
+         "Faction":"Runner",
+         "GameplayTagContainer":{
+            "GameplayTags":[
+               {
+                  "TagName":"Customization.RN.Character.Vambrace"
+               }
+            ],
+            "ParentTags":[
+               {
+                  "TagName":"Runner.Smoke"
+               }
+            ]
+         },
+          "CustomizationGameplayTagByFaction": {
+            "Runner": {
+        "TagName": "Faction.Runner"
       }
-   },
+          },
+          "Gender": "Male"
+      },
    {
       "Id":"75318E84-4DF7BE0D-EFEFC6A3-39A76544",
       "DisplayName":"Scavenger_DASH_Vambrace_STR001_Fluo01_NAME",
@@ -6303,20 +6325,26 @@
          "MinCharacterLevel":1,
          "Origin":"None"
       },
-      "Faction":"Runner",
-      "GameplayTagContainer":{
-         "GameplayTags":[
-            {
-               "TagName":"Customization.RN.Character.Vambrace"
-            }
-         ],
-         "ParentTags":[
-            {
-               "TagName":"Runner.Dash"
-            }
-         ]
+         "Faction":"Runner",
+         "GameplayTagContainer":{
+            "GameplayTags":[
+               {
+                  "TagName":"Customization.RN.Character.Vambrace"
+               }
+            ],
+            "ParentTags":[
+               {
+                  "TagName":"Runner.Smoke"
+               }
+            ]
+         },
+          "CustomizationGameplayTagByFaction": {
+            "Runner": {
+        "TagName": "Faction.Runner"
       }
-   },
+          },
+          "Gender": "Male"
+      },
    {
       "Id":"07A39BEA-4A74DBA6-A1E09AAA-4B101EB7",
       "DisplayName":"Scavenger_DASH_Vambrace_STR001_Angel_NAME",
@@ -6340,20 +6368,26 @@
          "MinCharacterLevel":1,
          "Origin":"None"
       },
-      "Faction":"Runner",
-      "GameplayTagContainer":{
-         "GameplayTags":[
-            {
-               "TagName":"Customization.RN.Character.Vambrace"
-            }
-         ],
-         "ParentTags":[
-            {
-               "TagName":"Runner.Dash"
-            }
-         ]
+         "Faction":"Runner",
+         "GameplayTagContainer":{
+            "GameplayTags":[
+               {
+                  "TagName":"Customization.RN.Character.Vambrace"
+               }
+            ],
+            "ParentTags":[
+               {
+                  "TagName":"Runner.Smoke"
+               }
+            ]
+         },
+          "CustomizationGameplayTagByFaction": {
+            "Runner": {
+        "TagName": "Faction.Runner"
       }
-   },
+          },
+          "Gender": "Male"
+      },
    {
       "Id":"5D7EFE87-4FAE8D10-C38067A9-F861AA56",
       "DisplayName":"Scavenger_DASH_Head_STR001_Black_NAME",
@@ -6377,20 +6411,26 @@
          "MinCharacterLevel":1,
          "Origin":"None"
       },
-      "Faction":"Runner",
-      "GameplayTagContainer":{
-         "GameplayTags":[
-            {
-               "TagName":"Customization.RN.Character.Vambrace"
-            }
-         ],
-         "ParentTags":[
-            {
-               "TagName":"Runner.Dash"
-            }
-         ]
+         "Faction":"Runner",
+         "GameplayTagContainer":{
+            "GameplayTags":[
+               {
+                  "TagName":"Customization.RN.Character.Vambrace"
+               }
+            ],
+            "ParentTags":[
+               {
+                  "TagName":"Runner.Smoke"
+               }
+            ]
+         },
+          "CustomizationGameplayTagByFaction": {
+            "Runner": {
+        "TagName": "Faction.Runner"
       }
-   },
+          },
+          "Gender": "Male"
+      },
    {
       "Id":"040D3AC1-4C54057D-E570A2A2-A55801EF",
       "DisplayName":"Scavenger_GHOST_Vambrace_STR001_Woodcammo_NAME",
@@ -6414,20 +6454,26 @@
          "MinCharacterLevel":1,
          "Origin":"None"
       },
-      "Faction":"Runner",
-      "GameplayTagContainer":{
-         "GameplayTags":[
-            {
-               "TagName":"Customization.RN.Character.Vambrace"
-            }
-         ],
-         "ParentTags":[
-            {
-               "TagName":"Runner.Dash"
-            }
-         ]
+         "Faction":"Runner",
+         "GameplayTagContainer":{
+            "GameplayTags":[
+               {
+                  "TagName":"Customization.RN.Character.Vambrace"
+               }
+            ],
+            "ParentTags":[
+               {
+                  "TagName":"Runner.Smoke"
+               }
+            ]
+         },
+          "CustomizationGameplayTagByFaction": {
+            "Runner": {
+        "TagName": "Faction.Runner"
       }
-   },
+          },
+          "Gender": "Male"
+      },
    {
       "Id":"0743E9B4-4190283D-81A76480-701EB07E",
       "DisplayName":"Scavenger_Fog_Vambrace_NAME",
@@ -6451,20 +6497,26 @@
          "MinCharacterLevel":1,
          "Origin":"None"
       },
-      "Faction":"Runner",
-      "GameplayTagContainer":{
-         "GameplayTags":[
-            {
-               "TagName":"Customization.RN.Character.Vambrace"
-            }
-         ],
-         "ParentTags":[
-            {
-               "TagName":"Runner.Smoke"
-            }
-         ]
+         "Faction":"Runner",
+         "GameplayTagContainer":{
+            "GameplayTags":[
+               {
+                  "TagName":"Customization.RN.Character.Vambrace"
+               }
+            ],
+            "ParentTags":[
+               {
+                  "TagName":"Runner.Smoke"
+               }
+            ]
+         },
+          "CustomizationGameplayTagByFaction": {
+            "Runner": {
+        "TagName": "Faction.Runner"
       }
-   },
+          },
+          "Gender": "Male"
+      },
    {
       "Id":"33E6325A-4E098D5D-47DBD48A-DE746024",
       "DisplayName":"Scavenger_Fog_Vambrace002_NAME",
@@ -6488,20 +6540,26 @@
          "MinCharacterLevel":1,
          "Origin":"None"
       },
-      "Faction":"Runner",
-      "GameplayTagContainer":{
-         "GameplayTags":[
-            {
-               "TagName":"Customization.RN.Character.Vambrace"
-            }
-         ],
-         "ParentTags":[
-            {
-               "TagName":"Runner.Smoke"
-            }
-         ]
+         "Faction":"Runner",
+         "GameplayTagContainer":{
+            "GameplayTags":[
+               {
+                  "TagName":"Customization.RN.Character.Vambrace"
+               }
+            ],
+            "ParentTags":[
+               {
+                  "TagName":"Runner.Smoke"
+               }
+            ]
+         },
+          "CustomizationGameplayTagByFaction": {
+            "Runner": {
+        "TagName": "Faction.Runner"
       }
-   },
+          },
+          "Gender": "Male"
+      },
    {
       "Id":"E5010955-45F87E64-AAFC74A0-4F1CFF5B",
       "DisplayName":"Scavenger_Pathfinder_Vambrace_NAME",
@@ -6525,20 +6583,26 @@
          "MinCharacterLevel":1,
          "Origin":"None"
       },
-      "Faction":"Runner",
-      "GameplayTagContainer":{
-         "GameplayTags":[
-            {
-               "TagName":"Customization.RN.Character.Vambrace"
-            }
-         ],
-         "ParentTags":[
-            {
-               "TagName":"Runner.Smoke"
-            }
-         ]
+         "Faction":"Runner",
+         "GameplayTagContainer":{
+            "GameplayTags":[
+               {
+                  "TagName":"Customization.RN.Character.Vambrace"
+               }
+            ],
+            "ParentTags":[
+               {
+                  "TagName":"Runner.Smoke"
+               }
+            ]
+         },
+          "CustomizationGameplayTagByFaction": {
+            "Runner": {
+        "TagName": "Faction.Runner"
       }
-   },
+          },
+          "Gender": "Male"
+      },
    {
       "Id":"CC66E9B4-4329F1D7-718012AB-C3FB642D",
       "DisplayName":"Scavenger_SMOKE_Vambrace_STR001_Surplus_NAME",
@@ -6562,20 +6626,26 @@
          "MinCharacterLevel":1,
          "Origin":"None"
       },
-      "Faction":"Runner",
-      "GameplayTagContainer":{
-         "GameplayTags":[
-            {
-               "TagName":"Customization.RN.Character.Vambrace"
-            }
-         ],
-         "ParentTags":[
-            {
-               "TagName":"Runner.Smoke"
-            }
-         ]
+         "Faction":"Runner",
+         "GameplayTagContainer":{
+            "GameplayTags":[
+               {
+                  "TagName":"Customization.RN.Character.Vambrace"
+               }
+            ],
+            "ParentTags":[
+               {
+                  "TagName":"Runner.Smoke"
+               }
+            ]
+         },
+          "CustomizationGameplayTagByFaction": {
+            "Runner": {
+        "TagName": "Faction.Runner"
       }
-   },
+          },
+          "Gender": "Male"
+      },
    {
       "Id":"B10CB722-4F4BDF11-444119B2-2D1AB381",
       "DisplayName":"Scavenger_SMOKE_Vambrace_STR001_Bloodbeige_NAME",
@@ -6599,20 +6669,26 @@
          "MinCharacterLevel":1,
          "Origin":"None"
       },
-      "Faction":"Runner",
-      "GameplayTagContainer":{
-         "GameplayTags":[
-            {
-               "TagName":"Customization.RN.Character.Vambrace"
-            }
-         ],
-         "ParentTags":[
-            {
-               "TagName":"Runner.Smoke"
-            }
-         ]
+         "Faction":"Runner",
+         "GameplayTagContainer":{
+            "GameplayTags":[
+               {
+                  "TagName":"Customization.RN.Character.Vambrace"
+               }
+            ],
+            "ParentTags":[
+               {
+                  "TagName":"Runner.Smoke"
+               }
+            ]
+         },
+          "CustomizationGameplayTagByFaction": {
+            "Runner": {
+        "TagName": "Faction.Runner"
       }
-   },
+          },
+          "Gender": "Male"
+      },
    {
       "Id":"0750EEF6-4D7D37E1-3C18119E-F3890DD9",
       "DisplayName":"Scavenger_SMOKE_Vambrace_STR001_Sienna_NAME",
@@ -6636,20 +6712,26 @@
          "MinCharacterLevel":1,
          "Origin":"None"
       },
-      "Faction":"Runner",
-      "GameplayTagContainer":{
-         "GameplayTags":[
-            {
-               "TagName":"Customization.RN.Character.Vambrace"
-            }
-         ],
-         "ParentTags":[
-            {
-               "TagName":"Runner.Smoke"
-            }
-         ]
+         "Faction":"Runner",
+         "GameplayTagContainer":{
+            "GameplayTags":[
+               {
+                  "TagName":"Customization.RN.Character.Vambrace"
+               }
+            ],
+            "ParentTags":[
+               {
+                  "TagName":"Runner.Smoke"
+               }
+            ]
+         },
+          "CustomizationGameplayTagByFaction": {
+            "Runner": {
+        "TagName": "Faction.Runner"
       }
-   },
+          },
+          "Gender": "Male"
+      },
    {
       "Id":"CC151AA3-4237A2D8-4DBD7EA5-DDB4C287",
       "DisplayName":"Scavenger_SMOKE_Vambrace_STR001_Black_NAME",
@@ -6673,20 +6755,26 @@
          "MinCharacterLevel":1,
          "Origin":"None"
       },
-      "Faction":"Runner",
-      "GameplayTagContainer":{
-         "GameplayTags":[
-            {
-               "TagName":"Customization.RN.Character.Vambrace"
-            }
-         ],
-         "ParentTags":[
-            {
-               "TagName":"Runner.Smoke"
-            }
-         ]
+         "Faction":"Runner",
+         "GameplayTagContainer":{
+            "GameplayTags":[
+               {
+                  "TagName":"Customization.RN.Character.Vambrace"
+               }
+            ],
+            "ParentTags":[
+               {
+                  "TagName":"Runner.Smoke"
+               }
+            ]
+         },
+          "CustomizationGameplayTagByFaction": {
+            "Runner": {
+        "TagName": "Faction.Runner"
       }
-   },
+          },
+          "Gender": "Male"
+      },
    {
       "Id":"248D60AC-47F987E8-95AD65B7-22D8912B",
       "DisplayName":"Scavenger_SMOKE_Vambrace_STR001_Winter01_NAME",
@@ -6710,20 +6798,26 @@
          "MinCharacterLevel":1,
          "Origin":"None"
       },
-      "Faction":"Runner",
-      "GameplayTagContainer":{
-         "GameplayTags":[
-            {
-               "TagName":"Customization.RN.Character.Vambrace"
-            }
-         ],
-         "ParentTags":[
-            {
-               "TagName":"Runner.Smoke"
-            }
-         ]
+         "Faction":"Runner",
+         "GameplayTagContainer":{
+            "GameplayTags":[
+               {
+                  "TagName":"Customization.RN.Character.Vambrace"
+               }
+            ],
+            "ParentTags":[
+               {
+                  "TagName":"Runner.Smoke"
+               }
+            ]
+         },
+          "CustomizationGameplayTagByFaction": {
+            "Runner": {
+        "TagName": "Faction.Runner"
       }
-   },
+          },
+          "Gender": "Male"
+      },
    {
       "Id":"0DC09EDD-42D7C884-D58C9E9A-6FE00CA5",
       "DisplayName":"Scavenger_SMOKE_Vambrace_STR001_Longcoat_NAME",
@@ -6747,20 +6841,26 @@
          "MinCharacterLevel":1,
          "Origin":"None"
       },
-      "Faction":"Runner",
-      "GameplayTagContainer":{
-         "GameplayTags":[
-            {
-               "TagName":"Customization.RN.Character.Vambrace"
-            }
-         ],
-         "ParentTags":[
-            {
-               "TagName":"Runner.Smoke"
-            }
-         ]
+         "Faction":"Runner",
+         "GameplayTagContainer":{
+            "GameplayTags":[
+               {
+                  "TagName":"Customization.RN.Character.Vambrace"
+               }
+            ],
+            "ParentTags":[
+               {
+                  "TagName":"Runner.Smoke"
+               }
+            ]
+         },
+          "CustomizationGameplayTagByFaction": {
+            "Runner": {
+        "TagName": "Faction.Runner"
       }
-   },
+          },
+          "Gender": "Male"
+      },
    {
       "Id":"E3C6E6BC-4B224BF0-EF414BB7-2A0EA7F4",
       "DisplayName":"Scavenger_SMOKE_Vambrace_STR001_Lightcoat_NAME",
@@ -6784,20 +6884,26 @@
          "MinCharacterLevel":1,
          "Origin":"None"
       },
-      "Faction":"Runner",
-      "GameplayTagContainer":{
-         "GameplayTags":[
-            {
-               "TagName":"Customization.RN.Character.Vambrace"
-            }
-         ],
-         "ParentTags":[
-            {
-               "TagName":"Runner.Smoke"
-            }
-         ]
+         "Faction":"Runner",
+         "GameplayTagContainer":{
+            "GameplayTags":[
+               {
+                  "TagName":"Customization.RN.Character.Vambrace"
+               }
+            ],
+            "ParentTags":[
+               {
+                  "TagName":"Runner.Smoke"
+               }
+            ]
+         },
+          "CustomizationGameplayTagByFaction": {
+            "Runner": {
+        "TagName": "Faction.Runner"
       }
-   },
+          },
+          "Gender": "Male"
+      },
    {
       "Id":"BE23A8F1-4E783C51-E662DCAD-D9AA76FF",
       "DisplayName":"Scavenger_Ghost_Vambrace_NAME",
@@ -6821,20 +6927,26 @@
          "MinCharacterLevel":1,
          "Origin":"None"
       },
-      "Faction":"Runner",
-      "GameplayTagContainer":{
-         "GameplayTags":[
-            {
-               "TagName":"Customization.RN.Character.Vambrace"
-            }
-         ],
-         "ParentTags":[
-            {
-               "TagName":"Runner.Ghost"
-            }
-         ]
+         "Faction":"Runner",
+         "GameplayTagContainer":{
+            "GameplayTags":[
+               {
+                  "TagName":"Customization.RN.Character.Vambrace"
+               }
+            ],
+            "ParentTags":[
+               {
+                  "TagName":"Runner.Ghost"
+               }
+            ]
+         },
+          "CustomizationGameplayTagByFaction": {
+            "Runner": {
+        "TagName": "Faction.Runner"
       }
-   },
+          },
+          "Gender": "Male"
+      },
    {
       "Id":"480C6E34-4376EAF9-C6572C83-DA1725F6",
       "DisplayName":"Scavenger_GHOST_Vambrace_OR001_NAME",
@@ -6858,20 +6970,26 @@
          "MinCharacterLevel":1,
          "Origin":"None"
       },
-      "Faction":"Runner",
-      "GameplayTagContainer":{
-         "GameplayTags":[
-            {
-               "TagName":"Customization.RN.Character.Vambrace"
-            }
-         ],
-         "ParentTags":[
-            {
-               "TagName":"Runner.Ghost"
-            }
-         ]
+         "Faction":"Runner",
+         "GameplayTagContainer":{
+            "GameplayTags":[
+               {
+                  "TagName":"Customization.RN.Character.Vambrace"
+               }
+            ],
+            "ParentTags":[
+               {
+                  "TagName":"Runner.Ghost"
+               }
+            ]
+         },
+          "CustomizationGameplayTagByFaction": {
+            "Runner": {
+        "TagName": "Faction.Runner"
       }
-   },
+          },
+          "Gender": "Male"
+      },
    {
       "Id":"29625783-40E6FC73-9889BEB2-D9918BBA",
       "DisplayName":"Scavenger_GHOST_Vambrace_OR002_NAME",
@@ -6895,20 +7013,26 @@
          "MinCharacterLevel":1,
          "Origin":"None"
       },
-      "Faction":"Runner",
-      "GameplayTagContainer":{
-         "GameplayTags":[
-            {
-               "TagName":"Customization.RN.Character.Vambrace"
-            }
-         ],
-         "ParentTags":[
-            {
-               "TagName":"Runner.Ghost"
-            }
-         ]
+         "Faction":"Runner",
+         "GameplayTagContainer":{
+            "GameplayTags":[
+               {
+                  "TagName":"Customization.RN.Character.Vambrace"
+               }
+            ],
+            "ParentTags":[
+               {
+                  "TagName":"Runner.Ghost"
+               }
+            ]
+         },
+          "CustomizationGameplayTagByFaction": {
+            "Runner": {
+        "TagName": "Faction.Runner"
       }
-   },
+          },
+          "Gender": "Male"
+      },
    {
       "Id":"8F0011C4-4146ACD0-A6F0BCBB-44E368DB",
       "DisplayName":"Scavenger_GHOST_Vambrace_OR003_NAME",
@@ -6932,20 +7056,26 @@
          "MinCharacterLevel":1,
          "Origin":"None"
       },
-      "Faction":"Runner",
-      "GameplayTagContainer":{
-         "GameplayTags":[
-            {
-               "TagName":"Customization.RN.Character.Vambrace"
-            }
-         ],
-         "ParentTags":[
-            {
-               "TagName":"Runner.Ghost"
-            }
-         ]
+         "Faction":"Runner",
+         "GameplayTagContainer":{
+            "GameplayTags":[
+               {
+                  "TagName":"Customization.RN.Character.Vambrace"
+               }
+            ],
+            "ParentTags":[
+               {
+                  "TagName":"Runner.Ghost"
+               }
+            ]
+         },
+          "CustomizationGameplayTagByFaction": {
+            "Runner": {
+        "TagName": "Faction.Runner"
       }
-   },
+          },
+          "Gender": "Male"
+      },
    {
       "Id":"970853F3-4E047E1D-445092B7-712D98C2",
       "DisplayName":"Scavenger_Ghost_Vambrace002_NAME",
@@ -6969,20 +7099,26 @@
          "MinCharacterLevel":1,
          "Origin":"None"
       },
-      "Faction":"Runner",
-      "GameplayTagContainer":{
-         "GameplayTags":[
-            {
-               "TagName":"Customization.RN.Character.Vambrace"
-            }
-         ],
-         "ParentTags":[
-            {
-               "TagName":"Runner.Ghost"
-            }
-         ]
+         "Faction":"Runner",
+         "GameplayTagContainer":{
+            "GameplayTags":[
+               {
+                  "TagName":"Customization.RN.Character.Vambrace"
+               }
+            ],
+            "ParentTags":[
+               {
+                  "TagName":"Runner.Ghost"
+               }
+            ]
+         },
+          "CustomizationGameplayTagByFaction": {
+            "Runner": {
+        "TagName": "Faction.Runner"
       }
-   },
+          },
+          "Gender": "Male"
+      },
    {
       "Id":"996F45A6-4E6E2E7B-2B72B9BA-BA86F86D",
       "DisplayName":"Scavenger_Ghost_SuperNova_Vambrace_NAME",
@@ -7006,20 +7142,26 @@
          "MinCharacterLevel":1,
          "Origin":"None"
       },
-      "Faction":"Runner",
-      "GameplayTagContainer":{
-         "GameplayTags":[
-            {
-               "TagName":"Customization.RN.Character.Vambrace"
-            }
-         ],
-         "ParentTags":[
-            {
-               "TagName":"Runner.Ghost"
-            }
-         ]
+         "Faction":"Runner",
+         "GameplayTagContainer":{
+            "GameplayTags":[
+               {
+                  "TagName":"Customization.RN.Character.Vambrace"
+               }
+            ],
+            "ParentTags":[
+               {
+                  "TagName":"Runner.Ghost"
+               }
+            ]
+         },
+          "CustomizationGameplayTagByFaction": {
+            "Runner": {
+        "TagName": "Faction.Runner"
       }
-   },
+          },
+          "Gender": "Male"
+      },
    {
       "Id":"17CB8A13-4E308E60-97D8CA91-4FE919DE",
       "DisplayName":"Scavenger_GHOST_Vambrace_STR001_Cardinal_NAME",
@@ -7043,20 +7185,26 @@
          "MinCharacterLevel":1,
          "Origin":"None"
       },
-      "Faction":"Runner",
-      "GameplayTagContainer":{
-         "GameplayTags":[
-            {
-               "TagName":"Customization.RN.Character.Vambrace"
-            }
-         ],
-         "ParentTags":[
-            {
-               "TagName":"Runner.Ghost"
-            }
-         ]
+         "Faction":"Runner",
+         "GameplayTagContainer":{
+            "GameplayTags":[
+               {
+                  "TagName":"Customization.RN.Character.Vambrace"
+               }
+            ],
+            "ParentTags":[
+               {
+                  "TagName":"Runner.Ghost"
+               }
+            ]
+         },
+          "CustomizationGameplayTagByFaction": {
+            "Runner": {
+        "TagName": "Faction.Runner"
       }
-   },
+          },
+          "Gender": "Male"
+      },
    {
       "Id":"374A760E-428AAFD5-D99450AA-ECE052A2",
       "DisplayName":"Scavenger_GHOST_Vambrace_STR001_Construction_NAME",
@@ -7080,20 +7228,26 @@
          "MinCharacterLevel":1,
          "Origin":"None"
       },
-      "Faction":"Runner",
-      "GameplayTagContainer":{
-         "GameplayTags":[
-            {
-               "TagName":"Customization.RN.Character.Vambrace"
-            }
-         ],
-         "ParentTags":[
-            {
-               "TagName":"Runner.Ghost"
-            }
-         ]
+         "Faction":"Runner",
+         "GameplayTagContainer":{
+            "GameplayTags":[
+               {
+                  "TagName":"Customization.RN.Character.Vambrace"
+               }
+            ],
+            "ParentTags":[
+               {
+                  "TagName":"Runner.Ghost"
+               }
+            ]
+         },
+          "CustomizationGameplayTagByFaction": {
+            "Runner": {
+        "TagName": "Faction.Runner"
       }
-   },
+          },
+          "Gender": "Male"
+      },
    {
       "Id":"EB37BD9E-42EA32C8-53F47099-23EC20B1",
       "DisplayName":"Scavenger_GHOST_Vambrace_STR001_Black_NAME",
@@ -7117,20 +7271,26 @@
          "MinCharacterLevel":1,
          "Origin":"None"
       },
-      "Faction":"Runner",
-      "GameplayTagContainer":{
-         "GameplayTags":[
-            {
-               "TagName":"Customization.RN.Character.Vambrace"
-            }
-         ],
-         "ParentTags":[
-            {
-               "TagName":"Runner.Ghost"
-            }
-         ]
+         "Faction":"Runner",
+         "GameplayTagContainer":{
+            "GameplayTags":[
+               {
+                  "TagName":"Customization.RN.Character.Vambrace"
+               }
+            ],
+            "ParentTags":[
+               {
+                  "TagName":"Runner.Ghost"
+               }
+            ]
+         },
+          "CustomizationGameplayTagByFaction": {
+            "Runner": {
+        "TagName": "Faction.Runner"
       }
-   },
+          },
+          "Gender": "Male"
+      },
    {
       "Id":"51F76859-4F8CA371-4BF87A8C-F56FF9D9",
       "DisplayName":"Scavenger_GHOST_Vambrace_STR001_Cerulean_NAME",
@@ -7154,20 +7314,26 @@
          "MinCharacterLevel":1,
          "Origin":"None"
       },
-      "Faction":"Runner",
-      "GameplayTagContainer":{
-         "GameplayTags":[
-            {
-               "TagName":"Customization.RN.Character.Vambrace"
-            }
-         ],
-         "ParentTags":[
-            {
-               "TagName":"Runner.Ghost"
-            }
-         ]
+         "Faction":"Runner",
+         "GameplayTagContainer":{
+            "GameplayTags":[
+               {
+                  "TagName":"Customization.RN.Character.Vambrace"
+               }
+            ],
+            "ParentTags":[
+               {
+                  "TagName":"Runner.Ghost"
+               }
+            ]
+         },
+          "CustomizationGameplayTagByFaction": {
+            "Runner": {
+        "TagName": "Faction.Runner"
       }
-   },
+          },
+          "Gender": "Male"
+      },
    {
       "Id":"0C76DE7F-4D1C0ADC-84E802A7-D71C7AA1",
       "DisplayName":"Scavenger_GHOST_Vambrace_STR001_Mulberrygreen_NAME",
@@ -7191,20 +7357,26 @@
          "MinCharacterLevel":1,
          "Origin":"None"
       },
-      "Faction":"Runner",
-      "GameplayTagContainer":{
-         "GameplayTags":[
-            {
-               "TagName":"Customization.RN.Character.Vambrace"
-            }
-         ],
-         "ParentTags":[
-            {
-               "TagName":"Runner.Ghost"
-            }
-         ]
+         "Faction":"Runner",
+         "GameplayTagContainer":{
+            "GameplayTags":[
+               {
+                  "TagName":"Customization.RN.Character.Vambrace"
+               }
+            ],
+            "ParentTags":[
+               {
+                  "TagName":"Runner.Ghost"
+               }
+            ]
+         },
+          "CustomizationGameplayTagByFaction": {
+            "Runner": {
+        "TagName": "Faction.Runner"
       }
-   },
+          },
+          "Gender": "Male"
+      },
    {
       "Id":"540DB191-4938D04F-524DC985-0A325B21",
       "DisplayName":"Scavenger_Inked_Vambrace_NAME",
@@ -7228,20 +7400,26 @@
          "MinCharacterLevel":1,
          "Origin":"None"
       },
-      "Faction":"Runner",
-      "GameplayTagContainer":{
-         "GameplayTags":[
-            {
-               "TagName":"Customization.RN.Character.Vambrace"
-            }
-         ],
-         "ParentTags":[
-            {
-               "TagName":"Runner.Ink"
-            }
-         ]
+         "Faction":"Runner",
+         "GameplayTagContainer":{
+            "GameplayTags":[
+               {
+                  "TagName":"Customization.RN.Character.Vambrace"
+               }
+            ],
+            "ParentTags":[
+               {
+                  "TagName":"Runner.Ink"
+               }
+            ]
+         },
+          "CustomizationGameplayTagByFaction": {
+            "Runner": {
+        "TagName": "Faction.Runner"
       }
-   },
+          },
+          "Gender": "Female"
+      },
    {
       "Id":"10704A34-4BE021FB-82B92485-262FEB57",
       "DisplayName":"Scavenger_Inked_Vambrace002_NAME",
@@ -7265,20 +7443,26 @@
          "MinCharacterLevel":1,
          "Origin":"None"
       },
-      "Faction":"Runner",
-      "GameplayTagContainer":{
-         "GameplayTags":[
-            {
-               "TagName":"Customization.RN.Character.Vambrace"
-            }
-         ],
-         "ParentTags":[
-            {
-               "TagName":"Runner.Ink"
-            }
-         ]
+         "Faction":"Runner",
+         "GameplayTagContainer":{
+            "GameplayTags":[
+               {
+                  "TagName":"Customization.RN.Character.Vambrace"
+               }
+            ],
+            "ParentTags":[
+               {
+                  "TagName":"Runner.Ink"
+               }
+            ]
+         },
+          "CustomizationGameplayTagByFaction": {
+            "Runner": {
+        "TagName": "Faction.Runner"
       }
-   },
+          },
+          "Gender": "Female"
+      },
    {
       "Id":"8968BDBD-4AB5F701-7A446BB7-8416EB29",
       "DisplayName":"Scavenger_Blockade_Vambrace_NAME",
@@ -7302,20 +7486,26 @@
          "MinCharacterLevel":1,
          "Origin":"None"
       },
-      "Faction":"Runner",
-      "GameplayTagContainer":{
-         "GameplayTags":[
-            {
-               "TagName":"Customization.RN.Character.Vambrace"
-            }
-         ],
-         "ParentTags":[
-            {
-               "TagName":"Runner.Ink"
-            }
-         ]
+         "Faction":"Runner",
+         "GameplayTagContainer":{
+            "GameplayTags":[
+               {
+                  "TagName":"Customization.RN.Character.Vambrace"
+               }
+            ],
+            "ParentTags":[
+               {
+                  "TagName":"Runner.Ink"
+               }
+            ]
+         },
+          "CustomizationGameplayTagByFaction": {
+            "Runner": {
+        "TagName": "Faction.Runner"
       }
-   },
+          },
+          "Gender": "Female"
+      },
    {
       "Id":"2A08E143-44CA5E68-95E76CAF-8750B737",
       "DisplayName":"Scavenger_Inked_Vambrace_NAME",
@@ -7339,20 +7529,26 @@
          "MinCharacterLevel":1,
          "Origin":"None"
       },
-      "Faction":"Runner",
-      "GameplayTagContainer":{
-         "GameplayTags":[
-            {
-               "TagName":"Customization.RN.Character.Vambrace"
-            }
-         ],
-         "ParentTags":[
-            {
-               "TagName":"Runner.Ink"
-            }
-         ]
+         "Faction":"Runner",
+         "GameplayTagContainer":{
+            "GameplayTags":[
+               {
+                  "TagName":"Customization.RN.Character.Vambrace"
+               }
+            ],
+            "ParentTags":[
+               {
+                  "TagName":"Runner.Ink"
+               }
+            ]
+         },
+          "CustomizationGameplayTagByFaction": {
+            "Runner": {
+        "TagName": "Faction.Runner"
       }
-   },
+          },
+          "Gender": "Female"
+      },
    {
       "Id":"49FCCB5D-49AD7F5E-79639E80-2CA236C1",
       "DisplayName":"Scavenger_Inked_Vambrace_NAME",
@@ -7376,20 +7572,26 @@
          "MinCharacterLevel":1,
          "Origin":"None"
       },
-      "Faction":"Runner",
-      "GameplayTagContainer":{
-         "GameplayTags":[
-            {
-               "TagName":"Customization.RN.Character.Vambrace"
-            }
-         ],
-         "ParentTags":[
-            {
-               "TagName":"Runner.Ink"
-            }
-         ]
+         "Faction":"Runner",
+         "GameplayTagContainer":{
+            "GameplayTags":[
+               {
+                  "TagName":"Customization.RN.Character.Vambrace"
+               }
+            ],
+            "ParentTags":[
+               {
+                  "TagName":"Runner.Ink"
+               }
+            ]
+         },
+          "CustomizationGameplayTagByFaction": {
+            "Runner": {
+        "TagName": "Faction.Runner"
       }
-   },
+          },
+          "Gender": "Female"
+      },
    {
       "Id":"6EFB91B8-42CAD7BF-61F76D89-72AF9FE0",
       "DisplayName":"Scavenger_INK_Vambrace_STR001_Surplus_NAME",
@@ -7413,20 +7615,26 @@
          "MinCharacterLevel":1,
          "Origin":"None"
       },
-      "Faction":"Runner",
-      "GameplayTagContainer":{
-         "GameplayTags":[
-            {
-               "TagName":"Customization.RN.Character.Vambrace"
-            }
-         ],
-         "ParentTags":[
-            {
-               "TagName":"Runner.Ink"
-            }
-         ]
+         "Faction":"Runner",
+         "GameplayTagContainer":{
+            "GameplayTags":[
+               {
+                  "TagName":"Customization.RN.Character.Vambrace"
+               }
+            ],
+            "ParentTags":[
+               {
+                  "TagName":"Runner.Ink"
+               }
+            ]
+         },
+          "CustomizationGameplayTagByFaction": {
+            "Runner": {
+        "TagName": "Faction.Runner"
       }
-   },
+          },
+          "Gender": "Female"
+      },
    {
       "Id":"724E0528-4D2CE2D9-A75583AC-C7087A79",
       "DisplayName":"Scavenger_INK_Vambrace_STR001_Aquaperu_NAME",
@@ -7450,20 +7658,26 @@
          "MinCharacterLevel":1,
          "Origin":"None"
       },
-      "Faction":"Runner",
-      "GameplayTagContainer":{
-         "GameplayTags":[
-            {
-               "TagName":"Customization.RN.Character.Vambrace"
-            }
-         ],
-         "ParentTags":[
-            {
-               "TagName":"Runner.Ink"
-            }
-         ]
+         "Faction":"Runner",
+         "GameplayTagContainer":{
+            "GameplayTags":[
+               {
+                  "TagName":"Customization.RN.Character.Vambrace"
+               }
+            ],
+            "ParentTags":[
+               {
+                  "TagName":"Runner.Ink"
+               }
+            ]
+         },
+          "CustomizationGameplayTagByFaction": {
+            "Runner": {
+        "TagName": "Faction.Runner"
       }
-   },
+          },
+          "Gender": "Female"
+      },
    {
       "Id":"587F7BFF-490BFC4C-AD93489D-131F0520",
       "DisplayName":"Scavenger_INK_Vambrace_STR001_Desert01_NAME",
@@ -7487,20 +7701,26 @@
          "MinCharacterLevel":1,
          "Origin":"None"
       },
-      "Faction":"Runner",
-      "GameplayTagContainer":{
-         "GameplayTags":[
-            {
-               "TagName":"Customization.RN.Character.Vambrace"
-            }
-         ],
-         "ParentTags":[
-            {
-               "TagName":"Runner.Ink"
-            }
-         ]
+         "Faction":"Runner",
+         "GameplayTagContainer":{
+            "GameplayTags":[
+               {
+                  "TagName":"Customization.RN.Character.Vambrace"
+               }
+            ],
+            "ParentTags":[
+               {
+                  "TagName":"Runner.Ink"
+               }
+            ]
+         },
+          "CustomizationGameplayTagByFaction": {
+            "Runner": {
+        "TagName": "Faction.Runner"
       }
-   },
+          },
+          "Gender": "Female"
+      },
    {
       "Id":"5BFE81D8-42FF85A4-23FC958C-2C04537F",
       "DisplayName":"Scavenger_INK_Vambrace_STR001_Black_NAME",
@@ -7524,20 +7744,26 @@
          "MinCharacterLevel":1,
          "Origin":"None"
       },
-      "Faction":"Runner",
-      "GameplayTagContainer":{
-         "GameplayTags":[
-            {
-               "TagName":"Customization.RN.Character.Vambrace"
-            }
-         ],
-         "ParentTags":[
-            {
-               "TagName":"Runner.Ink"
-            }
-         ]
+         "Faction":"Runner",
+         "GameplayTagContainer":{
+            "GameplayTags":[
+               {
+                  "TagName":"Customization.RN.Character.Vambrace"
+               }
+            ],
+            "ParentTags":[
+               {
+                  "TagName":"Runner.Ink"
+               }
+            ]
+         },
+          "CustomizationGameplayTagByFaction": {
+            "Runner": {
+        "TagName": "Faction.Runner"
       }
-   },
+          },
+          "Gender": "Female"
+      },
    {
       "Id":"805CDB66-49EE1D43-A315AEA8-7CD0C29E",
       "DisplayName":"Scavenger_INK_Vambrace_STR001_Winter01_NAME",
@@ -7561,20 +7787,26 @@
          "MinCharacterLevel":1,
          "Origin":"None"
       },
-      "Faction":"Runner",
-      "GameplayTagContainer":{
-         "GameplayTags":[
-            {
-               "TagName":"Customization.RN.Character.Vambrace"
-            }
-         ],
-         "ParentTags":[
-            {
-               "TagName":"Runner.Ink"
-            }
-         ]
+         "Faction":"Runner",
+         "GameplayTagContainer":{
+            "GameplayTags":[
+               {
+                  "TagName":"Customization.RN.Character.Vambrace"
+               }
+            ],
+            "ParentTags":[
+               {
+                  "TagName":"Runner.Ink"
+               }
+            ]
+         },
+          "CustomizationGameplayTagByFaction": {
+            "Runner": {
+        "TagName": "Faction.Runner"
       }
-   },
+          },
+          "Gender": "Female"
+      },
    {
       "Id":"AD900FC9-4C6608A4-F88E8B8A-87402F0F",
       "DisplayName":"Scavenger_Sawbones_Vambrace_NAME",
@@ -7598,20 +7830,26 @@
          "MinCharacterLevel":1,
          "Origin":"None"
       },
-      "Faction":"Runner",
-      "GameplayTagContainer":{
-         "GameplayTags":[
-            {
-               "TagName":"Customization.RN.Character.Vambrace"
-            }
-         ],
-         "ParentTags":[
-            {
-               "TagName":"Runner.Sawbones"
-            }
-         ]
+         "Faction":"Runner",
+         "GameplayTagContainer":{
+            "GameplayTags":[
+               {
+                  "TagName":"Customization.RN.Character.Vambrace"
+               }
+            ],
+            "ParentTags":[
+               {
+                  "TagName":"Runner.Sawbones"
+               }
+            ]
+         },
+          "CustomizationGameplayTagByFaction": {
+            "Runner": {
+        "TagName": "Faction.Runner"
       }
-   },
+          },
+          "Gender": "Female"
+      },
    {
       "Id":"BA9BED31-442755AC-D2FCD386-7501B22D",
       "DisplayName":"Scavenger_SAWBONES_Vambrace_OR001_NAME",
@@ -7635,20 +7873,26 @@
          "MinCharacterLevel":1,
          "Origin":"None"
       },
-      "Faction":"Runner",
-      "GameplayTagContainer":{
-         "GameplayTags":[
-            {
-               "TagName":"Customization.RN.Character.Vambrace"
-            }
-         ],
-         "ParentTags":[
-            {
-               "TagName":"Runner.Sawbones"
-            }
-         ]
+         "Faction":"Runner",
+         "GameplayTagContainer":{
+            "GameplayTags":[
+               {
+                  "TagName":"Customization.RN.Character.Vambrace"
+               }
+            ],
+            "ParentTags":[
+               {
+                  "TagName":"Runner.Sawbones"
+               }
+            ]
+         },
+          "CustomizationGameplayTagByFaction": {
+            "Runner": {
+        "TagName": "Faction.Runner"
       }
-   },
+          },
+          "Gender": "Female"
+      },
    {
       "Id":"1AB1CFA7-43D595B0-5A872F8F-DC6202D8",
       "DisplayName":"Scavenger_SAWBONES_Vambrace_OR002_NAME",
@@ -7672,20 +7916,26 @@
          "MinCharacterLevel":1,
          "Origin":"None"
       },
-      "Faction":"Runner",
-      "GameplayTagContainer":{
-         "GameplayTags":[
-            {
-               "TagName":"Customization.RN.Character.Vambrace"
-            }
-         ],
-         "ParentTags":[
-            {
-               "TagName":"Runner.Sawbones"
-            }
-         ]
+         "Faction":"Runner",
+         "GameplayTagContainer":{
+            "GameplayTags":[
+               {
+                  "TagName":"Customization.RN.Character.Vambrace"
+               }
+            ],
+            "ParentTags":[
+               {
+                  "TagName":"Runner.Sawbones"
+               }
+            ]
+         },
+          "CustomizationGameplayTagByFaction": {
+            "Runner": {
+        "TagName": "Faction.Runner"
       }
-   },
+          },
+          "Gender": "Female"
+      },
    {
       "Id":"E7A22D4C-44FB3997-2A5E3685-7D0DF88A",
       "DisplayName":"Scavenger_SAWBONES_Vambrace_OR003_NAME",
@@ -7709,20 +7959,26 @@
          "MinCharacterLevel":1,
          "Origin":"None"
       },
-      "Faction":"Runner",
-      "GameplayTagContainer":{
-         "GameplayTags":[
-            {
-               "TagName":"Customization.RN.Character.Vambrace"
-            }
-         ],
-         "ParentTags":[
-            {
-               "TagName":"Runner.Sawbones"
-            }
-         ]
+         "Faction":"Runner",
+         "GameplayTagContainer":{
+            "GameplayTags":[
+               {
+                  "TagName":"Customization.RN.Character.Vambrace"
+               }
+            ],
+            "ParentTags":[
+               {
+                  "TagName":"Runner.Sawbones"
+               }
+            ]
+         },
+          "CustomizationGameplayTagByFaction": {
+            "Runner": {
+        "TagName": "Faction.Runner"
       }
-   },
+          },
+          "Gender": "Female"
+      },
    {
       "Id":"5881CA7B-47C74C8D-15DAF09B-5860EBC9",
       "DisplayName":"Scavenger_Sawbones_Vambrace002_NAME",
@@ -7746,20 +8002,26 @@
          "MinCharacterLevel":1,
          "Origin":"None"
       },
-      "Faction":"Runner",
-      "GameplayTagContainer":{
-         "GameplayTags":[
-            {
-               "TagName":"Customization.RN.Character.Vambrace"
-            }
-         ],
-         "ParentTags":[
-            {
-               "TagName":"Runner.Sawbones"
-            }
-         ]
+         "Faction":"Runner",
+         "GameplayTagContainer":{
+            "GameplayTags":[
+               {
+                  "TagName":"Customization.RN.Character.Vambrace"
+               }
+            ],
+            "ParentTags":[
+               {
+                  "TagName":"Runner.Sawbones"
+               }
+            ]
+         },
+          "CustomizationGameplayTagByFaction": {
+            "Runner": {
+        "TagName": "Faction.Runner"
       }
-   },
+          },
+          "Gender": "Female"
+      },
    {
       "Id":"3EF7ED34-49B8EA4E-19BEDFBD-100B1DFA",
       "DisplayName":"Scavenger_Sentinel_Vambrace_NAME",
@@ -7783,20 +8045,26 @@
          "MinCharacterLevel":1,
          "Origin":"None"
       },
-      "Faction":"Runner",
-      "GameplayTagContainer":{
-         "GameplayTags":[
-            {
-               "TagName":"Customization.RN.Character.Vambrace"
-            }
-         ],
-         "ParentTags":[
-            {
-               "TagName":"Runner.Sawbones"
-            }
-         ]
+         "Faction":"Runner",
+         "GameplayTagContainer":{
+            "GameplayTags":[
+               {
+                  "TagName":"Customization.RN.Character.Vambrace"
+               }
+            ],
+            "ParentTags":[
+               {
+                  "TagName":"Runner.Sawbones"
+               }
+            ]
+         },
+          "CustomizationGameplayTagByFaction": {
+            "Runner": {
+        "TagName": "Faction.Runner"
       }
-   },
+          },
+          "Gender": "Female"
+      },
    {
       "Id":"9FC661AF-41D9A1EB-67B95B8B-1D0AEB01",
       "DisplayName":"Scavenger_SAWBONES_Vambrace_STR001_Teal_NAME",
@@ -7820,20 +8088,26 @@
          "MinCharacterLevel":1,
          "Origin":"None"
       },
-      "Faction":"Runner",
-      "GameplayTagContainer":{
-         "GameplayTags":[
-            {
-               "TagName":"Customization.RN.Character.Vambrace"
-            }
-         ],
-         "ParentTags":[
-            {
-               "TagName":"Runner.Sawbones"
-            }
-         ]
+         "Faction":"Runner",
+         "GameplayTagContainer":{
+            "GameplayTags":[
+               {
+                  "TagName":"Customization.RN.Character.Vambrace"
+               }
+            ],
+            "ParentTags":[
+               {
+                  "TagName":"Runner.Sawbones"
+               }
+            ]
+         },
+          "CustomizationGameplayTagByFaction": {
+            "Runner": {
+        "TagName": "Faction.Runner"
       }
-   },
+          },
+          "Gender": "Female"
+      },
    {
       "Id":"D363B1AA-4B455ED5-585CA582-0DB8A9EA",
       "DisplayName":"Scavenger_SAWBONES_Vambrace_STR001_Daliah_NAME",
@@ -7857,20 +8131,26 @@
          "MinCharacterLevel":1,
          "Origin":"None"
       },
-      "Faction":"Runner",
-      "GameplayTagContainer":{
-         "GameplayTags":[
-            {
-               "TagName":"Customization.RN.Character.Vambrace"
-            }
-         ],
-         "ParentTags":[
-            {
-               "TagName":"Runner.Sawbones"
-            }
-         ]
+         "Faction":"Runner",
+         "GameplayTagContainer":{
+            "GameplayTags":[
+               {
+                  "TagName":"Customization.RN.Character.Vambrace"
+               }
+            ],
+            "ParentTags":[
+               {
+                  "TagName":"Runner.Sawbones"
+               }
+            ]
+         },
+          "CustomizationGameplayTagByFaction": {
+            "Runner": {
+        "TagName": "Faction.Runner"
       }
-   },
+          },
+          "Gender": "Female"
+      },
    {
       "Id":"74C6A5E4-4C495542-5A7D0C9C-A95F45B8",
       "DisplayName":"Scavenger_SAWBONES_Vambrace_STR001_Cammo_NAME",
@@ -7894,20 +8174,26 @@
          "MinCharacterLevel":1,
          "Origin":"None"
       },
-      "Faction":"Runner",
-      "GameplayTagContainer":{
-         "GameplayTags":[
-            {
-               "TagName":"Customization.RN.Character.Vambrace"
-            }
-         ],
-         "ParentTags":[
-            {
-               "TagName":"Runner.Sawbones"
-            }
-         ]
+         "Faction":"Runner",
+         "GameplayTagContainer":{
+            "GameplayTags":[
+               {
+                  "TagName":"Customization.RN.Character.Vambrace"
+               }
+            ],
+            "ParentTags":[
+               {
+                  "TagName":"Runner.Sawbones"
+               }
+            ]
+         },
+          "CustomizationGameplayTagByFaction": {
+            "Runner": {
+        "TagName": "Faction.Runner"
       }
-   },
+          },
+          "Gender": "Female"
+      },
    {
       "Id":"8F4355AF-4AFD5BA6-2A77F79C-320705E0",
       "DisplayName":"Scavenger_SAWBONES_Vambrace_STR001_Black_NAME",
@@ -7931,20 +8217,26 @@
          "MinCharacterLevel":1,
          "Origin":"None"
       },
-      "Faction":"Runner",
-      "GameplayTagContainer":{
-         "GameplayTags":[
-            {
-               "TagName":"Customization.RN.Character.Vambrace"
-            }
-         ],
-         "ParentTags":[
-            {
-               "TagName":"Runner.Sawbones"
-            }
-         ]
+         "Faction":"Runner",
+         "GameplayTagContainer":{
+            "GameplayTags":[
+               {
+                  "TagName":"Customization.RN.Character.Vambrace"
+               }
+            ],
+            "ParentTags":[
+               {
+                  "TagName":"Runner.Sawbones"
+               }
+            ]
+         },
+          "CustomizationGameplayTagByFaction": {
+            "Runner": {
+        "TagName": "Faction.Runner"
       }
-   },
+          },
+          "Gender": "Female"
+      },
    {
       "Id":"86D9421E-48F35231-B9449592-1A9F3D68",
       "DisplayName":"Scavenger_SAWBONES_Vambrace_STR001_Heliotrope_NAME",
@@ -7968,20 +8260,26 @@
          "MinCharacterLevel":1,
          "Origin":"None"
       },
-      "Faction":"Runner",
-      "GameplayTagContainer":{
-         "GameplayTags":[
-            {
-               "TagName":"Customization.RN.Character.Vambrace"
-            }
-         ],
-         "ParentTags":[
-            {
-               "TagName":"Runner.Sawbones"
-            }
-         ]
+         "Faction":"Runner",
+         "GameplayTagContainer":{
+            "GameplayTags":[
+               {
+                  "TagName":"Customization.RN.Character.Vambrace"
+               }
+            ],
+            "ParentTags":[
+               {
+                  "TagName":"Runner.Sawbones"
+               }
+            ]
+         },
+          "CustomizationGameplayTagByFaction": {
+            "Runner": {
+        "TagName": "Faction.Runner"
       }
-   },
+          },
+          "Gender": "Female"
+      },
    {
       "Id":"42224D73-4D8E6BE1-462D70AF-6F7B1372",
       "DisplayName":"Scavenger_Switch_Mask003_NAME",
@@ -8005,20 +8303,26 @@
          "MinCharacterLevel":1,
          "Origin":"None"
       },
-      "Faction":"Runner",
-      "GameplayTagContainer":{
-         "GameplayTags":[
-            {
-               "TagName":"Customization.RN.Character.Vambrace"
-            }
-         ],
-         "ParentTags":[
-            {
-               "TagName":"Runner.Switch"
-            }
-         ]
+         "Faction":"Runner",
+         "GameplayTagContainer":{
+            "GameplayTags":[
+               {
+                  "TagName":"Customization.RN.Character.Vambrace"
+               }
+            ],
+            "ParentTags":[
+               {
+                  "TagName":"Runner.Switch"
+               }
+            ]
+         },
+          "CustomizationGameplayTagByFaction": {
+            "Runner": {
+        "TagName": "Faction.Runner"
       }
-   },
+          },
+          "Gender": "Female"
+      },
    {
       "Id":"C619BC10-49C2C0FA-C3907A91-4FD26469",
       "DisplayName":"Scavenger_Switch_Vambrace_NAME",
@@ -8042,20 +8346,26 @@
          "MinCharacterLevel":1,
          "Origin":"None"
       },
-      "Faction":"Runner",
-      "GameplayTagContainer":{
-         "GameplayTags":[
-            {
-               "TagName":"Customization.RN.Character.Vambrace"
-            }
-         ],
-         "ParentTags":[
-            {
-               "TagName":"Runner.Switch"
-            }
-         ]
+         "Faction":"Runner",
+         "GameplayTagContainer":{
+            "GameplayTags":[
+               {
+                  "TagName":"Customization.RN.Character.Vambrace"
+               }
+            ],
+            "ParentTags":[
+               {
+                  "TagName":"Runner.Switch"
+               }
+            ]
+         },
+          "CustomizationGameplayTagByFaction": {
+            "Runner": {
+        "TagName": "Faction.Runner"
       }
-   },
+          },
+          "Gender": "Female"
+      },
    {
       "Id":"366AD9E0-44FC80BB-E29C348F-893D21F4",
       "DisplayName":"Scavenger_Switch_Vambrace002_NAME",
@@ -8079,20 +8389,26 @@
          "MinCharacterLevel":1,
          "Origin":"None"
       },
-      "Faction":"Runner",
-      "GameplayTagContainer":{
-         "GameplayTags":[
-            {
-               "TagName":"Customization.RN.Character.Vambrace"
-            }
-         ],
-         "ParentTags":[
-            {
-               "TagName":"Runner.Switch"
-            }
-         ]
+         "Faction":"Runner",
+         "GameplayTagContainer":{
+            "GameplayTags":[
+               {
+                  "TagName":"Customization.RN.Character.Vambrace"
+               }
+            ],
+            "ParentTags":[
+               {
+                  "TagName":"Runner.Switch"
+               }
+            ]
+         },
+          "CustomizationGameplayTagByFaction": {
+            "Runner": {
+        "TagName": "Faction.Runner"
       }
-   },
+          },
+          "Gender": "Female"
+      },
    {
       "Id":"A3C93CBB-41722267-1807AC82-BA664088",
       "DisplayName":"Scavenger_SUBAI_Vambrace_STR001_Muscat_NAME",
@@ -8116,20 +8432,26 @@
          "MinCharacterLevel":1,
          "Origin":"None"
       },
-      "Faction":"Runner",
-      "GameplayTagContainer":{
-         "GameplayTags":[
-            {
-               "TagName":"Customization.RN.Character.Vambrace"
-            }
-         ],
-         "ParentTags":[
-            {
-               "TagName":"Runner.Switch"
-            }
-         ]
+         "Faction":"Runner",
+         "GameplayTagContainer":{
+            "GameplayTags":[
+               {
+                  "TagName":"Customization.RN.Character.Vambrace"
+               }
+            ],
+            "ParentTags":[
+               {
+                  "TagName":"Runner.Switch"
+               }
+            ]
+         },
+          "CustomizationGameplayTagByFaction": {
+            "Runner": {
+        "TagName": "Faction.Runner"
       }
-   },
+          },
+          "Gender": "Female"
+      },
    {
       "Id":"8BFF72F7-4D836A8D-023714BE-A56E0948",
       "DisplayName":"Scavenger_SUBAI_Vambrace_STR001_Candy_NAME",
@@ -8153,20 +8475,26 @@
          "MinCharacterLevel":1,
          "Origin":"None"
       },
-      "Faction":"Runner",
-      "GameplayTagContainer":{
-         "GameplayTags":[
-            {
-               "TagName":"Customization.RN.Character.Vambrace"
-            }
-         ],
-         "ParentTags":[
-            {
-               "TagName":"Runner.Switch"
-            }
-         ]
+         "Faction":"Runner",
+         "GameplayTagContainer":{
+            "GameplayTags":[
+               {
+                  "TagName":"Customization.RN.Character.Vambrace"
+               }
+            ],
+            "ParentTags":[
+               {
+                  "TagName":"Runner.Switch"
+               }
+            ]
+         },
+          "CustomizationGameplayTagByFaction": {
+            "Runner": {
+        "TagName": "Faction.Runner"
       }
-   },
+          },
+          "Gender": "Female"
+      },
    {
       "Id":"5C2934B0-4D7979EC-C6C8DBBF-215EAC2B",
       "DisplayName":"Scavenger_SUBAI_Vambrace_STR001_Desert_NAME",
@@ -8190,20 +8518,26 @@
          "MinCharacterLevel":1,
          "Origin":"None"
       },
-      "Faction":"Runner",
-      "GameplayTagContainer":{
-         "GameplayTags":[
-            {
-               "TagName":"Customization.RN.Character.Vambrace"
-            }
-         ],
-         "ParentTags":[
-            {
-               "TagName":"Runner.Switch"
-            }
-         ]
+         "Faction":"Runner",
+         "GameplayTagContainer":{
+            "GameplayTags":[
+               {
+                  "TagName":"Customization.RN.Character.Vambrace"
+               }
+            ],
+            "ParentTags":[
+               {
+                  "TagName":"Runner.Switch"
+               }
+            ]
+         },
+          "CustomizationGameplayTagByFaction": {
+            "Runner": {
+        "TagName": "Faction.Runner"
       }
-   },
+          },
+          "Gender": "Female"
+      },
    {
       "Id":"B49CDB64-4728C011-70936792-70D0897A",
       "DisplayName":"Scavenger_SUBAI_Vambrace_STR001_Black_NAME",
@@ -8227,20 +8561,26 @@
          "MinCharacterLevel":1,
          "Origin":"None"
       },
-      "Faction":"Runner",
-      "GameplayTagContainer":{
-         "GameplayTags":[
-            {
-               "TagName":"Customization.RN.Character.Vambrace"
-            }
-         ],
-         "ParentTags":[
-            {
-               "TagName":"Runner.Switch"
-            }
-         ]
+         "Faction":"Runner",
+         "GameplayTagContainer":{
+            "GameplayTags":[
+               {
+                  "TagName":"Customization.RN.Character.Vambrace"
+               }
+            ],
+            "ParentTags":[
+               {
+                  "TagName":"Runner.Switch"
+               }
+            ]
+         },
+          "CustomizationGameplayTagByFaction": {
+            "Runner": {
+        "TagName": "Faction.Runner"
       }
-   },
+          },
+          "Gender": "Female"
+      },
    {
       "Id":"FDD79243-418C1722-EC92DEA9-9316AD83",
       "DisplayName":"Scavenger_SUBAI_Vambrace_STR001_Harlequin_NAME",
@@ -8264,19 +8604,25 @@
          "MinCharacterLevel":1,
          "Origin":"None"
       },
-      "Faction":"Runner",
-      "GameplayTagContainer":{
-         "GameplayTags":[
-            {
-               "TagName":"Customization.RN.Character.Vambrace"
-            }
-         ],
-         "ParentTags":[
-            {
-               "TagName":"Runner.Switch"
-            }
-         ]
+         "Faction":"Runner",
+         "GameplayTagContainer":{
+            "GameplayTags":[
+               {
+                  "TagName":"Customization.RN.Character.Vambrace"
+               }
+            ],
+            "ParentTags":[
+               {
+                  "TagName":"Runner.Switch"
+               }
+            ]
+         },
+          "CustomizationGameplayTagByFaction": {
+            "2": {
+        "TagName": "Faction.Runner"
       }
-   }
+          },
+          "Gender": "Female"
+      }
    ]
 }
