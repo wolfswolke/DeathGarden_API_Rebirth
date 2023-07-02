@@ -15,7 +15,7 @@ def match_making_regions_raw():
         print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
-        print(e)
+        logger.graylog_logger(level="error", handler="matchmaking_RegionsRAW", message=e)
 
 
 @app.route("/api/v1/queue/info", methods=["GET"])
@@ -123,10 +123,10 @@ def progression_player_end_of_match():
     get_remote_ip()
     try:
         print("Responded to progression player end of match api call POST")
-        logger.graylog_logger(level="info", handler="logging_playerEndOfMatch", message=request.get_json())
+        logger.graylog_logger(level="info", handler="matchmaking_playerEndOfMatch", message=request.get_json())
         return jsonify({"status": "success"})
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
-        logger.graylog_logger(level="error", handler="logging_playerEndOfMatch", message=e)
+        logger.graylog_logger(level="error", handler="matchmaking_playerEndOfMatch", message=e)

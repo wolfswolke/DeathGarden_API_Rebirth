@@ -14,7 +14,7 @@ def catalog_get(game_version):
         print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
-        print(e)
+        logger.graylog_logger(level="error", handler="catalog", message=e)
 
 
 @app.errorhandler(404)

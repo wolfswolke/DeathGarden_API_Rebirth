@@ -41,7 +41,7 @@ def steam_login_function():
         print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
-        logger.graylog_logger(level="error", handler="steam_login", message=str(e))
+        logger.graylog_logger(level="error", handler="steam_login", message=e)
 
 
 # This works
@@ -69,7 +69,7 @@ def steam_login():
             return_val.set_cookie("bhvrSession", return_val.json["id"])
             return return_val
         except Exception as e:
-            logger.graylog_logger(level="error", handler="steam_login", message=str(e))
+            logger.graylog_logger(level="error", handler="steam_login", message=e)
             abort(401, "Unauthorized")
 
     elif user_agent.startswith("game=TheExit, engine=UE4, version="):
@@ -94,7 +94,7 @@ def modifiers():
     except TimeoutError:
         return jsonify({"status": "error"})
     except Exception as e:
-        logger.graylog_logger(level="error", handler="modifiers_me", message=str(e))
+        logger.graylog_logger(level="error", handler="modifiers_me", message=e)
 
 
 # This works
@@ -114,7 +114,7 @@ def moderation_check_username():
         print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
-        logger.graylog_logger(level="error", handler="moderation_check_username", message=str(e))
+        logger.graylog_logger(level="error", handler="moderation_check_username", message=e)
 
 
 # Doesn't work
@@ -142,7 +142,7 @@ def progression_experience():
         print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
-        logger.graylog_logger(level="error", handler="progression_experience", message=str(e))
+        logger.graylog_logger(level="error", handler="progression_experience", message=e)
 
 
 # idk dont think it works
@@ -191,7 +191,7 @@ def challenges_execute_challenge_progression_operation_batch():
         return jsonify({"status": "error"})
     except Exception as e:
         logger.graylog_logger(level="error", handler="logging_executeChallengeProgressionOperationBatch",
-                                message=str(e))
+                                message=e)
 
 
 # idk dont think it works
@@ -243,7 +243,7 @@ def inventories():
         print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
-        logger.graylog_logger(level="error", handler="inventories", message=str(e))
+        logger.graylog_logger(level="error", handler="inventories", message=e)
 
 
 # idk if this works
@@ -268,7 +268,7 @@ def progression_groups():
         print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
-        logger.graylog_logger(level="error", handler="ProgressionGroups", message=str(e))
+        logger.graylog_logger(level="error", handler="ProgressionGroups", message=e)
 
 
 # This works
@@ -318,7 +318,7 @@ def get_ban_info():
         print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
-        logger.graylog_logger(level="error", handler="ban_status", message=str(e))
+        logger.graylog_logger(level="error", handler="ban_status", message=e)
 
 
 # This works
@@ -344,7 +344,7 @@ def wallet_currencies():
         print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
-        logger.graylog_logger(level="error", handler="currencies", message=str(e))
+        logger.graylog_logger(level="error", handler="currencies", message=e)
 
 
 # Does not work. Old DG endpoint. Not needed.
@@ -358,7 +358,7 @@ def wallet_currencies_progression():
         print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
-        logger.graylog_logger(level="error", handler="currencies", message=str(e))
+        logger.graylog_logger(level="error", handler="currencies", message=e)
 
 
 # Dont know if this works. Dont think it does.
@@ -381,7 +381,7 @@ def achievements_get():
         print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
-        logger.graylog_logger(level="error", handler="Achievment_handler", message=str(e))
+        logger.graylog_logger(level="error", handler="Achievment_handler", message=e)
 
 
 # Does not work
@@ -394,7 +394,7 @@ def messages_count():
         print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
-        logger.graylog_logger(level="error", handler="messages_count", message=str(e))
+        logger.graylog_logger(level="error", handler="messages_count", message=e)
 
 
 @app.route("/api/v1/messages/list", methods=["GET"])
@@ -408,7 +408,7 @@ def messages_list():
         print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
-        logger.graylog_logger(level="error", handler="messages_list", message=str(e))
+        logger.graylog_logger(level="error", handler="messages_list", message=e)
 
 
 # Temp response.
@@ -426,7 +426,7 @@ def moderation_check_chat():
         print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
-        logger.graylog_logger(level="error", handler="moderation_check_chat", message=str(e))
+        logger.graylog_logger(level="error", handler="moderation_check_chat", message=e)
 
 
 # Dont know if this works. Dont think it does.
@@ -468,7 +468,7 @@ def extension_progression_init_or_get_groups():
         print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
-        logger.graylog_logger(level="error", handler="logging_initOrGetGroups", message=str(e))
+        logger.graylog_logger(level="error", handler="logging_initOrGetGroups", message=e)
 
 
 # dont know if this works. Hope it does.
@@ -478,9 +478,9 @@ def inventory_unlock_special_items():
     try:
         print("Responded to Inventory Unlock Special Items event api call POST")
         logger.graylog_logger(level="info", handler="unknown_unlockSpecialItems", message=request.get_json())
-        return jsonify({"UnlockedItems": ["RN_SAWBONES_Fullset_OR002_Item", "Runner.Sawbones", "Runner.Sawbones.Fullset"]})
+        return jsonify({"UnlockedItems": ["9F54DE7A-4E15935B-503850A1-27B0A2A4"]})
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
-        logger.graylog_logger(level="error", handler="unknown_unlockSpecialItems", message=str(e))
+        logger.graylog_logger(level="error", handler="unknown_unlockSpecialItems", message=e)

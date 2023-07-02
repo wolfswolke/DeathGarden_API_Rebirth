@@ -51,34 +51,37 @@ def debug_user(steamid):
 @app.route("/debug/mirrors", methods=["POST", "GET"])
 def debug_mirrors_write():
     get_remote_ip()
-    if request.method == "POST":
-        try:
-            api_token = request.cookies.get("api_token")
-            if api_token is None:
-                return jsonify({"status": "error", "message": "No api token found"}, 401)
-            else:
-                if api_token in allowed_tokens:
-
-                    steam_user_id = request.json.get("steamid")
-                    data_b = request.json.get("data")
-
-                    if data_b or steam_user_id:
-                        return_val = mongo.write_data_with_list(steamid=steam_user_id, items_dict=data_b, server=mongo_host, db=mongo_db,
-                                               collection=mongo_collection)
-                        if return_val == None:
-                            return jsonify({"status": "error", "message": "Error."}, 400)
-                        else:
-                            return jsonify({"status": "success", "message": "Data written."}, 200)
-                    else:
-                        return jsonify({"status": "error", "message": "No data or Steamid found."}, 400)
+    try:
+        if request.method == "POST":
+            try:
+                api_token = request.cookies.get("api_token")
+                if api_token is None:
+                    return jsonify({"status": "error", "message": "No api token found"}, 401)
                 else:
-                    return jsonify({"status": "error", "message": "Invalid api token"}, 401)
+                    if api_token in allowed_tokens:
 
-        except TimeoutError:
-            print("Timeout error")
-            return jsonify({"status": "error"})
-        except Exception as e:
-            print(e)
-            logger.graylog_logger(level="error", handler="logging_debug_mirror_write", message=e)
-    if request.method == "GET":
-        return jsonify({"message": "Endpoint not found"}), 404
+                        steam_user_id = request.json.get("steamid")
+                        data_b = request.json.get("data")
+
+                        if data_b or steam_user_id:
+                            return_val = mongo.write_data_with_list(steamid=steam_user_id, items_dict=data_b, server=mongo_host, db=mongo_db,
+                                                   collection=mongo_collection)
+                            if return_val == None:
+                                return jsonify({"status": "error", "message": "Error."}, 400)
+                            else:
+                                return jsonify({"status": "success", "message": "Data written."}, 200)
+                        else:
+                            return jsonify({"status": "error", "message": "No data or Steamid found."}, 400)
+                    else:
+                        return jsonify({"status": "error", "message": "Invalid api token"}, 401)
+
+            except TimeoutError:
+                print("Timeout error")
+                return jsonify({"status": "error"})
+            except Exception as e:
+                print(e)
+                logger.graylog_logger(level="error", handler="logging_debug_mirror_write", message=e)
+        if request.method == "GET":
+            return jsonify({"message": "Endpoint not found"}), 404
+    except Exception as e:
+        logger.graylog_logger(level="error", handler="web_debug_mirrors", message=e)
