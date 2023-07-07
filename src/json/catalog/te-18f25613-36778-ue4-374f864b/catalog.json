@@ -6041,49 +6041,7 @@
          ]
       }
    },
-              {
-		"Id":"755D4DFE-40DA1512-B01E3D8C-FF3C8D4D",
-         "DisplayName":"Runner_Sawbone_DisplayName",
-         "Purchasable":true,
-         "Consumable":false,
-         "IsWeapon":false,
-         "InitialQuantity":1,
-		"DefaultCost": [
-          {
-            "CurrencyId": "CurrencyC",
-            "Price": 8000
-          }],
-		"MetaData": {
-			"BundleDiscountPercent": 69,
-			"MinPlayerLevel": 1,
-			"MinCharacterLevel": 1,
-			"Origin": "None",
-          "BundleItems": [
-                            "63A7C0BF-4FF01454-4C218FA9-E1B3516E",
-                            "DEA476E4-4FCCDCEC-4821B5B6-C0DD158F",
-                            "BB7B6E22-4B1A58EA-9FBFD6A0-924D3B4F",
-                            "5881CA7B-47C74C8D-15DAF09B-5860EBC9"
-                        ],
-                        "RewardBundleItems": [
-                            "63A7C0BF-4FF01454-4C218FA9-E1B3516E",
-                            "DEA476E4-4FCCDCEC-4821B5B6-C0DD158F",
-                            "BB7B6E22-4B1A58EA-9FBFD6A0-924D3B4F",
-                            "5881CA7B-47C74C8D-15DAF09B-5860EBC9"
-                        ]
-		},
-		"Faction": "Runner",
-		"GameplayTagContainer":{
-         "GameplayTags":[
-           {"TagName":  "Class.Runner"}
-         ],
-         "ParentTags":[
-            {
-               "TagName":"Entity.Character"
-            }
-         ]
-      },
-		"Gender": "Female"
-},
+
 
 
       {
@@ -6162,7 +6120,7 @@
             ],
             "ParentTags":[
                {
-                  "TagName":"Runner.Smoke"
+                  "TagName":"Runner.Dash"
                }
             ]
          },
@@ -6205,7 +6163,7 @@
             ],
             "ParentTags":[
                {
-                  "TagName":"Runner.Smoke"
+                  "TagName":"Runner.Dash"
                }
             ]
          },
@@ -6248,7 +6206,7 @@
             ],
             "ParentTags":[
                {
-                  "TagName":"Runner.Smoke"
+                  "TagName":"Runner.Dash"
                }
             ]
          },
@@ -6291,7 +6249,7 @@
             ],
             "ParentTags":[
                {
-                  "TagName":"Runner.Smoke"
+                  "TagName":"Runner.Dash"
                }
             ]
          },
@@ -6334,7 +6292,7 @@
             ],
             "ParentTags":[
                {
-                  "TagName":"Runner.Smoke"
+                  "TagName":"Runner.Dash"
                }
             ]
          },
@@ -6377,7 +6335,7 @@
             ],
             "ParentTags":[
                {
-                  "TagName":"Runner.Smoke"
+                  "TagName":"Runner.Dash"
                }
             ]
          },
@@ -6420,7 +6378,7 @@
             ],
             "ParentTags":[
                {
-                  "TagName":"Runner.Smoke"
+                  "TagName":"Runner.Dash"
                }
             ]
          },
@@ -6447,7 +6405,7 @@
       "MetaData":{
          "GameplayTags":[
             {
-               "TagName":"Runner.Dash"
+               "TagName":"Runner.Ghost"
             }
          ],
          "MinPlayerLevel":1,
@@ -6463,7 +6421,7 @@
             ],
             "ParentTags":[
                {
-                  "TagName":"Runner.Smoke"
+                  "TagName":"Runner.Ghost"
                }
             ]
          },
