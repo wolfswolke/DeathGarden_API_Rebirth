@@ -1,0 +1,27 @@
+Endpoint: /queue/
+Response: {"status":"QUEUED","queueData":{"ETA":-8582,"position":0,"stable":false}}
+Comment: Game waiting in queue
+
+Endpoint: /queue/
+Response: {"status":"MATCHED","queueData":{"ETA":0,"position":0,"stable":false},
+"matchData":{"matchId":"5651681e-72ce-46f0-bda6-752e583v0d08","schema":3,
+"category":"XXX_ClientSendsThis_XXX","rank":1,"geolocation":{},
+"creationDateTime":1618737281398,"status":"CREATED","creator":"AAAAA-AAAAAA-AAAAAAAA-AAAAAAAA",
+"customData":{},"version":1,"skill":{"longitude":1.1,"latitude":1.1,"rank":20,
+"rating":{"rating":1500,"RD":1.1,"volatility":0.06},"countries":["AT"],"x":20,"isSuspicious":false,
+"isProtected":false,"version":2},"churn":0,
+"props":{"EncryptionKey":"XXXXX_DontThinkThisIsNeeded_XXX","countA":1,"countB":4,"gameMode":"None",
+"platform":"Windows","isDedicated":false},"reason":"","sideA":["AAAAA-AAAAAA-AAAAAAAA-AAAAAAAA"],
+"sideB":["AAAAA-AAAAAA-AAAAAAAA-AAAAAAAA"],
+"playerHistory":["AAAAA-AAAAAA-AAAAAAAA-AAAAAAAA","AAAAA-AAAAAA-AAAAAAAA-AAAAAAAA"]}}
+Comment: Game found. API sends match data
+
+Endpoint: /match/5651681e-72ce-46f0-bda6-752e583v0d08 (Match ID from previous response)
+Response: {"matchId":"5651681e-72ce-46f0-bda6-752e583v0d08","schema":3,
+"category":"XXX_ClientSendsThis_XXX","geolocation":{},"creationDateTime":1618737281398,
+"status":"OPENED","creator":"AAAAA-AAAAAA-AAAAAAAA-AAAAAAAA",
+"customData":{"SessionSettings":"TMPTMPTMPTMKPTMPTMP=="},"version":2,"churn":0,
+"props":{"EncryptionKey":"NotNeededNotNeededNotNeeded","countA":1,"countB":4,"gameMode":"None",
+"platform":"Windows","isDedicated":false},"reason":"","sideA":["AAAAA-AAAAAA-AAAAAAAA-AAAAAAAA"],
+"sideB":["AAAAA-AAAAAA-AAAAAAAA-AAAAAAAA"]}
+Comment: User now joins lobby with this data.

@@ -2,6 +2,7 @@ import json
 import os
 from datetime import datetime
 
+from logic.match_manager import match_manager
 from flask_definitions import *
 import uuid
 
@@ -35,87 +36,71 @@ def queue():
     # {"category":"Steam-te-18f25613-36778-ue4-374f864b","rank":1,"side":"B","latencies":[],"additionalUserIds":[],
     # "checkOnly":false,"gameMode":"08d2279d2ed3fba559918aaa08a73fa8-Default","region":"US","countA":1,"countB":5}
     get_remote_ip()
-    print("DEBUG: queue called")
-    print(request.json)
-    userid = request.json.get("userId")
+
     category = request.json.get("category")
     rank = request.json.get("rank")
     side = request.json.get("side")
     latencies = request.json.get("latencies")
     additional_user_ids = request.json.get("additionalUserIds")
-    check_only = request.json.get("checkOnly")
+    check_only = request.json.get("checkOnly") # False = Searching. True = Is searching and waiting for match
     game_mode = request.json.get("gameMode")
     region = request.json.get("region")
     count_a = request.json.get("countA")
     count_b = request.json.get("countB")
-    epoch = datetime.now().timestamp()
-    match_id = str(uuid.uuid4())
-    user = request.cookies.get("bhvrSession")
+    user_id = request.cookies.get("bhvrSession")
 
-    file_name = "session.match"
-    folder_path = os.path.join(app.root_path, "match_ids", user)
-    file_path = os.path.join(folder_path, file_name)
+    logger.graylog_logger(level="info", handler="logging_queue", message=f"User {user_id} is queueing for {category} in {region} with {count_a} hunters and {count_b} runners")
 
-    if os.path.exists(file_path):
-        match_data = json.load(open(file_path, "r"))
-        return_val = {"status": "WaitingForPlayers", "QueueData":
-            {"Position": 1, "ETA": 1, "Stable": True, "SizeA": count_a, "SizeB": count_b},
-                        "MatchData": match_data}
-        return jsonify(return_val)
-    else:
-        logger.graylog_logger(level="info", handler="logging_queue", message=request.get_json())
-        return jsonify({"status": "WaitingForPlayers", "QueueData":
-            {"Position": 10, "ETA": 1000, "Stable": True, "SizeA": count_a, "SizeB": count_b},
-                        "MatchData": {"MatchId": match_id, "Category": category, "Rank": rank,
-                                      "CreationDateTime": epoch, "ExcludeFriends": False,
-                                      "ExcludeClanMembers": False, "Status": "WaitingForPlayers", "Creator": userid,
-                                      "Players": [userid], "SideA": [], "SideB": [userid], "CustomData": {}, "Props": {},
-                                      "Schema": 11122334455666}})
+    # data = match_manager.find_match_id_from_user(user_id)
+    # if data is None:
+    #    print("No match found")
+    #    # PlaceHolder for If User not in private match
+    return {"status":"QUEUED","queueData":{"ETA":-10000,"position":0,"stable":False}}
+    #eta, position = match_manager.find_eta_and_position(data["_match_uuid"])
 
 
+@app.route("/api/v1/match/<matchid>", methods=["GET"])
+def match(matchid):
+    json_dict = match_manager.find_json_with_match_id(matchid)
+    return jsonify({"matchId":matchid,"schema":3,
+                    "category":json_dict["category"],
+                    "geolocation":{},"creationDateTime":json_dict["time_created"],
+                    "status":"OPENED",
+                    "creator":json_dict["creator"],
+                    "customData":json_dict["custom_data"],"version":2,"churn":0,"props":{"countA":1,"countB":4,
+                                                                                         "gameMode":"None",
+                                                                                         "platform":"Windows",
+                                                                                         "isDedicated":False},
+                    "reason":"","sideA":[json_dict["players_side_a"]],
+                    "sideB":[json_dict["players_side_b"]]})
 
-@app.route("/api/v1/match/create", methods=["POST", "GET"])
+
+@app.route("/api/v1/match/create", methods=["POST"])
 def match_create():
     # {'category': 'Steam-te-18f25613-36778-ue4-374f864b', 'region': 'US', 'playersA': [],
     # 'playersB': ['00658d11-2dfd-41e8-b6d2-2462e8f3aa47', '95041085-e7e4-4759-be3d-e72c69167578',
     # '0385496c-f0ae-44d3-a777-26092750f39c'],
-    # 'props': {'MatchConfiguration': '/Game/Configuration/MatchConfig/MatchConfig_Demo.MatchConfig_Demo'}, 'latencies': []}
+    # 'props': {'MatchConfiguration': '/Game/Configuration/MatchConfig/MatchConfig_Demo.MatchConfig_Demo'},
+    # 'latencies': []}
     get_remote_ip()
 
-    if request.method == "POST":
-        print("DEBUG CREATE MATCH")
-        print(request.json)
-        userid = request.cookies.get("bhvrSession")
-        category = request.json.get("category")
-        match_id = str(uuid.uuid4())
-        rank = request.json.get("rank")
-        epoch = datetime.now().timestamp()
-        players_a = request.json.get("playersA")
-        players_b = request.json.get("playersB")
-        props = request.json.get("props")
-        player_list = []
+    userid = request.cookies.get("bhvrSession")
+    category = request.json.get("category")
+    rank = request.json.get("rank")
+    players_a = request.json.get("playersA")
+    players_b = request.json.get("playersB")
+    props = request.json.get("props")
 
-        player_list.append(players_b)
-        player_list.append(players_a)
+    match_id = match_manager.create_match(request.json)
+    epoch = datetime.now().timestamp()
+    player_list = [players_b, players_a]
 
-        file_name = "session.match"
-
-        data = {"MatchId": match_id, "Category": category, "Rank": rank,
-                "CreationDateTime": epoch, "ExcludeFriends": False,
-                "ExcludeClanMembers": False, "Status": "WaitingForPlayers", "Creator": userid,
-                "Players": player_list, "SideA": players_a, "SideB": players_b, "CustomData": {}, "Props": props,
-                "Schema": 11122334455666}
-
-        for user_list in player_list:
-            for user in user_list:
-                user = str(user)
-                folder_path = os.path.join(app.root_path, "match_ids", user)
-                file_path = os.path.join(folder_path, file_name)
-                os.makedirs(folder_path, exist_ok=True)
-                json.dump(data, open(file_path, "w"), indent=4)
-        data = jsonify(data)
-        data.set_cookie("match_id", match_id)
-        return data
+    data = {"MatchId": match_id, "Category": category, "Rank": rank,
+            "CreationDateTime": epoch, "ExcludeFriends": False,
+            "ExcludeClanMembers": False, "Status": "WaitingForPlayers", "Creator": userid,
+            "Players": player_list, "SideA": players_a, "SideB": players_b, "CustomData": {}, "Props": props,
+            "Schema": 11122334455666}
+    return jsonify(data)
 
 
 @app.route("/api/v1/extensions/progression/playerEndOfMatch", methods=["POST"])
@@ -124,7 +109,7 @@ def progression_player_end_of_match():
     try:
         print("Responded to progression player end of match api call POST")
         logger.graylog_logger(level="info", handler="matchmaking_playerEndOfMatch", message=request.get_json())
-        return jsonify({"status": "success"})
+        return jsonify("", 204)
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
