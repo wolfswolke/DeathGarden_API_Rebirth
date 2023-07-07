@@ -15,7 +15,7 @@ def steam_login_function():
         response = requests.get(
             'https://api.steampowered.com/ISteamUserAuth/AuthenticateUserTicket/v1/?key={}&ticket={}&appid={}'.format(
                 steam_api_key, steam_session_token, appid))
-        if response.json() == {"response":{"error":{"errorcode":102,"errordesc":"Ticket for other app"}}}:
+        if response.json() == {"response": {"error": {"errorcode": 102, "errordesc": "Ticket for other app"}}}:
             appid = 854040
             response = requests.get(
                 'https://api.steampowered.com/ISteamUserAuth/AuthenticateUserTicket/v1/?key={}&ticket={}&appid={}'.format(
@@ -55,13 +55,16 @@ def steam_login():
     print("####################################################")
 
     if user_agent.startswith("TheExit/++UE4+Release-4.2"):
-        if request.args.get('token') == "140000007B7B7B7B02000000E3FA3952010010017B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B":
-            return_val = jsonify({"preferredLanguage": "en", "friendsFirstSync": {"steam": True}, "fixedMyFriendsUserPlatformId":
-            {"steam": True}, "id": "aaaa", "provider": {"providerId": "aaaa", "providerName": "steam", "userId":
-            "aaaa"}, "providers": [{"providerName": "steam", "providerId": "aaaa"}], "friends": [], "triggerResults":
-                            {"success": [], "error": []}, "tokenId": "aaaa", "generated": 1687197541,
-                        "expire": 1887197541,
-                        "userId": "aaaa", "token": "aaaa"})
+        if request.args.get(
+                'token') == "140000007B7B7B7B02000000E3FA3952010010017B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B":
+            return_val = jsonify(
+                {"preferredLanguage": "en", "friendsFirstSync": {"steam": True}, "fixedMyFriendsUserPlatformId":
+                    {"steam": True}, "id": "aaaa", "provider": {"providerId": "aaaa", "providerName": "steam", "userId":
+                    "aaaa"}, "providers": [{"providerName": "steam", "providerId": "aaaa"}], "friends": [],
+                 "triggerResults":
+                     {"success": [], "error": []}, "tokenId": "aaaa", "generated": 1687197541,
+                 "expire": 1887197541,
+                 "userId": "aaaa", "token": "aaaa"})
             return_val.set_cookie("bhvrSession", return_val.json["id"])
             return return_val
         try:
@@ -79,8 +82,9 @@ def steam_login():
 
     else:
         logger.graylog_logger(level="error", handler="steam_login", message={"text": "Access denied to User Agent",
-                                                                               "User-Agent": user_agent, "IP": ip})
+                                                                             "User-Agent": user_agent, "IP": ip})
         abort(401, "Unauthorized")
+
 
 # Dont know if this works
 @app.route("/api/v1/modifierCenter/modifiers/me", methods=["GET"])
@@ -89,8 +93,8 @@ def modifiers():
     userid = request.cookies.get("bhvrSession")
     steamid, token = mongo.get_user_info(userId=userid, server=mongo_host, db=mongo_db, collection=mongo_collection)
     try:
-        return jsonify({"TokenId": token, "UserId": userid, "RoleIds": ["LockerRoom_CCCRoleSelectionGridDM1_Title",
-                        "LockerRoom_CCCRoleSelectionGridDM2_Title"]})
+        return jsonify({"TokenId": token, "UserId": userid, "RoleIds": ["759E44DD-469C2841-75C2D6A1-AB0B0FA7",
+                                                                        "606129DC-45AB9D16-B69E2FA5-C99A9835"]})
     except TimeoutError:
         return jsonify({"status": "error"})
     except Exception as e:
@@ -109,7 +113,8 @@ def moderation_check_username():
         logger.graylog_logger(level="info", handler="moderation_check_username", message=request.get_json())
         steamid, token = mongo.get_user_info(userId=userid, server=mongo_host, db=mongo_db, collection=mongo_collection)
         return jsonify({"Id": userid, "Token": token,
-                        "Provider": {"ProviderName": username, "ProviderId": steamid}})  # CLIENT:{"userId": "ID-ID-ID-ID-SEE-AUTH",	"username": "Name-Name-Name"}
+                        "Provider": {"ProviderName": username,
+                                     "ProviderId": steamid}})  # CLIENT:{"userId": "ID-ID-ID-ID-SEE-AUTH",	"username": "Name-Name-Name"}
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
@@ -126,18 +131,29 @@ def progression_experience():
     try:
         # graylog_logger(request.get_json(), "info")
         return jsonify({"List": [
-	{"ObjectId": "PlayerProgression", "SchemaVersion": 11122233344, "Version": 11122233345, "Data": {"ObjectId": "PlayerProgression", "Experience": 100, "Version": 1}},
-	{"ObjectId": "RunnerProgression", "SchemaVersion": 11122233345, "Version": 11122233345, "Data": {"ObjectId": "Runner.Smoke", "Experience": 100, "Version": 1}},
-	{"ObjectId": "RunnerProgression", "SchemaVersion": 11122233346, "Version": 11122233346, "Data": {"ObjectId": "Runner.Ghost", "Experience": 100, "Version": 1}},
-            {"ObjectId": "RunnerProgression", "SchemaVersion": 11122233346, "Version": 11122233346,"Data": {"ObjectId": "Runner.Ink", "Experience": 100, "Version": 1}},
-            {"ObjectId": "RunnerProgression", "SchemaVersion": 11122233346, "Version": 11122233346,"Data": {"ObjectId": "Runner.Sawbones", "Experience": 100, "Version": 1}},
-            {"ObjectId": "RunnerProgression", "SchemaVersion": 11122233346, "Version": 11122233346,"Data": {"ObjectId": "Runner.Switch", "Experience": 100, "Version": 1}},
-            {"ObjectId": "RunnerProgression", "SchemaVersion": 11122233346, "Version": 11122233346,"Data": {"ObjectId": "Runner.Dash", "Experience": 100, "Version": 1}},
-            {"ObjectId": "HunterProgression", "SchemaVersion": 11122233346, "Version": 11122233346,"Data": {"ObjectId": "Hunter.Inquisitor", "Experience": 100, "Version": 1}},
-            {"ObjectId": "HunterProgression", "SchemaVersion": 11122233346, "Version": 11122233346,"Data": {"ObjectId": "Hunter.Stalker", "Experience": 100, "Version": 1}},
-            {"ObjectId": "HunterProgression", "SchemaVersion": 11122233346, "Version": 11122233346,"Data": {"ObjectId": "Hunter.Poacher", "Experience": 100, "Version": 1}},
-            {"ObjectId": "HunterProgression", "SchemaVersion": 11122233346, "Version": 11122233346,"Data": {"ObjectId": "Hunter.Mass", "Experience": 100, "Version": 1}}
-]})
+            {"ObjectId": "PlayerProgression", "SchemaVersion": 11122233344, "Version": 11122233345,
+             "Data": {"ObjectId": "PlayerProgression", "Experience": 100, "Version": 1}},
+            {"ObjectId": "RunnerProgression", "SchemaVersion": 11122233345, "Version": 11122233345,
+             "Data": {"ObjectId": "Runner.Smoke", "Experience": 100, "Version": 1}},
+            {"ObjectId": "RunnerProgression", "SchemaVersion": 11122233346, "Version": 11122233346,
+             "Data": {"ObjectId": "Runner.Ghost", "Experience": 100, "Version": 1}},
+            {"ObjectId": "RunnerProgression", "SchemaVersion": 11122233346, "Version": 11122233346,
+             "Data": {"ObjectId": "Runner.Ink", "Experience": 100, "Version": 1}},
+            {"ObjectId": "RunnerProgression", "SchemaVersion": 11122233346, "Version": 11122233346,
+             "Data": {"ObjectId": "Runner.Sawbones", "Experience": 100, "Version": 1}},
+            {"ObjectId": "RunnerProgression", "SchemaVersion": 11122233346, "Version": 11122233346,
+             "Data": {"ObjectId": "Runner.Switch", "Experience": 100, "Version": 1}},
+            {"ObjectId": "RunnerProgression", "SchemaVersion": 11122233346, "Version": 11122233346,
+             "Data": {"ObjectId": "Runner.Dash", "Experience": 100, "Version": 1}},
+            {"ObjectId": "HunterProgression", "SchemaVersion": 11122233346, "Version": 11122233346,
+             "Data": {"ObjectId": "Hunter.Inquisitor", "Experience": 100, "Version": 1}},
+            {"ObjectId": "HunterProgression", "SchemaVersion": 11122233346, "Version": 11122233346,
+             "Data": {"ObjectId": "Hunter.Stalker", "Experience": 100, "Version": 1}},
+            {"ObjectId": "HunterProgression", "SchemaVersion": 11122233346, "Version": 11122233346,
+             "Data": {"ObjectId": "Hunter.Poacher", "Experience": 100, "Version": 1}},
+            {"ObjectId": "HunterProgression", "SchemaVersion": 11122233346, "Version": 11122233346,
+             "Data": {"ObjectId": "Hunter.Mass", "Experience": 100, "Version": 1}}
+        ]})
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
@@ -148,9 +164,11 @@ def progression_experience():
 # idk dont think it works
 @app.route("/api/v1/extensions/challenges/getChallenges", methods=["POST"])
 def challenges_get_challenges():
+    # client: {"data":{"userId":"619d6f42-db87-4f3e-8dc9-3c9995613614","challengeType":"Daily"}}
     get_remote_ip()
     try:
-        challenge_type = request.get_json()
+        response = request.get_json()
+        challenge_type = response["data"]["challengeType"]
         if challenge_type == "Weekly":
             return jsonify({"Challenges": ["ARBDamage_HunterWeekly", "AssaultRifleWins_HunterWeekly",
                                            "BleedOut_HunterWeekly", "BleedOut_RunnerWeekly", "Damage_HunterWeekly",
@@ -181,17 +199,18 @@ def challenges_execute_challenge_progression_operation_batch():
     try:
         print("Responded to challenges execute challenge progression operation batch api call POST")
         logger.graylog_logger(level="info", handler="logging_executeChallengeProgressionOperationBatch",
-                                message=request.get_json())
+                              message=request.get_json())
         return jsonify({"Id": "AssaultRifleWins_HunterWeekly", "Type": 2, "Title": "Hunter_DroneCharger_Name",
                         "Body": "Hunter_DroneCharger_DESC", "Progress": 1, "ValueToReach": 10, "TimeLeft": 1440000000,
                         "ShouldShowCompleteAnimation": True, "Rewards":
-                            [{"Type": "Weekly", "Id": "C90F72FC4D61B1F2FBC73F8A4685EA41", "Amount": 1.0, "Claimed": False}]})
+                            [{"Type": "Weekly", "Id": "C90F72FC4D61B1F2FBC73F8A4685EA41", "Amount": 1.0,
+                              "Claimed": False}]})
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
         logger.graylog_logger(level="error", handler="logging_executeChallengeProgressionOperationBatch",
-                                message=e)
+                              message=e)
 
 
 # idk dont think it works
@@ -251,7 +270,11 @@ def inventories():
 def progression_groups():
     get_remote_ip()
     try:
+        userid = request.headers.get("bhvrSession")
         print("Responded to progression groups api call GET")
+        #  This is the real code but need to build this first
+        # return jsonify({"UserId": userid, "StateName": "Fstring", "Segment": "Fstring", "ObjectId": "Fstring",
+        #                "Version": 1111, "schemaVersion": 1111, "Data": {}})
         return jsonify({"ObjectId": "Runner.Sawbones", "Version": 11, "SchemaVersion": 11, "Data": {}})
         return jsonify({"List": [{"ObjectId": "Runner.Sawbones",
                                   "SchemaVersion": 11111111,
@@ -286,16 +309,16 @@ def ban_status():
             return jsonify({"status": "error"})
         elif ban_data["is_banned"] == True:
             return jsonify({"IsBanned": ban_data["is_banned"], "BanInfo": {"BanPeriod": 10,
-                                                                       "BanReason": ban_data["ban_reason"],
-                                                                       "BanStart": ban_data["ban_start"],
-                                                                       "BanEnd": ban_data["ban_expire"],
-                                                                       "Confirmed": False, "Pending": False}})
+                                                                           "BanReason": ban_data["ban_reason"],
+                                                                           "BanStart": ban_data["ban_start"],
+                                                                           "BanEnd": ban_data["ban_expire"],
+                                                                           "Confirmed": False, "Pending": False}})
         elif ban_data["is_banned"] == False:
             return jsonify({"IsBanned": ban_data["is_banned"], "BanInfo": {"BanPeriod": 0,
-                                                                       "BanReason": "None",
-                                                                       "BanStart": 0,
-                                                                       "BanEnd": 0,
-                                                                       "Confirmed": False, "Pending": False}})
+                                                                           "BanReason": "None",
+                                                                           "BanStart": 0,
+                                                                           "BanEnd": 0,
+                                                                           "Confirmed": False, "Pending": False}})
         else:
             print("Error in ban_data_database")
             return jsonify({"status": "error"})
@@ -313,7 +336,7 @@ def get_ban_info():
     try:
         print("Responded to ban status api call GET")
         return jsonify({"BanPeriod": None, "BanReason": None, "BanStart": None, "BanEnd": None,
-                                    "Confirmed": False})
+                        "Confirmed": False})
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
@@ -330,16 +353,16 @@ def wallet_currencies():
         currencies = mongo.get_data_with_list(login=request.cookies.get("bhvrSession"), login_steam=False,
                                               items={"currency_blood_cells", "currency_iron", "currency_ink_cells"},
                                               server=mongo_host, db=mongo_db, collection=mongo_collection)
-        return jsonify({"List":[{"Currency": "CurrencyA", "Balance": currencies["currency_iron"],
-                                 "CurrencyGroup": "SoftCurrencyGroup", "LastRefillTimeStamp": "1684862187"},
-                                {"Currency": "CurrencyB", "Balance": currencies["currency_blood_cells"],
-                                 "CurrencyGroup": "SoftCurrencyGroup", "LastRefillTimeStamp": "1684862187"},
-                                {"Currency": "CurrencyC", "Balance": currencies["currency_ink_cells"],
-                                 "CurrencyGroup": "SoftCurrencyGroup", "LastRefillTimeStamp": "1684862187"},
-                                {"Currency": "HARD_CURRENCY", "Balance": 21,
-                                 "CurrencyGroup": "HardCurrencyGroup", "LastRefillTimeStamp": "1684862187"},
-                                {"Currency": "PROGRESSION_CURRENCY", "Balance": 19,
-                                 "CurrencyGroup": "HardCurrencyGroup", "LastRefillTimeStamp": "1684862187"}]})
+        return jsonify({"List": [{"Currency": "CurrencyA", "Balance": currencies["currency_iron"],
+                                  "CurrencyGroup": "SoftCurrencyGroup", "LastRefillTimeStamp": "1684862187"},
+                                 {"Currency": "CurrencyB", "Balance": currencies["currency_blood_cells"],
+                                  "CurrencyGroup": "SoftCurrencyGroup", "LastRefillTimeStamp": "1684862187"},
+                                 {"Currency": "CurrencyC", "Balance": currencies["currency_ink_cells"],
+                                  "CurrencyGroup": "SoftCurrencyGroup", "LastRefillTimeStamp": "1684862187"},
+                                 {"Currency": "HARD_CURRENCY", "Balance": 6969,
+                                  "CurrencyGroup": "HardCurrencyGroup", "LastRefillTimeStamp": "1684862187"},
+                                 {"Currency": "PROGRESSION_CURRENCY", "Balance": 10000,
+                                  "CurrencyGroup": "HardCurrencyGroup", "LastRefillTimeStamp": "1684862187"}]})
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
@@ -371,12 +394,12 @@ def achievements_get():
             {"ObjectId": "EFAB89E6465D1163D62A07B11048F2B6", "Version": 11, "SchemaVersion": 11, "Data": {}}
         ]})
         # This works but lemme test smthing...
-        return jsonify({"gameName":"Deathgarden: BLOODHARVEST","achievements":
-            [{"apiname":"EFAB89E6465D1163D62A07B11048F2B6","achieved":1,"unlocktime":1587140058},
-             {"apiname":"2CAEBB354D506D7C43B941BC1DA775A0","achieved":1,"unlocktime":1586792410},
-             {"apiname":"E51981B946BEE3D45C5C41B2FCFF310B","achieved":1,"unlocktime":1586788872},
-             {"apiname":"AAD05B9D46471DC811BBE0BA91916AB7","achieved":1,"unlocktime":1586788872},
-             {"apiname":"BA2D4A5445CB70276A8F5D9E1AFCE080","achieved":1,"unlocktime":1586788872}]})
+        return jsonify({"gameName": "Deathgarden: BLOODHARVEST", "achievements":
+            [{"apiname": "EFAB89E6465D1163D62A07B11048F2B6", "achieved": 1, "unlocktime": 1587140058},
+             {"apiname": "2CAEBB354D506D7C43B941BC1DA775A0", "achieved": 1, "unlocktime": 1586792410},
+             {"apiname": "E51981B946BEE3D45C5C41B2FCFF310B", "achieved": 1, "unlocktime": 1586788872},
+             {"apiname": "AAD05B9D46471DC811BBE0BA91916AB7", "achieved": 1, "unlocktime": 1586788872},
+             {"apiname": "BA2D4A5445CB70276A8F5D9E1AFCE080", "achieved": 1, "unlocktime": 1586788872}]})
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
@@ -404,7 +427,7 @@ def messages_list():
         limit = request.args.get("limit")
         output = json.load(open(os.path.join(app.root_path, "json", "placeholders", "messages.json"), "r"))
         return jsonify(output)
-        return jsonify({"messages": []}) # from dbd
+        return jsonify({"messages": []})  # from dbd
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
@@ -430,20 +453,53 @@ def moderation_check_chat():
         logger.graylog_logger(level="error", handler="moderation_check_chat", message=e)
 
 
-# Dont know if this works. Dont think it does.
+# This is intently broken. If this works the game crashes in matchmaking.
 @app.route("/api/v1/extensions/progression/initOrGetGroups", methods=["POST"])
 def extension_progression_init_or_get_groups():
     get_remote_ip()
     try:
         print("Responded to extension progression init or get groups api call POST")
         logger.graylog_logger(level="info", handler="logging_initOrGetGroups", message=request.get_json())
+        # Client sends: {"data":{"skipProgressionGroups":false,"skipMetadataGroups":false,"playerName":"Steam-Name-Here"}}
+        return jsonify({"ProgressionGroups": [{"ObjectId": "759E44DD-469C2841-75C2D6A1-AB0B0FA7", "Version": 11111,
+                                               "SchemaVersion": 111111, "Data": {{"ObjectId": "696969", "SchemaVersion": 1, "Version": 1,
+                              "Data": {"Experience": 1, "Version": 1}},
+                             {"ObjectId": "420420420", "SchemaVersion": 1, "Version": 1,
+                              "Data": {"Experience": 1, "Version": 1}}}}],
+                        "MetadataGroups": [{"ObjectId": "759E44DD-469C2841-75C2D6A1-AB0B0FA7", "Version": 11111,
+                                            "SchemaVersion": 111111, "Data": {"CharacterId": {"TagName": "Runner.Smoke"}, "PrestigeLevel": 1,
+                                            "Equipment": ["Primary Weapon", "Bonus 1", "Bonus 2", "Perk 1",
+                                                          "Perk 2", "Ability"],
+                                            "EquippedPerks": ["20FF1865462FD26B0253A08F18EFAA10"],
+                                            "EquippedPowers": ["C8AF3D534973F82FADBB40BDA96F9DCD"],
+                                            "EquippedWeapons": ["492232504161420C872A0F82FC16ACDB"],
+                                            "EquippedBonuses": ["1E08AFFA485E92BAFF2C1BB85CEFB81E",
+                                                                "1F5CD9004224C56746D81991AA40448A"],
+                                            "PickedChallanges": [{"ItemId": "Progression_Shimmy",
+                                                                  "Name": "Runner_ProgressionSpecificShimmy_Name"}]}},
+
+                                           {"CharacterId": {"TagName": "Hunter.Stalker"}, "PrestigeLevel": 1,
+                                            "Equipment": ["Primary Weapon", "Bonus 1", "Bonus 2", "Perk 1",
+                                                          "Perk 2", "Ability", "Sidearm"],
+                                            "EquippedPerks": ["F055513D48AACBAC280B2AA00A984180",
+                                                              "5998C1C548AB7BDA80C87295F2764C5D"],
+                                            "EquippedPowers": ["0DC38EC14AA02FC83456E5B02B7B4870"],
+                                            "EquippedWeapons": ["50D3005B437066E4C4D99F9397CF1B0B",
+                                                                "973C9176404A29F926D13BACB76A2425"],
+                                            "EquippedBonuses": ["1098BEE241B1515B44013A87EDB16BDC",
+                                                                "EDB6D6B742023AE61AD8718CAC073C0E"],
+                                            "PickedChallanges": [{"ItemId": "Progression_Turrets_Hunter",
+                                                                  "Name": "Hunter_ProgressionSpecificTurret_Name"}]}]})
+
+        # Idk how i made this? This is never meantioned in the game like this...
         return jsonify({"ProgressionGroups":
-                            [{"ObjectId": "696969","SchemaVersion": 1,"Version": 1,
-                              "Data": {"Experience": 1,"Version": 1}}, {"ObjectId": "420420420","SchemaVersion": 1,"Version": 1,
-                              "Data": {"Experience": 1,"Version": 1}}],
+                            [{"ObjectId": "696969", "SchemaVersion": 1, "Version": 1,
+                              "Data": {"Experience": 1, "Version": 1}},
+                             {"ObjectId": "420420420", "SchemaVersion": 1, "Version": 1,
+                              "Data": {"Experience": 1, "Version": 1}}],
                         "MetadataGroups": [{"CharacterId": {"TagName": "Runner.Smoke"}, "PrestigeLevel": 1,
-                                            "Equipment": ["Primary Weapon","Bonus 1","Bonus 2","Perk 1",
-                                                          "Perk 2","Ability"],
+                                            "Equipment": ["Primary Weapon", "Bonus 1", "Bonus 2", "Perk 1",
+                                                          "Perk 2", "Ability"],
                                             "EquippedPerks": ["20FF1865462FD26B0253A08F18EFAA10"],
                                             "EquippedPowers": ["C8AF3D534973F82FADBB40BDA96F9DCD"],
                                             "EquippedWeapons": ["492232504161420C872A0F82FC16ACDB"],
@@ -492,7 +548,7 @@ def challenges_get_challenge_progression_batch():
     get_remote_ip()
     try:
         logger.graylog_logger(level="info", handler="logging_getChallengeProgressionBatch",
-                                message=request.get_json())
+                              message=request.get_json())
         return jsonify({"status": "success"})
     except TimeoutError:
         print("Timeout error")
@@ -500,4 +556,3 @@ def challenges_get_challenge_progression_batch():
 
     except Exception as e:
         logger.graylog_logger(level="error", handler="logging_getChallengeProgressionBatch", message=e)
-
