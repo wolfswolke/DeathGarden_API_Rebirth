@@ -1,20 +1,6 @@
 from flask_definitions import *
 
 
-@app.route("/api/v1/extensions/quitters/getQuitterState", methods=["POST"])
-def get_quitter_state():
-    get_remote_ip()
-    try:
-        print("Responded to get quitter state api call POST")
-        logger.graylog_logger(level="info", handler="logging_getQuitterState", message=request.get_json())
-        return jsonify({"status": "success"})
-    except TimeoutError:
-        print("Timeout error")
-        return jsonify({"status": "error"})
-    except Exception as e:
-        logger.graylog_logger(level="error", handler="logging_getQuitterState", message=e)
-
-
 @app.route("/metrics/client/event", methods=["POST"])
 def receive_event():
     get_remote_ip()
@@ -128,18 +114,3 @@ def metrics_matchmaking_event():
         return jsonify({"status": "error"})
     except Exception as e:
         logger.graylog_logger(level="error", handler="logging_matchmaking_Event", message=e)
-
-
-@app.route("/api/v1/extensions/challenges/getChallengeProgressionBatch", methods=["POST"])
-def challenges_get_challenge_progression_batch():
-    get_remote_ip()
-    try:
-        logger.graylog_logger(level="info", handler="logging_getChallengeProgressionBatch",
-                                message=request.get_json())
-        return jsonify({"status": "success"})
-    except TimeoutError:
-        print("Timeout error")
-        return jsonify({"status": "error"})
-
-    except Exception as e:
-        logger.graylog_logger(level="error", handler="logging_getChallengeProgressionBatch", message=e)

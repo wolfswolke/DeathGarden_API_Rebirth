@@ -252,17 +252,17 @@ def progression_groups():
     get_remote_ip()
     try:
         print("Responded to progression groups api call GET")
-        return jsonify({"ObjectId": "FSTRING", "Version": 11, "SchemaVersion": 11, "Data": {}})
+        return jsonify({"ObjectId": "Runner.Sawbones", "Version": 11, "SchemaVersion": 11, "Data": {}})
         return jsonify({"List": [{"ObjectId": "Runner.Sawbones",
                                   "SchemaVersion": 11111111,
                                   "Version": 11111111,
                                   "Data":
-                                      [{"Level": 1, "Ratio": 0.111}]},
+                                      [{"Level": 5, "Ratio": 0.111}]},
                                  {"ObjectId": "Hunter.Stalker",
                                   "SchemaVersion": 11111111,
                                   "Version": 11111111,
                                   "Data":
-                                      [{"Level": 1, "Ratio": 0.111}]}
+                                      [{"Level": 5, "Ratio": 0.111}]}
                                  ]})
     except TimeoutError:
         print("Timeout error")
@@ -404,6 +404,7 @@ def messages_list():
         limit = request.args.get("limit")
         output = json.load(open(os.path.join(app.root_path, "json", "placeholders", "messages.json"), "r"))
         return jsonify(output)
+        return jsonify({"messages": []}) # from dbd
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
@@ -484,3 +485,19 @@ def inventory_unlock_special_items():
         return jsonify({"status": "error"})
     except Exception as e:
         logger.graylog_logger(level="error", handler="unknown_unlockSpecialItems", message=e)
+
+
+@app.route("/api/v1/extensions/challenges/getChallengeProgressionBatch", methods=["POST"])
+def challenges_get_challenge_progression_batch():
+    get_remote_ip()
+    try:
+        logger.graylog_logger(level="info", handler="logging_getChallengeProgressionBatch",
+                                message=request.get_json())
+        return jsonify({"status": "success"})
+    except TimeoutError:
+        print("Timeout error")
+        return jsonify({"status": "error"})
+
+    except Exception as e:
+        logger.graylog_logger(level="error", handler="logging_getChallengeProgressionBatch", message=e)
+

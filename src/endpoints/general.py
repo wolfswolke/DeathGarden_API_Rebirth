@@ -282,4 +282,19 @@ def leaderboard_get_scores():
 @app.route("/submit/", methods=["POST"])
 def submit():
     get_remote_ip()
-    return jsonify({"status": "success"})
+    return "Discarded=1"
+
+
+@app.route("/api/v1/extensions/quitters/getQuitterState", methods=["POST"])
+def get_quitter_state():
+    get_remote_ip()
+    try:
+        print("Responded to get quitter state api call POST")
+        logger.graylog_logger(level="info", handler="logging_getQuitterState", message=request.get_json())
+        return jsonify({"status": "success"})
+    except TimeoutError:
+        print("Timeout error")
+        return jsonify({"status": "error"})
+    except Exception as e:
+        logger.graylog_logger(level="error", handler="logging_getQuitterState", message=e)
+
