@@ -25,3 +25,9 @@ Response: {"matchId":"5651681e-72ce-46f0-bda6-752e583v0d08","schema":3,
 "platform":"Windows","isDedicated":false},"reason":"","sideA":["AAAAA-AAAAAA-AAAAAAAA-AAAAAAAA"],
 "sideB":["AAAAA-AAAAAA-AAAAAAAA-AAAAAAAA"]}
 Comment: User now joins lobby with this data.
+
+Endpoint: POST /api/v1/queue/cancel
+Response: {"status":"NONE","leaderId":"","latencies":[{"regionName":"us-east-1","latency":107.9739}],
+"userProps":{"platform":"Windows"},"category":"","region":"","timeToMatch":"1688742797345","matchId":"",
+"entryTime":"","side":"","skill":null,"userId":"AAAAA-AAAAAA-AAAAAAAA-AAAAAAAA","followers":[]}
+Comment: Remove User from queue.
