@@ -5,12 +5,10 @@ from flask_definitions import *
 def receive_event():
     get_remote_ip()
     try:
-        print("Responded to Metrics api call POST")
         data = request.get_json()
         logger.graylog_logger(level="info", handler="logging_client_Event", message=data)
         return jsonify({"status": "success"})
     except TimeoutError:
-        print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
         logger.graylog_logger(level="error", handler="logging_client_Event", message=e)
@@ -24,7 +22,6 @@ def metrics_httplog_event():
         logger.graylog_logger(level="info", handler="logging_httplog_Event", message=data)
         return jsonify({"status": "success"})
     except TimeoutError:
-        print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
         logger.graylog_logger(level="error", handler="logging_httplog_Event", message=e)
@@ -34,12 +31,10 @@ def metrics_httplog_event():
 def analytics_post():
     get_remote_ip()
     try:
-        print("Responded to analytics api call POST")
         data = request.get_json()
         logger.graylog_logger(level="info", handler="logging_gameDataAnalytics", message=data)
         return jsonify({"status": "success"})
     except TimeoutError:
-        print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
         logger.graylog_logger(level="error", handler="logging_gameDataAnalytics", message=e)
@@ -49,12 +44,10 @@ def analytics_post():
 def analytics_batch_post():
     get_remote_ip()
     try:
-        print("Responded to analytics batch api call POST")
         data = request.get_json()
         logger.graylog_logger(level="info", handler="logging_gameDataAnalyticsBatch", message=data)
         return jsonify({"status": "success"})
     except TimeoutError:
-        print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
         logger.graylog_logger(level="error", handler="logging_gameDataAnalyticsBatch", message=e)
@@ -64,11 +57,9 @@ def analytics_batch_post():
 def me_rich_presence():
     get_remote_ip()
     try:
-        print("Responded to me rich presence api call POST")
         logger.graylog_logger(level="info", handler="logging_meRichPresence", message=request.get_json())
         return jsonify({"status": "success"})
     except TimeoutError:
-        print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
         logger.graylog_logger(level="error", handler="logging_meRichPresence", message=e)
@@ -78,11 +69,9 @@ def me_rich_presence():
 def metrics_server_event():
     get_remote_ip()
     try:
-        print("Responded to metrics server event api call POST")
         logger.graylog_logger(level="info", handler="logging_server_Event", message=request.get_json())
         return jsonify({"status": "success"})
     except TimeoutError:
-        print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
         logger.graylog_logger(level="error", handler="logging_server_Event", message=e)
@@ -92,11 +81,9 @@ def metrics_server_event():
 def crashreporter_check_report():
     get_remote_ip()
     try:
-        print("Responded to crashreporter check report api call POST")
         # TODO: Add Crashreporter
         return jsonify({"status": "success"})
     except TimeoutError:
-        print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
         logger.graylog_logger(level="error", handler="logging_crashreporter_CheckReport", message=e)
@@ -106,11 +93,9 @@ def crashreporter_check_report():
 def metrics_matchmaking_event():
     get_remote_ip()
     try:
-        print("Responded to metrics matchmaking event api call POST")
         logger.graylog_logger(level="info", handler="logging_matchmaking_Event", message=request.get_json())
         return jsonify({"status": "success"})
     except TimeoutError:
-        print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
         logger.graylog_logger(level="error", handler="logging_matchmaking_Event", message=e)

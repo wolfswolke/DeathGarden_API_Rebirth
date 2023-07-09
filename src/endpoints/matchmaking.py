@@ -10,10 +10,8 @@ import uuid
 def match_making_regions_raw():
     get_remote_ip()
     try:
-        # print(request.json)
         return jsonify(["EU", "US", "AP"])
     except TimeoutError:
-        print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
         logger.graylog_logger(level="error", handler="matchmaking_RegionsRAW", message=e)
@@ -50,12 +48,6 @@ def queue():
     user_id = request.cookies.get("bhvrSession")
     spoofed_match_id = "0051681e-72ce-46f0-bda2-752e471d0d08"
     epoch = datetime.now().timestamp()
-    print("###################################")
-    print("DEBUG")
-    print(request.get_json())
-    print(user_id)
-    print("###################################")
-
     logger.graylog_logger(level="info", handler="logging_queue", message=f"User {user_id} is queueing for {category} in {region} with {count_a} hunters and {count_b} runners")
 
     # return {"status":"QUEUED","queueData":{"ETA":-10000,"position":0,"stable":False}}
@@ -67,10 +59,6 @@ def queue():
     # if data is None:
     #    print("No match found")
     #    # PlaceHolder for If User not in private match
-    print("DEBUG")
-    print(game_mode)
-    print("###################################")
-
     if user_id == "619d6f42-db87-4f3e-8dc9-3c9995613614":
         return jsonify({"status": "MATCHED", "QueueData":{"Position":0, "ETA":0, "Stable": False, "SizeA":1, "SizeB":4},
                         "MatchData": {"MatchId": spoofed_match_id, "Category": category, "Rank": rank,
@@ -142,7 +130,6 @@ def match(matchid):
 
 @app.route("/api/v1/match/<matchid>/Kill", methods=["PUT"])
 def match_kill(matchid):
-    print(matchid)
     return jsonify({"status": "OK"})
 
 @app.route("/api/v1/match/<match_id>/register", methods=["POST"])
@@ -203,11 +190,9 @@ def match_create():
 def progression_player_end_of_match():
     get_remote_ip()
     try:
-        print("Responded to progression player end of match api call POST")
         logger.graylog_logger(level="info", handler="matchmaking_playerEndOfMatch", message=request.get_json())
         return jsonify("", 204)
     except TimeoutError:
-        print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
         logger.graylog_logger(level="error", handler="matchmaking_playerEndOfMatch", message=e)

@@ -38,7 +38,6 @@ def steam_login_function():
                         "expire": expire_time,
                         "userId": userid, "token": token})
     except TimeoutError:
-        print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
         logger.graylog_logger(level="error", handler="steam_login", message=e)
@@ -50,10 +49,6 @@ def steam_login():
     # Read Doc\SteamAuth.md for more information
     ip = get_remote_ip()
     user_agent = request.headers.get('User-Agent')
-    print("####################################################")
-    print("USER AGENT: " + user_agent)
-    print("####################################################")
-
     if user_agent.startswith("TheExit/++UE4+Release-4.2"):
         if request.args.get(
                 'token') == "140000007B7B7B7B02000000E3FA3952010010017B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B":
@@ -91,7 +86,9 @@ def steam_login():
 def modifiers():
     get_remote_ip()
     userid = request.cookies.get("bhvrSession")
-    steamid, token = mongo.get_user_info(userId=userid, server=mongo_host, db=mongo_db, collection=mongo_collection)
+    steamid, token = mongo.get_data_with_list(login=userid, login_steam=False,
+                                              items={"token", "steamid"}, server=mongo_host, db=mongo_db,
+                                              collection=mongo_collection)
     try:
         return jsonify({"TokenId": token, "UserId": userid, "RoleIds": ["759E44DD-469C2841-75C2D6A1-AB0B0FA7",
                                                                         "606129DC-45AB9D16-B69E2FA5-C99A9835"]})
@@ -107,16 +104,16 @@ def moderation_check_username():
     get_remote_ip()
     try:
         request_var = request.get_json()
-        print(str(request_var))
         userid = request_var["userId"]
         username = request_var["username"]
         logger.graylog_logger(level="info", handler="moderation_check_username", message=request.get_json())
-        steamid, token = mongo.get_user_info(userId=userid, server=mongo_host, db=mongo_db, collection=mongo_collection)
+        steamid, token = mongo.get_data_with_list(login=userid, login_steam=False,
+                                                  items={"token", "steamid"}, server=mongo_host, db=mongo_db,
+                                                  collection=mongo_collection)
         return jsonify({"Id": userid, "Token": token,
                         "Provider": {"ProviderName": username,
                                      "ProviderId": steamid}})  # CLIENT:{"userId": "ID-ID-ID-ID-SEE-AUTH",	"username": "Name-Name-Name"}
     except TimeoutError:
-        print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
         logger.graylog_logger(level="error", handler="moderation_check_username", message=e)
@@ -125,8 +122,6 @@ def moderation_check_username():
 # Doesn't work
 @app.route("/api/v1/progression/experience", methods=["POST"])
 def progression_experience():
-    if request.json:
-        print(request.get_json())
     get_remote_ip()
     try:
         # graylog_logger(request.get_json(), "info")
@@ -155,7 +150,6 @@ def progression_experience():
              "Data": {"ObjectId": "Hunter.Mass", "Experience": 100, "Version": 1}}
         ]})
     except TimeoutError:
-        print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
         logger.graylog_logger(level="error", handler="progression_experience", message=e)
@@ -187,7 +181,6 @@ def challenges_get_challenges():
             return jsonify({"status": "error"})
 
     except TimeoutError:
-        print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
         logger.graylog_logger(level="error", handler="getChallanges", message=e)
@@ -197,7 +190,6 @@ def challenges_get_challenges():
 def challenges_execute_challenge_progression_operation_batch():
     get_remote_ip()
     try:
-        print("Responded to challenges execute challenge progression operation batch api call POST")
         logger.graylog_logger(level="info", handler="logging_executeChallengeProgressionOperationBatch",
                               message=request.get_json())
         return jsonify({"Id": "AssaultRifleWins_HunterWeekly", "Type": 2, "Title": "Hunter_DroneCharger_Name",
@@ -206,7 +198,6 @@ def challenges_execute_challenge_progression_operation_batch():
                             [{"Type": "Weekly", "Id": "C90F72FC4D61B1F2FBC73F8A4685EA41", "Amount": 1.0,
                               "Claimed": False}]})
     except TimeoutError:
-        print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
         logger.graylog_logger(level="error", handler="logging_executeChallengeProgressionOperationBatch",
@@ -220,8 +211,6 @@ def inventories():
     try:
         page = request.args.get('page', default=0, type=int)
         limit = request.args.get('limit', default=500, type=int)
-        print("Responded to inventories api call GET")
-        print(request.cookies.get('bhvrSession'))
         userid = request.cookies.get('bhvrSession')
         if page == 0:
             return jsonify({"Code": 200, "Message": "OK", "Data": {"PlayerId": userid, "Inventory": [
@@ -259,7 +248,6 @@ def inventories():
                 {"ObjectId": "C1672541-4A4B16B9-AD557C9E-E865D113", "Quantity": 1, "LastUpdateAt": 1687377305}
             ], "NextPage": 0}})
     except TimeoutError:
-        print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
         logger.graylog_logger(level="error", handler="inventories", message=e)
@@ -271,7 +259,6 @@ def progression_groups():
     get_remote_ip()
     try:
         userid = request.headers.get("bhvrSession")
-        print("Responded to progression groups api call GET")
         #  This is the real code but need to build this first
         # return jsonify({"UserId": userid, "StateName": "Fstring", "Segment": "Fstring", "ObjectId": "Fstring",
         #                "Version": 1111, "schemaVersion": 1111, "Data": {}})
@@ -288,7 +275,6 @@ def progression_groups():
                                       [{"Level": 5, "Ratio": 0.111}]}
                                  ]})
     except TimeoutError:
-        print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
         logger.graylog_logger(level="error", handler="ProgressionGroups", message=e)
@@ -305,7 +291,6 @@ def ban_status():
                                             items={"is_banned", "ban_reason", "ban_start", "ban_expire"},
                                             server=mongo_host, db=mongo_db, collection=mongo_collection)
         if ban_data == None:
-            print("Error in ban_data_database")
             return jsonify({"status": "error"})
         elif ban_data["is_banned"] == True:
             return jsonify({"IsBanned": ban_data["is_banned"], "BanInfo": {"BanPeriod": 10,
@@ -320,10 +305,8 @@ def ban_status():
                                                                            "BanEnd": 0,
                                                                            "Confirmed": False, "Pending": False}})
         else:
-            print("Error in ban_data_database")
             return jsonify({"status": "error"})
     except TimeoutError:
-        print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
         logger.graylog_logger(level="error", handler="ban_status", message=e)
@@ -334,11 +317,9 @@ def ban_status():
 def get_ban_info():
     get_remote_ip()
     try:
-        print("Responded to ban status api call GET")
         return jsonify({"BanPeriod": None, "BanReason": None, "BanStart": None, "BanEnd": None,
                         "Confirmed": False})
     except TimeoutError:
-        print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
         logger.graylog_logger(level="error", handler="ban_status", message=e)
@@ -349,7 +330,6 @@ def get_ban_info():
 def wallet_currencies():
     get_remote_ip()
     try:
-        print("Responded to wallet currencies api call GET")
         currencies = mongo.get_data_with_list(login=request.cookies.get("bhvrSession"), login_steam=False,
                                               items={"currency_blood_cells", "currency_iron", "currency_ink_cells"},
                                               server=mongo_host, db=mongo_db, collection=mongo_collection)
@@ -364,7 +344,6 @@ def wallet_currencies():
                                  {"Currency": "PROGRESSION_CURRENCY", "Balance": 10000,
                                   "CurrencyGroup": "HardCurrencyGroup", "LastRefillTimeStamp": "1684862187"}]})
     except TimeoutError:
-        print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
         logger.graylog_logger(level="error", handler="currencies", message=e)
@@ -375,10 +354,8 @@ def wallet_currencies():
 def wallet_currencies_progression():
     get_remote_ip()
     try:
-        print("Responded to wallet currencies PROGRESSION_CURRENCY api call GET")
         return jsonify([{"Currency": 1, "Amount": 10}, {"Currency": 2, "Amount": 10}, {"Currency": 3, "Amount": 10}])
     except TimeoutError:
-        print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
         logger.graylog_logger(level="error", handler="currencies", message=e)
@@ -401,7 +378,6 @@ def achievements_get():
              {"apiname": "AAD05B9D46471DC811BBE0BA91916AB7", "achieved": 1, "unlocktime": 1586788872},
              {"apiname": "BA2D4A5445CB70276A8F5D9E1AFCE080", "achieved": 1, "unlocktime": 1586788872}]})
     except TimeoutError:
-        print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
         logger.graylog_logger(level="error", handler="Achievment_handler", message=e)
@@ -414,7 +390,6 @@ def messages_count():
     try:
         return jsonify({"Count": 1})
     except TimeoutError:
-        print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
         logger.graylog_logger(level="error", handler="messages_count", message=e)
@@ -429,7 +404,6 @@ def messages_list():
         return jsonify(output)
         return jsonify({"messages": []})  # from dbd
     except TimeoutError:
-        print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
         logger.graylog_logger(level="error", handler="messages_list", message=e)
@@ -447,7 +421,6 @@ def moderation_check_chat():
         # Why should we care? Can we get in trouble if we don't?
         return jsonify({"status": "success", "result": "OK"})  # Testing stuff
     except TimeoutError:
-        print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
         logger.graylog_logger(level="error", handler="moderation_check_chat", message=e)
@@ -458,7 +431,6 @@ def moderation_check_chat():
 def extension_progression_init_or_get_groups():
     get_remote_ip()
     try:
-        print("Responded to extension progression init or get groups api call POST")
         logger.graylog_logger(level="info", handler="logging_initOrGetGroups", message=request.get_json())
         # Client sends: {"data":{"skipProgressionGroups":false,"skipMetadataGroups":false,"playerName":"Steam-Name-Here"}}
         # The client cant understand CharacterId for some reason??? But if this is removed the game doesn't load the
@@ -514,7 +486,6 @@ def extension_progression_init_or_get_groups():
             ]
         })
     except TimeoutError:
-        print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
         logger.graylog_logger(level="error", handler="logging_initOrGetGroups", message=e)
@@ -525,11 +496,9 @@ def extension_progression_init_or_get_groups():
 def inventory_unlock_special_items():
     get_remote_ip()
     try:
-        print("Responded to Inventory Unlock Special Items event api call POST")
         logger.graylog_logger(level="info", handler="unknown_unlockSpecialItems", message=request.get_json())
         return jsonify({"UnlockedItems": ["9F54DE7A-4E15935B-503850A1-27B0A2A4"]})
     except TimeoutError:
-        print("Timeout error")
         return jsonify({"status": "error"})
     except Exception as e:
         logger.graylog_logger(level="error", handler="unknown_unlockSpecialItems", message=e)
@@ -543,7 +512,6 @@ def challenges_get_challenge_progression_batch():
                               message=request.get_json())
         return jsonify({"status": "success"})
     except TimeoutError:
-        print("Timeout error")
         return jsonify({"status": "error"})
 
     except Exception as e:

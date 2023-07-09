@@ -5,7 +5,6 @@ from logic.mongodb_handler import mongo
 @app.route('/', methods=["GET"])
 def index():
     get_remote_ip()
-    print("Index Page")
     return render_template("index.html")
 
 
@@ -76,10 +75,8 @@ def debug_mirrors_write():
                         return jsonify({"status": "error", "message": "Invalid api token"}, 401)
 
             except TimeoutError:
-                print("Timeout error")
                 return jsonify({"status": "error"})
             except Exception as e:
-                print(e)
                 logger.graylog_logger(level="error", handler="logging_debug_mirror_write", message=e)
         if request.method == "GET":
             return jsonify({"message": "Endpoint not found"}), 404

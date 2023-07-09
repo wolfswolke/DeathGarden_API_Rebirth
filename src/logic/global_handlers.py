@@ -7,8 +7,11 @@ def get_remote_ip():
         ip_addr = request.environ['REMOTE_ADDR']
     else:
         ip_addr = request.environ['HTTP_X_FORWARDED_FOR']
-    print("New Connection from: " + ip_addr)
-    return ip_addr
+        if ip_addr == "127.0.0.1":
+            return
+        else:
+            print("New Connection from: " + ip_addr)
+            return ip_addr
 
 
 def load_config():
