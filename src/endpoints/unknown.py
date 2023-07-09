@@ -16,6 +16,7 @@ def catalog_get(game_version):
 
 
 @app.errorhandler(404)
-def debug_404():
+def debug_404(e):
     logger.graylog_logger(level="error", handler="404-handler", message=f"Path: {request.path} Endpoint: {request.endpoint}")
+    print(e)
     return jsonify({"message": "Endpoint not found"}), 404

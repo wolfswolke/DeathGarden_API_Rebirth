@@ -90,8 +90,8 @@ def modifiers():
                                               items={"token", "steamid"}, server=mongo_host, db=mongo_db,
                                               collection=mongo_collection)
     try:
-        return jsonify({"TokenId": token, "UserId": userid, "RoleIds": ["759E44DD-469C2841-75C2D6A1-AB0B0FA7",
-                                                                        "606129DC-45AB9D16-B69E2FA5-C99A9835"]})
+        return jsonify({"TokenId": token, "UserId": userid, "RoleIds": ["755D4DFE-40DA1512-B01E3D8C-FF3C8D4D",
+                                                                        "C50FFFBF-46866131-82F45890-651797CE"]})
     except TimeoutError:
         return jsonify({"status": "error"})
     except Exception as e:
@@ -107,9 +107,19 @@ def moderation_check_username():
         userid = request_var["userId"]
         username = request_var["username"]
         logger.graylog_logger(level="info", handler="moderation_check_username", message=request.get_json())
+
         steamid, token = mongo.get_data_with_list(login=userid, login_steam=False,
-                                                  items={"token", "steamid"}, server=mongo_host, db=mongo_db,
-                                                  collection=mongo_collection)
+                                                items={"token", "steamid"}, server=mongo_host, db=mongo_db,
+                                                collection=mongo_collection)
+        if steamid is None:
+            time.sleep(1)
+            request_var = request.get_json()
+            userid = request_var["userId"]
+            username = request_var["username"]
+            steamid, token = mongo.get_data_with_list(login=userid, login_steam=False,
+                                                      items={"token", "steamid"}, server=mongo_host, db=mongo_db,
+                                                      collection=mongo_collection)
+
         return jsonify({"Id": userid, "Token": token,
                         "Provider": {"ProviderName": username,
                                      "ProviderId": steamid}})  # CLIENT:{"userId": "ID-ID-ID-ID-SEE-AUTH",	"username": "Name-Name-Name"}
@@ -262,13 +272,12 @@ def progression_groups():
         #  This is the real code but need to build this first
         # return jsonify({"UserId": userid, "StateName": "Fstring", "Segment": "Fstring", "ObjectId": "Fstring",
         #                "Version": 1111, "schemaVersion": 1111, "Data": {}})
-        return jsonify({"ObjectId": "Runner.Sawbones", "Version": 11, "SchemaVersion": 11, "Data": {}})
-        return jsonify({"List": [{"ObjectId": "Runner.Sawbones",
+        return jsonify({"List": [{"ObjectId": "C50FFFBF-46866131-82F45890-651797CE",
                                   "SchemaVersion": 11111111,
                                   "Version": 11111111,
                                   "Data":
                                       [{"Level": 5, "Ratio": 0.111}]},
-                                 {"ObjectId": "Hunter.Stalker",
+                                 {"ObjectId": "755D4DFE-40DA1512-B01E3D8C-FF3C8D4D",
                                   "SchemaVersion": 11111111,
                                   "Version": 11111111,
                                   "Data":
@@ -455,33 +464,32 @@ def extension_progression_init_or_get_groups():
                     "ObjectId": "755D4DFE-40DA1512-B01E3D8C-FF3C8D4D",
                     "Version": 1,
                     "SchemaVersion": 1.1,
-                    "Data": {"CharacterId": {"TagName": "Runner.Sawbones"}, "PrestigeLevel": 1,
+                    "Data": {"CharacterId": {"TagName": "Runner.Sawbones"},
                              "Equipment": ["Primary Weapon", "Bonus 1", "Bonus 2", "Perk 1",
-                                           "Perk 2", "Ability"],
-                             "EquippedPerks": ["20FF1865462FD26B0253A08F18EFAA10"],
-                             "EquippedPowers": ["C8AF3D534973F82FADBB40BDA96F9DCD"],
-                             "EquippedWeapons": ["492232504161420C872A0F82FC16ACDB"],
-                             "EquippedBonuses": ["1E08AFFA485E92BAFF2C1BB85CEFB81E",
-                                                 "1F5CD9004224C56746D81991AA40448A"],
-                             "PickedChallanges": [{"ItemId": "Progression_Shimmy",
-                                                   "Name": "Runner_ProgressionSpecificShimmy_Name"}]},
+                                           "Perk 2"],
+                             "EquippedPerks": ["BE1C0D4C-4CE08611-22BE22B2-736D9091",
+                                               "F2768C45-41C8262E-FF4922B3-72AB7306"],
+                             "EquippedPowers": ["C8AF3D53-4973F82F-ADBB40BD-A96F9DCD"],
+                             "EquippedWeapons": ["4E171BD1-4FF98ED4-3A7AFAB5-7FE55578"],
+                             "EquippedBonuses": ["109BC590-4DC1272D-70822EBA-79CC85B1",
+                                                 "54B3EF79-4FCB0643-C4644FA1-5BEF31D5"]}
                 },
                 {
                     "ObjectId": "C50FFFBF-46866131-82F45890-651797CE",
                     "Version": 1,
                     "SchemaVersion": 1.1,
-                    "Data": {"CharacterId": {"TagName": "Hunter.Stalker"}, "PrestigeLevel": 1,
+                    "Data": {"CharacterId": "{AAAA-BBBBB-2222-33333}",
                              "Equipment": ["Primary Weapon", "Bonus 1", "Bonus 2", "Perk 1",
-                                           "Perk 2", "Ability", "Sidearm"],
-                             "EquippedPerks": ["F055513D48AACBAC280B2AA00A984180",
-                                               "5998C1C548AB7BDA80C87295F2764C5D"],
-                             "EquippedPowers": ["0DC38EC14AA02FC83456E5B02B7B4870"],
-                             "EquippedWeapons": ["50D3005B437066E4C4D99F9397CF1B0B",
-                                                 "973C9176404A29F926D13BACB76A2425"],
-                             "EquippedBonuses": ["1098BEE241B1515B44013A87EDB16BDC",
-                                                 "EDB6D6B742023AE61AD8718CAC073C0E"],
-                             "PickedChallanges": [{"ItemId": "Progression_Turrets_Hunter",
-                                                   "Name": "Hunter_ProgressionSpecificTurret_Name"}]},
+                                           "Perk 2", "Ability01", "Ability02", "Ability03","Sidearm"],
+                             "EquippedPerks": ["7CE5AFBF-459102E5-728DCDAA-6F88C0F1",
+                                               "2DBF9B11-4B82A639-40936396-CBA68BCD"],
+                             "EquippedPowers": ["10A8C667-45801664-6E2EFA94-52E3141A",
+                                                "08DC38B6-470A7A5B-0BA025B9-6279DAA8",
+                                                "51595917-43CBF0B5-7EC6FEB3-341960D6"],
+                             "EquippedWeapons": ["36466540-42433114-08F6A0BD-4DCE05BD",
+                                                 "307A0B13-417737DE-D675309F-8B978AB8"],
+                             "EquippedBonuses": ["791F12E0-47DA9E26-E246E385-9C3F587E",
+                                                 "8A5BF227-4640C2F2-3EF3C996-A6F6404D"]}
                 }
             ]
         })

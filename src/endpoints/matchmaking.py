@@ -6,6 +6,7 @@ from logic.match_manager import match_manager
 from flask_definitions import *
 import uuid
 
+
 @app.route("/api/v1/config/MATCH_MAKING_REGIONS/raw", methods=["GET"])
 def match_making_regions_raw():
     get_remote_ip()
@@ -40,7 +41,7 @@ def queue():
     side = request.json.get("side")
     latencies = request.json.get("latencies")
     additional_user_ids = request.json.get("additionalUserIds")
-    check_only = request.json.get("checkOnly") # False = Searching. True = Is searching and waiting for match
+    check_only = request.json.get("checkOnly")  # False = Searching. True = Is searching and waiting for match
     game_mode = request.json.get("gameMode")
     region = request.json.get("region")
     count_a = request.json.get("countA")
@@ -48,10 +49,11 @@ def queue():
     user_id = request.cookies.get("bhvrSession")
     spoofed_match_id = "0051681e-72ce-46f0-bda2-752e471d0d08"
     epoch = datetime.now().timestamp()
-    logger.graylog_logger(level="info", handler="logging_queue", message=f"User {user_id} is queueing for {category} in {region} with {count_a} hunters and {count_b} runners")
+    logger.graylog_logger(level="info", handler="logging_queue",
+                          message=f"User {user_id} is queueing for {category} in {region} with {count_a} hunters and {count_b} runners")
 
     # return {"status":"QUEUED","queueData":{"ETA":-10000,"position":0,"stable":False}}
-    #else:
+    # else:
     #   # check here if more than one User is in the Queue and create a Match.
     #    return {"status":"QUEUED","queueData":{"ETA":-8000,"position":0,"stable":False}}
 
@@ -59,58 +61,79 @@ def queue():
     # if data is None:
     #    print("No match found")
     #    # PlaceHolder for If User not in private match
+
+    tmp = {"status": "MATCHED", "queueData": {"ETA": 0, "position": 0, "stable": False},
+           "matchData": {"matchId": "asdasdassdasd-ddddd-asdasd-asdas-bfbfbfbfb", "schema": 3,
+                         "category": "oman-100372-dev:None:Windows::us-east-1:1:4:0:G:2", "rank": 1, "geolocation": {},
+                         "creationDateTime": 10101010101, "status": "CREATED",
+                         "creator": "asdasdasdasdasdasdasd", "customData": {}, "version": 1,
+                         "skill": {"longitude": 1.1, "latitude": 1.1, "rank": 20,
+                                   "rating": {"rating": 11111, "RD": 111.1111, "volatility": 1.11}, "countries": ["AT"],
+                                   "x": 20, "isSuspicious": False, "isProtected": False, "version": 2}, "churn": 0,
+                         "props": {"countA": 1,
+                                   "countB": 4, "gameMode": "None", "platform": "Windows", "isDedicated": False},
+                         "reason": "", "sideA": ["asdasdasdasdasdasdasd"],
+                         "sideB": ["dsadasdasdasdasdasddsa"],
+                         "playerHistory": ["asdasdasdasdasdasdasd",
+                                           "dsadasdasdasdasdasddsa"]}}
     if user_id == "619d6f42-db87-4f3e-8dc9-3c9995613614":
-        return jsonify({"status": "MATCHED", "QueueData":{"Position":0, "ETA":0, "Stable": False, "SizeA":1, "SizeB":4},
-                        "MatchData": {"MatchId": spoofed_match_id, "Category": category, "Rank": rank,
-                                      "CreationDateTime": epoch, "ExcludeFriends": False,
-                                      "ExcludeClanMembers": False, "Status": "WaitingForPlayers", "Creator": "00658d11-2dfd-41e8-b6d2-2462e8f3aa47",
-                                      "Players": ["619d6f42-db87-4f3e-8dc9-3c9995613614", "00658d11-2dfd-41e8-b6d2-2462e8f3aa47"],
-                                      "SideA": ["00658d11-2dfd-41e8-b6d2-2462e8f3aa47"],
-                                      "SideB": ["619d6f42-db87-4f3e-8dc9-3c9995613614"], "CustomData": {},
-                                      "Props": {"gameMode":"08d2279d2ed3fba559918aaa08a73fa8-Default", 'MatchConfiguration': '/Game/Configuration/MatchConfig/MatchConfig_Demo.MatchConfig_Demo'},
-                                      "Schema": 11122334455666}})
+        return jsonify(
+            {"status": "MATCHED", "QueueData": {"Position": 0, "ETA": 0, "Stable": False, "SizeA": 1, "SizeB": 4},
+             "MatchData": {"MatchId": spoofed_match_id, "Category": category, "Rank": rank,
+                           "CreationDateTime": epoch, "ExcludeFriends": False,
+                           "ExcludeClanMembers": False, "Status": "CREATED",
+                           "Creator": "619d6f42-db87-4f3e-8dc9-3c9995613614",
+                           "Players": ["619d6f42-db87-4f3e-8dc9-3c9995613614", "00658d11-2dfd-41e8-b6d2-2462e8f3aa47"],
+                           "SideA": ["00658d11-2dfd-41e8-b6d2-2462e8f3aa47"],
+                           "SideB": ["619d6f42-db87-4f3e-8dc9-3c9995613614"], "CustomData": {},
+                           "Props": {"isDedicated": False, "gameMode": "08d2279d2ed3fba559918aaa08a73fa8-Default",
+                                     'MatchConfiguration': '/Game/Configuration/MatchConfig/MatchConfig_Demo.MatchConfig_Demo'},
+                           "Schema": 11122334455666}})
     elif user_id == "95041085-e7e4-4759-be3d-e72c69167578":
         return jsonify(
             {"status": "MATCHED", "QueueData": {"Position": 0, "ETA": 0, "Stable": False, "SizeA": 1, "SizeB": 4},
              "MatchData": {"MatchId": spoofed_match_id, "Category": category, "Rank": rank,
                            "CreationDateTime": epoch, "ExcludeFriends": False,
-                           "ExcludeClanMembers": False, "Status": "WaitingForPlayers",
-                           "Creator": "00658d11-2dfd-41e8-b6d2-2462e8f3aa47",
+                           "ExcludeClanMembers": False, "Status": "CREATED",
+                           "Creator": "95041085-e7e4-4759-be3d-e72c69167578",
                            "Players": ["00658d11-2dfd-41e8-b6d2-2462e8f3aa47", "95041085-e7e4-4759-be3d-e72c69167578"],
                            "SideA": ["00658d11-2dfd-41e8-b6d2-2462e8f3aa47"],
                            "SideB": ["95041085-e7e4-4759-be3d-e72c69167578"], "CustomData": {},
-                           "Props": {"gameMode":"08d2279d2ed3fba559918aaa08a73fa8-Default", 'MatchConfiguration': '/Game/Configuration/MatchConfig/MatchConfig_Demo.MatchConfig_Demo'},
+                           "Props": {"isDedicated": False, "gameMode": "08d2279d2ed3fba559918aaa08a73fa8-Default",
+                                     'MatchConfiguration': '/Game/Configuration/MatchConfig/MatchConfig_Demo.MatchConfig_Demo'},
                            "Schema": 11122334455666}})
     elif user_id == "00658d11-2dfd-41e8-b6d2-2462e8f3aa47":
         return jsonify(
             {"status": "MATCHED", "QueueData": {"Position": 0, "ETA": 0, "Stable": False, "SizeA": 1, "SizeB": 4},
              "MatchData": {"MatchId": spoofed_match_id, "Category": category, "Rank": rank,
                            "CreationDateTime": epoch, "ExcludeFriends": False,
-                           "ExcludeClanMembers": False, "Status": "WaitingForPlayers",
+                           "ExcludeClanMembers": False, "Status": "CREATED",
                            "Creator": "00658d11-2dfd-41e8-b6d2-2462e8f3aa47",
                            "Players": ["619d6f42-db87-4f3e-8dc9-3c9995613614", "00658d11-2dfd-41e8-b6d2-2462e8f3aa47"],
                            "SideA": ["00658d11-2dfd-41e8-b6d2-2462e8f3aa47"],
                            "SideB": ["619d6f42-db87-4f3e-8dc9-3c9995613614"], "CustomData": {},
-                           "Props": {"gameMode": "08d2279d2ed3fba559918aaa08a73fa8-Default",
+                           "Props": {"isDedicated": False, "gameMode": "08d2279d2ed3fba559918aaa08a73fa8-Default",
                                      'MatchConfiguration': '/Game/Configuration/MatchConfig/MatchConfig_Demo.MatchConfig_Demo'},
                            "Schema": 11122334455666}})
     else:
-        return {"status":"QUEUED","queueData":{"ETA":-10000,"position":0,"stable":False}}
-    #eta, position = match_manager.find_eta_and_position(data["_match_uuid"])
+        return {"status": "QUEUED", "queueData": {"ETA": -10000, "position": 0, "stable": False}}
+    # eta, position = match_manager.find_eta_and_position(data["_match_uuid"])
 
 
 @app.route("/api/v1/match/<matchid>", methods=["GET"])
 def match(matchid):
     if matchid == "0051681e-72ce-46f0-bda2-752e471d0d08":
-        return jsonify({"matchId":matchid,"schema":3,
-                    "category":"Steam-te-18f25613-36778-ue4-374f864b",
-                    "geolocation":{},"creationDateTime":datetime.now().timestamp(),
-                    "status":"OPENED",
-                    "creator":"00658d11-2dfd-41e8-b6d2-2462e8f3aa47",
-                    "customData":{"SessionSettings":"AAAAJDYxOWQ2ZjQyLWRiODctNGYzZS04ZGM5LTNjOTk5NTYxMzYxNAAAAAAAAAAAAAAAYwAAAGMAAAAAAQAAAAEAAQEAAAAAAAAAAAAKAAAAB01hcE5hbWUGAAAAA21hcAIAAAAQQ1VTVE9NU0VBUkNISU5UMgHRD3M7AgAAAAhnYW1lTW9kZQYAAAAoMDhkMjI3OWQyZWQzZmJhNTU5OTE4YWFhMDhhNzNmYTgtRGVmYXVsdAIAAAAOUHJvamVjdFZlcnNpb24GAAAAHnRlLTE4ZjI1NjEzLTM2Nzc4LXVlNC0zNzRmODY0YgIAAAAQQ1VTVE9NU0VBUkNISU5UMQEAAAABAgAAAAdNYXhSYW5rAQAAAAECAAAAB01pblJhbmsBAAAAAQIAAAAQTWlycm9yc1Nlc3Npb25JZAYAAAAkMDA1MTY4MWUtNzJjZS00NmYwLWJkYTItNzUyZTQ3MWQwZDA4AgAAAAxQbGF0Zm9ybU5hbWUGAAAABVN0ZWFtAgAAABFQbGF0Zm9ybVNlc3Npb25JZAYAAAAsMXx8NzY1NjExOTkxNjk3ODEyODU6Nzc3N3wxMDk3NzUyNDI5MDM4OTYwOTgC"}
-                           ,"version":2,"churn":0,'props':
-                            {"gameMode":"08d2279d2ed3fba559918aaa08a73fa8-Default",'MatchConfiguration': '/Game/Configuration/MatchConfig/MatchConfig_Demo.MatchConfig_Demo'},
-                    "reason":"","SideA": ["619d6f42-db87-4f3e-8dc9-3c9995613614"],
+        return jsonify({"matchId": matchid, "schema": 3,
+                        "category": "Steam-te-18f25613-36778-ue4-374f864b",
+                        "geolocation": {}, "creationDateTime": datetime.now().timestamp(),
+                        "status": "OPENED",
+                        "creator": "00658d11-2dfd-41e8-b6d2-2462e8f3aa47",
+                        "customData": {
+                            "SessionSettings": "AAAAJDYxOWQ2ZjQyLWRiODctNGYzZS04ZGM5LTNjOTk5NTYxMzYxNAAAAAAAAAAAAAAAYwAAAGMAAAAAAQAAAAEAAQEAAAAAAAAAAAAKAAAAB01hcE5hbWUGAAAAA21hcAIAAAAQQ1VTVE9NU0VBUkNISU5UMgHRD3M7AgAAAAhnYW1lTW9kZQYAAAAoMDhkMjI3OWQyZWQzZmJhNTU5OTE4YWFhMDhhNzNmYTgtRGVmYXVsdAIAAAAOUHJvamVjdFZlcnNpb24GAAAAHnRlLTE4ZjI1NjEzLTM2Nzc4LXVlNC0zNzRmODY0YgIAAAAQQ1VTVE9NU0VBUkNISU5UMQEAAAABAgAAAAdNYXhSYW5rAQAAAAECAAAAB01pblJhbmsBAAAAAQIAAAAQTWlycm9yc1Nlc3Npb25JZAYAAAAkMDA1MTY4MWUtNzJjZS00NmYwLWJkYTItNzUyZTQ3MWQwZDA4AgAAAAxQbGF0Zm9ybU5hbWUGAAAABVN0ZWFtAgAAABFQbGF0Zm9ybVNlc3Npb25JZAYAAAAsMXx8NzY1NjExOTkxNjk3ODEyODU6Nzc3N3wxMDk3NzUyNDI5MDM4OTYwOTgC"}
+                           , "version": 2, "churn": 0, 'props':
+                            {"gameMode": "08d2279d2ed3fba559918aaa08a73fa8-Default",
+                             'MatchConfiguration': '/Game/Configuration/MatchConfig/MatchConfig_Demo.MatchConfig_Demo'},
+                        "reason": "", "SideA": ["619d6f42-db87-4f3e-8dc9-3c9995613614"],
                         "SideB": ["00658d11-2dfd-41e8-b6d2-2462e8f3aa47"]})
     else:
         json_dict = match_manager.find_json_with_match_id(matchid)
@@ -132,14 +155,17 @@ def match(matchid):
 def match_kill(matchid):
     return jsonify({"status": "OK"})
 
+
 @app.route("/api/v1/match/<match_id>/register", methods=["POST"])
 def match_register(match_id):
     try:
         get_remote_ip()
         custom_data = request.get_json("customData")
-        session_settings = custom_data["sessionSettings"]
+        if custom_data["sessionSettings"]:
+            session_settings = custom_data["sessionSettings"]
         user_id = request.cookies.get("bhvrSession")
-        logger.graylog_logger(level="info", handler="match_register", message=f"User {user_id} is registering to match {match_id}")
+        logger.graylog_logger(level="info", handler="match_register",
+                              message=f"User {user_id} is registering to match {match_id}")
         return jsonify({"status": "OK"})
     except Exception as e:
         logger.graylog_logger(level="error", handler="match_register", message=e)
@@ -151,7 +177,8 @@ def match_quit(match_id):
     try:
         get_remote_ip()
         user_id = request.cookies.get("bhvrSession")
-        logger.graylog_logger(level="info", handler="logging_queue", message=f"User {user_id} is quieting match {match_id}")
+        logger.graylog_logger(level="info", handler="logging_queue",
+                              message=f"User {user_id} is quieting match {match_id}")
         return jsonify({"status": "OK"})
     except Exception as e:
         logger.graylog_logger(level="error", handler="logging_queue", message=e)
