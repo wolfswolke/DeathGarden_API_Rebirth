@@ -6,6 +6,7 @@
 # ------------------------------------------------------- #
 from threading import Thread
 import time
+from waitress import serve
 
 from flask_definitions import *
 import endpoints.unknown
@@ -23,7 +24,7 @@ import endpoints.matchmaking
 
 
 def run():
-    app.run(host='0.0.0.0', port=8080)
+    serve(app, host='0.0.0.0', port=8080)
 
 
 def keep_alive():

@@ -3,3 +3,4 @@ PyYaml
 graypy
 requests
 pymongo
+waitress
