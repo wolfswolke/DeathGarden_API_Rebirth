@@ -461,66 +461,58 @@ def extension_progression_init_or_get_groups():
         print("Responded to extension progression init or get groups api call POST")
         logger.graylog_logger(level="info", handler="logging_initOrGetGroups", message=request.get_json())
         # Client sends: {"data":{"skipProgressionGroups":false,"skipMetadataGroups":false,"playerName":"Steam-Name-Here"}}
-        return jsonify({"ProgressionGroups": [{"ObjectId": "759E44DD-469C2841-75C2D6A1-AB0B0FA7", "Version": 11111,
-                                               "SchemaVersion": 111111, "Data": {{"ObjectId": "696969", "SchemaVersion": 1, "Version": 1,
-                              "Data": {"Experience": 1, "Version": 1}},
-                             {"ObjectId": "420420420", "SchemaVersion": 1, "Version": 1,
-                              "Data": {"Experience": 1, "Version": 1}}}}],
-                        "MetadataGroups": [{"ObjectId": "759E44DD-469C2841-75C2D6A1-AB0B0FA7", "Version": 11111,
-                                            "SchemaVersion": 111111, "Data": {"CharacterId": {"TagName": "Runner.Smoke"}, "PrestigeLevel": 1,
-                                            "Equipment": ["Primary Weapon", "Bonus 1", "Bonus 2", "Perk 1",
-                                                          "Perk 2", "Ability"],
-                                            "EquippedPerks": ["20FF1865462FD26B0253A08F18EFAA10"],
-                                            "EquippedPowers": ["C8AF3D534973F82FADBB40BDA96F9DCD"],
-                                            "EquippedWeapons": ["492232504161420C872A0F82FC16ACDB"],
-                                            "EquippedBonuses": ["1E08AFFA485E92BAFF2C1BB85CEFB81E",
-                                                                "1F5CD9004224C56746D81991AA40448A"],
-                                            "PickedChallanges": [{"ItemId": "Progression_Shimmy",
-                                                                  "Name": "Runner_ProgressionSpecificShimmy_Name"}]}},
-
-                                           {"CharacterId": {"TagName": "Hunter.Stalker"}, "PrestigeLevel": 1,
-                                            "Equipment": ["Primary Weapon", "Bonus 1", "Bonus 2", "Perk 1",
-                                                          "Perk 2", "Ability", "Sidearm"],
-                                            "EquippedPerks": ["F055513D48AACBAC280B2AA00A984180",
-                                                              "5998C1C548AB7BDA80C87295F2764C5D"],
-                                            "EquippedPowers": ["0DC38EC14AA02FC83456E5B02B7B4870"],
-                                            "EquippedWeapons": ["50D3005B437066E4C4D99F9397CF1B0B",
-                                                                "973C9176404A29F926D13BACB76A2425"],
-                                            "EquippedBonuses": ["1098BEE241B1515B44013A87EDB16BDC",
-                                                                "EDB6D6B742023AE61AD8718CAC073C0E"],
-                                            "PickedChallanges": [{"ItemId": "Progression_Turrets_Hunter",
-                                                                  "Name": "Hunter_ProgressionSpecificTurret_Name"}]}]})
-
-        # Idk how i made this? This is never meantioned in the game like this...
-        return jsonify({"ProgressionGroups":
-                            [{"ObjectId": "696969", "SchemaVersion": 1, "Version": 1,
-                              "Data": {"Experience": 1, "Version": 1}},
-                             {"ObjectId": "420420420", "SchemaVersion": 1, "Version": 1,
-                              "Data": {"Experience": 1, "Version": 1}}],
-                        "MetadataGroups": [{"CharacterId": {"TagName": "Runner.Smoke"}, "PrestigeLevel": 1,
-                                            "Equipment": ["Primary Weapon", "Bonus 1", "Bonus 2", "Perk 1",
-                                                          "Perk 2", "Ability"],
-                                            "EquippedPerks": ["20FF1865462FD26B0253A08F18EFAA10"],
-                                            "EquippedPowers": ["C8AF3D534973F82FADBB40BDA96F9DCD"],
-                                            "EquippedWeapons": ["492232504161420C872A0F82FC16ACDB"],
-                                            "EquippedBonuses": ["1E08AFFA485E92BAFF2C1BB85CEFB81E",
-                                                                "1F5CD9004224C56746D81991AA40448A"],
-                                            "PickedChallanges": [{"ItemId": "Progression_Shimmy",
-                                                                  "Name": "Runner_ProgressionSpecificShimmy_Name"}]},
-
-                                           {"CharacterId": {"TagName": "Hunter.Stalker"}, "PrestigeLevel": 1,
-                                            "Equipment": ["Primary Weapon", "Bonus 1", "Bonus 2", "Perk 1",
-                                                          "Perk 2", "Ability", "Sidearm"],
-                                            "EquippedPerks": ["F055513D48AACBAC280B2AA00A984180",
-                                                              "5998C1C548AB7BDA80C87295F2764C5D"],
-                                            "EquippedPowers": ["0DC38EC14AA02FC83456E5B02B7B4870"],
-                                            "EquippedWeapons": ["50D3005B437066E4C4D99F9397CF1B0B",
-                                                                "973C9176404A29F926D13BACB76A2425"],
-                                            "EquippedBonuses": ["1098BEE241B1515B44013A87EDB16BDC",
-                                                                "EDB6D6B742023AE61AD8718CAC073C0E"],
-                                            "PickedChallanges": [{"ItemId": "Progression_Turrets_Hunter",
-                                                                  "Name": "Hunter_ProgressionSpecificTurret_Name"}]}
-                                           ]})
+        # The client cant understand CharacterId for some reason??? But if this is removed the game doesn't load the
+        # "Choose Hunter or Runner" screen.
+        return jsonify({
+            "ProgressionGroups": [
+                {
+                    "ObjectId": "755D4DFE-40DA1512-B01E3D8C-FF3C8D4D",
+                    "Version": 1,
+                    "SchemaVersion": 1.1,
+                    "Data": {"Experience": {"Level": 11, "CurrentExperience": 2, "ExperienceToReach": 30}},
+                },
+                {
+                    "ObjectId": "C50FFFBF-46866131-82F45890-651797CE",
+                    "Version": 1,
+                    "SchemaVersion": 1.1,
+                    "Data": {"Experience": {"Level": 21, "CurrentExperience": 12, "ExperienceToReach": 30}},
+                }
+            ],
+            "MetadataGroups": [
+                {
+                    "ObjectId": "755D4DFE-40DA1512-B01E3D8C-FF3C8D4D",
+                    "Version": 1,
+                    "SchemaVersion": 1.1,
+                    "Data": {"CharacterId": {"TagName": "Runner.Sawbones"}, "PrestigeLevel": 1,
+                             "Equipment": ["Primary Weapon", "Bonus 1", "Bonus 2", "Perk 1",
+                                           "Perk 2", "Ability"],
+                             "EquippedPerks": ["20FF1865462FD26B0253A08F18EFAA10"],
+                             "EquippedPowers": ["C8AF3D534973F82FADBB40BDA96F9DCD"],
+                             "EquippedWeapons": ["492232504161420C872A0F82FC16ACDB"],
+                             "EquippedBonuses": ["1E08AFFA485E92BAFF2C1BB85CEFB81E",
+                                                 "1F5CD9004224C56746D81991AA40448A"],
+                             "PickedChallanges": [{"ItemId": "Progression_Shimmy",
+                                                   "Name": "Runner_ProgressionSpecificShimmy_Name"}]},
+                },
+                {
+                    "ObjectId": "C50FFFBF-46866131-82F45890-651797CE",
+                    "Version": 1,
+                    "SchemaVersion": 1.1,
+                    "Data": {"CharacterId": {"TagName": "Hunter.Stalker"}, "PrestigeLevel": 1,
+                             "Equipment": ["Primary Weapon", "Bonus 1", "Bonus 2", "Perk 1",
+                                           "Perk 2", "Ability", "Sidearm"],
+                             "EquippedPerks": ["F055513D48AACBAC280B2AA00A984180",
+                                               "5998C1C548AB7BDA80C87295F2764C5D"],
+                             "EquippedPowers": ["0DC38EC14AA02FC83456E5B02B7B4870"],
+                             "EquippedWeapons": ["50D3005B437066E4C4D99F9397CF1B0B",
+                                                 "973C9176404A29F926D13BACB76A2425"],
+                             "EquippedBonuses": ["1098BEE241B1515B44013A87EDB16BDC",
+                                                 "EDB6D6B742023AE61AD8718CAC073C0E"],
+                             "PickedChallanges": [{"ItemId": "Progression_Turrets_Hunter",
+                                                   "Name": "Hunter_ProgressionSpecificTurret_Name"}]},
+                }
+            ]
+        })
     except TimeoutError:
         print("Timeout error")
         return jsonify({"status": "error"})
