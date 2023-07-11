@@ -1,0 +1,7 @@
+This is the Do Not Track (DNT) policy for our third-party gaming API.
+
+We respect the Do Not Track signals sent by users' browsers. We do not track users who have enabled the DNT preference. However, please note that certain basic logging and tracking may still occur for essential operational purposes, such as monitoring server health and preventing abuse.
+
+Rest assured that any data logged, including IP addresses and login timestamps, is solely for internal use and is not shared with any third parties. We prioritize user privacy and take appropriate measures to protect the data collected.
+
+If you have any questions or concerns regarding our DNT policy or data privacy, please feel free to contact us at deathgardenrebirth@gmail.com.

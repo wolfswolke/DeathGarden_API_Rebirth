@@ -8,9 +8,25 @@ def index():
     return render_template("index.html")
 
 
-# @app.route('/debug/user/', methods=['GET'])
-# def debug_user():
-#     return debug_user(False)
+@app.route('/robots.txt', methods=["GET"])
+def robots():
+    return send_from_directory(app.static_folder, request.path[1:])
+
+
+@app.route('/.well-known/security.txt', methods=["GET"])
+def security():
+    return send_from_directory(app.static_folder, request.path[1:])
+
+
+@app.route('/.well-known/gpc.json', methods=["GET"])
+def gpc():
+    return send_from_directory(app.static_folder, request.path[1:])
+
+
+@app.route('/.well-known/dnt-policy.txt', methods=["GET"])
+def dnt():
+    return send_from_directory(app.static_folder, request.path[1:])
+
 
 @app.route('/debug/user/', methods=['GET'], defaults={'steamid': None})
 @app.route('/debug/user/<steamid>', methods=['GET'])
