@@ -1,5 +1,6 @@
 import logging
 import graypy
+import json
 
 
 class Logger:
@@ -13,7 +14,7 @@ class Logger:
             self.my_logger.setLevel(logging.DEBUG)
             handler = graypy.GELFUDPHandler(graylog_server, 12201)
             self.my_logger.addHandler(handler)
-            self.my_logger.info({"level": "info", "handler": "api", "message": {"event": "api started."}})
+            self.graylog_logger(level="info", handler="logging_server_Event", message={"event": "api started"})
         else:
             print("Graylog disabled. Not sending any Logs.")
 
@@ -24,7 +25,8 @@ class Logger:
                            "error": self.my_logger.error, "info": self.my_logger.info}
             log_method = log_methods.get(level)
             if log_method:
-                log_method({"level": level, "handler": handler, "message": message})
+                message = json.dumps({"level": level, "handler": handler, "message": message})
+                log_method(message)
             else:
                 print("ERROR: No valid log level specified.")
         else:
