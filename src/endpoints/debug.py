@@ -4,6 +4,7 @@ from logic.time_handler import get_time
 
 @app.route("/debug/", methods=["Get"])
 def debug_root():
+    check_for_game_client("soft")
     endpoint_descriptions = {
         '/debug/user': 'Endpoint to debug user information',
         '/debug/time': 'Endpoint to debug Epoch Time'}

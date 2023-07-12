@@ -9,7 +9,9 @@ import uuid
 
 @app.route("/api/v1/config/MATCH_MAKING_REGIONS/raw", methods=["GET"])
 def match_making_regions_raw():
-    get_remote_ip()
+    check = check_for_game_client("strict")
+    if not check:
+        return jsonify({"message": "Endpoint not found"}), 404
     try:
         return jsonify(["EU", "US", "AP"])
     except TimeoutError:
@@ -21,7 +23,9 @@ def match_making_regions_raw():
 @app.route("/api/v1/queue/info", methods=["GET"])
 def queue_info():
     # ?category=Steam-te-23ebf96c-27498-ue4-7172a3f5&gameMode=Default&region=US&countA=1&countB=5
-    get_remote_ip()
+    check = check_for_game_client("strict")
+    if not check:
+        return jsonify({"message": "Endpoint not found"}), 404
     category = request.args.get("category")
     game_mode = request.args.get("gameMode")
     region = request.args.get("region")
@@ -34,7 +38,9 @@ def queue_info():
 def queue():
     # {"category":"Steam-te-18f25613-36778-ue4-374f864b","rank":1,"side":"B","latencies":[],"additionalUserIds":[],
     # "checkOnly":false,"gameMode":"08d2279d2ed3fba559918aaa08a73fa8-Default","region":"US","countA":1,"countB":5}
-    get_remote_ip()
+    check = check_for_game_client("strict")
+    if not check:
+        return jsonify({"message": "Endpoint not found"}), 404
 
     category = request.json.get("category")
     rank = request.json.get("rank")
@@ -122,6 +128,9 @@ def queue():
 
 @app.route("/api/v1/match/<matchid>", methods=["GET"])
 def match(matchid):
+    check = check_for_game_client("strict")
+    if not check:
+        return jsonify({"message": "Endpoint not found"}), 404
     if matchid == "0051681e-72ce-46f0-bda2-752e471d0d08":
         return jsonify({"matchId": matchid, "schema": 3,
                         "category": "Steam-te-18f25613-36778-ue4-374f864b",
@@ -153,13 +162,19 @@ def match(matchid):
 
 @app.route("/api/v1/match/<matchid>/Kill", methods=["PUT"])
 def match_kill(matchid):
+    check = check_for_game_client("strict")
+    if not check:
+        return jsonify({"message": "Endpoint not found"}), 404
+    logger.graylog_logger(level="info", handler="match_kill", message=f"Match {matchid} has been killed")
     return jsonify({"status": "OK"})
 
 
 @app.route("/api/v1/match/<match_id>/register", methods=["POST"])
 def match_register(match_id):
     try:
-        get_remote_ip()
+        check = check_for_game_client("strict")
+        if not check:
+            return jsonify({"message": "Endpoint not found"}), 404
         custom_data = request.get_json("customData")
         if custom_data["sessionSettings"]:
             session_settings = custom_data["sessionSettings"]
@@ -175,7 +190,9 @@ def match_register(match_id):
 @app.route("/api/v1/match/<match_id>/Quit", methods=["PUT"])
 def match_quit(match_id):
     try:
-        get_remote_ip()
+        check = check_for_game_client("strict")
+        if not check:
+            return jsonify({"message": "Endpoint not found"}), 404
         user_id = request.cookies.get("bhvrSession")
         logger.graylog_logger(level="info", handler="logging_queue",
                               message=f"User {user_id} is quieting match {match_id}")
@@ -192,7 +209,9 @@ def match_create():
     # '0385496c-f0ae-44d3-a777-26092750f39c'],
     # 'props': {'MatchConfiguration': '/Game/Configuration/MatchConfig/MatchConfig_Demo.MatchConfig_Demo'},
     # 'latencies': []}
-    get_remote_ip()
+    check = check_for_game_client("strict")
+    if not check:
+        return jsonify({"message": "Endpoint not found"}), 404
 
     userid = request.cookies.get("bhvrSession")
     category = request.json.get("category")
@@ -215,7 +234,9 @@ def match_create():
 
 @app.route("/api/v1/extensions/progression/playerEndOfMatch", methods=["POST"])
 def progression_player_end_of_match():
-    get_remote_ip()
+    check = check_for_game_client("strict")
+    if not check:
+        return jsonify({"message": "Endpoint not found"}), 404
     try:
         logger.graylog_logger(level="info", handler="matchmaking_playerEndOfMatch", message=request.get_json())
         return jsonify("", 204)
@@ -223,3 +244,42 @@ def progression_player_end_of_match():
         return jsonify({"status": "error"})
     except Exception as e:
         logger.graylog_logger(level="error", handler="matchmaking_playerEndOfMatch", message=e)
+
+
+@app.route("/file/<game_version>/<seed>/<map_name>", methods=["POST", "GET"])
+def file_gold_rush(seed, map_name, game_version):
+    check = check_for_game_client("strict")
+    if not check:
+        return jsonify({"message": "Endpoint not found"}), 404
+
+    file_name = f"{game_version}_{seed}_{map_name}.raw"
+    folder_path = os.path.join(app.root_path, "map_seeds")
+    file_path = os.path.join(folder_path, file_name)
+    os.makedirs(folder_path, exist_ok=True)
+
+    if request.method == "GET":
+        if os.path.isfile(file_path):
+            with open(file_path, "rb") as files:
+                data = files.read()
+                return data
+
+    if request.method == "POST":
+        data = request.get_data()
+        with open(file_path, "wb") as files:
+            files.write(data)
+        return {"status": "success"}
+
+
+@app.route("/metrics/matchmaking/event", methods=["POST"])
+def metrics_matchmaking_event():
+    check = check_for_game_client("strict")
+    if not check:
+        return jsonify({"message": "Endpoint not found"}), 404
+    try:
+        logger.graylog_logger(level="info", handler="logging_matchmaking_Event", message=request.get_json())
+        return jsonify({"status": "success"})
+    except TimeoutError:
+        return jsonify({"status": "error"})
+    except Exception as e:
+        logger.graylog_logger(level="error", handler="logging_matchmaking_Event", message=e)
+

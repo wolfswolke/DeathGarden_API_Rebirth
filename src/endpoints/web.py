@@ -4,7 +4,7 @@ from logic.mongodb_handler import mongo
 
 @app.route('/', methods=["GET"])
 def index():
-    get_remote_ip()
+    check_for_game_client()
     return render_template("index.html")
 
 
@@ -65,7 +65,7 @@ def debug_user(steamid):
 
 @app.route("/debug/mirrors", methods=["POST", "GET"])
 def debug_mirrors_write():
-    get_remote_ip()
+    check_for_game_client("soft")
     try:
         if request.method == "POST":
             try:

@@ -47,7 +47,9 @@ def steam_login_function():
 @app.route("/api/v1/auth/provider/steam/login", methods=["POST"])
 def steam_login():
     # Read Doc\SteamAuth.md for more information
-    ip = get_remote_ip()
+    ip = check = check_for_game_client("strict")  # ToDo: Change when cookie validation is added.
+    if not check:
+        return jsonify({"message": "Endpoint not found"}), 404
     user_agent = request.headers.get('User-Agent')
     if user_agent.startswith("TheExit/++UE4+Release-4.2"):
         if request.args.get(
@@ -84,7 +86,9 @@ def steam_login():
 # Dont know if this works
 @app.route("/api/v1/modifierCenter/modifiers/me", methods=["GET"])
 def modifiers():
-    get_remote_ip()
+    check = check_for_game_client("strict")
+    if not check:
+        return jsonify({"message": "Endpoint not found"}), 404
     userid = request.cookies.get("bhvrSession")
     steamid, token = mongo.get_data_with_list(login=userid, login_steam=False,
                                               items={"token", "steamid"}, server=mongo_host, db=mongo_db,
@@ -101,7 +105,9 @@ def modifiers():
 # This works
 @app.route("/moderation/check/username", methods=["POST"])
 def moderation_check_username():
-    get_remote_ip()
+    check = check_for_game_client("strict")
+    if not check:
+        return jsonify({"message": "Endpoint not found"}), 404
     try:
         request_var = request.get_json()
         userid = request_var["userId"]
@@ -132,9 +138,11 @@ def moderation_check_username():
 # Doesn't work
 @app.route("/api/v1/progression/experience", methods=["POST"])
 def progression_experience():
-    get_remote_ip()
+    check = check_for_game_client("strict")
+    if not check:
+        return jsonify({"message": "Endpoint not found"}), 404
     try:
-        # graylog_logger(request.get_json(), "info")
+        logger.graylog_logger(level="info", handler="user_handling_progression_experience", message=request.get_json())
         return jsonify({"List": [
             {"ObjectId": "PlayerProgression", "SchemaVersion": 11122233344, "Version": 11122233345,
              "Data": {"ObjectId": "PlayerProgression", "Experience": 100, "Version": 1}},
@@ -165,11 +173,12 @@ def progression_experience():
         logger.graylog_logger(level="error", handler="progression_experience", message=e)
 
 
-# idk dont think it works
 @app.route("/api/v1/extensions/challenges/getChallenges", methods=["POST"])
 def challenges_get_challenges():
     # client: {"data":{"userId":"619d6f42-db87-4f3e-8dc9-3c9995613614","challengeType":"Daily"}}
-    get_remote_ip()
+    check = check_for_game_client("strict")
+    if not check:
+        return jsonify({"message": "Endpoint not found"}), 404
     try:
         response = request.get_json()
         challenge_type = response["data"]["challengeType"]
@@ -198,7 +207,9 @@ def challenges_get_challenges():
 
 @app.route("/api/v1/extensions/challenges/executeChallengeProgressionOperationBatch", methods=["POST"])
 def challenges_execute_challenge_progression_operation_batch():
-    get_remote_ip()
+    check = check_for_game_client("strict")
+    if not check:
+        return jsonify({"message": "Endpoint not found"}), 404
     try:
         logger.graylog_logger(level="info", handler="logging_executeChallengeProgressionOperationBatch",
                               message=request.get_json())
@@ -217,7 +228,9 @@ def challenges_execute_challenge_progression_operation_batch():
 # idk dont think it works
 @app.route("/api/v1/inventories", methods=["GET"])
 def inventories():
-    get_remote_ip()
+    check = check_for_game_client("strict")
+    if not check:
+        return jsonify({"message": "Endpoint not found"}), 404
     try:
         page = request.args.get('page', default=0, type=int)
         limit = request.args.get('limit', default=500, type=int)
@@ -266,7 +279,9 @@ def inventories():
 # idk if this works
 @app.route("/api/v1/players/me/splinteredstates/ProgressionGroups", methods=["GET"])
 def progression_groups():
-    get_remote_ip()
+    check = check_for_game_client("strict")
+    if not check:
+        return jsonify({"message": "Endpoint not found"}), 404
     try:
         userid = request.headers.get("bhvrSession")
         #  This is the real code but need to build this first
@@ -292,7 +307,9 @@ def progression_groups():
 # This works
 @app.route("/api/v1/players/ban/status", methods=["GET"])
 def ban_status():
-    get_remote_ip()
+    check = check_for_game_client("strict")
+    if not check:
+        return jsonify({"message": "Endpoint not found"}), 404
     login_cookie = request.cookies.get("bhvrSession")
     try:
         time.sleep(0.5)
@@ -324,7 +341,9 @@ def ban_status():
 # broken. no need to fix... OG DG endpoint. Not needed.
 @app.route("/api/v1/players/ban/getbaninfo", methods=["GET"])
 def get_ban_info():
-    get_remote_ip()
+    check = check_for_game_client("strict")
+    if not check:
+        return jsonify({"message": "Endpoint not found"}), 404
     try:
         return jsonify({"BanPeriod": None, "BanReason": None, "BanStart": None, "BanEnd": None,
                         "Confirmed": False})
@@ -337,7 +356,9 @@ def get_ban_info():
 # This works
 @app.route("/api/v1/wallet/currencies", methods=["GET"])
 def wallet_currencies():
-    get_remote_ip()
+    check = check_for_game_client("strict")
+    if not check:
+        return jsonify({"message": "Endpoint not found"}), 404
     try:
         currencies = mongo.get_data_with_list(login=request.cookies.get("bhvrSession"), login_steam=False,
                                               items={"currency_blood_cells", "currency_iron", "currency_ink_cells"},
@@ -361,7 +382,9 @@ def wallet_currencies():
 # Does not work. Old DG endpoint. Not needed.
 @app.route("/api/v1/wallet/currencies/PROGRESSION_CURRENCY", methods=["GET"])
 def wallet_currencies_progression():
-    get_remote_ip()
+    check = check_for_game_client("strict")
+    if not check:
+        return jsonify({"message": "Endpoint not found"}), 404
     try:
         return jsonify([{"Currency": 1, "Amount": 10}, {"Currency": 2, "Amount": 10}, {"Currency": 3, "Amount": 10}])
     except TimeoutError:
@@ -373,7 +396,9 @@ def wallet_currencies_progression():
 # Dont know if this works. Dont think it does.
 @app.route("/api/v1/players/me/splinteredstates/TheExit_Achievements", methods=["GET"])
 def achievements_get():
-    get_remote_ip()
+    check = check_for_game_client("strict")
+    if not check:
+        return jsonify({"message": "Endpoint not found"}), 404
     try:
         userid = request.cookies.get("bhvrSession")
         return jsonify({"UserId": userid, "StateName": "", "Segment": "", "List": [
@@ -395,7 +420,9 @@ def achievements_get():
 # Does not work
 @app.route("/api/v1/messages/count", methods=["GET"])
 def messages_count():
-    get_remote_ip()
+    check = check_for_game_client("strict")
+    if not check:
+        return jsonify({"message": "Endpoint not found"}), 404
     try:
         return jsonify({"Count": 1})
     except TimeoutError:
@@ -406,7 +433,9 @@ def messages_count():
 
 @app.route("/api/v1/messages/list", methods=["GET"])
 def messages_list():
-    get_remote_ip()
+    check = check_for_game_client("strict")
+    if not check:
+        return jsonify({"message": "Endpoint not found"}), 404
     try:
         limit = request.args.get("limit")
         output = json.load(open(os.path.join(app.root_path, "json", "placeholders", "messages.json"), "r"))
@@ -421,7 +450,9 @@ def messages_list():
 # Temp response.
 @app.route("/moderation/check/chat", methods=["POST"])
 def moderation_check_chat():
-    get_remote_ip()
+    check = check_for_game_client("strict")
+    if not check:
+        return jsonify({"message": "Endpoint not found"}), 404
     try:
         data = request.get_json()
         userid = data["userId"]
@@ -438,7 +469,9 @@ def moderation_check_chat():
 # This is intently broken. If this works the game crashes in matchmaking.
 @app.route("/api/v1/extensions/progression/initOrGetGroups", methods=["POST"])
 def extension_progression_init_or_get_groups():
-    get_remote_ip()
+    check = check_for_game_client("strict")
+    if not check:
+        return jsonify({"message": "Endpoint not found"}), 404
     try:
         logger.graylog_logger(level="info", handler="logging_initOrGetGroups", message=request.get_json())
         # Client sends: {"data":{"skipProgressionGroups":false,"skipMetadataGroups":false,"playerName":"Steam-Name-Here"}}
@@ -502,7 +535,9 @@ def extension_progression_init_or_get_groups():
 # dont know if this works. Hope it does.
 @app.route("/api/v1/extensions/inventory/unlockSpecialItems", methods=["POST"])
 def inventory_unlock_special_items():
-    get_remote_ip()
+    check = check_for_game_client("strict")
+    if not check:
+        return jsonify({"message": "Endpoint not found"}), 404
     try:
         logger.graylog_logger(level="info", handler="unknown_unlockSpecialItems", message=request.get_json())
         return jsonify({"UnlockedItems": ["9F54DE7A-4E15935B-503850A1-27B0A2A4"]})
@@ -514,11 +549,14 @@ def inventory_unlock_special_items():
 
 @app.route("/api/v1/extensions/challenges/getChallengeProgressionBatch", methods=["POST"])
 def challenges_get_challenge_progression_batch():
-    get_remote_ip()
+    check = check_for_game_client("strict")
+    if not check:
+        return jsonify({"message": "Endpoint not found"}), 404
     try:
         logger.graylog_logger(level="info", handler="logging_getChallengeProgressionBatch",
                               message=request.get_json())
-        return jsonify({"status": "success"})
+        # MirrorsExtModelGetChallengeProgressionBatchResponse -> TArray MirrorsExtModelChallengeProgressionOperation
+        return jsonify({"ProgressionBatch": [{"ChallengeId": "", "OperationName": "", "OperationData": []}]})
     except TimeoutError:
         return jsonify({"status": "error"})
 
