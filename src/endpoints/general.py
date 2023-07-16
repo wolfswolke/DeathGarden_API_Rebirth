@@ -102,7 +102,7 @@ def config_use_mirrors_mm_steam():
     if not check:
         return jsonify({"message": "Endpoint not found"}), 404
     try:
-        return jsonify({"status": "success", "value": "true"})
+        return jsonify("false")
     except TimeoutError:
         return jsonify({"status": "error"})
     except Exception as e:
