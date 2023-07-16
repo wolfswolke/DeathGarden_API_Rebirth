@@ -5,6 +5,8 @@ import yaml
 def _get_remote_ip():
     if request.environ.get('HTTP_X_FORWARDED_FOR') is None:
         ip_addr = request.environ['REMOTE_ADDR']
+        if ip_addr == "127.0.0.1":
+            return None
         print("New Connection from: " + ip_addr)
         return ip_addr
     else:
