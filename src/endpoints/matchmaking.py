@@ -13,7 +13,7 @@ def match_making_regions_raw():
     if not check:
         return jsonify({"message": "Endpoint not found"}), 404
     try:
-        return jsonify(["EU", "US", "AP"])
+        return jsonify(["EU", "US", "AP", "DEV"])
     except TimeoutError:
         return jsonify({"status": "error"})
     except Exception as e:
@@ -82,42 +82,19 @@ def queue():
                          "sideB": ["dsadasdasdasdasdasddsa"],
                          "playerHistory": ["asdasdasdasdasdasdasd",
                                            "dsadasdasdasdasdasddsa"]}}
-    if user_id == "619d6f42-db87-4f3e-8dc9-3c9995613614":
+    if region == "DEV":
+        all_users = [user_id]
+        if additional_user_ids:
+            all_users.append(additional_user_ids)
         return jsonify(
             {"status": "MATCHED", "QueueData": {"Position": 0, "ETA": 0, "Stable": False, "SizeA": 1, "SizeB": 4},
              "MatchData": {"MatchId": spoofed_match_id, "Category": category, "Rank": rank,
                            "CreationDateTime": epoch, "ExcludeFriends": False,
                            "ExcludeClanMembers": False, "Status": "CREATED",
-                           "Creator": "619d6f42-db87-4f3e-8dc9-3c9995613614",
-                           "Players": ["619d6f42-db87-4f3e-8dc9-3c9995613614", "00658d11-2dfd-41e8-b6d2-2462e8f3aa47"],
-                           "SideA": ["00658d11-2dfd-41e8-b6d2-2462e8f3aa47"],
-                           "SideB": ["619d6f42-db87-4f3e-8dc9-3c9995613614"], "CustomData": {},
-                           "Props": {"isDedicated": False, "gameMode": "08d2279d2ed3fba559918aaa08a73fa8-Default",
-                                     'MatchConfiguration': '/Game/Configuration/MatchConfig/MatchConfig_Demo.MatchConfig_Demo'},
-                           "Schema": 11122334455666}})
-    elif user_id == "95041085-e7e4-4759-be3d-e72c69167578":
-        return jsonify(
-            {"status": "MATCHED", "QueueData": {"Position": 0, "ETA": 0, "Stable": False, "SizeA": 1, "SizeB": 4},
-             "MatchData": {"MatchId": spoofed_match_id, "Category": category, "Rank": rank,
-                           "CreationDateTime": epoch, "ExcludeFriends": False,
-                           "ExcludeClanMembers": False, "Status": "CREATED",
-                           "Creator": "95041085-e7e4-4759-be3d-e72c69167578",
-                           "Players": ["00658d11-2dfd-41e8-b6d2-2462e8f3aa47", "95041085-e7e4-4759-be3d-e72c69167578"],
-                           "SideA": ["00658d11-2dfd-41e8-b6d2-2462e8f3aa47"],
-                           "SideB": ["95041085-e7e4-4759-be3d-e72c69167578"], "CustomData": {},
-                           "Props": {"isDedicated": False, "gameMode": "08d2279d2ed3fba559918aaa08a73fa8-Default",
-                                     'MatchConfiguration': '/Game/Configuration/MatchConfig/MatchConfig_Demo.MatchConfig_Demo'},
-                           "Schema": 11122334455666}})
-    elif user_id == "00658d11-2dfd-41e8-b6d2-2462e8f3aa47":
-        return jsonify(
-            {"status": "MATCHED", "QueueData": {"Position": 0, "ETA": 0, "Stable": False, "SizeA": 1, "SizeB": 4},
-             "MatchData": {"MatchId": spoofed_match_id, "Category": category, "Rank": rank,
-                           "CreationDateTime": epoch, "ExcludeFriends": False,
-                           "ExcludeClanMembers": False, "Status": "CREATED",
-                           "Creator": "00658d11-2dfd-41e8-b6d2-2462e8f3aa47",
-                           "Players": ["619d6f42-db87-4f3e-8dc9-3c9995613614", "00658d11-2dfd-41e8-b6d2-2462e8f3aa47"],
-                           "SideA": ["00658d11-2dfd-41e8-b6d2-2462e8f3aa47"],
-                           "SideB": ["619d6f42-db87-4f3e-8dc9-3c9995613614"], "CustomData": {},
+                           "Creator": user_id,
+                           "Players": [all_users],
+                           "SideA": [user_id],
+                           "SideB": [additional_user_ids], "CustomData": {},
                            "Props": {"isDedicated": False, "gameMode": "08d2279d2ed3fba559918aaa08a73fa8-Default",
                                      'MatchConfiguration': '/Game/Configuration/MatchConfig/MatchConfig_Demo.MatchConfig_Demo'},
                            "Schema": 11122334455666}})
