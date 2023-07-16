@@ -511,7 +511,7 @@ def extension_progression_init_or_get_groups():
                     "ObjectId": "C50FFFBF-46866131-82F45890-651797CE",
                     "Version": 1,
                     "SchemaVersion": 1.1,
-                    "Data": {"CharacterId": "{AAAA-BBBBB-2222-33333}",
+                    "Data": {"CharacterId": {"TagName": "Runner.Stalker"},
                              "Equipment": ["Primary Weapon", "Bonus 1", "Bonus 2", "Perk 1",
                                            "Perk 2", "Ability01", "Ability02", "Ability03","Sidearm"],
                              "EquippedPerks": ["7CE5AFBF-459102E5-728DCDAA-6F88C0F1",
