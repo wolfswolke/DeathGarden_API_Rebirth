@@ -1,5 +1,5 @@
 flask
-PyYaml
+PyYaml == 5.1
 graypy
 requests
 pymongo
