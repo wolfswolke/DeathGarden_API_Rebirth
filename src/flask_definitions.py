@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request, send_from_directory, abort, render_template, url_for
 from logic.global_handlers import check_for_game_client, load_config
 from logic.logging_handler import logger
+from logic.global_handlers import session_manager
 import json
 import os
 

@@ -52,11 +52,16 @@ def queue():
     region = request.json.get("region")
     count_a = request.json.get("countA")
     count_b = request.json.get("countB")
-    user_id = request.cookies.get("bhvrSession")
     spoofed_match_id = "0051681e-72ce-46f0-bda2-752e471d0d08"
     epoch = datetime.now().timestamp()
+
+    session_cookie = request.cookies.get("bhvrSession")
+    if not session_cookie:
+        return jsonify({"message": "Endpoint not found"}), 404
+    userid = session_manager.get_user_id(session_cookie)
+
     logger.graylog_logger(level="info", handler="logging_queue",
-                          message=f"User {user_id} is queueing for {category} in {region} with {count_a} hunters and {count_b} runners")
+                          message=f"User {userid} is queueing for {category} in {region} with {count_a} hunters and {count_b} runners")
 
     # return {"status":"QUEUED","queueData":{"ETA":-10000,"position":0,"stable":False}}
     # else:
@@ -83,7 +88,7 @@ def queue():
                          "playerHistory": ["asdasdasdasdasdasdasd",
                                            "dsadasdasdasdasdasddsa"]}}
     if region == "DEV":
-        all_users = [user_id]
+        all_users = [userid]
         if additional_user_ids:
             all_users.append(additional_user_ids)
         return jsonify(
@@ -91,9 +96,9 @@ def queue():
              "MatchData": {"MatchId": spoofed_match_id, "Category": category, "Rank": rank,
                            "CreationDateTime": epoch, "ExcludeFriends": False,
                            "ExcludeClanMembers": False, "Status": "CREATED",
-                           "Creator": user_id,
+                           "Creator": userid,
                            "Players": [all_users],
-                           "SideA": [user_id],
+                           "SideA": [userid],
                            "SideB": [additional_user_ids], "CustomData": {},
                            "Props": {"isDedicated": False, "gameMode": "08d2279d2ed3fba559918aaa08a73fa8-Default",
                                      'MatchConfiguration': '/Game/Configuration/MatchConfig/MatchConfig_Demo.MatchConfig_Demo'},
@@ -155,9 +160,14 @@ def match_register(match_id):
         custom_data = request.get_json("customData")
         if custom_data["sessionSettings"]:
             session_settings = custom_data["sessionSettings"]
-        user_id = request.cookies.get("bhvrSession")
+
+        session_cookie = request.cookies.get("bhvrSession")
+        if not session_cookie:
+            return jsonify({"message": "Endpoint not found"}), 404
+        userid = session_manager.get_user_id(session_cookie)
+
         logger.graylog_logger(level="info", handler="match_register",
-                              message=f"User {user_id} is registering to match {match_id}")
+                              message=f"User {userid} is registering to match {match_id}")
         return jsonify({"status": "OK"})
     except Exception as e:
         logger.graylog_logger(level="error", handler="match_register", message=e)
@@ -170,9 +180,14 @@ def match_quit(match_id):
         check = check_for_game_client("strict")
         if not check:
             return jsonify({"message": "Endpoint not found"}), 404
-        user_id = request.cookies.get("bhvrSession")
+
+        session_cookie = request.cookies.get("bhvrSession")
+        if not session_cookie:
+            return jsonify({"message": "Endpoint not found"}), 404
+        userid = session_manager.get_user_id(session_cookie)
+
         logger.graylog_logger(level="info", handler="logging_queue",
-                              message=f"User {user_id} is quieting match {match_id}")
+                              message=f"User {userid} is quieting match {match_id}")
         return jsonify({"status": "OK"})
     except Exception as e:
         logger.graylog_logger(level="error", handler="logging_queue", message=e)
@@ -190,7 +205,11 @@ def match_create():
     if not check:
         return jsonify({"message": "Endpoint not found"}), 404
 
-    userid = request.cookies.get("bhvrSession")
+    session_cookie = request.cookies.get("bhvrSession")
+    if not session_cookie:
+        return jsonify({"message": "Endpoint not found"}), 404
+    userid = session_manager.get_user_id(session_cookie)
+
     category = request.json.get("category")
     rank = request.json.get("rank")
     players_a = request.json.get("playersA")

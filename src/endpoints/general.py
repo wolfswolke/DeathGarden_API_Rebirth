@@ -176,7 +176,12 @@ def consent_eula():
         return jsonify({"message": "Endpoint not found"}), 404
     try:
         if request.method == "PUT":
-            userid = request.cookies.get('bhvrSession')
+
+            session_cookie = request.cookies.get("bhvrSession")
+            if not session_cookie:
+                return jsonify({"message": "Endpoint not found"}), 404
+            userid = session_manager.get_user_id(session_cookie)
+
             try:
                 mongo.eula(userId=userid, get_eula=False, server=mongo_host, db=mongo_db, collection=mongo_collection)
                 return jsonify({"isGiven": True})
@@ -188,8 +193,11 @@ def consent_eula():
         elif request.method == "GET":
             if request.cookies.get('bhvrSession') is None:
                 return jsonify({"isGiven": True})
-            login_cookie = request.cookies.get('bhvrSession')
-            is_given = mongo.get_data_with_list(login=login_cookie, login_steam=False,
+            session_cookie = request.cookies.get("bhvrSession")
+            if not session_cookie:
+                return jsonify({"message": "Endpoint not found"}), 404
+            userid = session_manager.get_user_id(session_cookie)
+            is_given = mongo.get_data_with_list(login=userid, login_steam=False,
                                                 items={"eula"},
                                                 server=mongo_host, db=mongo_db, collection=mongo_collection)
             if is_given:

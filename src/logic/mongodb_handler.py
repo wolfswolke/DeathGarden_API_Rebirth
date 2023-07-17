@@ -100,7 +100,7 @@ class Mongo:
     def get_data_with_list(self, login, login_steam, items, server, db, collection):
         try:
             document = {}
-            login = str(login)
+            login = f"{login}"
             self.dyn_server = server
             self.dyn_db = db
             self.dyn_collection = collection

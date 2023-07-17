@@ -1,3 +1,4 @@
+import sys
 import time
 
 from flask_definitions import *
@@ -62,11 +63,15 @@ def steam_login():
                      {"success": [], "error": []}, "tokenId": "aaaa", "generated": 1687197541,
                  "expire": 1887197541,
                  "userId": "aaaa", "token": "aaaa"})
-            return_val.set_cookie("bhvrSession", return_val.json["id"])
+            session_cookie = session_manager.create_session("Debug_session")
+            return_val.set_cookie("bhvrSession", session_cookie)
             return return_val
         try:
+
             return_val = steam_login_function()
-            return_val.set_cookie("bhvrSession", return_val.json["id"])
+            session_cookie = session_manager.create_session(return_val.json["id"])
+            print(f"Logged in with token: {session_cookie}", file=sys.stderr)
+            return_val.set_cookie("bhvrSession", session_cookie)
             return return_val
         except Exception as e:
             logger.graylog_logger(level="error", handler="steam_login", message=e)
@@ -74,7 +79,8 @@ def steam_login():
 
     elif user_agent.startswith("game=TheExit, engine=UE4, version="):
         return_val = steam_login_function()
-        return_val.set_cookie("bhvrSession", return_val.json["id"])
+        session_cookie = session_manager.create_session(return_val.json["id"])
+        return_val.set_cookie("bhvrSession", session_cookie)
         return return_val
 
     else:
@@ -89,7 +95,10 @@ def modifiers():
     check = check_for_game_client("strict")
     if not check:
         return jsonify({"message": "Endpoint not found"}), 404
-    userid = request.cookies.get("bhvrSession")
+    session_cookie = request.cookies.get("bhvrSession")
+    if not session_cookie:
+        return jsonify({"message": "Endpoint not found"}), 404
+    userid = session_manager.get_user_id(session_cookie)
     steamid, token = mongo.get_data_with_list(login=userid, login_steam=False,
                                               items={"token", "steamid"}, server=mongo_host, db=mongo_db,
                                               collection=mongo_collection)
@@ -109,24 +118,28 @@ def moderation_check_username():
     if not check:
         return jsonify({"message": "Endpoint not found"}), 404
     try:
+        session_cookie = request.cookies.get("bhvrSession")
+        if not session_cookie:
+            return jsonify({"message": "Endpoint not found"}), 404
+        userid = session_manager.get_user_id(session_cookie)
+        print(request.get_json())
         request_var = request.get_json()
         userid = request_var["userId"]
         username = request_var["username"]
         logger.graylog_logger(level="info", handler="moderation_check_username", message=request.get_json())
 
-        steamid, token = mongo.get_data_with_list(login=userid, login_steam=False,
-                                                items={"token", "steamid"}, server=mongo_host, db=mongo_db,
-                                                collection=mongo_collection)
+        steamid = mongo.get_data_with_list(login=userid, login_steam=False,
+                                                  items={"steamid"}, server=mongo_host, db=mongo_db,
+                                                  collection=mongo_collection)
         if steamid is None:
             time.sleep(1)
             request_var = request.get_json()
             userid = request_var["userId"]
             username = request_var["username"]
-            steamid, token = mongo.get_data_with_list(login=userid, login_steam=False,
-                                                      items={"token", "steamid"}, server=mongo_host, db=mongo_db,
+            steamid = mongo.get_data_with_list(login=userid, login_steam=False,
+                                                      items={"steamid"}, server=mongo_host, db=mongo_db,
                                                       collection=mongo_collection)
-
-        return jsonify({"Id": userid, "Token": token,
+        return jsonify({"Id": userid, "Token": session_cookie,
                         "Provider": {"ProviderName": username,
                                      "ProviderId": steamid}})  # CLIENT:{"userId": "ID-ID-ID-ID-SEE-AUTH",	"username": "Name-Name-Name"}
     except TimeoutError:
@@ -234,7 +247,10 @@ def inventories():
     try:
         page = request.args.get('page', default=0, type=int)
         limit = request.args.get('limit', default=500, type=int)
-        userid = request.cookies.get('bhvrSession')
+        session_cookie = request.cookies.get("bhvrSession")
+        if not session_cookie:
+            return jsonify({"message": "Endpoint not found"}), 404
+        userid = session_manager.get_user_id(session_cookie)
         if page == 0:
             return jsonify({"Code": 200, "Message": "OK", "Data": {"PlayerId": userid, "Inventory": [
                 {"ObjectId": "56B7B6F6-473712D0-B7A2F992-BB2C16CD", "Quantity": 1, "LastUpdateAt": 16873773050},
@@ -283,7 +299,10 @@ def progression_groups():
     if not check:
         return jsonify({"message": "Endpoint not found"}), 404
     try:
-        userid = request.headers.get("bhvrSession")
+        session_cookie = request.cookies.get("bhvrSession")
+        if not session_cookie:
+            return jsonify({"message": "Endpoint not found"}), 404
+        userid = session_manager.get_user_id(session_cookie)
         #  This is the real code but need to build this first
         # return jsonify({"UserId": userid, "StateName": "Fstring", "Segment": "Fstring", "ObjectId": "Fstring",
         #                "Version": 1111, "schemaVersion": 1111, "Data": {}})
@@ -310,21 +329,24 @@ def ban_status():
     check = check_for_game_client("strict")
     if not check:
         return jsonify({"message": "Endpoint not found"}), 404
-    login_cookie = request.cookies.get("bhvrSession")
+    session_cookie = request.cookies.get("bhvrSession")
+    if not session_cookie:
+        return jsonify({"message": "Endpoint not found"}), 404
+    userid = session_manager.get_user_id(session_cookie)
     try:
         time.sleep(0.5)
-        ban_data = mongo.get_data_with_list(login=login_cookie, login_steam=False,
+        ban_data = mongo.get_data_with_list(login=userid, login_steam=False,
                                             items={"is_banned", "ban_reason", "ban_start", "ban_expire"},
                                             server=mongo_host, db=mongo_db, collection=mongo_collection)
-        if ban_data == None:
+        if ban_data is None:
             return jsonify({"status": "error"})
-        elif ban_data["is_banned"] == True:
+        elif ban_data["is_banned"]:
             return jsonify({"IsBanned": ban_data["is_banned"], "BanInfo": {"BanPeriod": 10,
                                                                            "BanReason": ban_data["ban_reason"],
                                                                            "BanStart": ban_data["ban_start"],
                                                                            "BanEnd": ban_data["ban_expire"],
                                                                            "Confirmed": False, "Pending": False}})
-        elif ban_data["is_banned"] == False:
+        elif not ban_data["is_banned"]:
             return jsonify({"IsBanned": ban_data["is_banned"], "BanInfo": {"BanPeriod": 0,
                                                                            "BanReason": "None",
                                                                            "BanStart": 0,
@@ -359,8 +381,12 @@ def wallet_currencies():
     check = check_for_game_client("strict")
     if not check:
         return jsonify({"message": "Endpoint not found"}), 404
+    session_cookie = request.cookies.get("bhvrSession")
+    if not session_cookie:
+        return jsonify({"message": "Endpoint not found"}), 404
+    userid = session_manager.get_user_id(session_cookie)
     try:
-        currencies = mongo.get_data_with_list(login=request.cookies.get("bhvrSession"), login_steam=False,
+        currencies = mongo.get_data_with_list(login=userid, login_steam=False,
                                               items={"currency_blood_cells", "currency_iron", "currency_ink_cells"},
                                               server=mongo_host, db=mongo_db, collection=mongo_collection)
         return jsonify({"List": [{"Currency": "CurrencyA", "Balance": currencies["currency_iron"],
@@ -400,7 +426,10 @@ def achievements_get():
     if not check:
         return jsonify({"message": "Endpoint not found"}), 404
     try:
-        userid = request.cookies.get("bhvrSession")
+        session_cookie = request.cookies.get("bhvrSession")
+        if not session_cookie:
+            return jsonify({"message": "Endpoint not found"}), 404
+        userid = session_manager.get_user_id(session_cookie)
         return jsonify({"UserId": userid, "StateName": "", "Segment": "", "List": [
             {"ObjectId": "EFAB89E6465D1163D62A07B11048F2B6", "Version": 11, "SchemaVersion": 11, "Data": {}}
         ]})
@@ -513,7 +542,7 @@ def extension_progression_init_or_get_groups():
                     "SchemaVersion": 1.1,
                     "Data": {"CharacterId": {"TagName": "Runner.Stalker"},
                              "Equipment": ["Primary Weapon", "Bonus 1", "Bonus 2", "Perk 1",
-                                           "Perk 2", "Ability01", "Ability02", "Ability03","Sidearm"],
+                                           "Perk 2", "Ability01", "Ability02", "Ability03", "Sidearm"],
                              "EquippedPerks": ["7CE5AFBF-459102E5-728DCDAA-6F88C0F1",
                                                "2DBF9B11-4B82A639-40936396-CBA68BCD"],
                              "EquippedPowers": ["10A8C667-45801664-6E2EFA94-52E3141A",

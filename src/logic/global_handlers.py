@@ -1,5 +1,7 @@
 from flask_definitions import *
 import yaml
+import time
+import uuid
 
 
 def _get_remote_ip():
@@ -45,3 +47,34 @@ def check_for_game_client(check_type="strict"):
         _get_remote_ip()
         return True
 
+
+class Session_Manager:
+    def __init__(self):
+        self.sessions = {}
+
+    def create_session(self, user_id):
+        session_id = str(uuid.uuid4())
+        expires = time.time() + 3600
+        self.sessions[session_id] = {"session_id": session_id, "expires": expires, "user": user_id}
+        return session_id
+
+    def get_user_id(self, session_id):
+        if session_id not in self.sessions or self.sessions[session_id]["expires"] < time.time():
+            return 401
+        self.clean_sessions()
+        self.extend_session(session_id)
+        return self.sessions[session_id]["user"]
+
+    def extend_session(self, session_id):
+        self.sessions[session_id]["expires"] = time.time() + 3600
+
+    def clean_sessions(self):
+        current_time = time.time()
+        if self.sessions == {}:
+            return
+        expired_sessions = [session_id for session_id, data in self.sessions.items() if data["expires"] < current_time]
+        for session_id in expired_sessions:
+            self.sessions.pop(session_id)
+
+
+session_manager = Session_Manager()
