@@ -1,3 +1,5 @@
+import datetime
+
 from flask_definitions import *
 import yaml
 import time
@@ -59,9 +61,9 @@ class Session_Manager:
         return session_id
 
     def get_user_id(self, session_id):
-        if session_id not in self.sessions or self.sessions[session_id]["expires"] < time.time():
-            return 401
         self.clean_sessions()
+        if session_id not in self.sessions:
+            return 401
         self.extend_session(session_id)
         return self.sessions[session_id]["user"]
 

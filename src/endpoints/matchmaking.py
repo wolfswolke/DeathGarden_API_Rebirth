@@ -26,6 +26,12 @@ def queue_info():
     check = check_for_game_client("strict")
     if not check:
         return jsonify({"message": "Endpoint not found"}), 404
+    session_cookie = request.cookies.get("bhvrSession")
+    if not session_cookie:
+        return jsonify({"message": "Endpoint not found"}), 404
+    userid = session_manager.get_user_id(session_cookie)
+    if userid == 401:
+        return jsonify({"message": "Endpoint not found"}), 404
     category = request.args.get("category")
     game_mode = request.args.get("gameMode")
     region = request.args.get("region")
@@ -41,6 +47,12 @@ def queue():
     check = check_for_game_client("strict")
     if not check:
         return jsonify({"message": "Endpoint not found"}), 404
+    session_cookie = request.cookies.get("bhvrSession")
+    if not session_cookie:
+        return jsonify({"message": "Endpoint not found"}), 404
+    userid = session_manager.get_user_id(session_cookie)
+    if userid == 401:
+        return jsonify({"message": "Endpoint not found"}), 404
 
     category = request.json.get("category")
     rank = request.json.get("rank")
@@ -54,11 +66,6 @@ def queue():
     count_b = request.json.get("countB")
     spoofed_match_id = "0051681e-72ce-46f0-bda2-752e471d0d08"
     epoch = datetime.now().timestamp()
-
-    session_cookie = request.cookies.get("bhvrSession")
-    if not session_cookie:
-        return jsonify({"message": "Endpoint not found"}), 404
-    userid = session_manager.get_user_id(session_cookie)
 
     logger.graylog_logger(level="info", handler="logging_queue",
                           message=f"User {userid} is queueing for {category} in {region} with {count_a} hunters and {count_b} runners")
@@ -113,6 +120,12 @@ def match(matchid):
     check = check_for_game_client("strict")
     if not check:
         return jsonify({"message": "Endpoint not found"}), 404
+    session_cookie = request.cookies.get("bhvrSession")
+    if not session_cookie:
+        return jsonify({"message": "Endpoint not found"}), 404
+    userid = session_manager.get_user_id(session_cookie)
+    if userid == 401:
+        return jsonify({"message": "Endpoint not found"}), 404
     if matchid == "0051681e-72ce-46f0-bda2-752e471d0d08":
         return jsonify({"matchId": matchid, "schema": 3,
                         "category": "Steam-te-18f25613-36778-ue4-374f864b",
@@ -147,6 +160,12 @@ def match_kill(matchid):
     check = check_for_game_client("strict")
     if not check:
         return jsonify({"message": "Endpoint not found"}), 404
+    session_cookie = request.cookies.get("bhvrSession")
+    if not session_cookie:
+        return jsonify({"message": "Endpoint not found"}), 404
+    userid = session_manager.get_user_id(session_cookie)
+    if userid == 401:
+        return jsonify({"message": "Endpoint not found"}), 404
     logger.graylog_logger(level="info", handler="match_kill", message=f"Match {matchid} has been killed")
     return jsonify({"status": "OK"})
 
@@ -157,14 +176,15 @@ def match_register(match_id):
         check = check_for_game_client("strict")
         if not check:
             return jsonify({"message": "Endpoint not found"}), 404
-        custom_data = request.get_json("customData")
-        if custom_data["sessionSettings"]:
-            session_settings = custom_data["sessionSettings"]
-
         session_cookie = request.cookies.get("bhvrSession")
         if not session_cookie:
             return jsonify({"message": "Endpoint not found"}), 404
         userid = session_manager.get_user_id(session_cookie)
+        if userid == 401:
+            return jsonify({"message": "Endpoint not found"}), 404
+        custom_data = request.get_json("customData")
+        if custom_data["sessionSettings"]:
+            session_settings = custom_data["sessionSettings"]
 
         logger.graylog_logger(level="info", handler="match_register",
                               message=f"User {userid} is registering to match {match_id}")
@@ -180,11 +200,12 @@ def match_quit(match_id):
         check = check_for_game_client("strict")
         if not check:
             return jsonify({"message": "Endpoint not found"}), 404
-
         session_cookie = request.cookies.get("bhvrSession")
         if not session_cookie:
             return jsonify({"message": "Endpoint not found"}), 404
         userid = session_manager.get_user_id(session_cookie)
+        if userid == 401:
+            return jsonify({"message": "Endpoint not found"}), 404
 
         logger.graylog_logger(level="info", handler="logging_queue",
                               message=f"User {userid} is quieting match {match_id}")
@@ -209,6 +230,8 @@ def match_create():
     if not session_cookie:
         return jsonify({"message": "Endpoint not found"}), 404
     userid = session_manager.get_user_id(session_cookie)
+    if userid == 401:
+        return jsonify({"message": "Endpoint not found"}), 404
 
     category = request.json.get("category")
     rank = request.json.get("rank")
@@ -233,6 +256,12 @@ def progression_player_end_of_match():
     check = check_for_game_client("strict")
     if not check:
         return jsonify({"message": "Endpoint not found"}), 404
+    session_cookie = request.cookies.get("bhvrSession")
+    if not session_cookie:
+        return jsonify({"message": "Endpoint not found"}), 404
+    userid = session_manager.get_user_id(session_cookie)
+    if userid == 401:
+        return jsonify({"message": "Endpoint not found"}), 404
     try:
         logger.graylog_logger(level="info", handler="matchmaking_playerEndOfMatch", message=request.get_json())
         return jsonify("", 204)
@@ -246,6 +275,12 @@ def progression_player_end_of_match():
 def file_gold_rush(seed, map_name, game_version):
     check = check_for_game_client("strict")
     if not check:
+        return jsonify({"message": "Endpoint not found"}), 404
+    session_cookie = request.cookies.get("bhvrSession")
+    if not session_cookie:
+        return jsonify({"message": "Endpoint not found"}), 404
+    userid = session_manager.get_user_id(session_cookie)
+    if userid == 401:
         return jsonify({"message": "Endpoint not found"}), 404
 
     file_name = f"{game_version}_{seed}_{map_name}.raw"
@@ -270,6 +305,12 @@ def file_gold_rush(seed, map_name, game_version):
 def metrics_matchmaking_event():
     check = check_for_game_client("strict")
     if not check:
+        return jsonify({"message": "Endpoint not found"}), 404
+    session_cookie = request.cookies.get("bhvrSession")
+    if not session_cookie:
+        return jsonify({"message": "Endpoint not found"}), 404
+    userid = session_manager.get_user_id(session_cookie)
+    if userid == 401:
         return jsonify({"message": "Endpoint not found"}), 404
     try:
         logger.graylog_logger(level="info", handler="logging_matchmaking_Event", message=request.get_json())

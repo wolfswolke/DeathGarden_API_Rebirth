@@ -181,6 +181,8 @@ def consent_eula():
             if not session_cookie:
                 return jsonify({"message": "Endpoint not found"}), 404
             userid = session_manager.get_user_id(session_cookie)
+            if userid == 401:
+                return jsonify({"message": "Endpoint not found"}), 404
 
             try:
                 mongo.eula(userId=userid, get_eula=False, server=mongo_host, db=mongo_db, collection=mongo_collection)
@@ -197,6 +199,8 @@ def consent_eula():
             if not session_cookie:
                 return jsonify({"message": "Endpoint not found"}), 404
             userid = session_manager.get_user_id(session_cookie)
+            if userid == 401:
+                return jsonify({"message": "Endpoint not found"}), 404
             is_given = mongo.get_data_with_list(login=userid, login_steam=False,
                                                 items={"eula"},
                                                 server=mongo_host, db=mongo_db, collection=mongo_collection)
@@ -227,6 +231,12 @@ def privacy_policy():
     check = check_for_game_client("strict")
     if not check:
         return jsonify({"message": "Endpoint not found"}), 404
+    session_cookie = request.cookies.get("bhvrSession")
+    if not session_cookie:
+        return jsonify({"message": "Endpoint not found"}), 404
+    userid = session_manager.get_user_id(session_cookie)
+    if userid == 401:
+        return jsonify({"message": "Endpoint not found"}), 404
     try:
         output = json.load(open(os.path.join(app.root_path, "json", "eula.json"), "r"))
         return jsonify(output)
@@ -240,6 +250,12 @@ def privacy_policy():
 def leaderboard_get_scores():
     check = check_for_game_client("strict")
     if not check:
+        return jsonify({"message": "Endpoint not found"}), 404
+    session_cookie = request.cookies.get("bhvrSession")
+    if not session_cookie:
+        return jsonify({"message": "Endpoint not found"}), 404
+    userid = session_manager.get_user_id(session_cookie)
+    if userid == 401:
         return jsonify({"message": "Endpoint not found"}), 404
     if request.method == "POST":
         logger.graylog_logger(level="info", handler="general-leaderboard-get-scores",
@@ -267,6 +283,12 @@ def submit():
 def get_quitter_state():
     check = check_for_game_client("strict")
     if not check:
+        return jsonify({"message": "Endpoint not found"}), 404
+    session_cookie = request.cookies.get("bhvrSession")
+    if not session_cookie:
+        return jsonify({"message": "Endpoint not found"}), 404
+    userid = session_manager.get_user_id(session_cookie)
+    if userid == 401:
         return jsonify({"message": "Endpoint not found"}), 404
     try:
         logger.graylog_logger(level="info", handler="logging_getQuitterState", message=request.get_json())

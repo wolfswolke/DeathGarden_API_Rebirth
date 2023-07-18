@@ -7,6 +7,12 @@ def catalog_get(game_version):
     check = check_for_game_client("strict")
     if not check:
         return jsonify({"message": "Endpoint not found"}), 404
+    session_cookie = request.cookies.get("bhvrSession")
+    if not session_cookie:
+        return jsonify({"message": "Endpoint not found"}), 404
+    userid = session_manager.get_user_id(session_cookie)
+    if userid == 401:
+        return jsonify({"message": "Endpoint not found"}), 404
     try:
         output = json.load(open(os.path.join(app.root_path, "json", "catalog", game_version, "catalog.json"), "r"))
         return jsonify(output)
