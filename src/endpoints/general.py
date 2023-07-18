@@ -204,7 +204,7 @@ def consent_eula():
             is_given = mongo.get_data_with_list(login=userid, login_steam=False,
                                                 items={"eula"},
                                                 server=mongo_host, db=mongo_db, collection=mongo_collection)
-            if is_given:
+            if is_given["eula"]:
                 return jsonify({"isGiven": True})
             else:
                 return jsonify({"isGiven": False})
