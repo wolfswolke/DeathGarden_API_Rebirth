@@ -51,19 +51,24 @@ def steam_login():
     ip = check = check_for_game_client("strict")  # ToDo: Change when cookie validation is added.
     if not check:
         return jsonify({"message": "Endpoint not found"}), 404
+
     user_agent = request.headers.get('User-Agent')
     if user_agent.startswith("TheExit/++UE4+Release-4.2"):
         if request.args.get(
                 'token') == "140000007B7B7B7B02000000E3FA3952010010017B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B":
-            return_val = jsonify(
-                {"preferredLanguage": "en", "friendsFirstSync": {"steam": True}, "fixedMyFriendsUserPlatformId":
-                    {"steam": True}, "id": "aaaa", "provider": {"providerId": "aaaa", "providerName": "steam", "userId":
-                    "aaaa"}, "providers": [{"providerName": "steam", "providerId": "aaaa"}], "friends": [],
-                 "triggerResults":
-                     {"success": [], "error": []}, "tokenId": "aaaa", "generated": 1687197541,
-                 "expire": 1887197541,
-                 "userId": "aaaa", "token": "aaaa"})
-            session_cookie = session_manager.create_session("Debug_session")
+            userid, token = mongo.user_db_handler("Debug_session", mongo_host, mongo_db, mongo_collection)
+            current_time, expire_time = get_time()
+            return_val = jsonify({"preferredLanguage": "en", "friendsFirstSync": {"steam": True},
+                                  "fixedMyFriendsUserPlatformId":
+                                      {"steam": True}, "id": userid,
+                                  "provider": {"providerId": userid, "providerName": "steam", "userId":
+                                      userid}, "providers": [{"providerName": "steam", "providerId": userid}],
+                                  "friends": [],
+                                  "triggerResults":
+                                      {"success": [], "error": []}, "tokenId": userid, "generated": current_time,
+                                  "expire": expire_time,
+                                  "userId": userid, "token": token})
+            session_cookie = session_manager.create_session(userid)
             return_val.set_cookie("bhvrSession", session_cookie)
             return return_val
         try:
@@ -126,25 +131,15 @@ def moderation_check_username():
     if userid == 401:
         return jsonify({"message": "Endpoint not found"}), 404
     try:
-        print(request.get_json())
         request_var = request.get_json()
         userid = request_var["userId"]
-        username = request_var["username"]
-        logger.graylog_logger(level="info", handler="moderation_check_username", message=request.get_json())
-
         steamid = mongo.get_data_with_list(login=userid, login_steam=False,
-                                                  items={"steamid"}, server=mongo_host, db=mongo_db,
-                                                  collection=mongo_collection)
-        if steamid is None:
-            time.sleep(1)
-            request_var = request.get_json()
-            userid = request_var["userId"]
-            username = request_var["username"]
-            steamid = mongo.get_data_with_list(login=userid, login_steam=False,
-                                                      items={"steamid"}, server=mongo_host, db=mongo_db,
-                                                      collection=mongo_collection)
+                                           items={"steamid", "userId"}, server=mongo_host, db=mongo_db,
+                                           collection=mongo_collection)
+        steamid = steamid["steamid"]
+        userid = steamid["userId"]
         return jsonify({"Id": userid, "Token": session_cookie,
-                        "Provider": {"ProviderName": username,
+                        "Provider": {"ProviderName": request_var["username"],
                                      "ProviderId": steamid}})  # CLIENT:{"userId": "ID-ID-ID-ID-SEE-AUTH",	"username": "Name-Name-Name"}
     except TimeoutError:
         return jsonify({"status": "error"})
