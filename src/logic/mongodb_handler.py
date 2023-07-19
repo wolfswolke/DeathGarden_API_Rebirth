@@ -24,6 +24,7 @@ class Mongo:
                 print(f"Document with steamid {steamid} already exists.")
                 userId = existing_document['userId']
                 token = existing_document['token']
+                client.close()
                 return userId, token
             else:
                 userId = str(uuid.uuid4())
@@ -53,6 +54,7 @@ class Mongo:
 
                 self.dyn_collection.insert_one(new_document)
                 logger.graylog_logger(level="info", handler="mongodb", message=f"New user added to database: {steamid}")
+                client.close()
                 return userId, token
         except Exception as e:
             logger.graylog_logger(level="error", handler="mongodb_user_db_handler", message=e)
@@ -70,11 +72,14 @@ class Mongo:
             if existing_document:
                 if get_eula:
                     eula = existing_document['eula']
+                    client.close()
                     return eula
                 else:
                     self.dyn_collection.update_one({'userId': userId}, {'$set': {'eula': True}})
+                    client.close()
                     return True
             else:
+                client.close()
                 return False
         except Exception as e:
             logger.graylog_logger(level="error", handler="mongodb_eula", message=e)
@@ -90,8 +95,10 @@ class Mongo:
             self.dyn_collection = self.dyn_db[self.dyn_collection]
             existing_document = self.dyn_collection.find_one({'steamid': steamid})
             if existing_document:
+                client.close()
                 return existing_document
             else:
+                client.close()
                 return None
         except Exception as e:
             logger.graylog_logger(level="error", handler="mongodb_get_debug", message=e)
@@ -119,7 +126,9 @@ class Mongo:
                     print(f"No user found with steamid: {login}")
                 else:
                     print(f"No user found with userId: {login}")
+                client.close()
                 return None
+            client.close()
             return document
         except Exception as e:
             logger.graylog_logger(level="error", handler="mongo_get_data_with_list", message=e)
@@ -138,9 +147,11 @@ class Mongo:
             if existing_document:
                 update_query = {'$set': items_dict}
                 self.dyn_collection.update_one({'steamid': steamid}, update_query)
+                client.close()
                 return {"status": "success", "message": "Data updated"}
             else:
                 print(f"No user found with steamid: {steam_id}")
+                client.close()
                 return None
         except Exception as e:
             print(e)
