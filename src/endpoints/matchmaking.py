@@ -10,9 +10,7 @@ import uuid
 
 @app.route("/api/v1/config/MATCH_MAKING_REGIONS/raw", methods=["GET"])
 def match_making_regions_raw():
-    check = check_for_game_client("strict")
-    if not check:
-        return jsonify({"message": "Endpoint not found"}), 404
+    check_for_game_client("strict")
     try:
         return jsonify(["EU", "US", "AP", "DEV"])
     except TimeoutError:
@@ -23,48 +21,41 @@ def match_making_regions_raw():
 
 @app.route("/api/v1/queue/info", methods=["GET"])
 def queue_info():
-    # ?category=Steam-te-23ebf96c-27498-ue4-7172a3f5&gameMode=Default&region=US&countA=1&countB=5
-    check = check_for_game_client("strict")
-    if not check:
-        return jsonify({"message": "Endpoint not found"}), 404
-    session_cookie = request.cookies.get("bhvrSession")
-    if not session_cookie:
-        return jsonify({"message": "Endpoint not found"}), 404
-    userid = session_manager.get_user_id(session_cookie)
-    if userid == 401:
-        return jsonify({"message": "Endpoint not found"}), 404
-    category = request.args.get("category")
-    game_mode = request.args.get("gameMode")
-    region = request.args.get("region")
-    count_a = request.args.get("countA") # Hunter Count
-    count_b = request.args.get("countB") # Runner Count
-    side = request.args.get("side", "")
-    session = matchmaking_queue.getSession(userid)
+    try:
+        # ?category=Steam-te-23ebf96c-27498-ue4-7172a3f5&gameMode=Default&region=US&countA=1&countB=5
+        check_for_game_client("strict")
+        session_cookie = request.cookies.get("bhvrSession")
+        userid = session_manager.get_user_id(session_cookie)
+        category = request.args.get("category")
+        game_mode = request.args.get("gameMode")
+        region = request.args.get("region")
+        count_a = request.args.get("countA") # Hunter Count
+        count_b = request.args.get("countB") # Runner Count
+        side = request.args.get("side", "")
+        session = matchmaking_queue.getSession(userid)
 
-    if not side:
-        return jsonify({"message": "Side parameter is missing"}), 400
+        if not side:
+            return jsonify({"message": "Side parameter is missing"}), 400
 
-    if side not in ["A", "B"]:
-        return jsonify({"message": "Invalid side parameter"}), 400
+        if side not in ["A", "B"]:
+            return jsonify({"message": "Invalid side parameter"}), 400
 
-    response_data = matchmaking_queue.getQueueStatus(side, session)
-    return jsonify(response_data)
-    # return jsonify({"A": {"Size": 1, "ETA": 100, "stable": True}, "B": {"Size": 5, "ETA": 100, "stable": True}, "SizeA": count_a, "SizeB": count_b})
+        response_data = matchmaking_queue.getQueueStatus(side, session)
+        return jsonify(response_data)
+        # return jsonify({"A": {"Size": 1, "ETA": 100, "stable": True}, "B": {"Size": 5, "ETA": 100, "stable": True}, "SizeA": count_a, "SizeB": count_b})
+    except TimeoutError:
+        return jsonify({"status": "TimeoutError"})
+    except Exception as e:
+        logger.graylog_logger(level="error", handler="queue_info", message=e)
 
 
 @app.route("/api/v1/queue", methods=["POST"])
 def queue():
     # {"category":"Steam-te-18f25613-36778-ue4-374f864b","rank":1,"side":"B","latencies":[],"additionalUserIds":[],
     # "checkOnly":false,"gameMode":"08d2279d2ed3fba559918aaa08a73fa8-Default","region":"US","countA":1,"countB":5}
-    check = check_for_game_client("strict")
-    if not check:
-        return jsonify({"message": "Endpoint not found"}), 404
+    check_for_game_client("strict")
     session_cookie = request.cookies.get("bhvrSession")
-    if not session_cookie:
-        return jsonify({"message": "Endpoint not found"}), 404
     userid = session_manager.get_user_id(session_cookie)
-    if userid == 401:
-        return jsonify({"message": "Endpoint not found"}), 404
 
     category = request.json.get("category")
     rank = request.json.get("rank")
@@ -128,15 +119,9 @@ def queue():
 
 @app.route("/api/v1/queue/cancel", methods=["POST"])
 def cancel_queue():
-    check = check_for_game_client("strict")
-    if not check:
-        return jsonify({"message": "Endpoint not found"}), 404
+    check_for_game_client("strict")
     session_cookie = request.cookies.get("bhvrSession")
-    if not session_cookie:
-        return jsonify({"message": "Endpoint not found"}), 404
     userid = session_manager.get_user_id(session_cookie)
-    if userid == 401:
-        return jsonify({"message": "Endpoint not found"}), 404
 
     try:
         matchmaking_queue.removePlayerFromQueue(userid)
@@ -149,15 +134,9 @@ def cancel_queue():
 
 @app.route("/api/v1/match/<matchid>", methods=["GET"])
 def match(matchid):
-    check = check_for_game_client("strict")
-    if not check:
-        return jsonify({"message": "Endpoint not found"}), 404
+    check_for_game_client("strict")
     session_cookie = request.cookies.get("bhvrSession")
-    if not session_cookie:
-        return jsonify({"message": "Endpoint not found"}), 404
     userid = session_manager.get_user_id(session_cookie)
-    if userid == 401:
-        return jsonify({"message": "Endpoint not found"}), 404
 
     try:
         response_data = matchmaking_queue.createMatchResponse(matchid)
@@ -169,15 +148,9 @@ def match(matchid):
 
 @app.route("/api/v1/match/<matchid>/Kill", methods=["PUT"])
 def match_kill(matchid):
-    check = check_for_game_client("strict")
-    if not check:
-        return jsonify({"message": "Endpoint not found"}), 404
+    check_for_game_client("strict")
     session_cookie = request.cookies.get("bhvrSession")
-    if not session_cookie:
-        return jsonify({"message": "Endpoint not found"}), 404
     userid = session_manager.get_user_id(session_cookie)
-    if userid == 401:
-        return jsonify({"message": "Endpoint not found"}), 404
     try:
         lobby, _ = matchmaking_queue.getLobbyById(matchid)
 
@@ -197,15 +170,9 @@ def match_kill(matchid):
 @app.route("/api/v1/match/<match_id>/register", methods=["POST"])
 def match_register(match_id):
     try:
-        check = check_for_game_client("strict")
-        if not check:
-            return jsonify({"message": "Endpoint not found"}), 404
+        check_for_game_client("strict")
         session_cookie = request.cookies.get("bhvrSession")
-        if not session_cookie:
-            return jsonify({"message": "Endpoint not found"}), 404
         userid = session_manager.get_user_id(session_cookie)
-        if userid == 401:
-            return jsonify({"message": "Endpoint not found"}), 404
 
         logger.graylog_logger(level="info", handler="match_register",
                               message=f"User {userid} is registering to match {match_id}")
@@ -230,15 +197,9 @@ def match_register(match_id):
 @app.route("/api/v1/match/<match_id>/Quit", methods=["PUT"])
 def match_quit(match_id):
     try:
-        check = check_for_game_client("strict")
-        if not check:
-            return jsonify({"message": "Endpoint not found"}), 404
+        check_for_game_client("strict")
         session_cookie = request.cookies.get("bhvrSession")
-        if not session_cookie:
-            return jsonify({"message": "Endpoint not found"}), 404
         userid = session_manager.get_user_id(session_cookie)
-        if userid == 401:
-            return jsonify({"message": "Endpoint not found"}), 404
 
         logger.graylog_logger(level="info", handler="logging_queue",
                               message=f"User {userid} is quitting match {match_id}")
@@ -268,16 +229,9 @@ def match_create():
     # '0385496c-f0ae-44d3-a777-26092750f39c'],
     # 'props': {'MatchConfiguration': '/Game/Configuration/MatchConfig/MatchConfig_Demo.MatchConfig_Demo'},
     # 'latencies': []}
-    check = check_for_game_client("strict")
-    if not check:
-        return jsonify({"message": "Endpoint not found"}), 404
-
+    check_for_game_client("strict")
     session_cookie = request.cookies.get("bhvrSession")
-    if not session_cookie:
-        return jsonify({"message": "Endpoint not found"}), 404
     userid = session_manager.get_user_id(session_cookie)
-    if userid == 401:
-        return jsonify({"message": "Endpoint not found"}), 404
 
     category = request.json.get("category")
     rank = request.json.get("rank")
@@ -285,11 +239,12 @@ def match_create():
     players_b = request.json.get("playersB")
     props = request.json.get("props")
 
-    match_id = matchmaking_queue.create_match(request.json)
+    matchid = matchmaking_queue.genMatchUUID()
+    # match_send = matchmaking_queue.createQueueResponseMatched(userid, matchid, joinerId=players_a)
     epoch = datetime.now().timestamp()
     player_list = [players_b, players_a]
 
-    data = {"MatchId": match_id, "Category": category, "Rank": rank,
+    data = {"MatchId": matchid, "Category": category, "Rank": rank,
             "CreationDateTime": epoch, "ExcludeFriends": False,
             "ExcludeClanMembers": False, "Status": "WaitingForPlayers", "Creator": userid,
             "Players": player_list, "SideA": players_a, "SideB": players_b, "CustomData": {}, "Props": props,
@@ -299,15 +254,9 @@ def match_create():
 
 @app.route("/api/v1/extensions/progression/playerEndOfMatch", methods=["POST"])
 def progression_player_end_of_match():
-    check = check_for_game_client("strict")
-    if not check:
-        return jsonify({"message": "Endpoint not found"}), 404
+    check_for_game_client("strict")
     session_cookie = request.cookies.get("bhvrSession")
-    if not session_cookie:
-        return jsonify({"message": "Endpoint not found"}), 404
     userid = session_manager.get_user_id(session_cookie)
-    if userid == 401:
-        return jsonify({"message": "Endpoint not found"}), 404
     try:
         logger.graylog_logger(level="info", handler="matchmaking_playerEndOfMatch", message=request.get_json())
         return jsonify("", 204)
@@ -319,15 +268,9 @@ def progression_player_end_of_match():
 
 @app.route("/file/<game_version>/<seed>/<map_name>", methods=["POST", "GET"])
 def file_gold_rush(seed, map_name, game_version):
-    check = check_for_game_client("strict")
-    if not check:
-        return jsonify({"message": "Endpoint not found"}), 404
+    check_for_game_client("strict")
     session_cookie = request.cookies.get("bhvrSession")
-    if not session_cookie:
-        return jsonify({"message": "Endpoint not found"}), 404
     userid = session_manager.get_user_id(session_cookie)
-    if userid == 401:
-        return jsonify({"message": "Endpoint not found"}), 404
 
     file_name = f"{game_version}_{seed}_{map_name}.raw"
     folder_path = os.path.join(app.root_path, "map_seeds")
@@ -349,15 +292,10 @@ def file_gold_rush(seed, map_name, game_version):
 
 @app.route("/metrics/matchmaking/event", methods=["POST"])
 def metrics_matchmaking_event():
-    check = check_for_game_client("strict")
-    if not check:
-        return jsonify({"message": "Endpoint not found"}), 404
+    check_for_game_client("strict")
     session_cookie = request.cookies.get("bhvrSession")
-    if not session_cookie:
-        return jsonify({"message": "Endpoint not found"}), 404
     userid = session_manager.get_user_id(session_cookie)
-    if userid == 401:
-        return jsonify({"message": "Endpoint not found"}), 404
+
     try:
         logger.graylog_logger(level="info", handler="logging_matchmaking_Event", message=request.get_json())
         return jsonify({"status": "success"})

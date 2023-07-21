@@ -6,9 +6,10 @@ from logic.mongodb_handler import mongo
 
 @app.route("/gamenews/messages", methods=["GET"])
 def gamenews():
-    check = check_for_game_client("strict")
-    if not check:
-        return jsonify({"message": "Endpoint not found"}), 404
+    check_for_game_client("strict")
+    session_cookie = request.cookies.get("bhvrSession")
+    userid = session_manager.get_user_id(session_cookie)
+
     # /gamenews/messages?sortDesc=true&gameVersion=0&platform=PC&language=EN&messageType=InGameNews&faction=Runner&playerLevel=1
     try:
         sort_desc = request.args.get('sortDesc')
@@ -28,9 +29,10 @@ def gamenews():
 
 @app.route("/api/v1/config/VER_LATEST_CLIENT_DATA", methods=["GET"])
 def config_ver_latest_client_data():
-    check = check_for_game_client("strict")
-    if not check:
-        return jsonify({"message": "Endpoint not found"}), 404
+    check_for_game_client("strict")
+    session_cookie = request.cookies.get("bhvrSession")
+    userid = session_manager.get_user_id(session_cookie)
+
     try:
         return jsonify({"LatestSupportedVersion": "te-18f25613-36778-ue4-374f864b"})
     except TimeoutError:
@@ -41,11 +43,13 @@ def config_ver_latest_client_data():
 
 @app.route("/api/v1/utils/contentVersion/latest/<version>", methods=["GET"])
 def content_version_latest(version):
-    check = check_for_game_client("strict")
-    if not check:
-        return jsonify({"message": "Endpoint not found"}), 404
+    check_for_game_client("strict")
+    session_cookie = request.cookies.get("bhvrSession")
+    userid = session_manager.get_user_id(session_cookie)
+
     try:
         print("Responded to content version api call GET")
+        print(f"Version called by client: {version}")
         return jsonify({"LatestSupportedVersion": "te-18f25613-36778-ue4-374f864b"})
     except TimeoutError:
         return jsonify({"status": "error"})
@@ -55,9 +59,8 @@ def content_version_latest(version):
 
 @app.route("/gameservers.dev", methods=["POST", "GET"])
 def gameservers_dev():
-    check = check_for_game_client("strict")
-    if not check:
-        return jsonify({"message": "Endpoint not found"}), 404
+    check_for_game_client("strict")
+
     try:
         # logger.graylog_logger(level="info", handler="logging_gameservers-dev", message=request.get_json())
         return jsonify({"status": "success"})
@@ -69,9 +72,8 @@ def gameservers_dev():
 
 @app.route("/gameservers.uat", methods=["POST"])
 def gameservers_uat():
-    check = check_for_game_client("strict")
-    if not check:
-        return jsonify({"message": "Endpoint not found"}), 404
+    check_for_game_client("strict")
+
     try:
         # graylog_logger(request.get_json(), "warning")
         return jsonify({"status": "success"})
@@ -84,9 +86,8 @@ def gameservers_uat():
 
 @app.route("/gameservers.live", methods=["POST", "GET"])
 def gameservers_live():
-    check = check_for_game_client("strict")
-    if not check:
-        return jsonify({"message": "Endpoint not found"}), 404
+    check_for_game_client("strict")
+
     try:
         # graylog_logger(request.get_json(), "warning")
         return jsonify({"status": "success"})
@@ -98,9 +99,10 @@ def gameservers_live():
 
 @app.route("/api/v1/config/UseMirrorsMM_Steam", methods=["GET"])  # What is this even???
 def config_use_mirrors_mm_steam():
-    check = check_for_game_client("strict")
-    if not check:
-        return jsonify({"message": "Endpoint not found"}), 404
+    check_for_game_client("strict")
+    session_cookie = request.cookies.get("bhvrSession")
+    userid = session_manager.get_user_id(session_cookie)
+
     try:
         return jsonify("false")
     except TimeoutError:
@@ -171,22 +173,17 @@ def services_tex():
 
 @app.route("/api/v1/consent/eula2", methods=["PUT", "GET"])
 def consent_eula():
-    check = check_for_game_client("strict")
-    if not check:
-        return jsonify({"message": "Endpoint not found"}), 404
+    check_for_game_client("strict")
+    session_cookie = request.cookies.get("bhvrSession")
+    userid = session_manager.get_user_id(session_cookie)
+
     try:
         if request.method == "PUT":
-
-            session_cookie = request.cookies.get("bhvrSession")
-            if not session_cookie:
-                return jsonify({"message": "Endpoint not found"}), 404
-            userid = session_manager.get_user_id(session_cookie)
-            if userid == 401:
-                return jsonify({"message": "Endpoint not found"}), 404
-
             try:
                 mongo.eula(userId=userid, get_eula=False, server=mongo_host, db=mongo_db, collection=mongo_collection)
-                return jsonify({"isGiven": True})
+                return jsonify({"Userid": userid, "ConsentList": [{"ConsentId": "ZKApi", "isGiven": True,
+                                                                   "UpdatedDate": 1689714606, "AttentionNeeded": False,
+                                                                   "LatestVersion": "ZKApi"}]})
             except TimeoutError:
                 return jsonify({"status": "error"})
             except Exception as e:
@@ -194,7 +191,9 @@ def consent_eula():
                                       message=f"Error in consent_eula: {e}")
         elif request.method == "GET":
             if request.cookies.get('bhvrSession') is None:
-                return jsonify({"isGiven": True})
+                return jsonify({"Userid": userid, "ConsentList": [{"ConsentId": "ZKApi", "isGiven": True,
+                                                                   "UpdatedDate": 1689714606, "AttentionNeeded": False,
+                                                                   "LatestVersion": "ZKApi"}]})
             session_cookie = request.cookies.get("bhvrSession")
             if not session_cookie:
                 return jsonify({"message": "Endpoint not found"}), 404
@@ -205,7 +204,19 @@ def consent_eula():
                                                 items={"eula"},
                                                 server=mongo_host, db=mongo_db, collection=mongo_collection)
             if is_given["eula"]:
-                return jsonify({"isGiven": True})
+                return "", 204
+                return jsonify({
+                    "Userid": "userid",
+                    "ConsentList": [
+                        {
+                            "ConsentId": "ZKApi",
+                            "isGiven": True,
+                            "UpdatedDate": 1689714606,
+                            "AttentionNeeded": False,
+                            "LatestVersion": "ZKApi"
+                        }
+                    ]
+                })
             else:
                 return jsonify({"isGiven": False})
     except Exception as e:
@@ -214,9 +225,10 @@ def consent_eula():
 
 @app.route("/api/v1/consent/eula", methods=["GET"])
 def consent_eula0():
-    check = check_for_game_client("strict")
-    if not check:
-        return jsonify({"message": "Endpoint not found"}), 404
+    check_for_game_client("strict")
+    session_cookie = request.cookies.get("bhvrSession")
+    userid = session_manager.get_user_id(session_cookie)
+
     try:
         output = json.load(open(os.path.join(app.root_path, "json", "eula.json"), "r"))
         return jsonify(output)
@@ -228,15 +240,10 @@ def consent_eula0():
 
 @app.route("/api/v1/consent/privacyPolicy", methods=["GET"])
 def privacy_policy():
-    check = check_for_game_client("strict")
-    if not check:
-        return jsonify({"message": "Endpoint not found"}), 404
+    check_for_game_client("strict")
     session_cookie = request.cookies.get("bhvrSession")
-    if not session_cookie:
-        return jsonify({"message": "Endpoint not found"}), 404
     userid = session_manager.get_user_id(session_cookie)
-    if userid == 401:
-        return jsonify({"message": "Endpoint not found"}), 404
+
     try:
         output = json.load(open(os.path.join(app.root_path, "json", "eula.json"), "r"))
         return jsonify(output)
@@ -248,15 +255,10 @@ def privacy_policy():
 
 @app.route("/api/v1/extensions/leaderboard/getScores", methods=["GET", "POST"])
 def leaderboard_get_scores():
-    check = check_for_game_client("strict")
-    if not check:
-        return jsonify({"message": "Endpoint not found"}), 404
+    check_for_game_client("strict")
     session_cookie = request.cookies.get("bhvrSession")
-    if not session_cookie:
-        return jsonify({"message": "Endpoint not found"}), 404
     userid = session_manager.get_user_id(session_cookie)
-    if userid == 401:
-        return jsonify({"message": "Endpoint not found"}), 404
+
     if request.method == "POST":
         logger.graylog_logger(level="info", handler="general-leaderboard-get-scores",
                               message=f"Leaderboard getScores: {request.get_json()}")
@@ -281,15 +283,10 @@ def submit():
 
 @app.route("/api/v1/extensions/quitters/getQuitterState", methods=["POST"])
 def get_quitter_state():
-    check = check_for_game_client("strict")
-    if not check:
-        return jsonify({"message": "Endpoint not found"}), 404
+    check_for_game_client("strict")
     session_cookie = request.cookies.get("bhvrSession")
-    if not session_cookie:
-        return jsonify({"message": "Endpoint not found"}), 404
     userid = session_manager.get_user_id(session_cookie)
-    if userid == 401:
-        return jsonify({"message": "Endpoint not found"}), 404
+
     try:
         logger.graylog_logger(level="info", handler="logging_getQuitterState", message=request.get_json())
         return jsonify({"status": "success"})
