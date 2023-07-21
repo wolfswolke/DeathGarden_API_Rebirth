@@ -13,6 +13,6 @@ RUN apk add curl
 
 EXPOSE 8080
 
-HEALTHCHECK CMD curl --fail http://localhost:8080/
+HEALTHCHECK CMD curl --fail http://localhost:8080/healthcheck
 
 ENTRYPOINT ["python", "start_app.py"]
