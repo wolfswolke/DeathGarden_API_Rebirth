@@ -1,6 +1,7 @@
 flask
-PyYaml == 5.1
+PyYaml
 graypy
 requests
 pymongo
 waitress
+colorlog

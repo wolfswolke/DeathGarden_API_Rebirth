@@ -1,6 +1,9 @@
 import logging
+import sys
 import graypy
 import json
+import traceback
+from colorlog import ColoredFormatter
 
 
 class Logger:
@@ -21,14 +24,40 @@ class Logger:
     def graylog_logger(self, level, handler, message):
         use_graylog = True
         if use_graylog:
+            formatter = ColoredFormatter(
+                "%(log_color)s%(asctime)s %(levelname)-8s%(reset)s %(message)s",
+                datefmt="%Y-%m-%d %H:%M:%S",
+                reset=True,
+                log_colors={
+                    'DEBUG': 'blue',
+                    'INFO': 'white',
+                    'WARNING': 'yellow',
+                    'ERROR': 'red',
+                    'CRITICAL': 'red,bg_white',
+                }
+            )
+            console_handler = logging.StreamHandler()
+            console_handler.setLevel(logging.DEBUG)
+            console_handler.setFormatter(formatter)
+            self.my_logger.addHandler(console_handler)
             log_methods = {"debug": self.my_logger.debug, "warning": self.my_logger.warning,
-                           "error": self.my_logger.error, "info": self.my_logger.info}
+                           "error": self.my_logger.error, "info": self.my_logger.info,
+                           "critical": self.my_logger.critical}
             log_method = log_methods.get(level)
             if log_method:
-                message = json.dumps({"level": level, "handler": handler, "message": message})
+                try:
+                    message = json.dumps({"level": level, "handler": handler, "message": message})
+                except TypeError:
+                    message = f"{{\"level\": \"{level}\", \"handler\": \"{handler}\", \"message\": \"{str(message)}\"}}"
+                if level == "error":
+                    exc_type, exc_value, exc_traceback = sys.exc_info()
+                    tb_str = traceback.format_exception(exc_type, exc_value, exc_traceback)
+                    message = f"{message}\n{''.join(tb_str)}"
+
                 log_method(message)
             else:
                 print("ERROR: No valid log level specified.")
+            self.my_logger.removeHandler(console_handler)
         else:
             print("Graylog disabled. Not sending any Logs.")
 
