@@ -5,12 +5,7 @@
          "Flag":"Reliable",
          "Message":{
             "Title":"Message from the Rebirth Team.",
-            "Body":"Welcome to Project Deathgarden Rebirth!  The goal of this Project is to rebuild the Deathgarden API. For more Info visit our Github Repo!",
-            "Claimable":[
-               {
-
-               }
-            ]
+            "Body":"Welcome to Project Deathgarden Rebirth!  The goal of this Project is to rebuild the Deathgarden API. For more Info visit our Github Repo!"
          },
          "Tag":"Direct",
          "ExpireAt":1787192383,
@@ -22,12 +17,7 @@
          "Flag":"Reliable",
          "Message":{
             "Title":"Message from the Rebirth Team.",
-            "Body":"This is a Info. The Matchmaking is not currently working. We are trying to get it working Asap though!",
-            "Claimable":[
-               {
-
-               }
-            ]
+            "Body":"This is a Info. The Matchmaking is not currently working. We are trying to get it working Asap though!"
          },
          "Tag":"Direct",
          "ExpireAt":1787192383,
