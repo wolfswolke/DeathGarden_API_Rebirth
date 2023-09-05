@@ -13,13 +13,13 @@ class Logger:
 
     def setup_graylog(self, use_graylog, graylog_server):
         self.dynamic_use_graylog = use_graylog
+        self.my_logger.setLevel(logging.DEBUG)
         if self.dynamic_use_graylog:
-            self.my_logger.setLevel(logging.DEBUG)
             handler = graypy.GELFUDPHandler(graylog_server, 12201)
             self.my_logger.addHandler(handler)
-            self.graylog_logger(level="info", handler="logging_server_Event", message={"event": "api started"})
         else:
             print("Graylog disabled. Not sending any Logs.")
+        self.graylog_logger(level="info", handler="logging_server_Event", message={"event": "api started"})
 
     def graylog_logger(self, level, handler, message):
         use_graylog = True
