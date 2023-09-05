@@ -4,7 +4,7 @@ from logic.mongodb_handler import mongo
 
 @app.route('/', methods=["GET"])
 def index():
-    check_for_game_client()
+    check_for_game_client("soft")
     return render_template("index.html")
 
 
@@ -81,8 +81,9 @@ def debug_mirrors_write():
                         if data_b or steam_user_id:
                             return_val = mongo.write_data_with_list(steamid=steam_user_id, items_dict=data_b, server=mongo_host, db=mongo_db,
                                                    collection=mongo_collection)
-                            if return_val == None:
-                                return jsonify({"status": "error", "message": "Error."}, 400)
+                            if return_val is None:
+                                return jsonify({"status": "error", "message": "There was a error on our End. "
+                                                                              "Please try again later."}, 400)
                             else:
                                 return jsonify({"status": "success", "message": "Data written."}, 200)
                         else:
@@ -98,3 +99,63 @@ def debug_mirrors_write():
             return jsonify({"message": "Endpoint not found"}), 404
     except Exception as e:
         logger.graylog_logger(level="error", handler="web_debug_mirrors", message=e)
+
+
+@app.route('/updater/', methods=["GET"])
+def updater_root():
+    return render_template("updater.html")
+
+
+@app.route("/updater/version", methods=["GET"])
+def updater_version():
+    return jsonify({"Error": "Please read the Docs about this Endpoint."})
+
+
+@app.route("/updater/version/script", methods=["GET"])
+def updater_version_script():
+    return jsonify({"version": 1})
+
+
+@app.route("/updater/version/pak", methods=["GET"])
+def updater_version_pak():
+    return jsonify({"version": 1})
+
+
+@app.route("/updater/version/sig", methods=["GET"])
+def updater_version_sig():
+    return jsonify({"version": 1})
+
+
+@app.route("/updater/files", methods=["GET"])
+def updater_files():
+    return jsonify({"Error": "Please read the Docs about this Endpoint."})
+
+
+@app.route("/updater/files/pak", methods=["GET"])
+def updater_pak():
+    try:
+        return send_from_directory(os.path.join(app.root_path, 'files'), 'TheExitRebirthBackendAPI-WindowsNoEditor_P.pak')
+    except TimeoutError:
+        return jsonify({"status": "error"})
+    except Exception as e:
+        logger.graylog_logger(level="error", handler="web-updater-PAK", message=e)
+
+
+@app.route("/updater/files/sig", methods=["GET"])
+def updater_sig():
+    try:
+        return send_from_directory(os.path.join(app.root_path, 'files'), 'TheExitRebirthBackendAPI-WindowsNoEditor_P.sig')
+    except TimeoutError:
+        return jsonify({"status": "error"})
+    except Exception as e:
+        logger.graylog_logger(level="error", handler="web-updater-SIG", message=e)
+
+
+@app.route("/updater/files/script", methods=["GET"])
+def updater_script():
+    try:
+        return send_from_directory(os.path.join(app.root_path, 'files'), 'TheExit-Rebirth-Updater.bat')
+    except TimeoutError:
+        return jsonify({"status": "error"})
+    except Exception as e:
+        logger.graylog_logger(level="error", handler="web-updater-script", message=e)
