@@ -9,6 +9,25 @@ class Mongo:
         self.dyn_db = None
         self.dyn_collection = None
         self.dyn_client_db = None
+        self.default_user_schema = {
+            'eula': False,
+            'account_xp': 0,
+            'prestige_xp': 0,
+            'runner_xp': 0,
+            'hunter_xp': 0,
+            'currency_blood_cells': 0,
+            'currency_iron': 0,
+            'currency_ink_cells': 0,
+            'unlocked_items': [],
+            'is_banned': False,
+            'ban_reason': "NoReasonGiven",
+            'ban_start': 2177449139,
+            'ban_expire': 253392484149,
+            'special_unlocks': [],
+            'finished_challenges': [],
+            'open_challenges': [],
+            'unread_msg_ids': []
+        }
 
     def user_db_handler(self, steamid, server, db, collection):
         self.dyn_server = server
@@ -22,9 +41,16 @@ class Mongo:
             existing_document = self.dyn_collection.find_one({'steamid': steamid})
 
             if existing_document:
-                print(f"Document with steamid {steamid} already exists.")
                 userId = existing_document['userId']
                 token = existing_document['token']
+
+                for key, default_value in self.default_user_schema.items():
+                    if key not in existing_document:
+                        existing_document[key] = default_value
+                        logger.graylog_logger(level="info", handler="mongodb", message=f"New key added to database: {key} for user {steamid}")
+
+                self.dyn_collection.replace_one({'steamid': steamid}, existing_document)
+
                 client.close()
                 return userId, token
             else:
@@ -35,23 +61,10 @@ class Mongo:
                     'steamid': steamid,
                     'userId': userId,
                     'token': token,
-                    'eula': False,
-                    'account_xp': 0,
-                    'prestige_xp': 0,
-                    'runner_xp': 0,
-                    'hunter_xp': 0,
-                    'currency_blood_cells': 0,
-                    'currency_iron': 0,
-                    'currency_ink_cells': 0,
-                    'unlocked_items': [],
-                    'is_banned': False,
-                    'ban_reason': "NoReasonGiven",
-                    'ban_start': 2177449139,
-                    'ban_expire': 253392484149,
-                    'special_unlocks': [],
-                    'finished_challanges': [],
-                    'open_challanges': []
                 }
+
+                for key, default_value in self.default_user_schema.items():
+                    new_document[key] = default_value
 
                 self.dyn_collection.insert_one(new_document)
                 logger.graylog_logger(level="info", handler="mongodb", message=f"New user added to database: {steamid}")
