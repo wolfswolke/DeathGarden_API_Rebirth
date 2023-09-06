@@ -398,7 +398,11 @@ def messages_count():
     userid = session_manager.get_user_id(session_cookie)
 
     try:
-        return jsonify({"Count": 2})
+        unread_message_ids = mongo.get_data_with_list(login=userid, login_steam=False, items={"unread_msg_ids"}, server=mongo_host, db=mongo_db, collection=mongo_collection)
+        if unread_message_ids is None:
+            return jsonify({"Count": 0})
+        else:
+            return jsonify({"Count": len(unread_message_ids["unread_msg_ids"])})
     except TimeoutError:
         return jsonify({"status": "error"})
     except Exception as e:
@@ -414,15 +418,35 @@ def messages_list():
     try:
         if request.method == "GET":
             limit = request.args.get("limit")
-            output = json.load(open(os.path.join(app.root_path, "json", "placeholders", "messages.json"), "r"))
-            return jsonify(output)
-            return jsonify({"messages": []})  # from dbd
+
+            unread_message_ids = mongo.get_data_with_list(login=userid, login_steam=False, items={"unread_msg_ids"},
+                                                          server=mongo_host, db=mongo_db, collection=mongo_collection)
+            ids = []
+            for items in unread_message_ids.get("unread_msg_ids", []):
+                ids.append(str(items))
+
+            json_file_path = os.path.join(app.root_path, "json", "placeholders", "messages.json")
+            with open(json_file_path, "r") as json_file:
+                data = json.load(json_file)
+
+            messages = []
+            for message_id in ids:
+                messages.extend(data.get(message_id, []))
+
+            if limit:
+                messages = messages[:int(limit)]
+
+            return jsonify({"messages": messages})
+
         elif request.method == "DELETE":
             return jsonify("", 204)
     except TimeoutError:
         return jsonify({"status": "error"})
     except Exception as e:
-        logger.graylog_logger(level="error", handler="messages_list", message=e)
+        logger.graylog_logger(level="error", handler="messages_list", message=str(e))
+
+    return jsonify({"messages": []})
+
 
 
 @app.route("/api/v1/messages/v2/markAs", methods=["POST"])

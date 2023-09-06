@@ -1,29 +1,30 @@
 {
-   "Messages":[
+   "1": [
       {
-         "Received":1687192383,
-         "Flag":"Reliable",
-         "Message":{
-            "Title":"Message from the Rebirth Team.",
-            "Body":"Welcome to Project Deathgarden Rebirth!  The goal of this Project is to rebuild the Deathgarden API. For more Info visit our Github Repo!"
+         "Received": 1687192383,
+         "Flag": "Reliable",
+         "Message": {
+            "Title": "Message from the Rebirth Team.",
+            "Body": "Welcome to Project Deathgarden Rebirth!  The goal of this Project is to rebuild the Deathgarden API. For more Info visit our Github Repo!"
          },
-         "Tag":"Direct",
-         "ExpireAt":1787192383,
-         "Origin":"Warning",
-         "RecipientId":"6969696969696969"
-      },
-      {
-         "Received":1687192385,
-         "Flag":"Reliable",
-         "Message":{
-            "Title":"Message from the Rebirth Team.",
-            "Body":"This is a Info. The Matchmaking is not currently working. We are trying to get it working Asap though!"
-         },
-         "Tag":"Direct",
-         "ExpireAt":1787192383,
-         "Origin":"Warning",
-         "RecipientId":"420420420420"
+         "Tag": "Direct",
+         "ExpireAt": 1787192383,
+         "Origin": "Warning",
+         "RecipientId": "1"
       }
    ],
-   "NetPage":"None"
+   "2": [
+      {
+         "Received": 1687192385,
+         "Flag": "Reliable",
+         "Message": {
+            "Title": "Message from the Rebirth Team.",
+            "Body": "This is a Info. The Matchmaking is not currently working. We are trying to get it working Asap though!"
+         },
+         "Tag": "Direct",
+         "ExpireAt": 1787192383,
+         "Origin": "Warning",
+         "RecipientId": "2"
+      }
+   ]
 }
