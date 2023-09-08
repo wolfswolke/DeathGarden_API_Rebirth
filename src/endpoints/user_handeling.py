@@ -1,5 +1,6 @@
 import sys
 import time
+from math import ceil
 
 from flask_definitions import *
 import requests
@@ -417,7 +418,8 @@ def messages_list():
 
     try:
         if request.method == "GET":
-            limit = request.args.get("limit")
+            limit = int(request.args.get("limit", 500))
+            page = int(request.args.get("page", 1))
 
             unread_message_ids = mongo.get_data_with_list(login=userid, login_steam=False, items={"unread_msg_ids"},
                                                           server=mongo_host, db=mongo_db, collection=mongo_collection)
@@ -433,10 +435,18 @@ def messages_list():
             for message_id in ids:
                 messages.extend(data.get(message_id, []))
 
-            if limit:
-                messages = messages[:int(limit)]
+            total_messages = len(messages)
 
-            return jsonify({"messages": messages})
+            if total_messages <= limit * page:
+                pages = 0
+            else:
+                pages = ceil(total_messages / limit) - page
+
+            start_idx = (page - 1) * limit
+            end_idx = start_idx + limit
+            messages_page = messages[start_idx:end_idx]
+
+            return jsonify({"messages": messages_page, "NetPage": pages})
 
         elif request.method == "DELETE":
             return jsonify("", 204)
@@ -445,7 +455,8 @@ def messages_list():
     except Exception as e:
         logger.graylog_logger(level="error", handler="messages_list", message=str(e))
 
-    return jsonify({"messages": []})
+    return jsonify({"messages": [], "NetPage": 0})
+
 
 
 
