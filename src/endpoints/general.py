@@ -4,7 +4,7 @@ import os
 from logic.mongodb_handler import mongo
 
 
-@app.route("/gamenews/messages", methods=["GET"])
+@app.route("/gamenews/messages/", methods=["GET"])
 def gamenews():
     check_for_game_client("strict")
     session_cookie = request.cookies.get("bhvrSession")
@@ -27,7 +27,7 @@ def gamenews():
         logger.graylog_logger(level="error", handler="general-Game-News", message=e)
 
 
-@app.route("/api/v1/config/VER_LATEST_CLIENT_DATA", methods=["GET"])
+@app.route("/api/v1/config/VER_LATEST_CLIENT_DATA/", methods=["GET"])
 def config_ver_latest_client_data():
     check_for_game_client("strict")
     session_cookie = request.cookies.get("bhvrSession")
@@ -41,7 +41,7 @@ def config_ver_latest_client_data():
         logger.graylog_logger(level="error", handler="general-ver-latest-data", message=e)
 
 
-@app.route("/api/v1/utils/contentVersion/latest/<version>", methods=["GET"])
+@app.route("/api/v1/utils/contentVersion/latest/<version>/", methods=["GET"])
 def content_version_latest(version):
     check_for_game_client("strict")
     session_cookie = request.cookies.get("bhvrSession")
@@ -97,7 +97,7 @@ def gameservers_live():
         logger.graylog_logger(level="error", handler="general-gameserver-dev", message=e)
 
 
-@app.route("/api/v1/config/UseMirrorsMM_Steam", methods=["GET"])  # What is this even???
+@app.route("/api/v1/config/UseMirrorsMM_Steam/", methods=["GET"])  # What is this even??? Maybe Use Matchmaking? Its only in old Versions tho...
 def config_use_mirrors_mm_steam():
     check_for_game_client("strict")
     session_cookie = request.cookies.get("bhvrSession")
@@ -111,7 +111,7 @@ def config_use_mirrors_mm_steam():
         logger.graylog_logger(level="error", handler="general-use-mirrors-mm-steam", message=e)
 
 
-@app.route("/crashreport/unreal/CrashReporter/Ping", methods=["GET"])
+@app.route("/crashreport/unreal/CrashReporter/Ping/", methods=["GET"])
 def crashreporter_ping():
     check_for_game_client("soft")
     try:
@@ -122,7 +122,7 @@ def crashreporter_ping():
         logger.graylog_logger(level="error", handler="general-crashreporter-ping", message=e)
 
 
-@app.route("/tex", methods=["GET"])
+@app.route("/tex/", methods=["GET"])
 def tex_get():
     check_for_game_client("soft")
     try:
@@ -145,7 +145,7 @@ def favicon():
         logger.graylog_logger(level="error", handler="general-favicon", message=e)
 
 
-@app.route("/api/v1/healthcheck", methods=["GET"])
+@app.route("/api/v1/healthcheck/", methods=["GET"])
 def healthcheck():
     check_for_game_client("soft")
     try:
@@ -158,7 +158,7 @@ def healthcheck():
         logger.graylog_logger(level="error", handler="general-healthcheck", message=e)
 
 
-@app.route("/api/v1/services/tex")
+@app.route("/api/v1/services/tex/")
 def services_tex():
     try:
         return {"current-event": {"status": {"id": "live"}, "message": ""}}  # Alpha 2 WARNING Msg text?!?!
@@ -171,7 +171,7 @@ def services_tex():
         logger.graylog_logger(level="error", handler="general-services-tex", message=e)
 
 
-@app.route("/api/v1/consent/eula2", methods=["PUT", "GET"])
+@app.route("/api/v1/consent/eula2/", methods=["PUT", "GET"])
 def consent_eula():
     check_for_game_client("strict")
     session_cookie = request.cookies.get("bhvrSession")
@@ -223,7 +223,7 @@ def consent_eula():
         logger.graylog_logger(level="error", handler="general-consent-eula", message=e)
 
 
-@app.route("/api/v1/consent/eula", methods=["GET"])
+@app.route("/api/v1/consent/eula/", methods=["GET"])
 def consent_eula0():
     check_for_game_client("strict")
     session_cookie = request.cookies.get("bhvrSession")
@@ -238,7 +238,7 @@ def consent_eula0():
         logger.graylog_logger(level="error", handler="general-consent-eula0", message=e)
 
 
-@app.route("/api/v1/consent/privacyPolicy", methods=["GET"])
+@app.route("/api/v1/consent/privacyPolicy/", methods=["GET"])
 def privacy_policy():
     check_for_game_client("strict")
     session_cookie = request.cookies.get("bhvrSession")
@@ -253,7 +253,7 @@ def privacy_policy():
         logger.graylog_logger(level="error", handler="general-privacy-policy", message=e)
 
 
-@app.route("/api/v1/extensions/leaderboard/getScores", methods=["GET", "POST"])
+@app.route("/api/v1/extensions/leaderboard/getScores/", methods=["GET", "POST"])
 def leaderboard_get_scores():
     check_for_game_client("strict")
     session_cookie = request.cookies.get("bhvrSession")
@@ -281,7 +281,7 @@ def submit():
     return "Discarded=1"
 
 
-@app.route("/api/v1/extensions/quitters/getQuitterState", methods=["POST"])
+@app.route("/api/v1/extensions/quitters/getQuitterState/", methods=["POST"])
 def get_quitter_state():
     check_for_game_client("strict")
     session_cookie = request.cookies.get("bhvrSession")

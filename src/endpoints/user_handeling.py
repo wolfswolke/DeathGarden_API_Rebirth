@@ -46,7 +46,7 @@ def steam_login_function():
 
 
 # This works
-@app.route("/api/v1/auth/provider/steam/login", methods=["POST"])
+@app.route("/api/v1/auth/provider/steam/login/", methods=["POST"])
 def steam_login():
     # Read Doc\SteamAuth.md for more information
     ip = check_for_game_client("soft")
@@ -93,7 +93,7 @@ def steam_login():
 
 
 # Dont know if this works
-@app.route("/api/v1/modifierCenter/modifiers/me", methods=["GET"])
+@app.route("/api/v1/modifierCenter/modifiers/me/", methods=["GET"])
 def modifiers():
     check_for_game_client("strict")
     session_cookie = request.cookies.get("bhvrSession")
@@ -112,7 +112,7 @@ def modifiers():
 
 
 # This works
-@app.route("/moderation/check/username", methods=["POST"])
+@app.route("/moderation/check/username/", methods=["POST"])
 def moderation_check_username():
     check_for_game_client("strict")
     session_cookie = request.cookies.get("bhvrSession")
@@ -132,7 +132,7 @@ def moderation_check_username():
 
 
 # Doesn't work
-@app.route("/api/v1/progression/experience", methods=["POST"])
+@app.route("/api/v1/progression/experience/", methods=["POST"])
 def progression_experience():
     check_for_game_client("strict")
     session_cookie = request.cookies.get("bhvrSession")
@@ -170,7 +170,7 @@ def progression_experience():
         logger.graylog_logger(level="error", handler="progression_experience", message=e)
 
 
-@app.route("/api/v1/extensions/challenges/getChallenges", methods=["POST"])
+@app.route("/api/v1/extensions/challenges/getChallenges/", methods=["POST"])
 def challenges_get_challenges():
     # client: {"data":{"userId":"619d6f42-db87-4f3e-8dc9-3c9995613614","challengeType":"Daily"}}
     check_for_game_client("strict")
@@ -204,7 +204,7 @@ def challenges_get_challenges():
         logger.graylog_logger(level="error", handler="getChallanges", message=e)
 
 
-@app.route("/api/v1/extensions/challenges/executeChallengeProgressionOperationBatch", methods=["POST"])
+@app.route("/api/v1/extensions/challenges/executeChallengeProgressionOperationBatch/", methods=["POST"])
 def challenges_execute_challenge_progression_operation_batch():
     check_for_game_client("strict")
     session_cookie = request.cookies.get("bhvrSession")
@@ -226,7 +226,7 @@ def challenges_execute_challenge_progression_operation_batch():
 
 
 # idk dont think it works
-@app.route("/api/v1/inventories", methods=["GET"])
+@app.route("/api/v1/inventories/", methods=["GET"])
 def inventories():
     check_for_game_client("strict")
     session_cookie = request.cookies.get("bhvrSession")
@@ -249,7 +249,7 @@ def inventories():
 
 
 # idk if this works
-@app.route("/api/v1/players/me/splinteredstates/ProgressionGroups", methods=["GET"])
+@app.route("/api/v1/players/me/splinteredstates/ProgressionGroups/", methods=["GET"])
 def progression_groups():
     check_for_game_client("strict")
     session_cookie = request.cookies.get("bhvrSession")
@@ -276,7 +276,7 @@ def progression_groups():
 
 
 # This works
-@app.route("/api/v1/players/ban/status", methods=["GET"])
+@app.route("/api/v1/players/ban/status/", methods=["GET"])
 def ban_status():
     check_for_game_client("strict")
     session_cookie = request.cookies.get("bhvrSession")
@@ -310,7 +310,7 @@ def ban_status():
 
 
 # broken. no need to fix... OG DG endpoint. Not needed.
-@app.route("/api/v1/players/ban/getbaninfo", methods=["GET"])
+@app.route("/api/v1/players/ban/getbaninfo/", methods=["GET"])
 def get_ban_info():
     check_for_game_client("strict")
     session_cookie = request.cookies.get("bhvrSession")
@@ -326,7 +326,7 @@ def get_ban_info():
 
 
 # This works
-@app.route("/api/v1/wallet/currencies", methods=["GET"])
+@app.route("/api/v1/wallet/currencies/", methods=["GET"])
 def wallet_currencies():
     check_for_game_client("strict")
     session_cookie = request.cookies.get("bhvrSession")
@@ -353,7 +353,7 @@ def wallet_currencies():
 
 
 # Does not work. Old DG endpoint. Not needed.
-@app.route("/api/v1/wallet/currencies/PROGRESSION_CURRENCY", methods=["GET"])
+@app.route("/api/v1/wallet/currencies/PROGRESSION_CURRENCY/", methods=["GET"])
 def wallet_currencies_progression():
     check_for_game_client("strict")
     session_cookie = request.cookies.get("bhvrSession")
@@ -368,7 +368,7 @@ def wallet_currencies_progression():
 
 
 # Dont know if this works. Dont think it does.
-@app.route("/api/v1/players/me/splinteredstates/TheExit_Achievements", methods=["GET"])
+@app.route("/api/v1/players/me/splinteredstates/TheExit_Achievements/", methods=["GET"])
 def achievements_get():
     check_for_game_client("strict")
     session_cookie = request.cookies.get("bhvrSession")
@@ -392,7 +392,7 @@ def achievements_get():
 
 
 # Does not work
-@app.route("/api/v1/messages/count", methods=["GET"])
+@app.route("/api/v1/messages/count/", methods=["GET"])
 def messages_count():
     check_for_game_client("strict")
     session_cookie = request.cookies.get("bhvrSession")
@@ -410,7 +410,7 @@ def messages_count():
         logger.graylog_logger(level="error", handler="messages_count", message=e)
 
 
-@app.route("/api/v1/messages/list", methods=["GET", "DELETE"])
+@app.route("/api/v1/messages/list/", methods=["GET", "DELETE"])
 def messages_list():
     check_for_game_client("strict")
     session_cookie = request.cookies.get("bhvrSession")
@@ -460,13 +460,13 @@ def messages_list():
 
 
 
-@app.route("/api/v1/messages/v2/markAs", methods=["POST"])
+@app.route("/api/v1/messages/v2/markAs/", methods=["POST"])
 def messages_mark_as():
     return jsonify("", 204)
 
 
 # Temp response.
-@app.route("/moderation/check/chat", methods=["POST"])
+@app.route("/moderation/check/chat/", methods=["POST"])
 def moderation_check_chat():
     check_for_game_client("strict")
     session_cookie = request.cookies.get("bhvrSession")
@@ -486,7 +486,7 @@ def moderation_check_chat():
 
 
 # This is intently broken. If this works the game crashes in matchmaking.
-@app.route("/api/v1/extensions/progression/initOrGetGroups", methods=["POST"])
+@app.route("/api/v1/extensions/progression/initOrGetGroups/", methods=["POST"])
 def extension_progression_init_or_get_groups():
     check_for_game_client("strict")
     session_cookie = request.cookies.get("bhvrSession")
@@ -553,7 +553,7 @@ def extension_progression_init_or_get_groups():
 
 
 # dont know if this works. Hope it does.
-@app.route("/api/v1/extensions/inventory/unlockSpecialItems", methods=["POST"])
+@app.route("/api/v1/extensions/inventory/unlockSpecialItems/", methods=["POST"])
 def inventory_unlock_special_items():
     check_for_game_client("strict")
     session_cookie = request.cookies.get("bhvrSession")
@@ -568,7 +568,7 @@ def inventory_unlock_special_items():
         logger.graylog_logger(level="error", handler="unknown_unlockSpecialItems", message=e)
 
 
-@app.route("/api/v1/extensions/challenges/getChallengeProgressionBatch", methods=["POST"])
+@app.route("/api/v1/extensions/challenges/getChallengeProgressionBatch/", methods=["POST"])
 def challenges_get_challenge_progression_batch():
     check_for_game_client("strict")
     session_cookie = request.cookies.get("bhvrSession")

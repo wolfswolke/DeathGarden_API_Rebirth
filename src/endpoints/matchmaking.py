@@ -8,7 +8,7 @@ from flask_definitions import *
 import uuid
 
 
-@app.route("/api/v1/config/MATCH_MAKING_REGIONS/raw", methods=["GET"])
+@app.route("/api/v1/config/MATCH_MAKING_REGIONS/raw/", methods=["GET"])
 def match_making_regions_raw():
     check_for_game_client("strict")
     try:
@@ -19,7 +19,7 @@ def match_making_regions_raw():
         logger.graylog_logger(level="error", handler="matchmaking_RegionsRAW", message=e)
 
 
-@app.route("/api/v1/queue/info", methods=["GET"])
+@app.route("/api/v1/queue/info/", methods=["GET"])
 def queue_info():
     try:
         # ?category=Steam-te-23ebf96c-27498-ue4-7172a3f5&gameMode=Default&region=US&countA=1&countB=5
@@ -49,7 +49,7 @@ def queue_info():
         logger.graylog_logger(level="error", handler="queue_info", message=e)
 
 
-@app.route("/api/v1/queue", methods=["POST"])
+@app.route("/api/v1/queue/", methods=["POST"])
 def queue():
     # {"category":"Steam-te-18f25613-36778-ue4-374f864b","rank":1,"side":"B","latencies":[],"additionalUserIds":[],
     # "checkOnly":false,"gameMode":"08d2279d2ed3fba559918aaa08a73fa8-Default","region":"US","countA":1,"countB":5}
@@ -117,7 +117,7 @@ def queue():
     # eta, position = match_manager.find_eta_and_position(data["_match_uuid"])
 
 
-@app.route("/api/v1/queue/cancel", methods=["POST"])
+@app.route("/api/v1/queue/cancel/", methods=["POST"])
 def cancel_queue():
     check_for_game_client("strict")
     session_cookie = request.cookies.get("bhvrSession")
@@ -132,7 +132,7 @@ def cancel_queue():
     return "", 204
 
 
-@app.route("/api/v1/match/<matchid>", methods=["GET"])
+@app.route("/api/v1/match/<matchid>/", methods=["GET"])
 def match(matchid):
     check_for_game_client("strict")
     session_cookie = request.cookies.get("bhvrSession")
@@ -146,7 +146,7 @@ def match(matchid):
         return jsonify({"message": "Internal Server Error"}), 500
 
 
-@app.route("/api/v1/match/<matchid>/Kill", methods=["PUT"])
+@app.route("/api/v1/match/<matchid>/Kill/", methods=["PUT"])
 def match_kill(matchid):
     check_for_game_client("strict")
     session_cookie = request.cookies.get("bhvrSession")
@@ -167,7 +167,7 @@ def match_kill(matchid):
         return jsonify({"message": "Internal Server Error"}), 500
 
 
-@app.route("/api/v1/match/<match_id>/register", methods=["POST"])
+@app.route("/api/v1/match/<match_id>/register/", methods=["POST"])
 def match_register(match_id):
     try:
         check_for_game_client("strict")
@@ -194,7 +194,7 @@ def match_register(match_id):
         return jsonify({"message": "Internal Server Error"}), 500
 
 
-@app.route("/api/v1/match/<match_id>/Quit", methods=["PUT"])
+@app.route("/api/v1/match/<match_id>/Quit/", methods=["PUT"])
 def match_quit(match_id):
     try:
         check_for_game_client("strict")
@@ -222,7 +222,7 @@ def match_quit(match_id):
         return jsonify({"status": "ERROR"}), 500
 
 
-@app.route("/api/v1/match/create", methods=["POST"])
+@app.route("/api/v1/match/create/", methods=["POST"])
 def match_create():
     # {'category': 'Steam-te-18f25613-36778-ue4-374f864b', 'region': 'US', 'playersA': [],
     # 'playersB': ['00658d11-2dfd-41e8-b6d2-2462e8f3aa47', '95041085-e7e4-4759-be3d-e72c69167578',
@@ -252,7 +252,7 @@ def match_create():
     return jsonify(data)
 
 
-@app.route("/api/v1/extensions/progression/playerEndOfMatch", methods=["POST"])
+@app.route("/api/v1/extensions/progression/playerEndOfMatch/", methods=["POST"])
 def progression_player_end_of_match():
     check_for_game_client("strict")
     session_cookie = request.cookies.get("bhvrSession")
@@ -266,7 +266,7 @@ def progression_player_end_of_match():
         logger.graylog_logger(level="error", handler="matchmaking_playerEndOfMatch", message=e)
 
 
-@app.route("/file/<game_version>/<seed>/<map_name>", methods=["POST", "GET"])
+@app.route("/file/<game_version>/<seed>/<map_name>/", methods=["POST", "GET"])
 def file_gold_rush(seed, map_name, game_version):
     check_for_game_client("strict")
     session_cookie = request.cookies.get("bhvrSession")
@@ -290,7 +290,7 @@ def file_gold_rush(seed, map_name, game_version):
         return {"status": "success"}
 
 
-@app.route("/metrics/matchmaking/event", methods=["POST"])
+@app.route("/metrics/matchmaking/event/", methods=["POST"])
 def metrics_matchmaking_event():
     check_for_game_client("strict")
     session_cookie = request.cookies.get("bhvrSession")
