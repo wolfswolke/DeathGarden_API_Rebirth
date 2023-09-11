@@ -34,6 +34,9 @@ def check_for_game_client(check_type="strict"):
                                                                               f"from IP: {_get_remote_ip()}")
             print(f"INVALID User-Agent: {user_agent}, IP: {_get_remote_ip()}")
             abort(403)
+    elif check_type == "remote":
+        remote = _get_remote_ip()
+        return remote
     else:
         _get_remote_ip()
 
