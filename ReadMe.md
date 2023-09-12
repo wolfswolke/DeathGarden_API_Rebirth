@@ -1,74 +1,63 @@
-
 # DeathGarden Bloodharvest API Rebirth Project
 
-This project is MORE than just a WIP!
+**This project is more than just a Work in Progress (WIP)!**
 
-Current Progress: Logging (Stashboard, Metrics, gameDataAnalytics), Steam Login, Load 
-Lobby, Some items in the Shop, Messaging System, Currency System, MatchMaking implemented and some smaller things,
- Leaderboard doesn't crash anymore.
+**Current Progress:**
+- Logging (Stashboard, Metrics, gameDataAnalytics) See [Logging.md](https://github.com/wolfswolke/DeathGarden_API_Rebirth/blob/master/Doc/Logging.md) for details.
+- Steam Login
+- Load Lobby
+- Some items in the Shop
+- Messaging System
+- Currency System
+- Matchmaking implemented
+- Leaderboard doesn't crash anymore
 
-ToDo: InitOrGetGroup, dynamic Leaderboards, Challenges, Progression, buying things, Fixing the Catalog crash. 
+**To-Do List:**
+- InitOrGetGroup
+- Dynamic Leaderboards
+- Challenges
+- Progression
+- Buying items
+- Fixing the Catalog crash
 
-For more Info go to the [ToDo page.](https://github.com/users/wolfswolke/projects/2/views/1)
+For more detailed information about our project's tasks, please visit the [ToDo page](https://github.com/users/wolfswolke/projects/2/views/1).
 
-The goal of this project is to revive the Deathgarden backend and servers.
+The goal of this project is to revive the Deathgarden backend and servers. If you have any knowledge about how the backend used to work or want to contribute, please reach out!
 
-If you have any knowledge on how the backend used to work or want to help
-please reach out!
-
-Matrix: @zkwolf:matrix.org
-Discord: sunywolf
+**Contact Information:**
+- Matrix: @zkwolf:matrix.org
+- Discord: sunywolf
 
 ## Usage
 
-Download the [TheExitRebirthBackendAPI-WindowsNoEditor_P.pak](https://github.com/wolfswolke/DeathGarden_API_Rebirth/tree/master/src/files/TheExitRebirthBackendAPI-WindowsNoEditor_P.pak)
-File and place it here: "DEATHGARDEN\TheExit\Content\Paks\"
+1. Download the [TheExitRebirthBackendAPI-WindowsNoEditor_P.pak](https://github.com/wolfswolke/DeathGarden_API_Rebirth/tree/master/src/files/TheExitRebirthBackendAPI-WindowsNoEditor_P.pak) file and place it in the following directory: "DEATHGARDEN\TheExit\Content\Paks\"
 
-Then make a copy of TheExit-WindowsNoEditor.sig and rename it to TheExitRebirthBackendAPI-WindowsNoEditor_P.sig
-You should then have the following files in the folder:
-```
-TheExitRebirthBackendAPI-WindowsNoEditor_P.pak
-TheExitRebirthBackendAPI-WindowsNoEditor_P.sig
-TheExit-WindowsNoEditor.pak
-TheExit-WindowsNoEditor.sig
-```
+2. Make a copy of TheExit-WindowsNoEditor.sig and rename it to TheExitRebirthBackendAPI-WindowsNoEditor_P.sig. Your folder should contain the following files:
+   - TheExitRebirthBackendAPI-WindowsNoEditor_P.pak
+   - TheExitRebirthBackendAPI-WindowsNoEditor_P.sig
+   - TheExit-WindowsNoEditor.pak
+   - TheExit-WindowsNoEditor.sig
 
-# Self hosting/Developing
+**Self Hosting/Development Requirements:**
+- Steam API Key (See [Steam_Login.md](https://github.com/wolfswolke/DeathGarden_API_Rebirth/blob/master/Doc/Steam_Login.md) for details)
+- Python 3.10 (or newer)
+- Install the requirements from requirements.txt
+- Create an api_config.yaml file (An example is available in the Config folder)
+- For request analysis, consider using Fiddler
+- A debug version of the game and PDB file is available upon request.
 
-You will need a steam API Key. [See Steam_Login.md](https://github.com/wolfswolke/DeathGarden_API_Rebirth/blob/master/Doc/Steam_Login.md)
+**Current Knowledge:**
+- The game uses Unreal Engine 4.21.0.
+- The anticheat is Battleye (Note: Windows 11 blocks vulnerable drivers).
+- The newest game version is: te-18f25613-36778-ue4-374f864b (Versions may vary by region).
+- The backend and server can be changed with start parameters (new method with the PAK file).
+- The in-game console can be re-enabled.
+- The in-game SET command is available.
+- The "Status" API is Stashboard, which has been discontinued in 2019.
+- The game server uses the Amazon Gamelift SDK (Potential use of Steam P2P).
+- The steamAPI.dll cannot be spoofed because Battleye checks the signature.
+- There is an API Key that is currently not used by the game.
+- The authentication is done cia the bhvrSession Cookie. See [bhvrSession.md](https://github.com/wolfswolke/DeathGarden_API_Rebirth/blob/master/Doc/bhvrSession.md) for details.
 
-Python 3.10 (or newer)
-
-Install the requirements.txt
-
-Create a api_config.yaml (Example is in the Config folder)
-
-You can use Fiddler for request analysis.
-
-A Debug Version of the Game and PDB File is available on request.
-
-## Current knowledge
-
-The game uses Unreal Engine 4.21.0.
-
-The anticheat is Battleye. (Windows 11 blocks vulnerable drivers. So at the time of writing you cant play on W11)
-
-The newest game Version is: te-18f25613-36778-ue4-374f864b (For some Reason this is not 100% true because different Regions have different Versions???)
-
-The backend and server can be changed with start parameters. (New way with the PAK File)
-
-The in-game console can be re-enabled.
-
-The in-game SET command is available.
-
-The "Status" API is Stashboard. Stashboard has been discontinued in 2019.
-
-The game server is the Amazon Gamelift SDK. (Can Potentially be done with Steam P2P)
-
-The steamAPI.dll cannot be spoofed because Battle Eye checks the signature.
-
-There is a API Key which is NOT used by the game.
-
-### Currently, known Endpoints and URLs
-
-This Info will be reworked into a Wiki page.
+**Currently Known Endpoints and URLs:**
+- This information will be reworked into a Wiki page for more detailed reference.
