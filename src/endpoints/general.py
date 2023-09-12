@@ -180,7 +180,7 @@ def consent_eula():
     try:
         if request.method == "PUT":
             try:
-                mongo.eula(userId=userid, get_eula=False, server=mongo_host, db=mongo_db, collection=mongo_collection)
+                mongo.eula(userId=userid, get_eula=False)
                 return jsonify({"Userid": userid, "ConsentList": [{"ConsentId": "ZKApi", "isGiven": True,
                                                                    "UpdatedDate": 1689714606, "AttentionNeeded": False,
                                                                    "LatestVersion": "ZKApi"}]})
@@ -201,8 +201,7 @@ def consent_eula():
             if userid == 401:
                 return jsonify({"message": "Endpoint not found"}), 404
             is_given = mongo.get_data_with_list(login=userid, login_steam=False,
-                                                items={"eula"},
-                                                server=mongo_host, db=mongo_db, collection=mongo_collection)
+                                                items={"eula"})
             if is_given["eula"]:
                 return "", 204
                 return jsonify({

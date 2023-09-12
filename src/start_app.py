@@ -47,4 +47,5 @@ def keep_alive():
 # main
 # ------------------------------------------------------- #
 logger.setup_graylog(use_graylog, graylog_server)
+mongo.setup(mongo_host, mongo_db, mongo_collection)
 keep_alive()

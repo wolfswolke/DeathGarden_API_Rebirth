@@ -4,10 +4,9 @@ from math import ceil
 
 from flask_definitions import *
 import requests
-from logic.mongodb_handler import mongo
 from logic.time_handler import get_time
 
-global steam_api_key, mongo_db, mongo_collection, mongo_host
+global steam_api_key
 
 
 def steam_login_function():
@@ -26,7 +25,7 @@ def steam_login_function():
         steamid = response.json()["response"]["params"]["steamid"]
         # owner_id = response.json()["response"]["params"]["result"]["ownersteamid"]  # This is providerId
 
-        userid, token = mongo.user_db_handler(steamid, mongo_host, mongo_db, mongo_collection)
+        userid, token = mongo.user_db_handler(steamid)
         current_time, expire_time = get_time()
 
         logger.graylog_logger(level="info", handler="steam_login", message="User {} logged in".format(steamid))
@@ -54,7 +53,7 @@ def steam_login():
     if user_agent.startswith("TheExit/++UE4+Release-4.2"):
         if request.args.get(
                 'token') == "140000007B7B7B7B02000000E3FA3952010010017B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B":
-            userid, token = mongo.user_db_handler("Debug_session", mongo_host, mongo_db, mongo_collection)
+            userid, token = mongo.user_db_handler("Debug_session")
             current_time, expire_time = get_time()
             return_val = jsonify({"preferredLanguage": "en", "friendsFirstSync": {"steam": True},
                                   "fixedMyFriendsUserPlatformId":
@@ -100,8 +99,7 @@ def modifiers():
     userid = session_manager.get_user_id(session_cookie)
 
     steamid, token = mongo.get_data_with_list(login=userid, login_steam=False,
-                                              items={"token", "steamid"}, server=mongo_host, db=mongo_db,
-                                              collection=mongo_collection)
+                                              items={"token", "steamid"})
     try:
         return jsonify({"TokenId": token, "UserId": userid, "RoleIds": ["755D4DFE-40DA1512-B01E3D8C-FF3C8D4D",
                                                                         "C50FFFBF-46866131-82F45890-651797CE"]})
@@ -121,7 +119,7 @@ def moderation_check_username():
     try:
         request_var = request.get_json()
         userid = request_var["userId"]
-        steamid, token = mongo.get_user_info(userId=userid, server=mongo_host, db=mongo_db, collection=mongo_collection)
+        steamid, token = mongo.get_user_info(userId=userid)
         return jsonify({"Id": userid, "Token": token,
                         "Provider": {"ProviderName": request_var["username"],
                                      "ProviderId": steamid}})  # CLIENT:{"userId": "ID-ID-ID-ID-SEE-AUTH",	"username": "Name-Name-Name"}
@@ -283,10 +281,8 @@ def ban_status():
     userid = session_manager.get_user_id(session_cookie)
 
     try:
-        time.sleep(0.5)
         ban_data = mongo.get_data_with_list(login=userid, login_steam=False,
-                                            items={"is_banned", "ban_reason", "ban_start", "ban_expire"},
-                                            server=mongo_host, db=mongo_db, collection=mongo_collection)
+                                            items={"is_banned", "ban_reason", "ban_start", "ban_expire"})
         if ban_data is None:
             return jsonify({"status": "error"})
         elif ban_data["is_banned"]:
@@ -334,8 +330,7 @@ def wallet_currencies():
 
     try:
         currencies = mongo.get_data_with_list(login=userid, login_steam=False,
-                                              items={"currency_blood_cells", "currency_iron", "currency_ink_cells"},
-                                              server=mongo_host, db=mongo_db, collection=mongo_collection)
+                                              items={"currency_blood_cells", "currency_iron", "currency_ink_cells"})
         return jsonify({"List": [{"Currency": "CurrencyA", "Balance": currencies["currency_iron"],
                                   "CurrencyGroup": "SoftCurrencyGroup", "LastRefillTimeStamp": "1684862187"},
                                  {"Currency": "CurrencyB", "Balance": currencies["currency_blood_cells"],
@@ -399,7 +394,7 @@ def messages_count():
     userid = session_manager.get_user_id(session_cookie)
 
     try:
-        unread_message_ids = mongo.get_data_with_list(login=userid, login_steam=False, items={"unread_msg_ids"}, server=mongo_host, db=mongo_db, collection=mongo_collection)
+        unread_message_ids = mongo.get_data_with_list(login=userid, login_steam=False, items={"unread_msg_ids"})
         if unread_message_ids is None:
             return jsonify({"Count": 0})
         else:
@@ -421,8 +416,7 @@ def messages_list():
             limit = int(request.args.get("limit", 500))
             page = int(request.args.get("page", 1))
 
-            unread_message_ids = mongo.get_data_with_list(login=userid, login_steam=False, items={"unread_msg_ids"},
-                                                          server=mongo_host, db=mongo_db, collection=mongo_collection)
+            unread_message_ids = mongo.get_data_with_list(login=userid, login_steam=False, items={"unread_msg_ids"})
             ids = []
             for items in unread_message_ids.get("unread_msg_ids", []):
                 ids.append(str(items))
@@ -456,8 +450,6 @@ def messages_list():
         logger.graylog_logger(level="error", handler="messages_list", message=str(e))
 
     return jsonify({"messages": [], "NetPage": 0})
-
-
 
 
 @app.route("/api/v1/messages/v2/markAs/", methods=["POST"])

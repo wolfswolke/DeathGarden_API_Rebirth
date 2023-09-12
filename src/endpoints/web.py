@@ -1,5 +1,4 @@
 from flask_definitions import *
-from logic.mongodb_handler import mongo
 
 
 @app.route('/', methods=["GET"])
@@ -48,7 +47,7 @@ def debug_user(steamid):
     if steamid is None:
         return render_template('debug/user.html', is_id_set=False, id_not_found=True)
 
-    user_data = mongo.get_debug(steamid=steamid, server=mongo_host, db=mongo_db, collection=mongo_collection)
+    user_data = mongo.get_debug(steamid=steamid)
 
     if user_data is None:
         return render_template('debug/user.html', is_id_set=True, id_not_found=False, steam_id=steamid)
@@ -100,8 +99,7 @@ def debug_mirrors_write():
                 logger.graylog_logger(level="info", handler="logging_debug_mirror_write",
                                       message={"IP": check_for_game_client("remote"), "steamid": steam_user_id, "data": data_b})
 
-                return_val = mongo.write_data_with_list(steamid=steam_user_id, items_dict=data_b, server=mongo_host, db=mongo_db,
-                                       collection=mongo_collection)
+                return_val = mongo.write_data_with_list(steamid=steam_user_id, items_dict=data_b)
 
                 if return_val is None:
                     return jsonify({"status": "error", "message": "There was a error on our End. "

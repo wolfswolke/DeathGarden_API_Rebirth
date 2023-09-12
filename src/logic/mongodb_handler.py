@@ -5,16 +5,13 @@ from logic.logging_handler import logger
 
 class Mongo:
     def __init__(self):
-        self.dyn_server = None
-        self.dyn_db = None
-        self.dyn_collection = None
-        self.dyn_client_db = None
+        self.dyn_server = ""
+        self.dyn_db = ""
+        self.dyn_collection = ""
         self.default_user_schema = {
             'eula': False,
             'account_xp': 0,
             'prestige_xp': 0,
-            'runner_xp': 0,
-            'hunter_xp': 0,
             'currency_blood_cells': 0,
             'currency_iron': 0,
             'currency_ink_cells': 0,
@@ -29,16 +26,18 @@ class Mongo:
             'unread_msg_ids': []
         }
 
-    def user_db_handler(self, steamid, server, db, collection):
+    def setup(self, server, db, collection):
         self.dyn_server = server
         self.dyn_db = db
         self.dyn_collection = collection
+
+    def user_db_handler(self, steamid):
         try:
             client = pymongo.MongoClient(self.dyn_server)
-            self.dyn_client_db = client[self.dyn_db]
-            self.dyn_collection = self.dyn_client_db[self.dyn_collection]
+            dyn_client_db = client[self.dyn_db]
+            dyn_collection = dyn_client_db[self.dyn_collection]
 
-            existing_document = self.dyn_collection.find_one({'steamid': steamid})
+            existing_document = dyn_collection.find_one({'steamid': steamid})
 
             if existing_document:
                 userId = existing_document['userId']
@@ -49,7 +48,7 @@ class Mongo:
                         existing_document[key] = default_value
                         logger.graylog_logger(level="info", handler="mongodb", message=f"New key added to database: {key} for user {steamid}")
 
-                self.dyn_collection.replace_one({'steamid': steamid}, existing_document)
+                dyn_collection.replace_one({'steamid': steamid}, existing_document)
 
                 client.close()
                 return userId, token
@@ -66,7 +65,7 @@ class Mongo:
                 for key, default_value in self.default_user_schema.items():
                     new_document[key] = default_value
 
-                self.dyn_collection.insert_one(new_document)
+                dyn_collection.insert_one(new_document)
                 logger.graylog_logger(level="info", handler="mongodb", message=f"New user added to database: {steamid}")
                 client.close()
                 return userId, token
@@ -74,22 +73,19 @@ class Mongo:
             logger.graylog_logger(level="error", handler="mongodb_user_db_handler", message=e)
             return None, None
 
-    def eula(self, userId, get_eula, server, db, collection):
+    def eula(self, userId, get_eula):
         try:
-            self.dyn_server = server
-            self.dyn_db = db
-            self.dyn_collection = collection
             client = pymongo.MongoClient(self.dyn_server)
-            self.dyn_client_db = client[self.dyn_db]
-            self.dyn_collection = self.dyn_client_db[self.dyn_collection]
-            existing_document = self.dyn_collection.find_one({'userId': userId})
+            dyn_client_db = client[self.dyn_db]
+            dyn_collection = dyn_client_db[self.dyn_collection]
+            existing_document = dyn_collection.find_one({'userId': userId})
             if existing_document:
                 if get_eula:
                     eula = existing_document['eula']
                     client.close()
                     return eula
                 else:
-                    self.dyn_collection.update_one({'userId': userId}, {'$set': {'eula': True}})
+                    dyn_collection.update_one({'userId': userId}, {'$set': {'eula': True}})
                     client.close()
                     return True
             else:
@@ -99,15 +95,12 @@ class Mongo:
             logger.graylog_logger(level="error", handler="mongodb_eula", message=e)
             return None, None
 
-    def get_debug(self, steamid, server, db, collection):
+    def get_debug(self, steamid):
         try:
-            self.dyn_server = server
-            self.dyn_db = db
-            self.dyn_collection = collection
             client = pymongo.MongoClient(self.dyn_server)
-            self.dyn_client_db = client[self.dyn_db]
-            self.dyn_collection = self.dyn_client_db[self.dyn_collection]
-            existing_document = self.dyn_collection.find_one({'steamid': steamid})
+            dyn_client_db = client[self.dyn_db]
+            dyn_collection = dyn_client_db[self.dyn_collection]
+            existing_document = dyn_collection.find_one({'steamid': steamid})
             if existing_document:
                 client.close()
                 return existing_document
@@ -118,20 +111,17 @@ class Mongo:
             logger.graylog_logger(level="error", handler="mongodb_get_debug", message=e)
             return {"status": "error", "message": "Error in mongodb_handler"}
 
-    def get_data_with_list(self, login, login_steam, items, server, db, collection):
+    def get_data_with_list(self, login, login_steam, items):
         try:
             document = {}
             login = f"{login}"
-            self.dyn_server = server
-            self.dyn_db = db
-            self.dyn_collection = collection
             client = pymongo.MongoClient(self.dyn_server)
-            self.dyn_client_db = client[self.dyn_db]
-            self.dyn_collection = self.dyn_client_db[self.dyn_collection]
+            dyn_client_db = client[self.dyn_db]
+            dyn_collection = dyn_client_db[self.dyn_collection]
             if login_steam:
-                existing_document = self.dyn_collection.find_one({'steamid': login})
+                existing_document = dyn_collection.find_one({'steamid': login})
             else:
-                existing_document = self.dyn_collection.find_one({"userId": login})
+                existing_document = dyn_collection.find_one({"userId": login})
             if existing_document:
                 for item in items:
                     document[item] = existing_document.get(item)
@@ -148,19 +138,17 @@ class Mongo:
             logger.graylog_logger(level="error", handler="mongo_get_data_with_list", message=e)
             return None
 
-    def write_data_with_list(self, steamid, items_dict, server, db, collection):
+    def write_data_with_list(self, steamid, items_dict):
         try:
             steam_id = str(steamid)
-            self.dyn_db = db
-            self.dyn_collection = collection
-            client = pymongo.MongoClient(server)
-            self.dyn_client_db = client[self.dyn_db]
-            self.dyn_collection = self.dyn_client_db[self.dyn_collection]
-            existing_document = self.dyn_collection.find_one({'steamid': steamid})
+            client = pymongo.MongoClient(self.dyn_server)
+            dyn_client_db = client[self.dyn_db]
+            dyn_collection = dyn_client_db[self.dyn_collection]
+            existing_document = dyn_collection.find_one({'steamid': steamid})
 
             if existing_document:
                 update_query = {'$set': items_dict}
-                self.dyn_collection.update_one({'steamid': steamid}, update_query)
+                dyn_collection.update_one({'steamid': steamid}, update_query)
                 client.close()
                 return {"status": "success", "message": "Data updated"}
             else:
@@ -172,15 +160,12 @@ class Mongo:
             logger.graylog_logger(level="error", handler="mongo_write_data_with_list", message=e)
             return None
 
-    def get_user_info(self, userId, server, db, collection):
+    def get_user_info(self, userId):
         # TEMPORARY
         try:
-            dyn_server = server
-            dyn_db = db
-            dyn_collection = collection
-            client = pymongo.MongoClient(dyn_server)
-            dyn_db = client[dyn_db]
-            dyn_collection = dyn_db[dyn_collection]
+            client = pymongo.MongoClient(self.dyn_server)
+            dyn_db = client[self.dyn_db]
+            dyn_collection = dyn_db[self.dyn_collection]
             existing_document = dyn_collection.find_one({'userId': userId})
             if existing_document:
                 steamid = existing_document['steamid']
