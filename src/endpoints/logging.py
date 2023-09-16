@@ -1,7 +1,7 @@
 from flask_definitions import *
 
 
-@app.route("/metrics/client/event/", methods=["POST"])
+@app.route("/metrics/client/event", methods=["POST"])
 def receive_event():
     check_for_game_client()
     try:
@@ -14,7 +14,7 @@ def receive_event():
         logger.graylog_logger(level="error", handler="logging_client_Event", message=e)
 
 
-@app.route("/metrics/httplog/event/", methods=["POST"])
+@app.route("/metrics/httplog/event", methods=["POST"])
 def metrics_httplog_event():
     check_for_game_client()
     try:
@@ -27,7 +27,7 @@ def metrics_httplog_event():
         logger.graylog_logger(level="error", handler="logging_httplog_Event", message=e)
 
 
-@app.route("/api/v1/gameDataAnalytics/", methods=["POST"])
+@app.route("/api/v1/gameDataAnalytics", methods=["POST"])
 def analytics_post():
     check_for_game_client()
     try:
@@ -40,7 +40,7 @@ def analytics_post():
         logger.graylog_logger(level="error", handler="logging_gameDataAnalytics", message=e)
 
 
-@app.route("/api/v1/gameDataAnalytics/batch/", methods=["POST"])
+@app.route("/api/v1/gameDataAnalytics/batch", methods=["POST"])
 def analytics_batch_post():
     check_for_game_client()
     try:
@@ -53,7 +53,7 @@ def analytics_batch_post():
         logger.graylog_logger(level="error", handler="logging_gameDataAnalyticsBatch", message=e)
 
 
-@app.route("/api/v1/me/richPresence/", methods=["POST"])
+@app.route("/api/v1/me/richPresence", methods=["POST"])
 def me_rich_presence():
     check_for_game_client()
     try:
@@ -65,7 +65,7 @@ def me_rich_presence():
         logger.graylog_logger(level="error", handler="logging_meRichPresence", message=e)
 
 
-@app.route("/metrics/server/event/", methods=["POST"])
+@app.route("/metrics/server/event", methods=["POST"])
 def metrics_server_event():
     check_for_game_client()
     try:
@@ -77,7 +77,7 @@ def metrics_server_event():
         logger.graylog_logger(level="error", handler="logging_server_Event", message=e)
 
 
-@app.route("/crashreport/unreal/CrashReporter/CheckReport/", methods=["POST"])
+@app.route("/crashreport/unreal/CrashReporter/CheckReport", methods=["POST"])
 def crashreporter_check_report():
     check_for_game_client()
     try:

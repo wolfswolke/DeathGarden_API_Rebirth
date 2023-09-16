@@ -3,31 +3,34 @@ import time
 import uuid
 
 
-def _get_remote_ip():
-    if request.environ.get('HTTP_X_FORWARDED_FOR') is None:
-        ip_addr = request.environ['REMOTE_ADDR']
-        if ip_addr == "127.0.0.1":
-            return None
-        logger.graylog_logger(level="info", handler="ip_handler", message=f"New Connection from: {ip_addr}")
-        return ip_addr
-    else:
-        ip_addr = request.environ['HTTP_X_FORWARDED_FOR']
-        if ip_addr == "127.0.0.1":
-            return None
-        else:
+def _get_remote_ip(check_type="strict"):
+    if check_type == "strict":
+        if request.environ.get('HTTP_X_FORWARDED_FOR') is None:
+            ip_addr = request.environ['REMOTE_ADDR']
+            if ip_addr == "127.0.0.1":
+                return None
             logger.graylog_logger(level="info", handler="ip_handler", message=f"New Connection from: {ip_addr}")
             return ip_addr
+        else:
+            ip_addr = request.environ['HTTP_X_FORWARDED_FOR']
+            if ip_addr == "127.0.0.1":
+                return None
+            else:
+                logger.graylog_logger(level="info", handler="ip_handler", message=f"New Connection from: {ip_addr}")
+                return ip_addr
+    else:
+        return "127.0.0.1"
 
 
 def check_for_game_client(check_type="strict"):
     if check_type == "strict":
         user_agent = request.headers.get('User-Agent')
         if user_agent.startswith("TheExit/++UE4+Release-4.2"):
-            _get_remote_ip()
+            _get_remote_ip("strict")
         elif user_agent.startswith("game=TheExit, engine=UE4, version="):
-            _get_remote_ip()
+            _get_remote_ip("strict")
         elif user_agent.startswith("CrashReportClient/++UE4+Release-4.21"):
-            _get_remote_ip()
+            _get_remote_ip("strict")
         else:
             _get_remote_ip()
             logger.graylog_logger(level="info", handler="UserAgents", message=f"INVALID User-Agent: {user_agent} "
@@ -38,7 +41,7 @@ def check_for_game_client(check_type="strict"):
         remote = _get_remote_ip()
         return remote
     else:
-        _get_remote_ip()
+        _get_remote_ip("soft")
 
 
 class Session_Manager:
