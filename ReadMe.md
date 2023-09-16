@@ -30,13 +30,9 @@ The goal of this project is to revive the Deathgarden backend and servers. If yo
 
 ## Usage
 
-1. Download the [TheExitRebirthBackendAPI-WindowsNoEditor_P.pak](https://github.com/wolfswolke/DeathGarden_API_Rebirth/tree/master/src/files/TheExitRebirthBackendAPI-WindowsNoEditor_P.pak) file and place it in the following directory: "DEATHGARDEN\TheExit\Content\Paks\"
+1. Download the [TheExit-Rebirth-Updater.bat](https://github.com/wolfswolke/DeathGarden_API_Rebirth/blob/master/src/files/TheExit-Rebirth-Updater.bat) file and place it in the following directory: "\steamapps\common\DEATHGARDEN\"
 
-2. Make a copy of TheExit-WindowsNoEditor.sig and rename it to TheExitRebirthBackendAPI-WindowsNoEditor_P.sig. Your folder should contain the following files:
-   - TheExitRebirthBackendAPI-WindowsNoEditor_P.pak
-   - TheExitRebirthBackendAPI-WindowsNoEditor_P.sig
-   - TheExit-WindowsNoEditor.pak
-   - TheExit-WindowsNoEditor.sig
+2. Run the Script and wait for it to finish.
 
 **Self Hosting/Development Requirements:**
 - Steam API Key (See [Steam_Login.md](https://github.com/wolfswolke/DeathGarden_API_Rebirth/blob/master/Doc/Steam_Login.md) for details)
@@ -59,5 +55,5 @@ The goal of this project is to revive the Deathgarden backend and servers. If yo
 - There is an API Key that is currently not used by the game.
 - The authentication is done cia the bhvrSession Cookie. See [bhvrSession.md](https://github.com/wolfswolke/DeathGarden_API_Rebirth/blob/master/Doc/bhvrSession.md) for details.
 
-**Currently Known Endpoints and URLs:**
+**Currently, Known Endpoints and URLs:**
 - This information will be reworked into a Wiki page for more detailed reference.

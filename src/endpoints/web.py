@@ -27,7 +27,7 @@ def dnt():
     return send_from_directory(app.static_folder, request.path[1:])
 
 
-@app.route("/debug/", methods=["Get"])
+@app.route("/debug", methods=["Get"])
 def debug_root():
     check_for_game_client("soft")
     endpoint_descriptions = {
@@ -76,7 +76,7 @@ def debug_user(steamid):
     )
 
 
-@app.route("/debug/mirrors/", methods=["POST", "GET"])
+@app.route("/debug/mirrors", methods=["POST", "GET"])
 def debug_mirrors_write():
     check_for_game_client("soft")
     try:
@@ -122,32 +122,21 @@ def updater_root():
     return render_template("updater.html")
 
 
-@app.route("/updater/version/", methods=["GET"])
+@app.route("/updater/versions", methods=["GET"])
 def updater_version():
-    return jsonify({"Error": "Please read the Docs about this Endpoint."}), 400
+    return jsonify({
+        "script_version": 1,
+        "pak_version": 1,
+        "sig_version": 1
+    })
 
 
-@app.route("/updater/version/script/", methods=["GET"])
-def updater_version_script():
-    return jsonify({"version": 1})
-
-
-@app.route("/updater/version/pak/", methods=["GET"])
-def updater_version_pak():
-    return jsonify({"version": 1})
-
-
-@app.route("/updater/version/sig/", methods=["GET"])
-def updater_version_sig():
-    return jsonify({"version": 1})
-
-
-@app.route("/updater/files/", methods=["GET"])
+@app.route("/updater/files", methods=["GET"])
 def updater_files():
     return jsonify({"Error": "Please read the Docs about this Endpoint."}), 400
 
 
-@app.route("/updater/files/pak/", methods=["GET"])
+@app.route("/updater/files/pak", methods=["GET"])
 def updater_pak():
     try:
         return send_from_directory(os.path.join(app.root_path, 'files'), 'TheExitRebirthBackendAPI-WindowsNoEditor_P.pak')
@@ -157,7 +146,7 @@ def updater_pak():
         logger.graylog_logger(level="error", handler="web-updater-PAK", message=e)
 
 
-@app.route("/updater/files/sig/", methods=["GET"])
+@app.route("/updater/files/sig", methods=["GET"])
 def updater_sig():
     try:
         return send_from_directory(os.path.join(app.root_path, 'files'), 'TheExitRebirthBackendAPI-WindowsNoEditor_P.sig')
@@ -167,7 +156,7 @@ def updater_sig():
         logger.graylog_logger(level="error", handler="web-updater-SIG", message=e)
 
 
-@app.route("/updater/files/script/", methods=["GET"])
+@app.route("/updater/files/script", methods=["GET"])
 def updater_script():
     try:
         return send_from_directory(os.path.join(app.root_path, 'files'), 'TheExit-Rebirth-Updater.bat')
