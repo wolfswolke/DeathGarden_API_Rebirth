@@ -31,6 +31,8 @@ def check_for_game_client(check_type="strict"):
             _get_remote_ip("strict")
         elif user_agent.startswith("CrashReportClient/++UE4+Release-4.21"):
             _get_remote_ip("strict")
+        elif user_agent.startswith("CrashReportClient/++UE4+Release-4.20-CL-0"):
+            _get_remote_ip("strict")
         else:
             _get_remote_ip()
             logger.graylog_logger(level="info", handler="UserAgents", message=f"INVALID User-Agent: {user_agent} "
