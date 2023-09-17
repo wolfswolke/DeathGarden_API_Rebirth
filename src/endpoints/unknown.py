@@ -24,3 +24,11 @@ def debug_404(e):
     logger.graylog_logger(level="error", handler="404-handler", message=f"Path: {request.path} Endpoint: {request.endpoint}")
     print(e)
     return jsonify({"message": "Endpoint not found"}), 404
+
+
+@app.errorhandler(500)
+def debug_500(e):
+    check_for_game_client("soft")
+    logger.graylog_logger(level="error", handler="500-handler", message=f"Path: {request.path} Endpoint: {request.endpoint}, Error: {e}")
+    print(e)
+    return jsonify({"message": "Internal Server Error"}), 500
