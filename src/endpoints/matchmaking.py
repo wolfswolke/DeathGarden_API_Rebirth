@@ -33,9 +33,12 @@ def queue_info():
         count_b = request.args.get("countB") # Runner Count
         side = request.args.get("side", "")
         session = matchmaking_queue.getSession(userid)
-
+        if region == "DEV":
+            return jsonify({"A": {"Size": 1, "ETA": 100, "stable": True}, "B": {"Size": 5, "ETA": 100, "stable": True},
+                            "SizeA": count_a, "SizeB": count_b})
         if not side:
-            return jsonify({"message": "Side parameter is missing"}), 400
+            return jsonify({"A": {"Size": 1, "ETA": 100, "stable": True}, "B": {"Size": 5, "ETA": 100, "stable": True},
+                            "SizeA": count_a, "SizeB": count_b})
 
         if side not in ["A", "B"]:
             return jsonify({"message": "Invalid side parameter"}), 400
@@ -74,6 +77,22 @@ def queue():
 
     logger.graylog_logger(level="info", handler="logging_queue",
                           message=f"User {userid} is queueing for {category} in {region} with {count_a} hunters and {count_b} runners")
+    if region == "DEV":
+        all_users = [userid]
+        if additional_user_ids:
+            all_users.append(additional_user_ids)
+        return jsonify(
+            {"status": "MATCHED", "QueueData": {"Position": 0, "ETA": 0, "Stable": False, "SizeA": 1, "SizeB": 4},
+             "MatchData": {"MatchId": spoofed_match_id, "Category": category, "Rank": rank,
+                           "CreationDateTime": epoch, "ExcludeFriends": False,
+                           "ExcludeClanMembers": False, "Status": "CREATED",
+                           "Creator": userid,
+                           "Players": [all_users],
+                           "SideA": [userid],
+                           "SideB": [additional_user_ids], "CustomData": {},
+                           "Props": {"isDedicated": False, "gameMode": "08d2279d2ed3fba559918aaa08a73fa8-Default",
+                                     'MatchConfiguration': '/Game/Configuration/MatchConfig/MatchConfig_Demo.MatchConfig_Demo'},
+                           "Schema": 11122334455666}})
     try:
         queue_data = side, check_only
         if not check_only:
@@ -139,7 +158,8 @@ def match(matchid):
     check_for_game_client("strict")
     session_cookie = request.cookies.get("bhvrSession")
     userid = session_manager.get_user_id(session_cookie)
-
+    if matchid == "0051681e-72ce-46f0-bda2-752e471d0d08":
+        return jsonify({"MatchId": matchid, "Category": "Steam-te-18f25613-36778-ue4-374f864b", "Rank": 1})
     try:
         response_data = matchmaking_queue.createMatchResponse(matchid)
         return jsonify(response_data)

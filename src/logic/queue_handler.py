@@ -238,6 +238,18 @@ class MatchmakingQueue:
         except Exception as e:
             logger.graylog_logger(level="error", handler="matchmaking_createQueueResponseMatched", message=e)
 
+    def getSession(self, userid):
+        try:
+            for lobby in self.openLobbies:
+                if lobby.host.userId == userid:
+                    return Session(lobby.host.userId, [player.userId for player in lobby.nonHosts])
+                for player in lobby.nonHosts:
+                    if player.userId == userid:
+                        return Session(lobby.host.userId, [player.userId for player in lobby.nonHosts])
+            return None
+        except Exception as e:
+            logger.graylog_logger(level="error", handler="getSession", message=e)
+
     def genMatchUUID(self):
         return str(uuid.uuid4())
 
