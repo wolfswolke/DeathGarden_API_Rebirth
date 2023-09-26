@@ -454,6 +454,26 @@ def messages_list():
 
 @app.route("/api/v1/messages/v2/markAs", methods=["POST"])
 def messages_mark_as():
+    # {"messageList":[{"received":1687192385,"recipientId":"2"}],"flag":"READ"}
+    try:
+        check_for_game_client("strict")
+        session_cookie = request.cookies.get("bhvrSession")
+        userid = session_manager.get_user_id(session_cookie)
+        data = request.get_json()
+        message_list = data["messageList"]
+        message_id = message_list[0]["recipientId"]
+        print(message_id)
+        unread_messages = mongo.get_data_with_list(login=userid, login_steam=False, items={"unread_msg_ids"})
+        print(unread_messages)
+        unread_messages["unread_msg_ids"] = unread_messages["unread_msg_ids"].remove(f"{message_id},")
+        mongo.write_data_with_list(login=userid, login_steam=False, items={unread_messages})
+        return jsonify({"List": [{"Received": get_time(), "Success": True, "RecipientId": userid}]})
+    except TimeoutError:
+        return jsonify({"status": "Timeout error"})
+    except Exception as e:
+        logger.graylog_logger(level="error", handler="messages_mark_as", message=e)
+        return jsonify({"status": "API error"})
+
     return jsonify("", 204)
 
 
