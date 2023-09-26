@@ -1,122 +1,71 @@
-import json
 import os
+import json
 
-output = []
-path = os.path.join(os.getcwd(), "Items")
+# Define your base template here
+base_template = {
+    "Result": []
+}
 
+# Function to normalize JSON data based on your template
+def normalize_data(json_data, prev_guid, next_guid):
+    normalized_data = {
+        "Id": json_data.get("GUID"),
+        "DisplayName": json_data.get("DisplayName"),
+        "Purchasable": True,
+        "Consumable": False,
+        "IsWeapon": json_data.get("IsWeapon"),
+        "InitialQuantity": json_data.get("InitialQuantity"),
+        "DefaultCost": json_data.get("DefaultCost"),
+        "MetaData": {
+            "GameplayTags": json_data.get("MetaData", {}).get("GameplayTags"),
+            "MinPlayerLevel": json_data.get("MetaData", {}).get("MinPlayerLevel"),
+            "MinCharacterLevel": json_data.get("MetaData", {}).get("MinCharacterLevel"),
+            "Origin": json_data.get("MetaData", {}).get("Origin"),
+            "PrerequisiteItem": prev_guid,
+            "FollowingItem": next_guid,
+        },
+        "Faction": json_data.get("Faction"),
+        "GameplayTagContainer": json_data.get("GameplayTagContainer")
+    }
+    return normalized_data
 
-class CATALOG:
+# Function to process and normalize JSON files in a given directory
+def process_folder(folder_path):
+    catalog_data = []
 
-    def __init__(self):
-        self.IsWeapon = False
-        self.id = ""
-        self.display_name = ""
-        self.default_cost = []
-        self.gameplay_tag = ""
-        self.gameplay_tag_character = ""
-        self.parent_tag = ""
-        self.PrerequisiteItem = ""
-        self.FollowingItem = ""
-        self.faction = ""
-        self.faction_tag = ""
-        self.gender = ""
-        self.template ={
-         "Id": self.id,
-         "DisplayName": self.display_name,
-         "Purchasable":True,
-         "Consumable":False,
-         "IsWeapon":self.IsWeapon,
-         "InitialQuantity":1,
-         "DefaultCost":self.default_cost,
-         "EventCostList": [
-                    {
-                      "Name": self.display_name,
-                      "StartDate": "2020-05-13T00:00:00",
-                        "EndDate": "2027-05-19T23:59:59",
-                      "Cost": self.default_cost
-                    }
-                  ],
-         "MetaData":{
-            "GameplayTags":[
-               {
-                  "TagName": self.gameplay_tag_character
-               }
-            ],
-            "MinPlayerLevel":1,
-            "MinCharacterLevel":1,
-            "Origin":"None",
-           "PrerequisiteItem": self.PrerequisiteItem,
-           "FollowingItem": self.FollowingItem
-         },
-         "Faction":self.faction,
-         "GameplayTagContainer":{
-            "GameplayTags":[
-               {
-                  "TagName": self.gameplay_tag
-               }
-            ],
-            "ParentTags":[
-               {
-                  "TagName":self.parent_tag
-               }
-            ]
-      },
-                "CustomizationGameplayTagByFaction": {
-            "Runner": {
-        "TagName": self.faction_tag
-      }
-          },
-          "Gender": self.gender
-   }
+    for root, _, files in os.walk(folder_path):
+        for file_name in files:
+            if file_name.endswith('.json'):
+                file_path = os.path.join(root, file_name)
+                with open(file_path, 'r') as json_file:
+                    json_data = json.load(json_file)
+                    # Check if it's an item with levels
+                    if "_002.json" in file_name:
+                        prev_guid = file_name.replace("_002.json", "_001.json")
+                        next_guid = file_name.replace("_002.json", "_003.json")
+                    else:
+                        prev_guid = ""
+                        next_guid = ""
+                    normalized_data = normalize_data(json_data, prev_guid, next_guid)
+                    catalog_data.append(normalized_data)
 
-    def create_structure(self):
-        self.template["IsWeapon"] = False
-        self.template["id"] = ""
-        self.template["display_name"] = ""
-        self.template["default_cost"] = []
-        self.template["gameplay_tag"] = ""
-        self.template["gameplay_tag_character"] = ""
-        self.template["parent_tag"] = ""
-        self.template["PrerequisiteItem"] = ""
-        self.template["FollowingItem"] = ""
-        self.template["faction"] = ""
-        self.template["faction_tag"] = ""
-        self.template["gender"] = ""
+    return catalog_data
 
-    def parse_json_data(self, json_data):
-        for item in json_data:
-            catalog_item = CATALOG()
+# Traverse the main directory for Runner and Hunter folders
+main_folder = './Items'
+runner_folder = os.path.join(main_folder, 'Runner')
+hunter_folder = os.path.join(main_folder, 'Hunter')
 
-            catalog_item.id = item.get("id", "")
-            catalog_item.display_name = item.get("display_name", "")
-            catalog_item.default_cost = item.get("default_cost", [])
-            catalog_item.gameplay_tag = item.get("gameplay_tag", "")
-            catalog_item.gameplay_tag_character = item.get("gameplay_tag_character", "")
-            catalog_item.parent_tag = item.get("parent_tag", "")
-            catalog_item.PrerequisiteItem = item.get("PrerequisiteItem", "")
-            catalog_item.FollowingItem = item.get("FollowingItem", "")
-            catalog_item.faction = item.get("faction", "")
-            catalog_item.faction_tag = item.get("faction_tag", "")
+# Process and normalize JSON files in Runner and Hunter folders
+runner_catalog_data = process_folder(runner_folder)
+hunter_catalog_data = process_folder(hunter_folder)
 
-            catalog_item.create_structure()
+# Combine Runner and Hunter catalog data into one catalog
+catalog_data = runner_catalog_data + hunter_catalog_data
 
-            output.append(catalog_item)
+# Save the catalog data to catalog.json
+catalog_file_path = 'catalog.json'
+with open(catalog_file_path, 'w') as catalog_file:
+    json.dump(base_template, catalog_file, indent=4)
 
-    def parse_json_file(self, file_path):
-        with open(file_path, 'r') as json_file:
-            json_data = json.load(json_file)
-        return json_data
-
-    def parse_json_files_in_directory(self, directory_path):
-        for root, dirs, files in os.walk(directory_path):
-            for file in files:
-                if file.endswith('.json'):
-                    file_path = os.path.join(root, file)
-                    json_data = self.parse_json_file(file_path)
-                    self.parse_json_data(json_data)
-
-
-catalog = CATALOG()
-
-catalog.parse_json_files_in_directory(path)
-print(json.dumps(output, indent=4))
+print("Catalog JSON file created successfully.")
