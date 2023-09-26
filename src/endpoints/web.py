@@ -61,22 +61,21 @@ def debug_user(steamid):
         currency_blood_cells=user_data.get('currency_blood_cells'),
         currency_ink_cells=user_data.get('currency_ink_cells'),
         currency_iron=user_data.get('currency_iron'),
-        unlocked_items=user_data.get('unlocked_items'),
         userId=user_data.get('userId'),
         account_xp=user_data.get('account_xp'),
-        runner_xp=user_data.get('runner_xp'),
-        hunter_xp=user_data.get('hunter_xp'),
+        prestige_xp=user_data.get('prestige_xp'),
         is_banned=user_data.get('is_banned'),
         ban_reason=user_data.get('ban_reason'),
         ban_start=user_data.get('ban_start'),
         ban_expire=user_data.get('ban_expire'),
         special_unlocks=user_data.get('special_unlocks'),
         finished_challanges=user_data.get('finished_challanges'),
-        open_challanges=user_data.get('open_challanges')
+        open_challanges=user_data.get('open_challanges'),
+        unread_msg_ids=user_data.get('unread_msg_ids')
     )
 
 
-@app.route("/debug/mirrors", methods=["POST", "GET"])
+@app.route("/debug/mirrors/write", methods=["POST", "GET"])
 def debug_mirrors_write():
     check_for_game_client("soft")
     try:
@@ -115,6 +114,44 @@ def debug_mirrors_write():
             return jsonify({"message": "Endpoint not found"}), 404
     except Exception as e:
         logger.graylog_logger(level="error", handler="web_debug_mirrors", message=e)
+
+
+@app.route("/debug/mirrors/get", methods=["POST"])
+def debug_mirrors_get():
+    check_for_game_client("soft")
+    try:
+        if request.method == "POST":
+            try:
+                api_token = request.cookies.get("api_token")
+                if api_token is None:
+                    return jsonify({"status": "error", "message": "No api token found"}, 401)
+                if api_token not in allowed_tokens:
+                    return jsonify({"status": "error", "message": "Invalid api token"}), 401
+                steam_user_id = request.json.get("steamid")
+
+                if not steam_user_id:
+                    return jsonify({"status": "error", "message": "No Steamid found."}), 400
+
+                # logger.graylog_logger(level="info", handler="logging_debug_mirror_read",
+                #                      message={"IP": check_for_game_client("remote"), "steamid": steam_user_id})
+
+                return_val = mongo.get_debug(steam_user_id)
+
+                if return_val is None:
+                    return jsonify({"status": "error", "message": "There was a error on our End. "
+                                                                  "Please try again later."}), 400
+                return_val.pop("_id")
+                return jsonify({"Data": return_val}), 200
+
+            except TimeoutError:
+                return jsonify({"status": "error"})
+            except Exception as e:
+                logger.graylog_logger(level="error", handler="logging_debug_mirror_write", message=e)
+        if request.method == "GET":
+            return jsonify({"message": "Endpoint not found"}), 404
+    except Exception as e:
+        logger.graylog_logger(level="error", handler="web_debug_mirrors", message=e)
+
 
 
 @app.route('/updater/', methods=["GET"])
