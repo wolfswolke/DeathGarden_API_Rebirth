@@ -1,7 +1,8 @@
-flask
-PyYaml
-graypy
-requests
-pymongo
-waitress
-colorlog
+flask~=2.3.2
+PyYaml~=6.0
+graypy~=2.1.0
+requests~=2.31.0
+pymongo~=4.3.3
+waitress~=2.1.2
+colorlog~=6.7.0
+bleach~=6.0.0
