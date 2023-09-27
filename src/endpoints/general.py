@@ -12,13 +12,13 @@ def gamenews():
 
     # /gamenews/messages?sortDesc=true&gameVersion=0&platform=PC&language=EN&messageType=InGameNews&faction=Runner&playerLevel=1
     try:
-        sort_desc = request.args.get('sortDesc')
-        gameVersion = request.args.get('gameVersion')
-        platform = request.args.get('platform')
-        language = request.args.get('language')
-        messageType = request.args.get('messageType')
-        faction = request.args.get('faction')
-        playerLevel = request.args.get('playerLevel')
+        sort_desc = sanitize_input(request.args.get('sortDesc'))
+        gameVersion = sanitize_input(request.args.get('gameVersion'))
+        platform = sanitize_input(request.args.get('platform'))
+        language = sanitize_input(request.args.get('language'))
+        messageType = sanitize_input(request.args.get('messageType'))
+        faction = sanitize_input(request.args.get('faction'))
+        playerLevel = sanitize_input(request.args.get('playerLevel'))
         output = json.load(open(os.path.join(app.root_path, "json", "placeholders", "gamenews.json"), "r"))
         return jsonify(output)
     except TimeoutError:
@@ -30,7 +30,7 @@ def gamenews():
 @app.route("/api/v1/config/VER_LATEST_CLIENT_DATA", methods=["GET"])
 def config_ver_latest_client_data():
     check_for_game_client("strict")
-    session_cookie = request.cookies.get("bhvrSession")
+    session_cookie = sanitize_input(request.cookies.get("bhvrSession"))
     userid = session_manager.get_user_id(session_cookie)
 
     try:
@@ -43,13 +43,14 @@ def config_ver_latest_client_data():
 
 @app.route("/api/v1/utils/contentVersion/latest/<version>", methods=["GET"])
 def content_version_latest(version):
+    version_san = sanitize_input(version)
     check_for_game_client("strict")
-    session_cookie = request.cookies.get("bhvrSession")
+    session_cookie = sanitize_input(request.cookies.get("bhvrSession"))
     userid = session_manager.get_user_id(session_cookie)
 
     try:
         print("Responded to content version api call GET")
-        print(f"Version called by client: {version}")
+        print(f"Version called by client: {version_san}")
         return jsonify({"LatestSupportedVersion": "te-18f25613-36778-ue4-374f864b"})
     except TimeoutError:
         return jsonify({"status": "error"})
@@ -174,7 +175,7 @@ def services_tex():
 @app.route("/api/v1/consent/eula2", methods=["PUT", "GET"])
 def consent_eula():
     check_for_game_client("strict")
-    session_cookie = request.cookies.get("bhvrSession")
+    session_cookie = sanitize_input(request.cookies.get("bhvrSession"))
     userid = session_manager.get_user_id(session_cookie)
 
     try:
@@ -190,11 +191,6 @@ def consent_eula():
                 logger.graylog_logger(level="error", handler="general-consent-eula",
                                       message=f"Error in consent_eula: {e}")
         elif request.method == "GET":
-            if request.cookies.get('bhvrSession') is None:
-                return jsonify({"Userid": userid, "ConsentList": [{"ConsentId": "ZKApi", "isGiven": True,
-                                                                   "UpdatedDate": 1689714606, "AttentionNeeded": False,
-                                                                   "LatestVersion": "ZKApi"}]})
-            session_cookie = request.cookies.get("bhvrSession")
             if not session_cookie:
                 return jsonify({"message": "Endpoint not found"}), 404
             userid = session_manager.get_user_id(session_cookie)
@@ -225,7 +221,7 @@ def consent_eula():
 @app.route("/api/v1/consent/eula", methods=["GET"])
 def consent_eula0():
     check_for_game_client("strict")
-    session_cookie = request.cookies.get("bhvrSession")
+    session_cookie = sanitize_input(request.cookies.get("bhvrSession"))
     userid = session_manager.get_user_id(session_cookie)
 
     try:
@@ -240,7 +236,7 @@ def consent_eula0():
 @app.route("/api/v1/consent/privacyPolicy", methods=["GET"])
 def privacy_policy():
     check_for_game_client("strict")
-    session_cookie = request.cookies.get("bhvrSession")
+    session_cookie = sanitize_input(request.cookies.get("bhvrSession"))
     userid = session_manager.get_user_id(session_cookie)
 
     try:
@@ -255,7 +251,7 @@ def privacy_policy():
 @app.route("/api/v1/extensions/leaderboard/getScores", methods=["GET", "POST"])
 def leaderboard_get_scores():
     check_for_game_client("strict")
-    session_cookie = request.cookies.get("bhvrSession")
+    session_cookie = sanitize_input(request.cookies.get("bhvrSession"))
     userid = session_manager.get_user_id(session_cookie)
 
     if request.method == "POST":
@@ -283,7 +279,7 @@ def submit():
 @app.route("/api/v1/extensions/quitters/getQuitterState", methods=["POST"])
 def get_quitter_state():
     check_for_game_client("strict")
-    session_cookie = request.cookies.get("bhvrSession")
+    session_cookie = sanitize_input(request.cookies.get("bhvrSession"))
     userid = session_manager.get_user_id(session_cookie)
 
     try:

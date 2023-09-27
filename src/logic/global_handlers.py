@@ -1,6 +1,7 @@
 from flask_definitions import *
 import time
 import uuid
+import bleach
 
 
 def _get_remote_ip(check_type="strict"):
@@ -24,7 +25,7 @@ def _get_remote_ip(check_type="strict"):
 
 def check_for_game_client(check_type="strict"):
     if check_type == "strict":
-        user_agent = request.headers.get('User-Agent')
+        user_agent = sanitize_input(request.headers.get('User-Agent'))
         if user_agent.startswith("TheExit/++UE4+Release-4.2"):
             _get_remote_ip("strict")
         elif user_agent.startswith("game=TheExit, engine=UE4, version="):
@@ -44,6 +45,10 @@ def check_for_game_client(check_type="strict"):
         return remote
     else:
         _get_remote_ip("soft")
+
+
+def sanitize_input(input_value):
+    return bleach.clean(input_value)
 
 
 class Session_Manager:

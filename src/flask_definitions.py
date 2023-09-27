@@ -3,6 +3,7 @@ from logic.setup_handlers import load_config
 from logic.logging_handler import logger
 from logic.global_handlers import session_manager
 from logic.global_handlers import check_for_game_client
+from logic.global_handlers import sanitize_input
 from logic.mongodb_handler import mongo
 import json
 import os

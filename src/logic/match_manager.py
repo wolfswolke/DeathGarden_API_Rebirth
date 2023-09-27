@@ -84,7 +84,7 @@ class MatchManager:
                          'props': {
                              'MatchConfiguration': '/Game/Configuration/MatchConfig/MatchConfig_Demo.MatchConfig_Demo'},
                          'latencies': []}}
-            self.create_match(user_id, json_dict)
+            self.create_match(json_dict)
 
         else:
             self._queue_dict[user_id] = user_id

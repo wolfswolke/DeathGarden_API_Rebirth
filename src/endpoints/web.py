@@ -42,8 +42,9 @@ def debug_root():
 
 
 @app.route('/debug/user/', methods=['GET'], defaults={'steamid': None})
-@app.route('/debug/user/<steamid>', methods=['GET'])
-def debug_user(steamid):
+@app.route('/debug/user/<steamid_unsanitized>', methods=['GET'])
+def debug_user(steamid_unsanitized):
+    steamid = sanitize_input(steamid_unsanitized)
     if steamid is None:
         return render_template('debug/user.html', is_id_set=False, id_not_found=True)
 
@@ -81,13 +82,13 @@ def debug_mirrors_write():
     try:
         if request.method == "POST":
             try:
-                api_token = request.cookies.get("api_token")
+                api_token = sanitize_input(request.cookies.get("api_token"))
                 if api_token is None:
                     return jsonify({"status": "error", "message": "No api token found"}, 401)
                 if api_token not in allowed_tokens:
                     return jsonify({"status": "error", "message": "Invalid api token"}), 401
-                steam_user_id = request.json.get("steamid")
-                data_b = request.json.get("data")
+                steam_user_id = sanitize_input(request.json.get("steamid"))
+                data_b = sanitize_input(request.json.get("data"))
 
                 if not data_b:
                     return jsonify({"status": "error", "message": "No data found."}), 400
@@ -122,12 +123,12 @@ def debug_mirrors_get():
     try:
         if request.method == "POST":
             try:
-                api_token = request.cookies.get("api_token")
+                api_token = sanitize_input(request.cookies.get("api_token"))
                 if api_token is None:
                     return jsonify({"status": "error", "message": "No api token found"}, 401)
                 if api_token not in allowed_tokens:
                     return jsonify({"status": "error", "message": "Invalid api token"}), 401
-                steam_user_id = request.json.get("steamid")
+                steam_user_id = sanitize_input(request.json.get("steamid"))
 
                 if not steam_user_id:
                     return jsonify({"status": "error", "message": "No Steamid found."}), 400
@@ -151,7 +152,6 @@ def debug_mirrors_get():
             return jsonify({"message": "Endpoint not found"}), 404
     except Exception as e:
         logger.graylog_logger(level="error", handler="web_debug_mirrors", message=e)
-
 
 
 @app.route('/updater/', methods=["GET"])

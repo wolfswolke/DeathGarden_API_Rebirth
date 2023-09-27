@@ -2,8 +2,9 @@ from flask_definitions import *
 
 
 # Do NOT change Result to ANYTHING or Add anything before it. Game will crash. Doesnt mean it 100% works tho XD
-@app.route("/<game_version>/catalog", methods=["GET"])
-def catalog_get(game_version):
+@app.route("/<game_version_unsanitized>/catalog", methods=["GET"])
+def catalog_get(game_version_unsanitized):
+    game_version = sanitize_input(game_version_unsanitized)
     check_for_game_client("strict")
     session_cookie = request.cookies.get("bhvrSession")
     userid = session_manager.get_user_id(session_cookie)
@@ -21,7 +22,7 @@ def catalog_get(game_version):
 @app.errorhandler(404)
 def debug_404(e):
     check_for_game_client("soft")
-    logger.graylog_logger(level="error", handler="404-handler", message=f"Path: {request.path} Endpoint: {request.endpoint}")
+    logger.graylog_logger(level="error", handler="404-handler", message=f"Path: {sanitize_input(request.path)} Endpoint: {sanitize_input(request.endpoint)}")
     print(e)
     return jsonify({"message": "Endpoint not found"}), 404
 
@@ -29,6 +30,6 @@ def debug_404(e):
 @app.errorhandler(500)
 def debug_500(e):
     check_for_game_client("soft")
-    logger.graylog_logger(level="error", handler="500-handler", message=f"Path: {request.path} Endpoint: {request.endpoint}, Error: {e}")
+    logger.graylog_logger(level="error", handler="500-handler", message=f"Path: {sanitize_input(request.path)} Endpoint: {sanitize_input(request.endpoint)}, Error: {e}")
     print(e)
     return jsonify({"message": "Internal Server Error"}), 500

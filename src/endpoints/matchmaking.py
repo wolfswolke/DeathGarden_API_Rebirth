@@ -24,14 +24,14 @@ def queue_info():
     try:
         # ?category=Steam-te-23ebf96c-27498-ue4-7172a3f5&gameMode=Default&region=US&countA=1&countB=5
         check_for_game_client("strict")
-        session_cookie = request.cookies.get("bhvrSession")
+        session_cookie = sanitize_input(request.cookies.get("bhvrSession"))
         userid = session_manager.get_user_id(session_cookie)
-        category = request.args.get("category")
-        game_mode = request.args.get("gameMode")
-        region = request.args.get("region")
+        category = sanitize_input(request.args.get("category"))
+        game_mode = sanitize_input(request.args.get("gameMode"))
+        region = sanitize_input(request.args.get("region"))
         count_a = request.args.get("countA") # Hunter Count
         count_b = request.args.get("countB") # Runner Count
-        side = request.args.get("side", "")
+        side = sanitize_input(request.args.get("side", ""))
         session = matchmaking_queue.getSession(userid)
         if region == "DEV":
             return jsonify({"A": {"Size": 1, "ETA": 100, "stable": True}, "B": {"Size": 5, "ETA": 100, "stable": True},
@@ -57,17 +57,17 @@ def queue():
     # {"category":"Steam-te-18f25613-36778-ue4-374f864b","rank":1,"side":"B","latencies":[],"additionalUserIds":[],
     # "checkOnly":false,"gameMode":"08d2279d2ed3fba559918aaa08a73fa8-Default","region":"US","countA":1,"countB":5}
     check_for_game_client("strict")
-    session_cookie = request.cookies.get("bhvrSession")
+    session_cookie = sanitize_input(request.cookies.get("bhvrSession"))
     userid = session_manager.get_user_id(session_cookie)
 
-    category = request.json.get("category")
+    category = sanitize_input(request.json.get("category"))
     rank = request.json.get("rank")
-    side = request.json.get("side")
-    latencies = request.json.get("latencies")
+    side = sanitize_input(request.json.get("side"))
+    latencies = sanitize_input("latencies")
     additional_user_ids = request.json.get("additionalUserIds")
     check_only = request.json.get("checkOnly")  # False = Searching. True = Is searching and waiting for match
-    game_mode = request.json.get("gameMode")
-    region = request.json.get("region")
+    game_mode = sanitize_input(request.json.get("gameMode"))
+    region = sanitize_input(request.json.get("region"))
     count_a = request.json.get("countA")
     count_b = request.json.get("countB")
     spoofed_match_id = "0051681e-72ce-46f0-bda2-752e471d0d08"
@@ -141,7 +141,7 @@ def queue():
 @app.route("/api/v1/queue/cancel", methods=["POST"])
 def cancel_queue():
     check_for_game_client("strict")
-    session_cookie = request.cookies.get("bhvrSession")
+    session_cookie = sanitize_input(request.cookies.get("bhvrSession"))
     userid = session_manager.get_user_id(session_cookie)
 
     try:
@@ -153,10 +153,11 @@ def cancel_queue():
     return "", 204
 
 
-@app.route("/api/v1/match/<matchid>", methods=["GET"])
-def match(matchid):
+@app.route("/api/v1/match/<matchid_unsanitized>", methods=["GET"])
+def match(matchid_unsanitized):
+    matchid = sanitize_input(matchid_unsanitized)
     check_for_game_client("strict")
-    session_cookie = request.cookies.get("bhvrSession")
+    session_cookie = sanitize_input(request.cookies.get("bhvrSession"))
     userid = session_manager.get_user_id(session_cookie)
     if matchid == "0051681e-72ce-46f0-bda2-752e471d0d08":
         return jsonify({"MatchId": matchid, "Category": "Steam-te-18f25613-36778-ue4-374f864b", "Rank": 1})
@@ -168,10 +169,11 @@ def match(matchid):
         return jsonify({"message": "Internal Server Error"}), 500
 
 
-@app.route("/api/v1/match/<matchid>/Kill", methods=["PUT"])
-def match_kill(matchid):
+@app.route("/api/v1/match/<matchid_unsanitized>/Kill", methods=["PUT"])
+def match_kill(matchid_unsanitized):
+    matchid = sanitize_input(matchid_unsanitized)
     check_for_game_client("strict")
-    session_cookie = request.cookies.get("bhvrSession")
+    session_cookie = sanitize_input(request.cookies.get("bhvrSession"))
     userid = session_manager.get_user_id(session_cookie)
     try:
         lobby, _ = matchmaking_queue.getLobbyById(matchid)
@@ -189,12 +191,13 @@ def match_kill(matchid):
         return jsonify({"message": "Internal Server Error"}), 500
 
 
-@app.route("/api/v1/match/<match_id>/register", methods=["POST"])
-def match_register(match_id):
+@app.route("/api/v1/match/<match_id_unsanitized>/register", methods=["POST"])
+def match_register(match_id_unsanitized):
     try:
         check_for_game_client("strict")
-        session_cookie = request.cookies.get("bhvrSession")
+        session_cookie = sanitize_input(request.cookies.get("bhvrSession"))
         userid = session_manager.get_user_id(session_cookie)
+        match_id = sanitize_input(match_id_unsanitized)
 
         logger.graylog_logger(level="info", handler="match_register",
                               message=f"User {userid} is registering to match {match_id}")
@@ -216,12 +219,13 @@ def match_register(match_id):
         return jsonify({"message": "Internal Server Error"}), 500
 
 
-@app.route("/api/v1/match/<match_id>/Quit", methods=["PUT"])
-def match_quit(match_id):
+@app.route("/api/v1/match/<match_id_unsanitized>/Quit", methods=["PUT"])
+def match_quit(match_id_unsanitized):
     try:
         check_for_game_client("strict")
-        session_cookie = request.cookies.get("bhvrSession")
+        session_cookie = sanitize_input(request.cookies.get("bhvrSession"))
         userid = session_manager.get_user_id(session_cookie)
+        match_id = sanitize_input(match_id_unsanitized)
 
         logger.graylog_logger(level="info", handler="logging_queue",
                               message=f"User {userid} is quitting match {match_id}")
@@ -252,11 +256,11 @@ def match_create():
     # 'props': {'MatchConfiguration': '/Game/Configuration/MatchConfig/MatchConfig_Demo.MatchConfig_Demo'},
     # 'latencies': []}
     check_for_game_client("strict")
-    session_cookie = request.cookies.get("bhvrSession")
+    session_cookie = sanitize_input(request.cookies.get("bhvrSession"))
     userid = session_manager.get_user_id(session_cookie)
 
-    category = request.json.get("category")
-    rank = request.json.get("rank")
+    category = sanitize_input(request.json.get("category"))
+    rank = sanitize_input(request.json.get("rank"))
     players_a = request.json.get("playersA")
     players_b = request.json.get("playersB")
     props = request.json.get("props")
@@ -277,7 +281,7 @@ def match_create():
 @app.route("/api/v1/extensions/progression/playerEndOfMatch", methods=["POST"])
 def progression_player_end_of_match():
     check_for_game_client("strict")
-    session_cookie = request.cookies.get("bhvrSession")
+    session_cookie = sanitize_input(request.cookies.get("bhvrSession"))
     userid = session_manager.get_user_id(session_cookie)
     try:
         logger.graylog_logger(level="info", handler="matchmaking_playerEndOfMatch", message=request.get_json())
@@ -288,10 +292,13 @@ def progression_player_end_of_match():
         logger.graylog_logger(level="error", handler="matchmaking_playerEndOfMatch", message=e)
 
 
-@app.route("/file/<game_version>/<seed>/<map_name>", methods=["POST", "GET"])
-def file_gold_rush(seed, map_name, game_version):
+@app.route("/file/<game_version_unsanitized>/<seed_unsanitized>/<map_name_unsanitized>", methods=["POST", "GET"])
+def file_gold_rush(seed_unsanitized, map_name_unsanitized, game_version_unsanitized):
     check_for_game_client("strict")
-    session_cookie = request.cookies.get("bhvrSession")
+    session_cookie = sanitize_input(request.cookies.get("bhvrSession"))
+    game_version = sanitize_input(game_version_unsanitized)
+    seed = sanitize_input(seed_unsanitized)
+    map_name = sanitize_input(map_name_unsanitized)
     userid = session_manager.get_user_id(session_cookie)
 
     file_name = f"{game_version}_{seed}_{map_name}.raw"
@@ -315,7 +322,7 @@ def file_gold_rush(seed, map_name, game_version):
 @app.route("/metrics/matchmaking/event", methods=["POST"])
 def metrics_matchmaking_event():
     check_for_game_client("strict")
-    session_cookie = request.cookies.get("bhvrSession")
+    session_cookie = sanitize_input(request.cookies.get("bhvrSession"))
     userid = session_manager.get_user_id(session_cookie)
 
     try:

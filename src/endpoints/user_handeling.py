@@ -49,10 +49,10 @@ def steam_login_function():
 def steam_login():
     # Read Doc\SteamAuth.md for more information
     ip = check_for_game_client("soft")
-    user_agent = request.headers.get('User-Agent')
+    user_agent = sanitize_input(request.headers.get('User-Agent'))
+    request_token = sanitize_input(request.args.get('token'))
     if user_agent.startswith("TheExit/++UE4+Release-4.2"):
-        if request.args.get(
-                'token') == "140000007B7B7B7B02000000E3FA3952010010017B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B":
+        if request_token == "140000007B7B7B7B02000000E3FA3952010010017B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B7B":
             userid, token = mongo.user_db_handler("Debug_session")
             current_time, expire_time = get_time()
             return_val = jsonify({"preferredLanguage": "en", "friendsFirstSync": {"steam": True},
@@ -95,7 +95,7 @@ def steam_login():
 @app.route("/api/v1/modifierCenter/modifiers/me", methods=["GET"])
 def modifiers():
     check_for_game_client("strict")
-    session_cookie = request.cookies.get("bhvrSession")
+    session_cookie = sanitize_input(request.cookies.get("bhvrSession"))
     userid = session_manager.get_user_id(session_cookie)
 
     steamid, token = mongo.get_data_with_list(login=userid, login_steam=False,
@@ -113,12 +113,12 @@ def modifiers():
 @app.route("/moderation/check/username", methods=["POST"])
 def moderation_check_username():
     check_for_game_client("strict")
-    session_cookie = request.cookies.get("bhvrSession")
+    session_cookie = sanitize_input(request.cookies.get("bhvrSession"))
     userid = session_manager.get_user_id(session_cookie)
 
     try:
         request_var = request.get_json()
-        userid = request_var["userId"]
+        userid = sanitize_input(request_var["userId"])
         steamid, token = mongo.get_user_info(userId=userid)
         return jsonify({"Id": userid, "Token": token,
                         "Provider": {"ProviderName": request_var["username"],
@@ -133,7 +133,7 @@ def moderation_check_username():
 @app.route("/api/v1/progression/experience", methods=["POST"])
 def progression_experience():
     check_for_game_client("strict")
-    session_cookie = request.cookies.get("bhvrSession")
+    session_cookie = sanitize_input(request.cookies.get("bhvrSession"))
     userid = session_manager.get_user_id(session_cookie)
 
     try:
@@ -172,12 +172,12 @@ def progression_experience():
 def challenges_get_challenges():
     # client: {"data":{"userId":"619d6f42-db87-4f3e-8dc9-3c9995613614","challengeType":"Daily"}}
     check_for_game_client("strict")
-    session_cookie = request.cookies.get("bhvrSession")
+    session_cookie = sanitize_input(request.cookies.get("bhvrSession"))
     userid = session_manager.get_user_id(session_cookie)
 
     try:
         response = request.get_json()
-        challenge_type = response["data"]["challengeType"]
+        challenge_type = sanitize_input(response["data"]["challengeType"])
         if challenge_type == "Weekly":
             return jsonify({"Challenges": ["ARBDamage_HunterWeekly", "AssaultRifleWins_HunterWeekly",
                                            "BleedOut_HunterWeekly", "BleedOut_RunnerWeekly", "Damage_HunterWeekly",
@@ -205,7 +205,7 @@ def challenges_get_challenges():
 @app.route("/api/v1/extensions/challenges/executeChallengeProgressionOperationBatch", methods=["POST"])
 def challenges_execute_challenge_progression_operation_batch():
     check_for_game_client("strict")
-    session_cookie = request.cookies.get("bhvrSession")
+    session_cookie = sanitize_input(request.cookies.get("bhvrSession"))
     userid = session_manager.get_user_id(session_cookie)
 
     try:
@@ -227,7 +227,7 @@ def challenges_execute_challenge_progression_operation_batch():
 @app.route("/api/v1/inventories", methods=["GET"])
 def inventories():
     check_for_game_client("strict")
-    session_cookie = request.cookies.get("bhvrSession")
+    session_cookie = sanitize_input(request.cookies.get("bhvrSession"))
     userid = session_manager.get_user_id(session_cookie)
 
     try:
@@ -250,7 +250,7 @@ def inventories():
 @app.route("/api/v1/players/me/splinteredstates/ProgressionGroups", methods=["GET"])
 def progression_groups():
     check_for_game_client("strict")
-    session_cookie = request.cookies.get("bhvrSession")
+    session_cookie = sanitize_input(request.cookies.get("bhvrSession"))
     userid = session_manager.get_user_id(session_cookie)
     try:
         #  This is the real code but need to build this first
@@ -277,7 +277,7 @@ def progression_groups():
 @app.route("/api/v1/players/ban/status", methods=["GET"])
 def ban_status():
     check_for_game_client("strict")
-    session_cookie = request.cookies.get("bhvrSession")
+    session_cookie = sanitize_input(request.cookies.get("bhvrSession"))
     userid = session_manager.get_user_id(session_cookie)
 
     try:
@@ -309,7 +309,7 @@ def ban_status():
 @app.route("/api/v1/players/ban/getbaninfo", methods=["GET"])
 def get_ban_info():
     check_for_game_client("strict")
-    session_cookie = request.cookies.get("bhvrSession")
+    session_cookie = sanitize_input(request.cookies.get("bhvrSession"))
     userid = session_manager.get_user_id(session_cookie)
 
     try:
@@ -325,7 +325,7 @@ def get_ban_info():
 @app.route("/api/v1/wallet/currencies", methods=["GET"])
 def wallet_currencies():
     check_for_game_client("strict")
-    session_cookie = request.cookies.get("bhvrSession")
+    session_cookie = sanitize_input(request.cookies.get("bhvrSession"))
     userid = session_manager.get_user_id(session_cookie)
 
     try:
@@ -351,7 +351,7 @@ def wallet_currencies():
 @app.route("/api/v1/wallet/currencies/PROGRESSION_CURRENCY", methods=["GET"])
 def wallet_currencies_progression():
     check_for_game_client("strict")
-    session_cookie = request.cookies.get("bhvrSession")
+    session_cookie = sanitize_input(request.cookies.get("bhvrSession"))
     userid = session_manager.get_user_id(session_cookie)
 
     try:
@@ -366,7 +366,7 @@ def wallet_currencies_progression():
 @app.route("/api/v1/players/me/splinteredstates/TheExit_Achievements", methods=["GET"])
 def achievements_get():
     check_for_game_client("strict")
-    session_cookie = request.cookies.get("bhvrSession")
+    session_cookie = sanitize_input(request.cookies.get("bhvrSession"))
     userid = session_manager.get_user_id(session_cookie)
 
     try:
@@ -390,7 +390,7 @@ def achievements_get():
 @app.route("/api/v1/messages/count", methods=["GET"])
 def messages_count():
     check_for_game_client("strict")
-    session_cookie = request.cookies.get("bhvrSession")
+    session_cookie = sanitize_input(request.cookies.get("bhvrSession"))
     userid = session_manager.get_user_id(session_cookie)
 
     try:
@@ -408,7 +408,7 @@ def messages_count():
 @app.route("/api/v1/messages/list", methods=["GET", "DELETE"])
 def messages_list():
     check_for_game_client("strict")
-    session_cookie = request.cookies.get("bhvrSession")
+    session_cookie = sanitize_input(request.cookies.get("bhvrSession"))
     userid = session_manager.get_user_id(session_cookie)
 
     try:
@@ -457,7 +457,7 @@ def messages_mark_as():
     # {"messageList":[{"received":1687192385,"recipientId":"2"}],"flag":"READ"}
     try:
         check_for_game_client("strict")
-        session_cookie = request.cookies.get("bhvrSession")
+        session_cookie = sanitize_input(request.cookies.get("bhvrSession"))
         userid = session_manager.get_user_id(session_cookie)
         data = request.get_json()
         message_list = data["messageList"]
@@ -474,21 +474,19 @@ def messages_mark_as():
         logger.graylog_logger(level="error", handler="messages_mark_as", message=e)
         return jsonify({"status": "API error"})
 
-    return jsonify("", 204)
-
 
 # Temp response.
 @app.route("/moderation/check/chat", methods=["POST"])
 def moderation_check_chat():
     check_for_game_client("strict")
-    session_cookie = request.cookies.get("bhvrSession")
+    session_cookie = sanitize_input(request.cookies.get("bhvrSession"))
     userid = session_manager.get_user_id(session_cookie)
 
     try:
         data = request.get_json()
-        userid = data["userId"]
-        language = data["language"]
-        message = data["message"]
+        userid = sanitize_input(data["userId"])
+        language = sanitize_input(data["language"])
+        message = sanitize_input(data["message"])
         # Why should we care? Can we get in trouble if we don't?
         return jsonify({"status": "success", "result": "OK"})  # Testing stuff
     except TimeoutError:
@@ -501,7 +499,7 @@ def moderation_check_chat():
 @app.route("/api/v1/extensions/progression/initOrGetGroups", methods=["POST"])
 def extension_progression_init_or_get_groups():
     check_for_game_client("strict")
-    session_cookie = request.cookies.get("bhvrSession")
+    session_cookie = sanitize_input(request.cookies.get("bhvrSession"))
     userid = session_manager.get_user_id(session_cookie)
 
     try:
@@ -573,7 +571,7 @@ def extension_progression_init_or_get_groups():
 @app.route("/api/v1/extensions/inventory/unlockSpecialItems", methods=["POST"])
 def inventory_unlock_special_items():
     check_for_game_client("strict")
-    session_cookie = request.cookies.get("bhvrSession")
+    session_cookie = sanitize_input(request.cookies.get("bhvrSession"))
     userid = session_manager.get_user_id(session_cookie)
 
     try:
@@ -588,7 +586,7 @@ def inventory_unlock_special_items():
 @app.route("/api/v1/extensions/challenges/getChallengeProgressionBatch", methods=["POST"])
 def challenges_get_challenge_progression_batch():
     check_for_game_client("strict")
-    session_cookie = request.cookies.get("bhvrSession")
+    session_cookie = sanitize_input(request.cookies.get("bhvrSession"))
     userid = session_manager.get_user_id(session_cookie)
 
     try:
