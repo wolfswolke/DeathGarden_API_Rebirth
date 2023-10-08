@@ -193,7 +193,8 @@ def challenges_get_challenges():
         elif challenge_type == "Daily":
             return jsonify({"Challenges": ["Daily_Domination_Hunter", "Daily_Domination_Runner"]})
         else:
-            logger.graylog_logger(level="error", handler="getChallanges", message=f"Unknown challenge type {challenge_type}")
+            logger.graylog_logger(level="error", handler="getChallanges",
+                                  message=f"Unknown challenge type {challenge_type}")
             return jsonify({"status": "error"})
 
     except TimeoutError:
@@ -534,6 +535,7 @@ def extension_progression_init_or_get_groups():
                                                "F2768C45-41C8262E-FF4922B3-72AB7306"],
                              "EquippedPowers": ["C8AF3D53-4973F82F-ADBB40BD-A96F9DCD"],
                              "EquippedWeapons": ["4E171BD1-4FF98ED4-3A7AFAB5-7FE55578"],
+                             "EquippedAbilities": ["C8AF3D53-4973F82F-ADBB40BD-A96F9DCD"],
                              "EquippedBonuses": ["109BC590-4DC1272D-70822EBA-79CC85B1",
                                                  "54B3EF79-4FCB0643-C4644FA1-5BEF31D5"],
                              "PrestigeLevel": 1,
@@ -555,6 +557,9 @@ def extension_progression_init_or_get_groups():
                                                  "307A0B13-417737DE-D675309F-8B978AB8"],
                              "EquippedBonuses": ["791F12E0-47DA9E26-E246E385-9C3F587E",
                                                  "8A5BF227-4640C2F2-3EF3C996-A6F6404D"],
+                             "EquippedAbilities": ["10A8C667-45801664-6E2EFA94-52E3141A",
+                                                   "08DC38B6-470A7A5B-0BA025B9-6279DAA8",
+                                                   "51595917-43CBF0B5-7EC6FEB3-341960D6"],
                              "PrestigeLevel": 1,
                              "PickedChallenges": []
                              }
