@@ -13,6 +13,8 @@ RUN apk add curl
 
 RUN apk upgrade busybox # CVE-2022-48174
 
+RUN apk upgrade
+
 EXPOSE 8080
 
 HEALTHCHECK CMD curl --fail http://localhost:8080/api/v1/healthcheck
