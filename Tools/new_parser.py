@@ -96,6 +96,56 @@ def get_guid(json_data):
         # return data.get("Properties", {}).get("Guid")
 
 
+def get_next_and_prev_guid(file_path, file_name):
+    print(f"Entered get_next_and_prev_guid with file_path: {file_path} and file_name: {file_name}")
+    if "_001.json" in file_name:
+        with open(file_path.replace("_001.json", "_002.json"), 'r') as json_file:
+            next_json_data = json.load(json_file)
+            next_guid = get_guid(next_json_data)
+        return "", next_guid
+    elif "_Item.json" in file_name:
+        with open(file_path.replace("_Item.json", "_002.json"), 'r') as json_file:
+            next_json_data = json.load(json_file)
+            next_guid = get_guid(next_json_data)
+        return "", next_guid
+
+    elif "_010.json" in file_name:
+        with open(file_path.replace("_010.json", "_009.json"), 'r') as json_file:
+            prev_json_data = json.load(json_file)
+            prev_guid = get_guid(prev_json_data)
+            next_guid = ""
+        return prev_guid, next_guid
+    elif "_009.json" in file_name:
+        with open(file_path.replace("_009.json", "_008.json"), 'r') as json_file:
+            prev_json_data = json.load(json_file)
+            prev_guid = get_guid(prev_json_data)
+        with open(file_path.replace("_009.json", "_010.json"), 'r') as json_file:
+            next_json_data = json.load(json_file)
+            next_guid = get_guid(next_json_data)
+        return prev_guid, next_guid
+    else:
+        try:
+            current_num = file_name[-6:]
+            current_num = int(current_num[0])
+        except ValueError:
+            return "", ""
+        with open(file_path.replace(f"_00{current_num}.json", f"_00{current_num+1}.json"), 'r') as json_file:
+            next_json_data = json.load(json_file)
+            next_guid = get_guid(next_json_data)
+        try:
+            print("File found")
+            with open(file_path.replace(f"_00{current_num}.json", f"_00{current_num-1}.json"), 'r') as json_file:
+                prev_json_data = json.load(json_file)
+                prev_guid = get_guid(prev_json_data)
+        except FileNotFoundError:
+            print("File not found")
+            with open(file_path.replace(f"_00{current_num}.json", f"_Item.json"), 'r') as json_file:
+                prev_json_data = json.load(json_file)
+                prev_guid = get_guid(prev_json_data)
+
+        return prev_guid, next_guid
+
+
 def process_folder(folder_path):
     print("Processing folder: " + folder_path)
     catalog_data = []
@@ -109,89 +159,7 @@ def process_folder(folder_path):
                     json_data = json.load(json_file)
                     print(f"Current PATH: {file_path}")
                     if file_path.startswith("./Items\Runners\Character\Items_Released\Perks") or file_path.startswith("./Items\Hunters\Character\Items_Released\Perks") or file_path.startswith("./Items\Hunters\Character\Items_Released\Powers"):
-                        if "_002.json" in file_name:
-                            try:
-                                with open(file_path.replace("_002.json", "_Item.json"), 'r') as json_file:
-                                    prev_json_data = json.load(json_file)
-                                    prev_guid = get_guid(prev_json_data)
-                            except FileNotFoundError:
-                                with open(file_path.replace("_002.json", "_001.json"), 'r') as json_file:
-                                    prev_json_data = json.load(json_file)
-                                    prev_guid = get_guid(prev_json_data)
-                            with open(file_path.replace("_002.json", "_003.json"), 'r') as json_file:
-                                next_json_data = json.load(json_file)
-                                next_guid = get_guid(next_json_data)
-                        elif "_001.json" in file_name:
-                            try:
-                                with open(file_path.replace("_001.json", "_002.json"), 'r') as json_file:
-                                    next_json_data = json.load(json_file)
-                                    next_guid = get_guid(next_json_data)
-                            except FileNotFoundError:
-                                next_guid = ""
-                        elif "_Item.json" in file_name:
-                            try:
-                                with open(file_path.replace("_Item.json", "_002.json"), 'r') as json_file:
-                                    next_json_data = json.load(json_file)
-                                    next_guid = get_guid(next_json_data)
-                            except FileNotFoundError:
-                                next_guid = ""
-                        elif "_003.json" in file_name:
-                            with open(file_path.replace("_003.json", "_002.json"), 'r') as json_file:
-                                prev_json_data = json.load(json_file)
-                                prev_guid = get_guid(prev_json_data)
-                            with open(file_path.replace("_003.json", "_004.json"), 'r') as json_file:
-                                next_json_data = json.load(json_file)
-                                next_guid = get_guid(next_json_data)
-                        elif "_004.json" in file_name:
-                            with open(file_path.replace("_004.json", "_003.json"), 'r') as json_file:
-                                prev_json_data = json.load(json_file)
-                                prev_guid = get_guid(prev_json_data)
-                            with open(file_path.replace("_004.json", "_005.json"), 'r') as json_file:
-                                next_json_data = json.load(json_file)
-                                next_guid = get_guid(next_json_data)
-                        elif "_005.json" in file_name:
-                            with open(file_path.replace("_005.json", "_004.json"), 'r') as json_file:
-                                prev_json_data = json.load(json_file)
-                                prev_guid = get_guid(prev_json_data)
-                            with open(file_path.replace("_005.json", "_006.json"), 'r') as json_file:
-                                next_json_data = json.load(json_file)
-                                next_guid = get_guid(next_json_data)
-                        elif "_006.json" in file_name:
-                            with open(file_path.replace("_006.json", "_005.json"), 'r') as json_file:
-                                prev_json_data = json.load(json_file)
-                                prev_guid = get_guid(prev_json_data)
-                            with open(file_path.replace("_006.json", "_007.json"), 'r') as json_file:
-                                next_json_data = json.load(json_file)
-                                next_guid = get_guid(next_json_data)
-                        elif "_007.json" in file_name:
-                            with open(file_path.replace("_007.json", "_006.json"), 'r') as json_file:
-                                prev_json_data = json.load(json_file)
-                                prev_guid = get_guid(prev_json_data)
-                            with open(file_path.replace("_007.json", "_008.json"), 'r') as json_file:
-                                next_json_data = json.load(json_file)
-                                next_guid = get_guid(next_json_data)
-                        elif "_008.json" in file_name:
-                            with open(file_path.replace("_008.json", "_007.json"), 'r') as json_file:
-                                prev_json_data = json.load(json_file)
-                                prev_guid = get_guid(prev_json_data)
-                            with open(file_path.replace("_008.json", "_009.json"), 'r') as json_file:
-                                next_json_data = json.load(json_file)
-                                next_guid = get_guid(next_json_data)
-                        elif "_009.json" in file_name:
-                            with open(file_path.replace("_009.json", "_008.json"), 'r') as json_file:
-                                prev_json_data = json.load(json_file)
-                                prev_guid = get_guid(prev_json_data)
-                            with open(file_path.replace("_009.json", "_010.json"), 'r') as json_file:
-                                next_json_data = json.load(json_file)
-                                next_guid = get_guid(next_json_data)
-                        elif "_010.json" in file_name:
-                            with open(file_path.replace("_010.json", "_009.json"), 'r') as json_file:
-                                prev_json_data = json.load(json_file)
-                                prev_guid = get_guid(prev_json_data)
-                            next_guid = ""
-                        else:
-                            prev_guid = ""
-                            next_guid = ""
+                        prev_guid, next_guid = get_next_and_prev_guid(file_path, file_name)
                     else:
                         prev_guid = ""
                         next_guid = ""
