@@ -41,7 +41,7 @@ def debug_root():
     return f'<h1>Debug Endpoints:</h1>{endpoints_html}'
 
 
-@app.route('/debug/user/', methods=['GET'], defaults={'steamid': None})
+@app.route('/debug/user/', methods=['GET'], defaults={'steamid_unsanitized': None})
 @app.route('/debug/user/<steamid_unsanitized>', methods=['GET'])
 def debug_user(steamid_unsanitized):
     steamid = sanitize_input(steamid_unsanitized)
@@ -88,7 +88,7 @@ def debug_mirrors_write():
                 if api_token not in allowed_tokens:
                     return jsonify({"status": "error", "message": "Invalid api token"}), 401
                 steam_user_id = sanitize_input(request.json.get("steamid"))
-                data_b = sanitize_input(request.json.get("data"))
+                data_b = request.json.get("data")
 
                 if not data_b:
                     return jsonify({"status": "error", "message": "No data found."}), 400
