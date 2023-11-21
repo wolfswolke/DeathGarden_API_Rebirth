@@ -48,6 +48,8 @@ def check_for_game_client(check_type="strict"):
 
 
 def sanitize_input(input_value):
+    if input_value is None:
+        return None
     return bleach.clean(input_value)
 
 
