@@ -399,7 +399,10 @@ def messages_count():
         if unread_message_ids is None:
             return jsonify({"Count": 0})
         else:
-            return jsonify({"Count": len(unread_message_ids["unread_msg_ids"])})
+            try:
+                return jsonify({"Count": len(unread_message_ids["unread_msg_ids"])})
+            except TypeError:
+                return jsonify({"Count": unread_message_ids["unread_msg_ids"]})
     except TimeoutError:
         return jsonify({"status": "error"})
     except Exception as e:
@@ -511,7 +514,7 @@ def extension_progression_init_or_get_groups():
         return jsonify({
             "ProgressionGroups": [
                 {
-                    "ObjectId": "755D4DFE-40DA1512-B01E3D8C-FF3C8D4D",
+                    "ObjectId": "56B7B6F6-473712D0-B7A2F992-BB2C16CD",
                     "Version": 1,
                     "SchemaVersion": 1.1,
                     "Data": {"Experience": {"Level": 11, "CurrentExperience": 2, "ExperienceToReach": 30}},
@@ -525,19 +528,20 @@ def extension_progression_init_or_get_groups():
             ],
             "MetadataGroups": [
                 {
-                    "ObjectId": "755D4DFE-40DA1512-B01E3D8C-FF3C8D4D",
+                    "ObjectId": "56B7B6F6-473712D0-B7A2F992-BB2C16CD",
                     "Version": 1,
                     "SchemaVersion": 1.1,
-                    "Data": {"CharacterId": {"TagName": "Runner.Sawbones"},
+                    "Data": {"CharacterId": {"TagName": "Runner.Smoke"},
                              "Equipment": ["Primary Weapon", "Bonus 1", "Bonus 2", "Perk 1",
                                            "Perk 2"],
-                             "EquippedPerks": ["BE1C0D4C-4CE08611-22BE22B2-736D9091",
-                                               "F2768C45-41C8262E-FF4922B3-72AB7306"],
-                             "EquippedPowers": ["C8AF3D53-4973F82F-ADBB40BD-A96F9DCD"],
-                             "EquippedWeapons": ["4E171BD1-4FF98ED4-3A7AFAB5-7FE55578"],
+                             "EquippedPerks": ["38E5F7F2-41E2BA11-77419BB3-12FC1ACE",
+                                               "1A09DB19-434DA733-AAD3D9B5-B1929CD4",
+                                               "19FB6205-4E644ECD-C831E29F-C5B9E501",
+                                               "32065218-4E1A719D-EF1D3C93-95EE7344"],
+                             "EquippedPowers": [""],
+                             "EquippedWeapons": ["49223250-4161420C-872A0F82-FC16ACDB"],
                              "EquippedAbilities": ["C8AF3D53-4973F82F-ADBB40BD-A96F9DCD"],
-                             "EquippedBonuses": ["109BC590-4DC1272D-70822EBA-79CC85B1",
-                                                 "54B3EF79-4FCB0643-C4644FA1-5BEF31D5"],
+                             "EquippedBonuses": ["1E08AFFA-485E92BA-FF2C1BB8-5CEFB81E"],
                              "PrestigeLevel": 1,
                              "PickedChallenges": []}
                 },
@@ -598,7 +602,7 @@ def challenges_get_challenge_progression_batch():
         logger.graylog_logger(level="info", handler="logging_getChallengeProgressionBatch",
                               message=request.get_json())
         # MirrorsExtModelGetChallengeProgressionBatchResponse -> TArray MirrorsExtModelChallengeProgressionOperation
-        return jsonify({"ProgressionBatch": [{"ChallengeId": "", "OperationName": "", "OperationData": []}]})
+        return jsonify({"ProgressionBatch": [{"ChallengeId": "", "OperationName": "", "OperationData": {}}]})
     except TimeoutError:
         return jsonify({"status": "error"})
 
