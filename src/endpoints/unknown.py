@@ -30,6 +30,16 @@ def debug_404(e):
 @app.errorhandler(500)
 def debug_500(e):
     check_for_game_client("soft")
-    logger.graylog_logger(level="error", handler="500-handler", message=f"Path: {sanitize_input(request.path)} Endpoint: {sanitize_input(request.endpoint)}, Error: {e}")
+    if request.path:
+        path = sanitize_input(request.path)
+    else:
+        path = "None"
+    if request.endpoint:
+        endpoint = sanitize_input(request.endpoint)
+    else:
+        endpoint = "None"
+    if not e:
+        e = "None"
+    logger.graylog_logger(level="error", handler="500-handler", message=f"Path: {path} Endpoint: {endpoint}, Error: {e}")
     print(e)
     return jsonify({"message": "Internal Server Error"}), 500
