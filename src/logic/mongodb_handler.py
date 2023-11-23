@@ -138,17 +138,23 @@ class Mongo:
             logger.graylog_logger(level="error", handler="mongo_get_data_with_list", message=e)
             return None
 
-    def write_data_with_list(self, steamid, items_dict):
+    def write_data_with_list(self, login, login_steam, items_dict):
         try:
-            steam_id = str(steamid)
             client = pymongo.MongoClient(self.dyn_server)
             dyn_client_db = client[self.dyn_db]
             dyn_collection = dyn_client_db[self.dyn_collection]
-            existing_document = dyn_collection.find_one({'steamid': steamid})
-
+            if login_steam:
+                steam_id = str(login)
+                existing_document = dyn_collection.find_one({'steamid': steam_id})
+            else:
+                user_id = str(login)
+                existing_document = dyn_collection.find_one({"userId": user_id})
             if existing_document:
                 update_query = {'$set': items_dict}
-                dyn_collection.update_one({'steamid': steamid}, update_query)
+                if login_steam:
+                    dyn_collection.update_one({'steamid': steam_id}, update_query)
+                else:
+                    dyn_collection.update_one({'userId': user_id}, update_query)
                 client.close()
                 return {"status": "success", "message": "Data updated"}
             else:

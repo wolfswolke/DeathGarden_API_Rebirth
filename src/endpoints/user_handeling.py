@@ -396,11 +396,12 @@ def messages_count():
 
     try:
         unread_message_ids = mongo.get_data_with_list(login=userid, login_steam=False, items={"unread_msg_ids"})
-        if unread_message_ids is None:
+        if unread_message_ids["unread_msg_ids"] == "" or unread_message_ids is None:
             return jsonify({"Count": 0})
         else:
             try:
-                return jsonify({"Count": len(unread_message_ids["unread_msg_ids"])})
+                id_len = unread_message_ids["unread_msg_ids"].split(",")
+                return jsonify({"Count": len(id_len)})
             except TypeError:
                 return jsonify({"Count": unread_message_ids["unread_msg_ids"]})
     except TimeoutError:
@@ -465,12 +466,16 @@ def messages_mark_as():
         userid = session_manager.get_user_id(session_cookie)
         data = request.get_json()
         message_list = data["messageList"]
+        if not message_list:
+            mongo.write_data_with_list(login=userid, login_steam=False, items_dict={"unread_msg_ids": ""})
+            return jsonify({"List": [{"Received": get_time(), "Success": True, "RecipientId": userid}]})
         message_id = message_list[0]["recipientId"]
-        print(message_id)
         unread_messages = mongo.get_data_with_list(login=userid, login_steam=False, items={"unread_msg_ids"})
-        print(unread_messages)
-        unread_messages["unread_msg_ids"] = unread_messages["unread_msg_ids"].remove(f"{message_id},")
-        mongo.write_data_with_list(login=userid, login_steam=False, items={unread_messages})
+        unread_messages = unread_messages["unread_msg_ids"].split(",")
+        unread_messages.remove(message_id)
+        unread_messages = ",".join(unread_messages)
+        data = {"unread_msg_ids": unread_messages}
+        mongo.write_data_with_list(login=userid, login_steam=False, items_dict=data)
         return jsonify({"List": [{"Received": get_time(), "Success": True, "RecipientId": userid}]})
     except TimeoutError:
         return jsonify({"status": "Timeout error"})
