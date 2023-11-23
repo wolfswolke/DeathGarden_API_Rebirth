@@ -99,7 +99,7 @@ def debug_mirrors_write():
                 logger.graylog_logger(level="info", handler="logging_debug_mirror_write",
                                       message={"IP": check_for_game_client("remote"), "steamid": steam_user_id, "data": data_b})
 
-                return_val = mongo.write_data_with_list(steamid=steam_user_id, items_dict=data_b)
+                return_val = mongo.write_data_with_list(login=steam_user_id, login_steam=True, items_dict=data_b)
 
                 if return_val is None:
                     return jsonify({"status": "error", "message": "There was a error on our End. "
