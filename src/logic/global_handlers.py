@@ -34,6 +34,8 @@ def check_for_game_client(check_type="strict"):
             _get_remote_ip("strict")
         elif user_agent.startswith("CrashReportClient/++UE4+Release-4.20-CL-0"):
             _get_remote_ip("strict")
+        elif user_agent.startswith("CrashReportClient, engine=UE4"):
+            _get_remote_ip("strict")
         else:
             _get_remote_ip()
             logger.graylog_logger(level="info", handler="UserAgents", message=f"INVALID User-Agent: {user_agent} "
@@ -72,7 +74,11 @@ class Session_Manager:
         return self.sessions[session_id]["user"]
 
     def extend_session(self, session_id):
-        self.sessions[session_id]["expires"] = time.time() + 3600
+        session_expires = self.sessions[session_id]["expires"]
+        if session_expires <= 3600:
+            self.sessions[session_id]["expires"] = time.time() + 4600
+        else:
+            pass
 
     def clean_sessions(self):
         current_time = time.time()
