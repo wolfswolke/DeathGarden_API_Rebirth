@@ -43,10 +43,16 @@ def config_ver_latest_client_data():
 
 @app.route("/api/v1/utils/contentVersion/latest/<version>", methods=["GET"])
 def content_version_latest(version):
+    # V 2.2 = Alpha 2, V 2.11 = LIVE
     version_san = sanitize_input(version)
     check_for_game_client("strict")
     session_cookie = sanitize_input(request.cookies.get("bhvrSession"))
     userid = session_manager.get_user_id(session_cookie)
+
+    if version_san == "2.2":
+        return jsonify({"LatestSupportedVersion": "te-23ebf96c-27498-ue4-7172a3f5"}), 200
+    elif version_san == "2.5":
+        return jsonify({"LatestSupportedVersion": "te-40131b9e-33193-ue4-fbccc218"}), 200
 
     try:
         print("Responded to content version api call GET")
@@ -98,7 +104,8 @@ def gameservers_live():
         logger.graylog_logger(level="error", handler="general-gameserver-dev", message=e)
 
 
-@app.route("/api/v1/config/UseMirrorsMM_Steam", methods=["GET"])  # What is this even??? Maybe Use Matchmaking? Its only in old Versions tho...
+@app.route("/api/v1/config/UseMirrorsMM_Steam",
+           methods=["GET"])  # What is this even??? Maybe Use Matchmaking? Its only in old Versions tho...
 def config_use_mirrors_mm_steam():
     check_for_game_client("strict")
     session_cookie = request.cookies.get("bhvrSession")
@@ -162,14 +169,65 @@ def healthcheck():
 @app.route("/api/v1/services/tex/")
 def services_tex():
     try:
-        return {"current-event": {"status": {"id": "live"}, "message": ""}}  # Alpha 2 WARNING Msg text?!?!
-        # return jsonify({"status": "success", "online": "true", "Version": "te-18f25613-36778-ue4-374f864b",
-        #                "ProjectID": "F72FA5E64FA43E878DC72896AD677FB5",
-        #                "DefaultFactoryName": "HttpNetworkReplayStreaming", "ServeMatchDelayInMin": "30.0f"})
+        if request.headers.get('User-Agent') == "TheExit/++UE4+Release-4.21-CL-0 Windows/6.2.9200.1.256.64bit":
+            # EStashboard [0 Up, 1 Down, 2 Warning, 3 Failed]
+            #todo Set Timestamp to current time
+            return jsonify({
+                "description": "The Exit - Live",
+                "url": "https://api.zkwolf.com/api/v1/services/tex",
+                "list": None,
+                "current-event": {
+                    "status": {
+                        "description": "The service is up",
+                        "level": "NORMAL",
+                        "default": True,
+                        "image": "https://api.zkwolf.com/images/icons/fugue/tick-circle.png",
+                        "url": "https://api.zkwolf.com/api/v1/statuses/up",
+                        "id": "up",
+                        "name": "Up"
+                    },
+                    "url": "https://api.zkwolf.com/api/v1/services/tex/events/ahdzfnB1Ymxpc2hpbmctc3Rhc2hib2FyZHISCxIFRXZlbnQYgICAgMC1mwoM",
+                    "timestamp": "Wed, 07 Dec 2016 21:00:20 GMT",
+                    "sid": "ahdzfnB1Ymxpc2hpbmctc3Rhc2hib2FyZHISCxIFRXZlbnQYgICAgMC1mwoM",
+                    "message": "up",
+                    "informational": False
+                },
+                "id": "tex",
+                "name": "tex"
+            })
+        else:
+            return {"current-event": {"status": {"id": "live"}, "message": ""}}  # Alpha 2 WARNING Msg text?!?!
+
     except TimeoutError:
         return jsonify({"status": "error"})
     except Exception as e:
         logger.graylog_logger(level="error", handler="general-services-tex", message=e)
+
+
+@app.route("/api/v1/services/tex/events/ahdzfnB1Ymxpc2hpbmctc3Rhc2hib2FyZHISCxIFRXZlbnQYgICAgMC1mwoM", methods=["GET"])
+def services_tex_events():
+    try:
+        #todo set timestamp to current time
+        return jsonify({
+            "status": {
+                "description": "The service is up",
+                "level": "NORMAL",
+                "default": True,
+                "image": "https://api.zkwolf.com/images/icons/fugue/tick-circle.png",
+                "url": "https://api.zkwolf.com/api/v1/statuses/up",
+                "id": "up",
+                "name": "Up"
+            },
+            "url": "https://api.zkwolf.com/api/v1/services/tex/events/ahdzfnB1Ymxpc2hpbmctc3Rhc2hib2FyZHISCxIFRXZlbnQYgICAgMC1mwoM",
+            "timestamp": "Wed, 07 Dec 2016 21:00:20 GMT",
+            "sid": "ahdzfnB1Ymxpc2hpbmctc3Rhc2hib2FyZHISCxIFRXZlbnQYgICAgMC1mwoM",
+            "message": "up",
+            "informational": False
+        })
+    except TimeoutError:
+        return jsonify({"status": "error"})
+    except Exception as e:
+        logger.graylog_logger(level="error", handler="general-services-tex-events", message=e)
 
 
 @app.route("/api/v1/consent/eula2", methods=["PUT", "GET"])
