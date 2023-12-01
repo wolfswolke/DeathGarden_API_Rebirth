@@ -168,12 +168,12 @@ def updater_version():
     })
 
 
-@app.route("/updater/files", methods=["GET"])
+@app.route("/updater/files/", methods=["GET"])
 def updater_files():
     return jsonify({"Error": "Please read the Docs about this Endpoint."}), 400
 
 
-@app.route("/updater/files/pak", methods=["GET"])
+@app.route("/updater/files/pak/", methods=["GET"])
 def updater_pak():
     try:
         return send_from_directory(os.path.join(app.root_path, 'files'), 'TheExitRebirthBackendAPI-WindowsNoEditor_P.pak')
@@ -183,7 +183,7 @@ def updater_pak():
         logger.graylog_logger(level="error", handler="web-updater-PAK", message=e)
 
 
-@app.route("/updater/files/sig", methods=["GET"])
+@app.route("/updater/files/sig/", methods=["GET"])
 def updater_sig():
     try:
         return send_from_directory(os.path.join(app.root_path, 'files'), 'TheExitRebirthBackendAPI-WindowsNoEditor_P.sig')
@@ -193,7 +193,7 @@ def updater_sig():
         logger.graylog_logger(level="error", handler="web-updater-SIG", message=e)
 
 
-@app.route("/updater/files/script", methods=["GET"])
+@app.route("/updater/files/script/", methods=["GET"])
 def updater_script():
     try:
         return send_from_directory(os.path.join(app.root_path, 'files'), 'TheExit-Rebirth-Updater.bat')
