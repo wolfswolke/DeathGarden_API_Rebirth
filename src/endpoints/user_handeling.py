@@ -371,16 +371,54 @@ def achievements_get():
     userid = session_manager.get_user_id(session_cookie)
 
     try:
-        # return jsonify({"UserId": userid, "StateName": "", "Segment": "", "List": [
-        #    {"ObjectId": "EFAB89E6465D1163D62A07B11048F2B6", "Version": 11, "SchemaVersion": 11, "Data": {}}
-        # ]})
-        # This works but lemme test smthing...
-        return jsonify({"gameName": "Deathgarden: BLOODHARVEST", "achievements":
-            [{"apiname": "EFAB89E6465D1163D62A07B11048F2B6", "achieved": 1, "unlocktime": 1587140058},
-             {"apiname": "2CAEBB354D506D7C43B941BC1DA775A0", "achieved": 1, "unlocktime": 1586792410},
-             {"apiname": "E51981B946BEE3D45C5C41B2FCFF310B", "achieved": 1, "unlocktime": 1586788872},
-             {"apiname": "AAD05B9D46471DC811BBE0BA91916AB7", "achieved": 1, "unlocktime": 1586788872},
-             {"apiname": "BA2D4A5445CB70276A8F5D9E1AFCE080", "achieved": 1, "unlocktime": 1586788872}]})
+        # I don't know how this fixes the console error but if it works for now idc...
+        return jsonify({"UserId": userid, "StateName": "Fstring", "Segment": "FString", "List": [
+            {
+                "ObjectId": "EFAB89E6465D1163D62A07B11048F2B6",
+                "Version": 11111111,
+                "SchemaVersion": 11111111,
+                "Data":
+                    {
+                        "Key": "Value"
+                    }
+            },
+            {
+                "ObjectId": "2CAEBB354D506D7C43B941BC1DA775A0",
+                "Version": 11111111,
+                "SchemaVersion": 11111111,
+                "Data":
+                    {
+                        "Key": "Value"
+                    }
+            },
+            {
+                "ObjectId": "E51981B946BEE3D45C5C41B2FCFF310B",
+                "Version": 11111111,
+                "SchemaVersion": 11111111,
+                "Data":
+                    {
+                        "Key": "Value"
+                    }
+            },
+            {
+                "ObjectId": "AAD05B9D46471DC811BBE0BA91916AB7",
+                "Version": 11111111,
+                "SchemaVersion": 11111111,
+                "Data":
+                    {
+                        "Key": "Value"
+                    }
+            },
+            {
+                "ObjectId": "BA2D4A5445CB70276A8F5D9E1AFCE080",
+                "Version": 11111111,
+                "SchemaVersion": 11111111,
+                "Data":
+                    {
+                        "Key": "Value"
+                    }
+            }
+        ]})
     except TimeoutError:
         return jsonify({"status": "error"})
     except Exception as e:
