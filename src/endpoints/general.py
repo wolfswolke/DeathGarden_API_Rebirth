@@ -232,6 +232,7 @@ def services_tex_events():
 
 @app.route("/api/v1/consent/eula2", methods=["PUT", "GET"])
 def consent_eula():
+    # todo Fix this
     check_for_game_client("strict")
     session_cookie = sanitize_input(request.cookies.get("bhvrSession"))
     userid = session_manager.get_user_id(session_cookie)
@@ -257,19 +258,10 @@ def consent_eula():
             is_given = mongo.get_data_with_list(login=userid, login_steam=False,
                                                 items={"eula"})
             if is_given["eula"]:
-                return "", 204
-                return jsonify({
-                    "Userid": "userid",
-                    "ConsentList": [
-                        {
-                            "ConsentId": "ZKApi",
-                            "isGiven": True,
-                            "UpdatedDate": 1689714606,
-                            "AttentionNeeded": False,
-                            "LatestVersion": "ZKApi"
-                        }
-                    ]
-                })
+                return jsonify({"ConsentId": "ZKApi", "isGiven": True, "UpdatedDate": 1689714606, "AttentionNeeded": False,
+                                "LatestVersion": {"Label": "ZKApi", "EntryDate": 1689714606
+                                }, "Userid": userid})
+
             else:
                 return jsonify({"isGiven": False})
     except Exception as e:
