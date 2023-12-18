@@ -69,7 +69,7 @@ class Session_Manager:
         self.clean_sessions()
         if session_id not in self.sessions:
             logger.graylog_logger(level="info", handler="session_manager", message=f"Session ID: {session_id} not found.")
-            abort(401)
+            return None
         self.extend_session(session_id)
         return self.sessions[session_id]["user"]
 
