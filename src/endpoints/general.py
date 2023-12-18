@@ -141,18 +141,6 @@ def tex_get():
         logger.graylog_logger(level="error", handler="general-tex", message=e)
 
 
-@app.route('/favicon.ico')
-def favicon():
-    check_for_game_client("soft")
-    try:
-        return send_from_directory(os.path.join(app.root_path, 'image'), 'favicon.ico',
-                                   mimetype='image/vnd.microsoft.icon')
-    except TimeoutError:
-        return jsonify({"status": "error"})
-    except Exception as e:
-        logger.graylog_logger(level="error", handler="general-favicon", message=e)
-
-
 @app.route("/api/v1/healthcheck", methods=["GET"])
 def healthcheck():
     check_for_game_client("soft")
@@ -202,6 +190,13 @@ def services_tex():
         return jsonify({"status": "error"})
     except Exception as e:
         logger.graylog_logger(level="error", handler="general-services-tex", message=e)
+
+
+@app.route("/api/v1/statuses/up", methods=["GET"])
+def statuses_up():
+    return jsonify({"description": "The service is up", "level": "NORMAL", "default": True,
+                    "image": "https://api.zkwolf.com/images/icons/fugue/tick-circle.png",
+                    "url": "https://api.zkwolf.com/api/v1/statuses/up", "id": "up", "name": "Up"})
 
 
 @app.route("/api/v1/services/tex/events/ahdzfnB1Ymxpc2hpbmctc3Rhc2hib2FyZHISCxIFRXZlbnQYgICAgMC1mwoM", methods=["GET"])

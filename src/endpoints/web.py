@@ -27,6 +27,29 @@ def dnt():
     return send_from_directory(app.static_folder, request.path[1:])
 
 
+@app.route('/favicon.ico')
+def favicon():
+    check_for_game_client("soft")
+    try:
+        return send_from_directory(os.path.join(app.root_path, 'image'), 'favicon.ico',
+                                   mimetype='image/vnd.microsoft.icon')
+    except TimeoutError:
+        return jsonify({"status": "error"})
+    except Exception as e:
+        logger.graylog_logger(level="error", handler="general-favicon", message=e)
+
+
+@app.route('/images/icons/fugue/tick-circle.png')
+def tick_circle():
+    try:
+        return send_from_directory(os.path.join(app.root_path, 'image'), 'tick-circle.png',
+                                   mimetype='image/vnd.microsoft.icon')
+    except TimeoutError:
+        return jsonify({"status": "error"})
+    except Exception as e:
+        logger.graylog_logger(level="error", handler="general-tick-circle-png", message=e)
+
+
 @app.route("/debug", methods=["Get"])
 def debug_root():
     check_for_game_client("soft")
