@@ -16,7 +16,7 @@ def normalize_data(json_data, prev_guid, next_guid):
             "InitialQuantity": 1,
             "DefaultCost": item_data.get("Properties", {}).get("DefaultCost"),
             "MetaData": {
-                "GameplayTags": item_data.get("Properties", {}).get("TagContainer"),
+                "GameplayTags": [],
                 "MinPlayerLevel": 1,
                 "MinCharacterLevel": 1,
                 "Origin": "None",
@@ -26,6 +26,9 @@ def normalize_data(json_data, prev_guid, next_guid):
             "Faction": "",
             "GameplayTagContainer": {}
         }
+        normalized_data["MetaData"]["GameplayTags"] = []
+        for tag in item_data.get("Properties", {}).get("TagContainer", []):
+            normalized_data["MetaData"]["GameplayTags"].append({"TagName": tag})
         if item_data.get("Properties", {}).get("TagContainer"):
             try:
                 normalized_data["GameplayTagContainer"] = {"GameplayTags": [{"TagName": item_data.get("Properties", {}).get("TagContainer")[0]}],"ParentTags": [{"TagName": item_data.get("Properties", {}).get("TagContainer")[1]}]}
