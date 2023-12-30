@@ -43,7 +43,7 @@ def queue_info():
         if side not in ["A", "B"]:
             return jsonify({"message": "Invalid side parameter"}), 400
 
-        response_data = matchmaking_queue.getQueueStatus(side, session)
+        response_data = matchmaking_queue.getQueueStatus(side, session, region)
         return jsonify(response_data)
         # return jsonify({"A": {"Size": 1, "ETA": 100, "stable": True}, "B": {"Size": 5, "ETA": 100, "stable": True}, "SizeA": count_a, "SizeB": count_b})
     except TimeoutError:
@@ -111,7 +111,7 @@ def queue():
             return jsonify(response_data)
 
         else:
-            response_data = matchmaking_queue.getQueueStatus(side, userid)
+            response_data = matchmaking_queue.getQueueStatus(side, userid, region)
             return jsonify(response_data)
 
     except Exception as e:
@@ -163,6 +163,7 @@ def match(matchid_unsanitized):
         return jsonify({"MatchId": matchid, "Category": "Steam-te-18f25613-36778-ue4-374f864b", "Rank": 1})
     try:
         response_data = matchmaking_queue.createMatchResponse(matchid)
+        logger.graylog_logger(level="debug", handler="match", message=response_data)
         return jsonify(response_data)
     except Exception as e:
         logger.graylog_logger(level="error", handler="match", message=e)
@@ -206,7 +207,7 @@ def match_register(match_id_unsanitized):
         custom_data = data.get("customData", {})
         session_settings = custom_data.get("SessionSettings", "")
 
-        response = matchmaking_queue.registerMatch(match_id, session_settings)
+        response = matchmaking_queue.registerMatch(match_id, session_settings, userid)
 
         if response:
             return jsonify(response)
@@ -280,16 +281,53 @@ def match_create():
 
 @app.route("/api/v1/extensions/progression/playerEndOfMatch", methods=["POST"])
 def progression_player_end_of_match():
+    # {"data":{"playerId":"619d6f42-db87-4f3e-8dc9-3c9995613614",
+    # "faction":"Runner","characterGroup":"RunnerGroupE",
+    # "playtime":79,"platform":"PC","hasQuit":false,"characterState":"Dead",
+    # "matchId":"63203229-1cd7-42da-8821-540eb87536c1",
+    # "experienceEvents":[{"type":"GardenFinale","amount":5}],"earnedCurrencies":[],"completedChallenges":[]}}
     check_for_game_client("strict")
     session_cookie = sanitize_input(request.cookies.get("bhvrSession"))
     userid = session_manager.get_user_id(session_cookie)
     try:
         logger.graylog_logger(level="info", handler="matchmaking_playerEndOfMatch", message=request.get_json())
-        return jsonify("", 204)
+        return jsonify({"Player": {"Success": True}})
     except TimeoutError:
         return jsonify({"status": "error"})
     except Exception as e:
         logger.graylog_logger(level="error", handler="matchmaking_playerEndOfMatch", message=e)
+
+
+@app.route("/api/v1/extensions/progression/endOfMatch", methods=["POST"])
+def progression_end_of_match():
+    # todo Implent this fully
+
+    # {"data":{"players":[
+    # {"playerId":"619d6f42-db87-4f3e-8dc9-3c9995613614","faction":"Runner","characterGroup":"RunnerGroupE",
+    # "platform":"PC","hasQuit":false,"characterState":"Dead"},
+    # {"playerId":"95041085-e7e4-4759-be3d-e72c69167578","faction":"Hunter","characterGroup":"HunterGroupB",
+    # "platform":"PC","hasQuit":false,"characterState":"InArena"},
+    # {"playerId":"00658d11-2dfd-41e8-b6d2-2462e8f3aa47","faction":"Runner","characterGroup":"RunnerGroupB",
+    # "platform":"PC","hasQuit":false,"characterState":"Dead"}],
+    # "dominantFaction":"Hunter","matchId":"df9655d9-63ac-4dde-a9e9-129aaa249356"}}
+    check_for_game_client("strict")
+    session_cookie = sanitize_input(request.cookies.get("bhvrSession"))
+    userid = session_manager.get_user_id(session_cookie)
+    try:
+        players = []
+        for player in request.get_json()["data"]["players"]:
+            players.append({"PlayerId": player["playerId"]})
+        logger.graylog_logger(level="info", handler="matchmaking_endOfMatch", message=request.get_json())
+        return jsonify({"Players": [
+            {},
+            {}
+        ]})
+        sub_list = {"Level": 3, "Ratio": 0.4}
+    except TimeoutError:
+        return jsonify({"status": "error"})
+    except Exception as e:
+        logger.graylog_logger(level="error", handler="matchmaking_endOfMatch", message=e)
+
 
 
 @app.route("/file/<game_version_unsanitized>/<seed_unsanitized>/<map_name_unsanitized>", methods=["POST", "GET"])
@@ -333,3 +371,20 @@ def metrics_matchmaking_event():
     except Exception as e:
         logger.graylog_logger(level="error", handler="logging_matchmaking_Event", message=e)
 
+
+@app.route("/api/v1/match/<match_id_unsanitized>/user/<user_id>", methods=["DELETE"])
+def remove_player_from_match(match_id_unsanitized, user_id):
+    check_for_game_client("strict")
+    session_cookie = sanitize_input(request.cookies.get("bhvrSession"))
+    userid = session_manager.get_user_id(session_cookie)
+    match_id = sanitize_input(match_id_unsanitized)
+
+    try:
+        response = matchmaking_queue.remove_user_from_Match(match_id, user_id)
+        if response == {"status": "success"}:
+            return "", 204
+        else:
+            return jsonify({"message": "Internal Server Error"}), 500
+    except Exception as e:
+        logger.graylog_logger(level="error", handler="remove_player_from_match", message=e)
+        return jsonify({"message": "Internal Server Error"}), 500

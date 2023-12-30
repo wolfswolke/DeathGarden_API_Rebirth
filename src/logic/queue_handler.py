@@ -46,8 +46,9 @@ class MatchmakingQueue:
 
     def queuePlayer(self, side, userId):
         try:
+            current_timestamp, expiration_timestamp = get_time()
             queuedPlayer = QueuedPlayer(userId, side,
-                                        get_time())
+                                        current_timestamp)
             self.queuedPlayers.append(queuedPlayer)
         except Exception as e:
             logger.graylog_logger(level="error", handler="matchmaking_queuePlayer", message=e)
@@ -62,9 +63,9 @@ class MatchmakingQueue:
             logger.graylog_logger(level="error", handler="matchmaking_getQueuedPlayer", message=e)
             return None
 
-    def getQueueStatus(self, side, userid):
+    def getQueueStatus(self, side, userId, region):
         try:
-            queuedPlayer, index = self.getQueuedPlayer(userid)
+            queuedPlayer, index = self.getQueuedPlayer(userId)
             if not queuedPlayer:
                 return {}
             if side == 'B':
@@ -75,8 +76,7 @@ class MatchmakingQueue:
                         if len(openLobby.nonHosts) < 4:
                             openLobby.nonHosts.append(queuedPlayer)
                             self.queuedPlayers.pop(index)
-                            return self.createQueueResponseMatched(openLobby.host.userId, openLobby.id,
-                                                                   userid)
+                            return self.createQueueResponseMatched(openLobby.host, openLobby.id, userId)
 
                 else:
                     return {
@@ -92,7 +92,7 @@ class MatchmakingQueue:
                 matchId = self.genMatchUUID()
                 lobby = Lobby(False, queuedPlayer, [], matchId, False, False)
                 self.openLobbies.append(lobby)
-                return self.createQueueResponseMatched(userid, matchId)
+                return self.createQueueResponseMatched(userId, matchId)
         except Exception as e:
             logger.graylog_logger(level="error", handler="matchmaking_getQueueStatus", message=e)
             return None
@@ -114,9 +114,10 @@ class MatchmakingQueue:
                 return killedLobby
         return None
 
-    def registerMatch(self, matchId, sessionSettings):
+    def registerMatch(self, matchId, sessionSettings, userId):
         lobby, _ = self.getLobbyById(matchId)
         if lobby:
+            lobby.host = userId
             lobby.isReady = True
             lobby.sessionSettings = sessionSettings
             return self.createMatchResponse(matchId)
@@ -125,12 +126,13 @@ class MatchmakingQueue:
         lobby, index = self.getLobbyById(matchId)
         if lobby:
             self.openLobbies.pop(index)
-            killedLobby = KilledLobby(lobby.id, lobby.reason, get_time())
+            current_timestamp, expiration_timestamp = get_time()
+            killedLobby = KilledLobby(lobby.id, "killed_by_host", current_timestamp)
             self.killedLobbies.append(killedLobby)
 
     def isOwner(self, matchId, userid):
         lobby, _ = self.getLobbyById(matchId)
-        return lobby and lobby.host.userid == userid
+        return lobby and lobby.host == userid
 
     def deleteOldMatches(self):
         current_time = get_time()
@@ -143,96 +145,61 @@ class MatchmakingQueue:
             lobby = self.getLobbyById(matchId)[0] or self.getKilledLobbyById(matchId)
             if not lobby:
                 return {}
+            host = lobby.host
+            current_timestamp, expiration_timestamp = get_time()
+            try:
+                sessionSettings = lobby.sessionSettings
+            except:
+                sessionSettings = ""
             return {
-                "category": "Steam-te-18f25613-36778-ue4-374f864b",
-                "churn": 0,
-                "creationDateTime": get_time(),
-                "creator": lobby.host.userId,
+                "Category": "Steam-te-18f25613-36778-ue4-374f864b",
+                "creationDateTime": current_timestamp,
+                "creator": host,
                 "customData": {
-                    "SessionSettings": lobby.sessionSettings or "",
+                    "SessionSettings": sessionSettings,
                 },
-                "geolocation": {},
-                "matchId": matchId,
+                "MatchId": matchId,
                 "props": {
                     "countA": 1,
                     "countB": 4,
                     "EncryptionKey": "Rpqy9fgpIWrHxjJpiwnJJtoZ2hbUZZ4paU+0n4K/iZI=",
-                    "gameMode": "None",
+                    "gameMode": "4cb782397d46fc432d10bdc24538097a",
                     "platform": "Windows",
                 },
                 "rank": 1,
-                "reason": lobby.reason or "",
-                "schema": 3,
-                "sideA": [lobby.host.userId],
+                "Schema": 3,
+                "sideA": host,
                 "sideB": [player.userId for player in lobby.nonHosts],
-                "skill": {
-                    "continent": "NA",
-                    "country": "US",
-                    "latitude": 0,
-                    "longitude": 0,
-                    "rank": 20,
-                    "rating": {
-                        "rating": 1500,
-                        "RD": 347.4356,
-                        "volatility": 0.06,
-                    },
-                    "regions": {
-                        "good": ["us-east-1"],
-                        "ok": ["us-east-1"],
-                    },
-                    "version": 2,
-                    "x": 20,
-                },
-                "status": "KILLED" if killed else "OPENED",
-                "version": 2,
+                "Players": [host] + [player.userId for player in lobby.nonHosts],
+                "status": "KILLED" if killed else "OPENED"
             }
         except Exception as e:
             logger.graylog_logger(level="error", handler="matchmaking_createMatchResponse", message=e)
 
     def createQueueResponseMatched(self, creatorId, matchId, joinerId=None):
         try:
+            current_timestamp, expiration_timestamp = get_time()
             return {
                 "status": "MATCHED",
                 "matchData": {
                     "category": "Steam-te-18f25613-36778-ue4-374f864b",
-                    "churn": 0,
-                    "creationDateTime": get_time(),
+                    "creationDateTime": current_timestamp,
                     "creator": creatorId,
                     "customData": {},
-                    "geolocation": {},
                     "matchId": matchId,
                     "props": {
                         "countA": 1,
-                        "countB": 4,
+                        "countB": 5,
                         "EncryptionKey": "Rpqy9fgpIWrHxjJpiwnJJtoZ2hbUZZ4paU+0n4K/iZI=",
-                        "gameMode": "None",
+                        "gameMode": "4cb782397d46fc432d10bdc24538097a",
                         "platform": "Windows",
                     },
                     "rank": 1,
-                    "reason": "",
                     "schema": 3,
                     "sideA": [creatorId],
                     "sideB": [joinerId] if joinerId else [],
-                    "skill": {
-                        "continent": "NA",
-                        "country": "US",
-                        "latitude": 0,
-                        "longitude": 0,
-                        "rank": 20,
-                        "rating": {
-                            "rating": 1500,
-                            "RD": 347.4356,
-                            "volatility": 0.06,
-                        },
-                        "regions": {
-                            "good": ["us-east-1"],
-                            "ok": ["us-east-1"],
-                        },
-                        "version": 2,
-                        "x": 20,
-                    },
-                    "status": "CREATED",
-                    "version": 1,
+                    "Players": [creatorId] + ([joinerId] if joinerId else []),
+                    "status": "CREATED"
                 },
             }
         except Exception as e:
@@ -241,17 +208,33 @@ class MatchmakingQueue:
     def getSession(self, userid):
         try:
             for lobby in self.openLobbies:
-                if lobby.host.userId == userid:
-                    return Session(lobby.host.userId, [player.userId for player in lobby.nonHosts])
+                if lobby.host == userid:
+                    return Session(lobby.host, [player.userId for player in lobby.nonHosts])
                 for player in lobby.nonHosts:
                     if player.userId == userid:
-                        return Session(lobby.host.userId, [player.userId for player in lobby.nonHosts])
+                        return Session(lobby.host, [player.userId for player in lobby.nonHosts])
             return None
         except Exception as e:
             logger.graylog_logger(level="error", handler="getSession", message=e)
 
     def genMatchUUID(self):
         return str(uuid.uuid4())
+
+    def remove_user_from_Match(self, matchId, userId):
+        try:
+            lobby, _ = self.getLobbyById(matchId)
+            if lobby:
+                if lobby.host == userId:
+                    self.deleteMatch(matchId)
+                else:
+                    for i, player in enumerate(lobby.nonHosts):
+                        if player.userId == userId:
+                            lobby.nonHosts.pop(i)
+                            break
+            return {"status": "success"}
+        except Exception as e:
+            logger.graylog_logger(level="error", handler="remove_user_from_Match", message=e)
+            return {"status": "error"}
 
 
 matchmaking_queue = MatchmakingQueue()
