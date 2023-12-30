@@ -123,7 +123,8 @@ def config_use_mirrors_mm_steam():
 def crashreporter_ping():
     check_for_game_client("soft")
     try:
-        return jsonify({"status": "success"})
+        # potentialy {"status":"success","stackKeyId":-1,"crashId":1525,"messageId":-1}
+        return "healthy"
     except TimeoutError:
         return jsonify({"status": "error"})
     except Exception as e:
@@ -157,7 +158,8 @@ def healthcheck():
 @app.route("/api/v1/services/tex/")
 def services_tex():
     try:
-        if request.headers.get('User-Agent') == "TheExit/++UE4+Release-4.21-CL-0 Windows/6.2.9200.1.256.64bit":
+        user_agent = request.headers.get('User-Agent')
+        if "TheExit/++UE4+Release-4.21-CL-0 Windows/" in user_agent:
             # EStashboard [0 Up, 1 Down, 2 Warning, 3 Failed]
             #todo Set Timestamp to current time
             return jsonify({
