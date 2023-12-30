@@ -193,14 +193,14 @@ def challenges_get_challenges():
         elif challenge_type == "Daily":
             return jsonify({"Challenges": ["Daily_Domination_Hunter", "Daily_Domination_Runner"]})
         else:
-            logger.graylog_logger(level="error", handler="getChallanges",
+            logger.graylog_logger(level="error", handler="getChallenges",
                                   message=f"Unknown challenge type {challenge_type}")
             return jsonify({"status": "error"})
 
     except TimeoutError:
         return jsonify({"status": "error"})
     except Exception as e:
-        logger.graylog_logger(level="error", handler="getChallanges", message=e)
+        logger.graylog_logger(level="error", handler="getChallenges", message=e)
 
 
 @app.route("/api/v1/extensions/challenges/executeChallengeProgressionOperationBatch", methods=["POST"])
@@ -238,7 +238,7 @@ def inventories():
             return jsonify({"Code": 200, "Message": "OK", "Data": {"PlayerId": userid, "Inventory": [], "NextPage": 0}})
         elif page == 1:
             return jsonify({"Code": 200, "Message": "OK", "Data": {"PlayerId": userid, "Inventory": [
-                {"ObjectId": "DA7C176F-48525599-C9477C95-137C7369", "Quantity": 1, "LastUpdateAt": 1687377305},
+                {"ObjectId": "16FEF910-4BD42353-C010579D-56FD5B2F", "Quantity": 1, "LastUpdateAt": 1687377305},
                 {"ObjectId": "C1672541-4A4B16B9-AD557C9E-E865D113", "Quantity": 1, "LastUpdateAt": 1687377305}
             ], "NextPage": 0}})
     except TimeoutError:
@@ -514,7 +514,8 @@ def messages_mark_as():
         unread_messages = ",".join(unread_messages)
         data = {"unread_msg_ids": unread_messages}
         mongo.write_data_with_list(login=userid, login_steam=False, items_dict=data)
-        return jsonify({"List": [{"Received": get_time(), "Success": True, "RecipientId": userid}]})
+        current_timestamp, expiration_timestamp = get_time()
+        return jsonify({"List": [{"Received": current_timestamp, "Success": True, "RecipientId": userid}]})
     except TimeoutError:
         return jsonify({"status": "Timeout error"})
     except Exception as e:
@@ -555,64 +556,51 @@ def extension_progression_init_or_get_groups():
         # The client cant understand CharacterId for some reason??? But if this is removed the game doesn't load the
         # "Choose Hunter or Runner" screen.
         return jsonify({
-            "ProgressionGroups": [
-                {
-                    "ObjectId": "56B7B6F6-473712D0-B7A2F992-BB2C16CD",
-                    "Version": 1,
-                    "SchemaVersion": 1.1,
-                    "Data": {"Experience": {"Level": 11, "CurrentExperience": 2, "ExperienceToReach": 30}},
-                },
-                {
-                    "ObjectId": "C50FFFBF-46866131-82F45890-651797CE",
-                    "Version": 1,
-                    "SchemaVersion": 1.1,
-                    "Data": {"Experience": {"Level": 21, "CurrentExperience": 12, "ExperienceToReach": 30}},
-                }
-            ],
-            "MetadataGroups": [
-                {
-                    "ObjectId": "56B7B6F6-473712D0-B7A2F992-BB2C16CD",
-                    "Version": 1,
-                    "SchemaVersion": 1.1,
-                    "Data": {"CharacterId": {"TagName": "Runner.Smoke"},
-                             "Equipment": ["Primary Weapon", "Bonus 1", "Bonus 2", "Perk 1",
-                                           "Perk 2"],
-                             "EquippedPerks": ["38E5F7F2-41E2BA11-77419BB3-12FC1ACE",
-                                               "1A09DB19-434DA733-AAD3D9B5-B1929CD4",
-                                               "19FB6205-4E644ECD-C831E29F-C5B9E501",
-                                               "32065218-4E1A719D-EF1D3C93-95EE7344"],
-                             "EquippedPowers": [""],
-                             "EquippedWeapons": ["49223250-4161420C-872A0F82-FC16ACDB"],
-                             "EquippedAbilities": ["C8AF3D53-4973F82F-ADBB40BD-A96F9DCD"],
-                             "EquippedBonuses": ["1E08AFFA-485E92BA-FF2C1BB8-5CEFB81E"],
-                             "PrestigeLevel": 1,
-                             "PickedChallenges": []}
-                },
-                {
-                    "ObjectId": "C50FFFBF-46866131-82F45890-651797CE",
-                    "Version": 1,
-                    "SchemaVersion": 1.1,
-                    "Data": {"CharacterId": {"TagName": "Runner.Stalker"},
-                             "Equipment": ["Primary Weapon", "Bonus 1", "Bonus 2", "Perk 1",
-                                           "Perk 2", "Ability01", "Ability02", "Ability03", "Sidearm"],
-                             "EquippedPerks": ["7CE5AFBF-459102E5-728DCDAA-6F88C0F1",
-                                               "2DBF9B11-4B82A639-40936396-CBA68BCD"],
-                             "EquippedPowers": ["10A8C667-45801664-6E2EFA94-52E3141A",
-                                                "08DC38B6-470A7A5B-0BA025B9-6279DAA8",
-                                                "51595917-43CBF0B5-7EC6FEB3-341960D6"],
-                             "EquippedWeapons": ["36466540-42433114-08F6A0BD-4DCE05BD",
-                                                 "307A0B13-417737DE-D675309F-8B978AB8"],
-                             "EquippedBonuses": ["791F12E0-47DA9E26-E246E385-9C3F587E",
-                                                 "8A5BF227-4640C2F2-3EF3C996-A6F6404D"],
-                             "EquippedAbilities": ["10A8C667-45801664-6E2EFA94-52E3141A",
-                                                   "08DC38B6-470A7A5B-0BA025B9-6279DAA8",
-                                                   "51595917-43CBF0B5-7EC6FEB3-341960D6"],
-                             "PrestigeLevel": 1,
-                             "PickedChallenges": []
-                             }
-                }
-            ]
-        })
+   "ProgressionGroups":[
+      {
+         "ObjectId":"1020F178-4C0B01E1-5996E0A9-E2E1A972",
+         "Version":1,
+         "SchemaVersion":1.1,
+         "Data":{
+            "Experience":{
+               "Level":11,
+               "CurrentExperience":2,
+               "ExperienceToReach":30
+            }
+         }
+      },
+      {
+         "ObjectId":"01AFD779-45C31407-5E09ACBF-70455761",
+         "Version":1,
+         "SchemaVersion":1.1,
+         "Data":{
+            "Experience":{
+               "Level":21,
+               "CurrentExperience":12,
+               "ExperienceToReach":30
+            }
+         }
+      }
+   ],
+   "MetadataGroups":[
+      {
+         "ObjectId":"1020F178-4C0B01E1-5996E0A9-E2E1A972",
+         "Version":1,
+         "SchemaVersion":1.1,
+         "Data":{
+
+         }
+      },
+      {
+         "ObjectId":"01AFD779-45C31407-5E09ACBF-70455761",
+         "Version":1,
+         "SchemaVersion":1.1,
+         "Data":{
+
+         }
+      }
+   ]
+})
     except TimeoutError:
         return jsonify({"status": "error"})
     except Exception as e:
@@ -645,7 +633,114 @@ def challenges_get_challenge_progression_batch():
         logger.graylog_logger(level="info", handler="logging_getChallengeProgressionBatch",
                               message=request.get_json())
         # MirrorsExtModelGetChallengeProgressionBatchResponse -> TArray MirrorsExtModelChallengeProgressionOperation
-        return jsonify({"ProgressionBatch": [{"ChallengeId": "", "OperationName": "", "OperationData": {}}]})
+        # {"data":{"userId":"619d6f42-db87-4f3e-8dc9-3c9995613614","challengeIds":["BA2D4A5445CB70276A8F5D9E1AFCE080",
+        # "AAD05B9D46471DC811BBE0BA91916AB7","E51981B946BEE3D45C5C41B2FCFF310B","2CAEBB354D506D7C43B941BC1DA775A0",
+        # "EFAB89E6465D1163D62A07B11048F2B6"]}}
+        data = request.get_json()
+        challenge_ids = data["data"]["challengeIds"]
+        challenge_list = []
+        for challenge in challenge_ids:
+            # todo Add Database Logic
+
+            # Achievement_0_Id=EFAB89E6465D1163D62A07B11048F2B6
+            # Achievement_0_bIsHidden=false
+            # Achievement_0_Title="Not A Quitter"
+            # Achievement_0_LockedDesc="Complete 50 matches as either a Runner, Hunter or a combination of the two"
+            # Achievement_0_UnlockedDesc="Not A Quitter achieved"
+            # Achievement_1_Id=2CAEBB354D506D7C43B941BC1DA775A0
+            # Achievement_1_bIsHidden=false
+            # Achievement_1_Title="Escapist"
+            # Achievement_1_LockedDesc="Escape the Garden 10 times"
+            # Achievement_1_UnlockedDesc="Escapist achieved"
+            # Achievement_2_Id=E51981B946BEE3D45C5C41B2FCFF310B
+            # Achievement_2_bIsHidden=false
+            # Achievement_2_Title="Special Delivery"
+            # Achievement_2_LockedDesc="Deliver a total of 500 Blood across matches"
+            # Achievement_2_UnlockedDesc="Special Delivery achieved"
+            # Achievement_3_Id=AAD05B9D46471DC811BBE0BA91916AB7
+            # Achievement_3_bIsHidden=false
+            # Achievement_3_Title="Don't Be A Downer"
+            # Achievement_3_LockedDesc="Down a total of 50 Runners"
+            # Achievement_3_UnlockedDesc="Don't Be A Downer achieved"
+            # Achievement_4_Id=BA2D4A5445CB70276A8F5D9E1AFCE080
+            # Achievement_4_bIsHidden=false
+            # Achievement_4_Title="Drone Zone"
+            # Achievement_4_LockedDesc="Power up a total of 100 Drones across matches"
+            # Achievement_4_UnlockedDesc="Drone Zone achieved"
+            #
+            # ({"Id": "AssaultRifleWins_HunterWeekly", "Type": 2, "Title": "Hunter_DroneCharger_Name",
+            #                         "Body": "Hunter_DroneCharger_DESC", "Progress": 1, "ValueToReach": 10, "TimeLeft": 1440000000,
+            #                         "ShouldShowCompleteAnimation": True, "Rewards":
+            #                             [{"Type": "Weekly", "Id": "C90F72FC4D61B1F2FBC73F8A4685EA41", "Amount": 1.0,
+            #                               "Claimed": False}]})
+            if challenge == "BA2D4A5445CB70276A8F5D9E1AFCE080":
+                challenge_list.append({"ChallengeId": "BA2D4A5445CB70276A8F5D9E1AFCE080", "OperationName": "Drone Zone",
+                                       "OperationData": {"Type": "Achievement", "Progress": 1, "ValueToReach": 100,
+                                                         "Body": "Power up a total of 100 Drones across matches",
+                                                         "Title": "Hunter_DroneCharger_Name",
+                                                         "ShouldShowCompleteAnimation": True,
+                                                         "Rewards": [{"Type": "Weekly",
+                                                                      "Id": "C90F72FC4D61B1F2FBC73F8A4685EA41",
+                                                                      "Amount": 1.0, "Claimed": False}]}})
+            elif challenge == "AAD05B9D46471DC811BBE0BA91916AB7":
+                challenge_list.append({"ChallengeId": "AAD05B9D46471DC811BBE0BA91916AB7",
+                                       "OperationName": "Don't Be A Downer",
+                                       "OperationData": {"Type": "Achievement",
+                                                         "Progress": 1,
+                                                         "ValueToReach": 50,
+                                                         "Body": "Down a total of 50 Runners",
+                                                         "Title": "Don't Be A Downer",
+                                                         "ShouldShowCompleteAnimation": True,
+                                                         "Rewards": [{"Type": "Weekly",
+                                                                      "Id": "C90F72FC4D61B1F2FBC73F8A4685EA41",
+                                                                      "Amount": 1.0, "Claimed": False}]}})
+            elif challenge == "E51981B946BEE3D45C5C41B2FCFF310B":
+                challenge_list.append({"ChallengeId": "E51981B946BEE3D45C5C41B2FCFF310B",
+                                       "OperationName": "Special Delivery",
+                                       "OperationData": {
+                                           "Type": "Achievement",
+                                           "Progress": 1,
+                                           "ValueToReach": 500,
+                                           "Body": "Deliver a total of 500 Blood across matches",
+                                           "Title": "Special Delivery",
+                                           "ShouldShowCompleteAnimation": True,
+                                           "Rewards": [{"Type": "Weekly",
+                                                        "Id": "C90F72FC4D61B1F2FBC73F8A4685EA41",
+                                                        "Amount": 1.0, "Claimed": False}]
+
+                                       }})
+            elif challenge == "2CAEBB354D506D7C43B941BC1DA775A0":
+                challenge_list.append({"ChallengeId": "2CAEBB354D506D7C43B941BC1DA775A0",
+                                       "OperationName": "Escapist",
+                                       "OperationData": {
+                                           "Type": "Achievement",
+                                           "Progress": 1,
+                                           "ValueToReach": 10,
+                                           "Body": "Escape the Garden 10 times",
+                                           "Title": "Escapist",
+                                           "ShouldShowCompleteAnimation": True,
+                                           "Rewards": [{"Type": "Weekly",
+                                                        "Id": "C90F72FC4D61B1F2FBC73F8A4685EA41",
+                                                        "Amount": 1.0, "Claimed": False}]
+                                       }})
+            elif challenge == "EFAB89E6465D1163D62A07B11048F2B6":
+                challenge_list.append({"ChallengeId": "EFAB89E6465D1163D62A07B11048F2B6",
+                                       "OperationName": "Not A Quitter",
+                                       "OperationData": {
+                                           "Type": "Achievement",
+                                           "Progress": 1,
+                                           "ValueToReach": 50,
+                                           "Body": "Complete 50 matches as either a Runner, Hunter or a combination of the two",
+                                           "Title": "Not A Quitter",
+                                           "ShouldShowCompleteAnimation": True,
+                                           "Rewards": [{"Type": "Weekly",
+                                                        "Id": "C90F72FC4D61B1F2FBC73F8A4685EA41",
+                                                        "Amount": 1.0, "Claimed": False}]
+                                       }})
+            else:
+                logger.graylog_logger(level="error", handler="logging_getChallengeProgressionBatch",
+                                      message=f"Unknown challenge id {challenge}")
+        return jsonify({"ProgressionBatch": challenge_list})
     except TimeoutError:
         return jsonify({"status": "error"})
 
