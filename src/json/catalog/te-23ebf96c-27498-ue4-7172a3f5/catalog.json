@@ -17997,22 +17997,6 @@
         ],
         [
             {
-                "Id": "78DE008E-46FBE086-89D3C7B1-EE87BA3F",
-                "DisplayName": null,
-                "Purchasable": true,
-                "Consumable": false,
-                "InitialQuantity": 1,
-                "MetaData": {
-                    "GameplayTags": [],
-                    "MinPlayerLevel": 1,
-                    "MinCharacterLevel": 1,
-                    "Origin": "None"
-                },
-                "GameplayTagContainer": {}
-            }
-        ],
-        [
-            {
                 "Id": "59A34D1B-49C14448-7A25F998-3B75078D",
                 "DisplayName": "D8553DA445B3E0E4E0111699DE35FCE1",
                 "Purchasable": true,
@@ -35362,70 +35346,6 @@
         ],
         [
             {
-                "Id": "BA3B23CC-4DE87EDC-26057B9F-FC137E25",
-                "DisplayName": null,
-                "Purchasable": true,
-                "Consumable": false,
-                "InitialQuantity": 1,
-                "MetaData": {
-                    "GameplayTags": [],
-                    "MinPlayerLevel": 1,
-                    "MinCharacterLevel": 1,
-                    "Origin": "None"
-                },
-                "GameplayTagContainer": {}
-            }
-        ],
-        [
-            {
-                "Id": "4F846D63-40BEBECD-DE468AB3-833DFA48",
-                "DisplayName": null,
-                "Purchasable": true,
-                "Consumable": false,
-                "InitialQuantity": 1,
-                "MetaData": {
-                    "GameplayTags": [],
-                    "MinPlayerLevel": 1,
-                    "MinCharacterLevel": 1,
-                    "Origin": "None"
-                },
-                "GameplayTagContainer": {}
-            }
-        ],
-        [
-            {
-                "Id": "29E90091-4C859569-A2813BB3-8A85019E",
-                "DisplayName": null,
-                "Purchasable": true,
-                "Consumable": false,
-                "InitialQuantity": 1,
-                "MetaData": {
-                    "GameplayTags": [],
-                    "MinPlayerLevel": 1,
-                    "MinCharacterLevel": 1,
-                    "Origin": "None"
-                },
-                "GameplayTagContainer": {}
-            }
-        ],
-        [
-            {
-                "Id": "928EB26A-43872FD4-8CA64683-ADC93A5D",
-                "DisplayName": null,
-                "Purchasable": true,
-                "Consumable": false,
-                "InitialQuantity": 1,
-                "MetaData": {
-                    "GameplayTags": [],
-                    "MinPlayerLevel": 1,
-                    "MinCharacterLevel": 1,
-                    "Origin": "None"
-                },
-                "GameplayTagContainer": {}
-            }
-        ],
-        [
-            {
                 "Id": "5BC76BBC-47BBD3FA-896666A3-49D7F4FA",
                 "DisplayName": null,
                 "Purchasable": true,
@@ -35504,22 +35424,6 @@
         ],
         [
             {
-                "Id": "B2EAC458-4F4D0462-FB19E9BE-721B45D9",
-                "DisplayName": null,
-                "Purchasable": true,
-                "Consumable": false,
-                "InitialQuantity": 1,
-                "MetaData": {
-                    "GameplayTags": [],
-                    "MinPlayerLevel": 1,
-                    "MinCharacterLevel": 1,
-                    "Origin": "None"
-                },
-                "GameplayTagContainer": {}
-            }
-        ],
-        [
-            {
                 "Id": "1AE5949E-40313D7B-9CA8B49F-93AF318E",
                 "DisplayName": null,
                 "Purchasable": true,
@@ -35594,38 +35498,6 @@
                         }
                     ]
                 }
-            }
-        ],
-        [
-            {
-                "Id": "56F02CFD-4DE4FB77-3D07A8A7-EA4A2671",
-                "DisplayName": null,
-                "Purchasable": true,
-                "Consumable": false,
-                "InitialQuantity": 1,
-                "MetaData": {
-                    "GameplayTags": [],
-                    "MinPlayerLevel": 1,
-                    "MinCharacterLevel": 1,
-                    "Origin": "None"
-                },
-                "GameplayTagContainer": {}
-            }
-        ],
-        [
-            {
-                "Id": "B4CF4C91-4831FD83-9CAB62B0-D78DCEE5",
-                "DisplayName": null,
-                "Purchasable": true,
-                "Consumable": false,
-                "InitialQuantity": 1,
-                "MetaData": {
-                    "GameplayTags": [],
-                    "MinPlayerLevel": 1,
-                    "MinCharacterLevel": 1,
-                    "Origin": "None"
-                },
-                "GameplayTagContainer": {}
             }
         ],
         [
@@ -35734,22 +35606,6 @@
         ],
         [
             {
-                "Id": "E517DD6D-412DFC01-6007A286-363CD460",
-                "DisplayName": null,
-                "Purchasable": true,
-                "Consumable": false,
-                "InitialQuantity": 1,
-                "MetaData": {
-                    "GameplayTags": [],
-                    "MinPlayerLevel": 1,
-                    "MinCharacterLevel": 1,
-                    "Origin": "None"
-                },
-                "GameplayTagContainer": {}
-            }
-        ],
-        [
-            {
                 "Id": "71623271-40C04374-04D4C6B2-9A298385",
                 "DisplayName": "0B2E05B247A0E029B0D1798996456931",
                 "Purchasable": true,
@@ -35783,86 +35639,6 @@
                         }
                     ]
                 }
-            }
-        ],
-        [
-            {
-                "Id": "75142E90-4E07A396-1B7CFB93-C45ADC2C",
-                "DisplayName": null,
-                "Purchasable": true,
-                "Consumable": false,
-                "InitialQuantity": 1,
-                "MetaData": {
-                    "GameplayTags": [],
-                    "MinPlayerLevel": 1,
-                    "MinCharacterLevel": 1,
-                    "Origin": "None"
-                },
-                "GameplayTagContainer": {}
-            }
-        ],
-        [
-            {
-                "Id": "212B239B-4CE52139-4AF68D85-521BB731",
-                "DisplayName": null,
-                "Purchasable": true,
-                "Consumable": false,
-                "InitialQuantity": 1,
-                "MetaData": {
-                    "GameplayTags": [],
-                    "MinPlayerLevel": 1,
-                    "MinCharacterLevel": 1,
-                    "Origin": "None"
-                },
-                "GameplayTagContainer": {}
-            }
-        ],
-        [
-            {
-                "Id": "E0EFF333-4D269D5F-EA1916AF-D51ACA83",
-                "DisplayName": null,
-                "Purchasable": true,
-                "Consumable": false,
-                "InitialQuantity": 1,
-                "MetaData": {
-                    "GameplayTags": [],
-                    "MinPlayerLevel": 1,
-                    "MinCharacterLevel": 1,
-                    "Origin": "None"
-                },
-                "GameplayTagContainer": {}
-            }
-        ],
-        [
-            {
-                "Id": "0D096156-43DC9D4B-68D6F095-97D33B26",
-                "DisplayName": null,
-                "Purchasable": true,
-                "Consumable": false,
-                "InitialQuantity": 1,
-                "MetaData": {
-                    "GameplayTags": [],
-                    "MinPlayerLevel": 1,
-                    "MinCharacterLevel": 1,
-                    "Origin": "None"
-                },
-                "GameplayTagContainer": {}
-            }
-        ],
-        [
-            {
-                "Id": "8EB3DE4F-492C8574-E880F698-DC7DA473",
-                "DisplayName": null,
-                "Purchasable": true,
-                "Consumable": false,
-                "InitialQuantity": 1,
-                "MetaData": {
-                    "GameplayTags": [],
-                    "MinPlayerLevel": 1,
-                    "MinCharacterLevel": 1,
-                    "Origin": "None"
-                },
-                "GameplayTagContainer": {}
             }
         ],
         [
@@ -35919,27 +35695,37 @@
         ],
         [
             {
-                "Id": "F48135D6-4F4FF6FC-F5FAEDB5-E227DD37",
-                "DisplayName": null,
+                "Id": "EA19897C-4CFF7AA7-A7A3B480-BAA505A9",
+                "DisplayName": "Hunter_VETERAN_SHA_STR005_Winter_NAME",
                 "Purchasable": true,
                 "Consumable": false,
                 "InitialQuantity": 1,
+                "DefaultCost": [
+                    {
+                        "CurrencyId": "CurrencyB",
+                        "Price": 2700
+                    }
+                ],
                 "MetaData": {
                     "GameplayTags": [
-                        {
-                            "TagName": "Customization.HT.SHD"
-                        }
+                        {"TagName": "Customization.HT.Weapon.Shotgun.SHA"}
                     ],
                     "MinPlayerLevel": 1,
                     "MinCharacterLevel": 1,
                     "Origin": "None"
                 },
                 "GameplayTagContainer": {
-                    "ParentTags": [
+                    "GameplayTags":[
                         {
-                            "TagName": "Customization.HT.SHD"
+                            "TagName": "Customization.HT.Weapon.Shotgun.SHA"
+                        }]
+                    ,
+                    "ParentTags":[
+                        {
+                            "TagName": "Hunter.Mass"
                         }
                     ]
+
                 }
             }
         ]
