@@ -20,6 +20,9 @@ class QueuedPlayer:
         self.side = side
         self.lastCheckedForMatch = lastCheckedForMatch
 
+    def __repr__(self):
+        return f"QueuedPlayer(userId={self.userId}, side={self.side}, lastCheckedForMatch={self.lastCheckedForMatch})"
+
 
 class Lobby:
     def __init__(self, isReady, host, nonHosts, id, isPrepared, hasStarted):
@@ -29,6 +32,7 @@ class Lobby:
         self.id = id
         self.isPrepared = isPrepared
         self.hasStarted = hasStarted
+        self.status = "OPENED"
 
 
 class KilledLobby:
@@ -122,8 +126,15 @@ class MatchmakingQueue:
             lobby.sessionSettings = sessionSettings
             return self.createMatchResponse(matchId)
 
+    def closeMatch(self, matchId):
+        lobby, _ = self.getLobbyById(matchId)
+        if lobby:
+            lobby.status = "CLOSED"
+            return self.createMatchResponse(matchId)
+
     def deleteMatch(self, matchId):
         lobby, index = self.getLobbyById(matchId)
+        logger.graylog_logger(level="info", handler="deleteMatch", message=f"Deleting Match: {matchId}")
         if lobby:
             self.openLobbies.pop(index)
             current_timestamp, expiration_timestamp = get_time()
@@ -146,6 +157,8 @@ class MatchmakingQueue:
             if not lobby:
                 return {}
             host = lobby.host
+            if killed:
+                lobby.status = "KILLED"
             current_timestamp, expiration_timestamp = get_time()
             try:
                 sessionSettings = lobby.sessionSettings
@@ -168,10 +181,10 @@ class MatchmakingQueue:
                 },
                 "rank": 1,
                 "Schema": 3,
-                "sideA": host,
+                "sideA": [host],
                 "sideB": [player.userId for player in lobby.nonHosts],
                 "Players": [host] + [player.userId for player in lobby.nonHosts],
-                "status": "KILLED" if killed else "OPENED"
+                "status": lobby.status
             }
         except Exception as e:
             logger.graylog_logger(level="error", handler="matchmaking_createMatchResponse", message=e)

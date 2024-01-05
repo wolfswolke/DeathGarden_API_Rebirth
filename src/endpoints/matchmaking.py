@@ -164,6 +164,9 @@ def match(matchid_unsanitized):
     try:
         response_data = matchmaking_queue.createMatchResponse(matchid)
         logger.graylog_logger(level="debug", handler="match", message=response_data)
+        if response_data == "null":
+            response_data = matchmaking_queue.getKilledLobbyById(matchid)
+            logger.graylog_logger(level="debug", handler="match", message=response_data)
         return jsonify(response_data)
     except Exception as e:
         logger.graylog_logger(level="error", handler="match", message=e)
@@ -182,6 +185,8 @@ def match_kill(matchid_unsanitized):
         if lobby and matchmaking_queue.isOwner(matchid, userid):
             response_data = matchmaking_queue.createMatchResponse(matchid, killed=True)
             matchmaking_queue.deleteMatch(matchid)
+            logger.graylog_logger(level="info", handler="match_kill", message=f"Killed Match: {matchid}"
+                                                                              f"by User: {userid}")
             return jsonify(response_data)
 
         else:
@@ -247,6 +252,31 @@ def match_quit(match_id_unsanitized):
     except Exception as e:
         logger.graylog_logger(level="error", handler="logging_queue", message=e)
         return jsonify({"status": "ERROR"}), 500
+
+
+@app.route("/api/v1/match/<match_id_unsanitized>/Close", methods=["PUT"])
+def close_lobby(match_id_unsanitized):
+    check_for_game_client("strict")
+    session_cookie = sanitize_input(request.cookies.get("bhvrSession"))
+    userid = session_manager.get_user_id(session_cookie)
+    match_id = sanitize_input(match_id_unsanitized)
+
+    try:
+        lobby, _ = matchmaking_queue.getLobbyById(match_id)
+
+        if lobby:
+            if matchmaking_queue.isOwner(match_id, userid):
+                matchmaking_queue.deleteMatch(match_id)
+                return "", 204
+            else:
+                return jsonify({"message": "Unauthorized"}), 401
+
+        else:
+            return jsonify({"message": "Match not found"}), 404
+
+    except Exception as e:
+        logger.graylog_logger(level="error", handler="close_lobby", message=e)
+        return jsonify({"message": "Internal Server Error"}), 500
 
 
 @app.route("/api/v1/match/create", methods=["POST"])
@@ -316,7 +346,11 @@ def progression_end_of_match():
     try:
         players = []
         for player in request.get_json()["data"]["players"]:
-            players.append({"PlayerId": player["playerId"]})
+            player = player["playerId"]
+            response = {
+                "playerId": player,
+                # What could this struct be????
+            }
         logger.graylog_logger(level="info", handler="matchmaking_endOfMatch", message=request.get_json())
         return jsonify({"Players": [
             {},
