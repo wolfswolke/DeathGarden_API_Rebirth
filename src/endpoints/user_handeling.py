@@ -235,10 +235,60 @@ def inventories():
         page = request.args.get('page', default=0, type=int)
         limit = request.args.get('limit', default=500, type=int)
         if page == 0:
-            return jsonify({"Code": 200, "Message": "OK", "Data": {"PlayerId": userid, "Inventory": [], "NextPage": 0}})
+            return jsonify({"Code": 200, "Message": "OK",
+                            "Data": {"PlayerId": userid,
+                                     "Inventory": [
+                                         {"ObjectId": "16FEF910-4BD42353-C010579D-56FD5B2F", "Quantity": 1,
+                                          "LastUpdateAt": 1687377305},
+                                         {"ObjectId": "C1672541-4A4B16B9-AD557C9E-E865D113", "Quantity": 1,
+                                          "LastUpdateAt": 1687377305},
+                                         {"ObjectId": "56B7B6F6-473712D0-B7A2F992-BB2C16CD", "Quantity": 1,
+                                          "LastUpdateAt": 1687377305}
+                                         , {"ObjectId": "33E6325A-4E098D5D-47DBD48A-DE746024", "Quantity": 1,
+                                            "LastUpdateAt": 1687377305}
+                                         , {"ObjectId": "18D077C2-4D7418C1-2CDE2297-CC661AF7", "Quantity": 1,
+                                            "LastUpdateAt": 1687377305}
+                                         , {"ObjectId": "7B2C394F-46245407-23117D83-A6752CED", "Quantity": 1,
+                                            "LastUpdateAt": 1687377305}
+                                         , {"ObjectId": "33E6325A-4E098D5D-47DBD48A-DE746024", "Quantity": 1,
+                                            "LastUpdateAt": 1687377305}
+                                         , {"ObjectId": "38E5F7F2-41E2BA11-77419BB3-12FC1ACE", "Quantity": 1,
+                                            "LastUpdateAt": 1687377305}
+                                         , {"ObjectId": "1A09DB19-434DA733-AAD3D9B5-B1929CD4", "Quantity": 1,
+                                            "LastUpdateAt": 1687377305}
+                                         , {"ObjectId": "19FB6205-4E644ECD-C831E29F-C5B9E501", "Quantity": 1,
+                                            "LastUpdateAt": 1687377305}
+                                         , {"ObjectId": "32065218-4E1A719D-EF1D3C93-95EE7344", "Quantity": 1,
+                                            "LastUpdateAt": 1687377305}
+                                         , {"ObjectId": "69055D53-4DF27180-C4B36CAB-4B651054", "Quantity": 1,
+                                            "LastUpdateAt": 1687377305}
+                                         , {"ObjectId": "1F5CD900-4224C567-46D81991-AA40448A", "Quantity": 1,
+                                            "LastUpdateAt": 1687377305}
+                                         , {"ObjectId": "1E08AFFA-485E92BA-FF2C1BB8-5CEFB81E", "Quantity": 1,
+                                            "LastUpdateAt": 1687377305}
+                                         , {"ObjectId": "01AFD779-45C31407-5E09ACBF-70455761", "Quantity": 1,
+                                            "LastUpdateAt": 1687377305}
+                                         , {"ObjectId": "7CE5AFBF-459102E5-728DCDAA-6F88C0F1", "Quantity": 1,
+                                            "LastUpdateAt": 1687377305}
+                                         , {"ObjectId": "2DBF9B11-4B82A639-40936396-CBA68BCD", "Quantity": 1,
+                                            "LastUpdateAt": 1687377305}
+                                         , {"ObjectId": "10A8C667-45801664-6E2EFA94-52E3141A", "Quantity": 1,
+                                            "LastUpdateAt": 1687377305}
+                                         , {"ObjectId": "08DC38B6-470A7A5B-0BA025B9-6279DAA8", "Quantity": 1,
+                                            "LastUpdateAt": 1687377305}
+                                         , {"ObjectId": "51595917-43CBF0B5-7EC6FEB3-341960D6", "Quantity": 1,
+                                            "LastUpdateAt": 1687377305}
+                                         , {"ObjectId": "36466540-42433114-08F6A0BD-4DCE05BD", "Quantity": 1,
+                                            "LastUpdateAt": 1687377305}
+                                         , {"ObjectId": "307A0B13-417737DE-D675309F-8B978AB8", "Quantity": 1,
+                                            "LastUpdateAt": 1687377305}
+                                         , {"ObjectId": "791F12E0-47DA9E26-E246E385-9C3F587E", "Quantity": 1,
+                                            "LastUpdateAt": 1687377305}
+                                         , {"ObjectId": "8A5BF227-4640C2F2-3EF3C996-A6F6404D", "Quantity": 1,
+                                            "LastUpdateAt": 1687377305}
+                                     ], "NextPage": 0}})
         elif page == 1:
             return jsonify({"Code": 200, "Message": "OK", "Data": {"PlayerId": userid, "Inventory": [
-                {"ObjectId": "16FEF910-4BD42353-C010579D-56FD5B2F", "Quantity": 1, "LastUpdateAt": 1687377305},
                 {"ObjectId": "C1672541-4A4B16B9-AD557C9E-E865D113", "Quantity": 1, "LastUpdateAt": 1687377305}
             ], "NextPage": 0}})
     except TimeoutError:
@@ -556,51 +606,71 @@ def extension_progression_init_or_get_groups():
         # The client cant understand CharacterId for some reason??? But if this is removed the game doesn't load the
         # "Choose Hunter or Runner" screen.
         return jsonify({
-   "ProgressionGroups":[
-      {
-         "ObjectId":"1020F178-4C0B01E1-5996E0A9-E2E1A972",
-         "Version":1,
-         "SchemaVersion":1.1,
-         "Data":{
-            "Experience":{
-               "Level":11,
-               "CurrentExperience":2,
-               "ExperienceToReach":30
-            }
-         }
-      },
-      {
-         "ObjectId":"01AFD779-45C31407-5E09ACBF-70455761",
-         "Version":1,
-         "SchemaVersion":1.1,
-         "Data":{
-            "Experience":{
-               "Level":21,
-               "CurrentExperience":12,
-               "ExperienceToReach":30
-            }
-         }
-      }
-   ],
-   "MetadataGroups":[
-      {
-         "ObjectId":"1020F178-4C0B01E1-5996E0A9-E2E1A972",
-         "Version":1,
-         "SchemaVersion":1.1,
-         "Data":{
+       "ProgressionGroups":[
+          {
+             "ObjectId":"56B7B6F6-473712D0-B7A2F992-BB2C16CD",
+             "Version":1,
+             "SchemaVersion":1.1,
+             "Data":{
+                "Experience":{
+                   "Level":11,
+                   "CurrentExperience":2,
+                   "ExperienceToReach":30
+                }
+             }
+          },
+          {
+             "ObjectId":"01AFD779-45C31407-5E09ACBF-70455761",
+             "Version":1,
+             "SchemaVersion":1.1,
+             "Data":{
+                "Experience":{
+                   "Level":21,
+                   "CurrentExperience":12,
+                   "ExperienceToReach":30
+                }
+             }
+          }
+       ],
+       "MetadataGroups":[
+           {
+               "ObjectId": "56B7B6F6-473712D0-B7A2F992-BB2C16CD",
+               "Version": 1,
+               "SchemaVersion": 1.1,
+               "Data": {"CharacterId": {"TagName": "Runner.Smoke"},
+                        "Equipment": ["33E6325A-4E098D5D-47DBD48A-DE746024",
+                                      "18D077C2-4D7418C1-2CDE2297-CC661AF7",
+                                      "7B2C394F-46245407-23117D83-A6752CED",
+                                      "33E6325A-4E098D5D-47DBD48A-DE746024"],
+                        "EquippedPerks": ["38E5F7F2-41E2BA11-77419BB3-12FC1ACE",
+                                          "1A09DB19-434DA733-AAD3D9B5-B1929CD4",
+                                          "19FB6205-4E644ECD-C831E29F-C5B9E501",
+                                          "32065218-4E1A719D-EF1D3C93-95EE7344"],
+                        "EquippedPowers": [],
+                        "EquippedWeapons": ["69055D53-4DF27180-C4B36CAB-4B651054"],
+                        "EquippedBonuses": ["1F5CD900-4224C567-46D81991-AA40448A",
+                                            "1E08AFFA-485E92BA-FF2C1BB8-5CEFB81E"]
+                        }
+           },
+           {
+               "ObjectId": "01AFD779-45C31407-5E09ACBF-70455761",
+               "Version": 1,
+               "SchemaVersion": 1.1,
+               "Data": {"CharacterId": {"TagName": "Hunter.Stalker"},
+                        "Equipment": [],
+                        "EquippedPerks": ["7CE5AFBF-459102E5-728DCDAA-6F88C0F1",
+                                          "2DBF9B11-4B82A639-40936396-CBA68BCD"],
+                        "EquippedPowers": ["10A8C667-45801664-6E2EFA94-52E3141A",
+                                           "08DC38B6-470A7A5B-0BA025B9-6279DAA8",
+                                           "51595917-43CBF0B5-7EC6FEB3-341960D6"],
+                        "EquippedWeapons": ["36466540-42433114-08F6A0BD-4DCE05BD",
+                                            "307A0B13-417737DE-D675309F-8B978AB8"],
+                        "EquippedBonuses": ["791F12E0-47DA9E26-E246E385-9C3F587E",
+                                            "8A5BF227-4640C2F2-3EF3C996-A6F6404D"]
+                        }
+          }
+       ]})
 
-         }
-      },
-      {
-         "ObjectId":"01AFD779-45C31407-5E09ACBF-70455761",
-         "Version":1,
-         "SchemaVersion":1.1,
-         "Data":{
-
-         }
-      }
-   ]
-})
     except TimeoutError:
         return jsonify({"status": "error"})
     except Exception as e:
@@ -673,8 +743,13 @@ def challenges_get_challenge_progression_batch():
             #                         "ShouldShowCompleteAnimation": True, "Rewards":
             #                             [{"Type": "Weekly", "Id": "C90F72FC4D61B1F2FBC73F8A4685EA41", "Amount": 1.0,
             #                               "Claimed": False}]})
+
+            #  MirrorsExtModelChallengeProgressionOperation
             if challenge == "BA2D4A5445CB70276A8F5D9E1AFCE080":
-                challenge_list.append({"ChallengeId": "BA2D4A5445CB70276A8F5D9E1AFCE080", "OperationName": "Drone Zone",
+                challenge_list.append({"ChallengeId": "BA2D4A5445CB70276A8F5D9E1AFCE080",
+                                       "Type": 2,
+                                       "ChallengeType": 4,
+                                       "OperationName": "get",
                                        "OperationData": {"Type": "Achievement", "Progress": 1, "ValueToReach": 100,
                                                          "Body": "Power up a total of 100 Drones across matches",
                                                          "Title": "Hunter_DroneCharger_Name",
@@ -684,7 +759,9 @@ def challenges_get_challenge_progression_batch():
                                                                       "Amount": 1.0, "Claimed": False}]}})
             elif challenge == "AAD05B9D46471DC811BBE0BA91916AB7":
                 challenge_list.append({"ChallengeId": "AAD05B9D46471DC811BBE0BA91916AB7",
-                                       "OperationName": "Don't Be A Downer",
+                                       "OperationName": "get",
+                                       "Type": "Weekly",
+                                       "ChallengeType": "Daily",
                                        "OperationData": {"Type": "Achievement",
                                                          "Progress": 1,
                                                          "ValueToReach": 50,
@@ -696,7 +773,7 @@ def challenges_get_challenge_progression_batch():
                                                                       "Amount": 1.0, "Claimed": False}]}})
             elif challenge == "E51981B946BEE3D45C5C41B2FCFF310B":
                 challenge_list.append({"ChallengeId": "E51981B946BEE3D45C5C41B2FCFF310B",
-                                       "OperationName": "Special Delivery",
+                                       "OperationName": "get",
                                        "OperationData": {
                                            "Type": "Achievement",
                                            "Progress": 1,
@@ -711,7 +788,7 @@ def challenges_get_challenge_progression_batch():
                                        }})
             elif challenge == "2CAEBB354D506D7C43B941BC1DA775A0":
                 challenge_list.append({"ChallengeId": "2CAEBB354D506D7C43B941BC1DA775A0",
-                                       "OperationName": "Escapist",
+                                       "OperationName": "get",
                                        "OperationData": {
                                            "Type": "Achievement",
                                            "Progress": 1,
@@ -725,7 +802,7 @@ def challenges_get_challenge_progression_batch():
                                        }})
             elif challenge == "EFAB89E6465D1163D62A07B11048F2B6":
                 challenge_list.append({"ChallengeId": "EFAB89E6465D1163D62A07B11048F2B6",
-                                       "OperationName": "Not A Quitter",
+                                       "OperationName": "get",
                                        "OperationData": {
                                            "Type": "Achievement",
                                            "Progress": 1,
@@ -738,7 +815,7 @@ def challenges_get_challenge_progression_batch():
                                                         "Amount": 1.0, "Claimed": False}]
                                        }})
             else:
-                logger.graylog_logger(level="error", handler="logging_getChallengeProgressionBatch",
+                logger.graylog_logger(level="error", handler="logging_missing_challenge",
                                       message=f"Unknown challenge id {challenge}")
         return jsonify({"ProgressionBatch": challenge_list})
     except TimeoutError:
