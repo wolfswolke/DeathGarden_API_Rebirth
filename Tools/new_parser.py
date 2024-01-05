@@ -4,7 +4,7 @@ import json
 base_template = {
     "Result": []
 }
-def normalize_data(json_data, prev_guid, next_guid):
+def normalize_data(json_data, prev_guid, next_guid, is_weapon):
     normalized_data_list = []
     for item_data in json_data:
         normalized_data = {
@@ -12,7 +12,7 @@ def normalize_data(json_data, prev_guid, next_guid):
             "DisplayName": item_data.get("Properties", {}).get("DisplayName", {}).get("Key"),
             "Purchasable": True,
             "Consumable": False,
-            "IsWeapon": item_data.get("IsWeapon"),
+            "IsWeapon": is_weapon,
             "InitialQuantity": 1,
             "DefaultCost": item_data.get("Properties", {}).get("DefaultCost"),
             "MetaData": {
@@ -24,7 +24,8 @@ def normalize_data(json_data, prev_guid, next_guid):
                 "FollowingItem": next_guid,
             },
             "Faction": "",
-            "GameplayTagContainer": {}
+            "GameplayTagContainer": {},
+            "Gender": item_data.get("Properties", {}).get("Gender")
         }
         normalized_data["MetaData"]["GameplayTags"] = []
         for tag in item_data.get("Properties", {}).get("TagContainer", []):
@@ -39,7 +40,7 @@ def normalize_data(json_data, prev_guid, next_guid):
         char_tag = item_data.get("Properties", {}).get("GameplayTags", {})
 
         if not item_data.get("IsWeapon"):
-            normalized_data.pop("IsWeapon")
+            normalized_data["IsWeapon"] = False
 
         if normalized_data["MetaData"]["FollowingItem"] == "":
             normalized_data["MetaData"].pop("FollowingItem")
@@ -47,8 +48,15 @@ def normalize_data(json_data, prev_guid, next_guid):
             normalized_data["MetaData"].pop("PrerequisiteItem")
         if not normalized_data["DefaultCost"]:
             normalized_data.pop("DefaultCost")
+        else:
+            for item in normalized_data["DefaultCost"]:
+                # {'CurrencyId': 'EGMCurrency::CurrencyB', 'Price': 310}
+                item["CurrencyId"] = item["CurrencyId"].replace("EGMCurrency::", "")
 
         faction = has_class_runner(tag_query)
+
+        if not normalized_data["Gender"]:
+            normalized_data.pop("Gender")
 
         if faction:
             normalized_data["Faction"] = faction
@@ -58,8 +66,7 @@ def normalize_data(json_data, prev_guid, next_guid):
                 normalized_data["Faction"] = char_tag
             else:
                 normalized_data.pop("Faction")
-
-        if not normalized_data["Id"]:
+        if not normalized_data["Id"] or not normalized_data["DisplayName"]:
             normalized_data = None
         if normalized_data:
             normalized_data_list.append(normalized_data)
@@ -162,11 +169,19 @@ def process_folder(folder_path):
                     json_data = json.load(json_file)
                     print(f"Current PATH: {file_path}")
                     if file_path.startswith("./Items\Runners\Character\Items_Released\Perks") or file_path.startswith("./Items\Hunters\Character\Items_Released\Perks") or file_path.startswith("./Items\Hunters\Character\Items_Released\Powers"):
-                        prev_guid, next_guid = get_next_and_prev_guid(file_path, file_name)
+                        try:
+                            prev_guid, next_guid = get_next_and_prev_guid(file_path, file_name)
+                        except FileNotFoundError:
+                            continue
                     else:
                         prev_guid = ""
                         next_guid = ""
-                    normalized_data = normalize_data(json_data, prev_guid, next_guid)
+                    if file_path.startswith("./Items\Runners\Character\Items_Released\Weapons") or file_path.startswith("./Items\Hunters\Character\Items_Released\Weapons"):
+                        is_weapon = True
+                    else:
+                        is_weapon = False
+
+                    normalized_data = normalize_data(json_data, prev_guid, next_guid, is_weapon)
                     if normalized_data:
                         catalog_data.append(normalized_data)
                     else:
