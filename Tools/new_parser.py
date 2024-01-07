@@ -4,7 +4,7 @@ import json
 base_template = {
     "Result": []
 }
-def normalize_data(json_data, prev_guid, next_guid, is_weapon):
+def normalize_data(json_data, prev_guid, next_guid, is_weapon, character_class):
     normalized_data_list = []
     for item_data in json_data:
         normalized_data = {
@@ -14,12 +14,17 @@ def normalize_data(json_data, prev_guid, next_guid, is_weapon):
             "Consumable": False,
             "IsWeapon": is_weapon,
             "InitialQuantity": 1,
+            "CustomizationGameplayTagByFaction": {
+                character_class: {
+                    "tagName": f"Class.{character_class}"
+                }
+            },
             "DefaultCost": item_data.get("Properties", {}).get("DefaultCost"),
             "MetaData": {
                 "GameplayTags": [],
                 "MinPlayerLevel": 1,
                 "MinCharacterLevel": 1,
-                "Origin": "None",
+                "Origin": "Event",
                 "PrerequisiteItem": prev_guid,
                 "FollowingItem": next_guid,
             },
@@ -54,6 +59,10 @@ def normalize_data(json_data, prev_guid, next_guid, is_weapon):
                 item["CurrencyId"] = item["CurrencyId"].replace("EGMCurrency::", "")
 
         faction = has_class_runner(tag_query)
+        if normalized_data["Gender"]:
+            normalized_data["Gender"] = normalized_data["Gender"].replace("EGender::", "")
+        else:
+            normalized_data["Gender"] = "None"
 
         if not normalized_data["Gender"]:
             normalized_data.pop("Gender")
@@ -65,7 +74,8 @@ def normalize_data(json_data, prev_guid, next_guid, is_weapon):
             if char_tag:
                 normalized_data["Faction"] = char_tag
             else:
-                normalized_data.pop("Faction")
+                # normalized_data.pop("Faction")
+                normalized_data["Faction"] = character_class
         if not normalized_data["Id"] or not normalized_data["DisplayName"]:
             normalized_data = None
         if normalized_data:
@@ -180,8 +190,12 @@ def process_folder(folder_path):
                         is_weapon = True
                     else:
                         is_weapon = False
+                    if file_path.startswith("./Items\Runners"):
+                        character_class = "Runner"
+                    elif file_path.startswith("./Items\Hunters"):
+                        character_class = "Hunter"
 
-                    normalized_data = normalize_data(json_data, prev_guid, next_guid, is_weapon)
+                    normalized_data = normalize_data(json_data, prev_guid, next_guid, is_weapon, character_class)
                     if normalized_data:
                         catalog_data.append(normalized_data)
                     else:
