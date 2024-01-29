@@ -53,11 +53,16 @@ def content_version_latest(version):
         return jsonify({"LatestSupportedVersion": "te-23ebf96c-27498-ue4-7172a3f5"}), 200
     elif version_san == "2.5":
         return jsonify({"LatestSupportedVersion": "te-40131b9e-33193-ue4-fbccc218"}), 200
-
+    elif version_san == "0":
+        return jsonify({"LatestSupportedVersion": "te-23ebf96c-27498-ue4-7172a3f5"}), 200
+    elif version_san == "3.0":
+        return jsonify({"LatestSupportedVersion": "dev030"}), 200
+    elif version_san == "2.11":
+        return jsonify({"LatestSupportedVersion": "te-18f25613-36778-ue4-374f864b"}), 200
     try:
         print("Responded to content version api call GET")
         print(f"Version called by client: {version_san}")
-        return jsonify({"LatestSupportedVersion": "te-18f25613-36778-ue4-374f864b"})
+        return jsonify({"LatestSupportedVersion": "te-40131b9e-33193-ue4-fbccc218"})
     except TimeoutError:
         return jsonify({"status": "error"})
     except Exception as e:

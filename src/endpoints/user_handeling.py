@@ -608,24 +608,24 @@ def extension_progression_init_or_get_groups():
         return jsonify({
        "ProgressionGroups":[
           {
-             "ObjectId":"56B7B6F6-473712D0-B7A2F992-BB2C16CD",
+             "ObjectId":"43CD7EEC-4AB9D6FA-B8EB9387-1964FC60",
              "Version":1,
              "SchemaVersion":1.1,
              "Data":{
                 "Experience":{
-                   "Level":11,
+                   "Level":1,
                    "CurrentExperience":2,
                    "ExperienceToReach":30
                 }
              }
           },
           {
-             "ObjectId":"01AFD779-45C31407-5E09ACBF-70455761",
+             "ObjectId":"C50FFFBF-46866131-82F45890-651797CE",
              "Version":1,
              "SchemaVersion":1.1,
              "Data":{
                 "Experience":{
-                   "Level":21,
+                   "Level":1,
                    "CurrentExperience":12,
                    "ExperienceToReach":30
                 }
@@ -634,39 +634,27 @@ def extension_progression_init_or_get_groups():
        ],
        "MetadataGroups":[
            {
-               "ObjectId": "56B7B6F6-473712D0-B7A2F992-BB2C16CD",
+               "ObjectId": "43CD7EEC-4AB9D6FA-B8EB9387-1964FC60",
                "Version": 1,
                "SchemaVersion": 1.1,
                "Data": {"CharacterId": {"TagName": "Runner.Smoke"},
-                        "Equipment": ["33E6325A-4E098D5D-47DBD48A-DE746024",
-                                      "18D077C2-4D7418C1-2CDE2297-CC661AF7",
-                                      "7B2C394F-46245407-23117D83-A6752CED",
-                                      "33E6325A-4E098D5D-47DBD48A-DE746024"],
-                        "EquippedPerks": ["38E5F7F2-41E2BA11-77419BB3-12FC1ACE",
-                                          "1A09DB19-434DA733-AAD3D9B5-B1929CD4",
-                                          "19FB6205-4E644ECD-C831E29F-C5B9E501",
-                                          "32065218-4E1A719D-EF1D3C93-95EE7344"],
+                        "Equipment": [],
+                        "EquippedPerks": ["1E08AFFA-485E92BA-FF2C1BB8-5CEFB81E"],
                         "EquippedPowers": [],
-                        "EquippedWeapons": ["69055D53-4DF27180-C4B36CAB-4B651054"],
-                        "EquippedBonuses": ["1F5CD900-4224C567-46D81991-AA40448A",
-                                            "1E08AFFA-485E92BA-FF2C1BB8-5CEFB81E"]
+                        "EquippedWeapons": ["C8AF3D53-4973F82F-ADBB40BD-A96F9DCD"],
+                        "EquippedBonuses": []
                         }
            },
            {
-               "ObjectId": "01AFD779-45C31407-5E09ACBF-70455761",
+               "ObjectId": "C50FFFBF-46866131-82F45890-651797CE",
                "Version": 1,
                "SchemaVersion": 1.1,
                "Data": {"CharacterId": {"TagName": "Hunter.Stalker"},
                         "Equipment": [],
-                        "EquippedPerks": ["7CE5AFBF-459102E5-728DCDAA-6F88C0F1",
-                                          "2DBF9B11-4B82A639-40936396-CBA68BCD"],
-                        "EquippedPowers": ["10A8C667-45801664-6E2EFA94-52E3141A",
-                                           "08DC38B6-470A7A5B-0BA025B9-6279DAA8",
-                                           "51595917-43CBF0B5-7EC6FEB3-341960D6"],
-                        "EquippedWeapons": ["36466540-42433114-08F6A0BD-4DCE05BD",
-                                            "307A0B13-417737DE-D675309F-8B978AB8"],
-                        "EquippedBonuses": ["791F12E0-47DA9E26-E246E385-9C3F587E",
-                                            "8A5BF227-4640C2F2-3EF3C996-A6F6404D"]
+                        "EquippedPerks": ["791F12E0-47DA9E26-E246E385-9C3F587E"],
+                        "EquippedPowers": ["08DC38B6-470A7A5B-0BA025B9-6279DAA8"],
+                        "EquippedWeapons": ["307A0B13-417737DE-D675309F-8B978AB8"],
+                        "EquippedBonuses": []
                         }
           }
        ]})

@@ -10,6 +10,9 @@ def catalog_get(game_version_unsanitized):
     check_for_game_client("strict")
     session_cookie = request.cookies.get("bhvrSession")
     userid = session_manager.get_user_id(session_cookie)
+    if game_version == "dev030":
+        output = json.load(open(os.path.join(app.root_path, "json", "catalog", "dev030", "catalog.json"), "r"))
+        return jsonify(output)
 
     try:
         output = json.load(open(os.path.join(app.root_path, "json", "catalog", game_version, "catalog.json"), "r"))
@@ -17,6 +20,9 @@ def catalog_get(game_version_unsanitized):
 
     except TimeoutError:
         return jsonify({"status": "error"})
+    except FileNotFoundError:
+        logger.graylog_logger(level="error", handler="catalog", message=f"File not found: {game_version}")
+        return jsonify({"status": "error", "message": "File not found"}), 404
     except Exception as e:
         logger.graylog_logger(level="error", handler="catalog", message=e)
 
