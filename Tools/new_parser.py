@@ -1,5 +1,6 @@
 import os
 import json
+import re
 
 base_template = {
     "Result": []
@@ -76,8 +77,17 @@ def normalize_data(json_data, prev_guid, next_guid, is_weapon, character_class):
             else:
                 # normalized_data.pop("Faction")
                 normalized_data["Faction"] = character_class
+        if normalized_data["DisplayName"]:
+            if re.match("(?!.*(?:Name|Title|NAME)).*", normalized_data["DisplayName"]):
+                try:
+                    normalized_data["DisplayName"] = item_data.get("Properties", {}).get("DisplayName", {}).get(
+                        "SourceString")
+                except AttributeError:
+                    normalized_data = None
+                    return normalized_data
         if not normalized_data["Id"] or not normalized_data["DisplayName"]:
             normalized_data = None
+            return normalized_data
         if normalized_data:
             normalized_data_list.append(normalized_data)
     return normalized_data_list
