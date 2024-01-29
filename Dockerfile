@@ -1,4 +1,4 @@
-FROM python:3.12.0-alpine3.18
+FROM python:3.13.0a3-alpine3.18
 
 COPY . /app
 COPY requirements.txt /app/src
