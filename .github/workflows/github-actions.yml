@@ -6,7 +6,7 @@ on:
       - 'master'
 
 env:
-  REGISTY: ghcr.io
+  REGISTRY: ghcr.io
   IMAGE_NAME: deathgarden-api-rebirth
 
 jobs:
