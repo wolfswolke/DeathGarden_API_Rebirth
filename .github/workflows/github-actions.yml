@@ -14,7 +14,10 @@ jobs:
   build-and-push-image:
     runs-on: ubuntu-latest
 
-    permissions: write-all
+    permissions:
+      actions: write
+      packages: write
+      contents: write
 
     steps:
       - name: Checkout repository
