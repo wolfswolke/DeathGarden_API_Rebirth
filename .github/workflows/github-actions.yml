@@ -11,7 +11,7 @@ env:
 
 jobs:
   build-and-push-image:
-    runs-on: alpine-latest
+    runs-on: ubuntu-latest
 
     permissions:
       contents: read
