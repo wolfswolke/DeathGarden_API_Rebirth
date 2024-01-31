@@ -8,7 +8,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: deathgarden-api-rebirth
-  PUSH_TAG: latest
+  PUSH_TAG: v1
 
 jobs:
   build-and-push-image:
