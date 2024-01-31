@@ -8,6 +8,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: deathgarden-api-rebirth
+  PUSH_TAG: latest
 
 jobs:
   build-and-push-image:
@@ -39,5 +40,5 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: ${{ env.PUSH_TAG }}
           labels: ${{ steps.meta.outputs.labels }}
