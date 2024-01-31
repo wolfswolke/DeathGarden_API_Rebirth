@@ -39,5 +39,5 @@ jobs:
         with:
           context: .
           push: true
-          tags: type=raw,value=latest,enable={{is_default_branch}}
+          tags: value=latest,enable={{is_default_branch}}
           labels: ${{ steps.meta.outputs.labels }}
