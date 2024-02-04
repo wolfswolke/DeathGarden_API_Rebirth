@@ -1,17 +1,17 @@
 {
-   "data":[
+   "Messages":[
       {
          "Id":"1",
-         "MessageType":"Daily",
-         "IsOneTimeGameNews":false,
+         "MessageType":"InGameNews",
+         "IsOneTimeGameNews":true,
          "ShouldQuitTheGame":false,
          "OnlyForPlayersThatCompletedAtLeastOneMatch":false,
          "RedirectMode":"None",
          "EmbeddedBackgroundImage":"game/UI/ImageAssets/NewsAssets/GeneralAnnouncement_Large",
          "EmbeddedInGameNewsBackgroundImage":"game/UI/ImageAssets/NewsAssets/ClosedAlphaWelcomeBanner",
          "EmbeddedInGameNewsThumbnailImage":"game/UI/ImageAssets/NewsAssets/CrossPromo",
-         "FromDate":1655511433,
-         "ToDate":1718669833,
+         "FromDate": "2023.12.25-12.12.12",
+         "ToDate": "2025.12.25-12.12.12",
          "Translations":[
             {
                "Language":"EN",
@@ -30,6 +30,68 @@
                "Body":"Test Es"
             }
          ]
-      }
+      },
+      {
+         "Id":"3",
+         "MessageType":"PopUpNews",
+         "IsOneTimeGameNews":true,
+         "ShouldQuitTheGame":false,
+         "OnlyForPlayersThatCompletedAtLeastOneMatch":false,
+         "RedirectMode":"None",
+         "EmbeddedBackgroundImage":"RunnersReadyBanner",
+         "EmbeddedInGameNewsBackgroundImage":"CrossPromo_Large",
+         "EmbeddedInGameNewsThumbnailImage":"CrossPromo_Small",
+         "FromDate": "2023.12.25-12.12.12",
+         "ToDate": "2025.12.25-12.12.12",
+         "Translations":[
+            {
+               "Language":"EN",
+               "Body":"Test3 EN"
+            },
+            {
+               "Language":"FR",
+               "Body":"Test3 Fr"
+            },
+            {
+               "Language":"IT",
+               "Body":"Test3 IT"
+            },
+            {
+               "Language":"ES",
+               "Body":"Test3 Es"
+            }
+         ]
+      },
+        {
+             "Id":"4",
+             "MessageType":"PopUpNews",
+             "IsOneTimeGameNews":false,
+             "ShouldQuitTheGame":false,
+             "OnlyForPlayersThatCompletedAtLeastOneMatch":false,
+             "RedirectMode":"None",
+             "EmbeddedBackgroundImage":"TydeTyme_Large",
+             "EmbeddedInGameNewsBackgroundImage":"TydeTyme_Large",
+             "EmbeddedInGameNewsThumbnailImage":"TydeTyme_Large",
+             "FromDate": "2023.12.25-12.12.12",
+             "ToDate": "2025.12.25-12.12.12",
+             "Translations":[
+                {
+                 "Language":"EN",
+                 "Body":"Test4 EN"
+                },
+                {
+                 "Language":"FR",
+                 "Body":"Test4 Fr"
+                },
+                {
+                 "Language":"IT",
+                 "Body":"Test4 IT"
+                },
+                {
+                 "Language":"ES",
+                 "Body":"Test4 Es"
+                }
+             ]
+        }
    ]
 }

@@ -12,6 +12,9 @@ def gamenews():
     userid = session_manager.get_user_id(session_cookie)
 
     # /gamenews/messages?sortDesc=true&gameVersion=0&platform=PC&language=EN&messageType=InGameNews&faction=Runner&playerLevel=1
+    # The game saves watched game news here: C:\Users\User\AppData\Local\TheExit\Saved\Config\WindowsNoEditor\GameUserSettings.ini
+    # In this Format: GameNewsViews=(("1", 4),("2", 1),("3", 1),("4", 1))
+    # The first number is the ID of the news, the second number is the amount of times the news window was opened
     try:
         sort_desc = sanitize_input(request.args.get('sortDesc'))
         gameVersion = sanitize_input(request.args.get('gameVersion'))
@@ -263,6 +266,8 @@ def consent_eula():
                 return jsonify({"message": "Not Authenticated"}), 401
             is_given = mongo.get_data_with_list(login=userid, login_steam=False,
                                                 items={"eula"})
+            if is_given is None:
+                return jsonify({"isGiven": False})
             if is_given["eula"]:
                 return jsonify({
                     "ConsentId": "eula2",
