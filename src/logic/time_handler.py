@@ -15,3 +15,13 @@ def get_time():
     except Exception as e:
         logger.error("Error in time_handler -> " + str(e))
         return None, None
+
+
+def get_date_and_time():
+    try:
+        current_time = datetime.datetime.utcnow()
+        formatted_time = current_time.strftime('%a, %d %b %Y %H:%M:%S MEZ')
+        return formatted_time
+    except Exception as e:
+        logger.error("Error in time_handler -> " + str(e))
+        return None

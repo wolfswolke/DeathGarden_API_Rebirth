@@ -2,6 +2,7 @@ from flask_definitions import *
 import os
 
 from logic.mongodb_handler import mongo
+from logic.time_handler import get_date_and_time
 
 
 @app.route("/gamenews/messages", methods=["GET"])
@@ -169,7 +170,7 @@ def services_tex():
         user_agent = request.headers.get('User-Agent')
         if "TheExit/++UE4+Release-4.21-CL-0 Windows/" in user_agent:
             # EStashboard [0 Up, 1 Down, 2 Warning, 3 Failed]
-            # todo Set Timestamp to current time
+            current_time = get_date_and_time()
             return jsonify({
                 "description": "The Exit - Live",
                 "url": "https://api.zkwolf.com/api/v1/services/tex",
@@ -185,7 +186,7 @@ def services_tex():
                         "name": "Up"
                     },
                     "url": "https://api.zkwolf.com/api/v1/services/tex/events/ahdzfnB1Ymxpc2hpbmctc3Rhc2hib2FyZHISCxIFRXZlbnQYgICAgMC1mwoM",
-                    "timestamp": "Wed, 07 Dec 2016 21:00:20 GMT",
+                    "timestamp": current_time,
                     "sid": "ahdzfnB1Ymxpc2hpbmctc3Rhc2hib2FyZHISCxIFRXZlbnQYgICAgMC1mwoM",
                     "message": "up",
                     "informational": False
@@ -212,7 +213,7 @@ def statuses_up():
 @app.route("/api/v1/services/tex/events/ahdzfnB1Ymxpc2hpbmctc3Rhc2hib2FyZHISCxIFRXZlbnQYgICAgMC1mwoM", methods=["GET"])
 def services_tex_events():
     try:
-        # todo set timestamp to current time
+        current_time = get_date_and_time()
         return jsonify({
             "status": {
                 "description": "The service is up",
@@ -224,7 +225,7 @@ def services_tex_events():
                 "name": "Up"
             },
             "url": "https://api.zkwolf.com/api/v1/services/tex/events/ahdzfnB1Ymxpc2hpbmctc3Rhc2hib2FyZHISCxIFRXZlbnQYgICAgMC1mwoM",
-            "timestamp": "Wed, 07 Dec 2016 21:00:20 GMT",
+            "timestamp": current_time,
             "sid": "ahdzfnB1Ymxpc2hpbmctc3Rhc2hib2FyZHISCxIFRXZlbnQYgICAgMC1mwoM",
             "message": "up",
             "informational": False
