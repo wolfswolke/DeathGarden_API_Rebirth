@@ -32,17 +32,32 @@ def metrics_httplog_event():
 @app.route("/api/v1/gameDataAnalytics", methods=["POST"])
 def analytics_post():
     check_for_game_client()
+    rand_record_id = uuid.uuid4()
     try:
         data = request.get_json()
         logger.graylog_logger(level="info", handler="logging_gameDataAnalytics", message=data)
-        rand_record_id = uuid.uuid4()
         return jsonify({
             "RecordId": f"{rand_record_id}"
         })
     except TimeoutError:
-        return jsonify({"status": "error"})
+        return jsonify({
+            "FailedPutCode": 1,
+            "RequestResponse": [
+                {
+                    "RecordId": f"{rand_record_id}",
+                }
+            ]
+        })
     except Exception as e:
         logger.graylog_logger(level="error", handler="logging_gameDataAnalytics", message=e)
+        return jsonify({
+            "FailedPutCode": 1,
+            "RequestResponse": [
+                {
+                    "RecordId": f"{rand_record_id}",
+                }
+            ]
+        })
 
 
 @app.route("/api/v1/gameDataAnalytics/batch", methods=["POST"])
@@ -87,7 +102,10 @@ def crashreporter_check_report():
     check_for_game_client()
     try:
         # TODO: Add Crashreporter
-        return jsonify({"status": "success"})
+        # Ngl i think it doesnt even care what it gets here...
+        # It Pings, Sends something like "UE4CC-Windows-AB720C3F412E0FF7280F73BBB64245AB_0003"
+        # and then uploads the crashreport to bugsplat
+        return jsonify({"status":"success","stackKeyId":-1,"crashId":2011,"messageId":-1})
     except TimeoutError:
         return jsonify({"status": "error"})
     except Exception as e:
