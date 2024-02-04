@@ -54,11 +54,14 @@ def content_version_latest(version):
     elif version_san == "2.5":
         return jsonify({"LatestSupportedVersion": "te-40131b9e-33193-ue4-fbccc218"}), 200
     elif version_san == "0":
-        return jsonify({"LatestSupportedVersion": "te-23ebf96c-27498-ue4-7172a3f5"}), 200
+        return jsonify({"LatestSupportedVersion": "dev030"}), 200
+        # This is DEV Placeholder in the Config
     elif version_san == "3.0":
         return jsonify({"LatestSupportedVersion": "dev030"}), 200
     elif version_san == "2.11":
         return jsonify({"LatestSupportedVersion": "te-18f25613-36778-ue4-374f864b"}), 200
+    elif version_san == "2.0":
+        return jsonify({"LatestSupportedVersion": "dev020"}), 200
     try:
         print("Responded to content version api call GET")
         print(f"Version called by client: {version_san}")
@@ -166,7 +169,7 @@ def services_tex():
         user_agent = request.headers.get('User-Agent')
         if "TheExit/++UE4+Release-4.21-CL-0 Windows/" in user_agent:
             # EStashboard [0 Up, 1 Down, 2 Warning, 3 Failed]
-            #todo Set Timestamp to current time
+            # todo Set Timestamp to current time
             return jsonify({
                 "description": "The Exit - Live",
                 "url": "https://api.zkwolf.com/api/v1/services/tex",
@@ -209,7 +212,7 @@ def statuses_up():
 @app.route("/api/v1/services/tex/events/ahdzfnB1Ymxpc2hpbmctc3Rhc2hib2FyZHISCxIFRXZlbnQYgICAgMC1mwoM", methods=["GET"])
 def services_tex_events():
     try:
-        #todo set timestamp to current time
+        # todo set timestamp to current time
         return jsonify({
             "status": {
                 "description": "The service is up",
@@ -243,9 +246,9 @@ def consent_eula():
         if request.method == "PUT":
             try:
                 mongo.eula(userId=userid, get_eula=False)
-                return jsonify({"Userid": userid, "ConsentList": [{"ConsentId": "ZKApi", "isGiven": True,
+                return jsonify({"Userid": userid, "ConsentList": [{"ConsentId": "eula2", "isGiven": True,
                                                                    "UpdatedDate": 1689714606, "AttentionNeeded": False,
-                                                                   "LatestVersion": "ZKApi"}]})
+                                                                   "LatestVersion": "eula2"}]})
             except TimeoutError:
                 return jsonify({"status": "error"})
             except Exception as e:
@@ -253,16 +256,24 @@ def consent_eula():
                                       message=f"Error in consent_eula: {e}")
         elif request.method == "GET":
             if not session_cookie:
-                return jsonify({"message": "Endpoint not found"}), 404
+                return jsonify({"message": "Not Authenticated"}), 401
             userid = session_manager.get_user_id(session_cookie)
             if userid == 401:
-                return jsonify({"message": "Endpoint not found"}), 404
+                return jsonify({"message": "Not Authenticated"}), 401
             is_given = mongo.get_data_with_list(login=userid, login_steam=False,
                                                 items={"eula"})
             if is_given["eula"]:
-                return jsonify({"ConsentId": "ZKApi", "isGiven": True, "UpdatedDate": 1689714606, "AttentionNeeded": False,
-                                "LatestVersion": {"Label": "ZKApi", "EntryDate": 1689714606
-                                }, "Userid": userid})
+                return jsonify({
+                    "ConsentId": "eula2",
+                    "isGiven": True,
+                    "UpdatedDate": 1689714606,
+                    "AttentionNeeded": False,
+                    "LatestVersion": {
+                        "Label": "eula2",
+                        "EntryDate": 1689714606
+                    },
+                    "Userid": userid
+                })
 
             else:
                 return jsonify({"isGiven": False})
