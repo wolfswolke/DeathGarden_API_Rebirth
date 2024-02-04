@@ -1,3 +1,5 @@
+import uuid
+
 from flask_definitions import *
 
 
@@ -33,7 +35,10 @@ def analytics_post():
     try:
         data = request.get_json()
         logger.graylog_logger(level="info", handler="logging_gameDataAnalytics", message=data)
-        return jsonify({"status": "success"})
+        rand_record_id = uuid.uuid4()
+        return jsonify({
+            "RecordId": f"{rand_record_id}"
+        })
     except TimeoutError:
         return jsonify({"status": "error"})
     except Exception as e:
