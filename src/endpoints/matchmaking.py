@@ -12,7 +12,7 @@ import uuid
 def match_making_regions_raw():
     check_for_game_client("strict")
     try:
-        return jsonify(["EU", "US", "AP", "DEV"])
+        return jsonify(["EU", "DEV"])
     except TimeoutError:
         return jsonify({"status": "error"})
     except Exception as e:
@@ -33,9 +33,6 @@ def queue_info():
         count_b = request.args.get("countB") # Runner Count
         side = sanitize_input(request.args.get("side", ""))
         session = matchmaking_queue.getSession(userid)
-        if region == "DEV":
-            return jsonify({"A": {"Size": 1, "ETA": 100, "stable": True}, "B": {"Size": 5, "ETA": 100, "stable": True},
-                            "SizeA": count_a, "SizeB": count_b})
         if not side:
             return jsonify({"A": {"Size": 1, "ETA": 100, "stable": True}, "B": {"Size": 5, "ETA": 100, "stable": True},
                             "SizeA": count_a, "SizeB": count_b})
@@ -77,22 +74,6 @@ def queue():
 
     logger.graylog_logger(level="info", handler="logging_queue",
                           message=f"User {userid} is queueing for {category} in {region} with {count_a} hunters and {count_b} runners")
-    if region == "DEV":
-        all_users = [userid]
-        if additional_user_ids:
-            all_users.append(additional_user_ids)
-        return jsonify(
-            {"status": "MATCHED", "QueueData": {"Position": 0, "ETA": 0, "Stable": False, "SizeA": 1, "SizeB": 4},
-             "MatchData": {"MatchId": spoofed_match_id, "Category": category, "Rank": rank,
-                           "CreationDateTime": epoch, "ExcludeFriends": False,
-                           "ExcludeClanMembers": False, "Status": "CREATED",
-                           "Creator": userid,
-                           "Players": [all_users],
-                           "SideA": [userid],
-                           "SideB": [additional_user_ids], "CustomData": {},
-                           "Props": {"isDedicated": False, "gameMode": "08d2279d2ed3fba559918aaa08a73fa8-Default",
-                                     'MatchConfiguration': '/Game/Configuration/MatchConfig/MatchConfig_Demo.MatchConfig_Demo'},
-                           "Schema": 11122334455666}})
     try:
         queue_data = side, check_only
         if not check_only:
@@ -162,7 +143,7 @@ def match(matchid_unsanitized):
     if matchid == "0051681e-72ce-46f0-bda2-752e471d0d08":
         return jsonify({"MatchId": matchid, "Category": "Steam-te-18f25613-36778-ue4-374f864b", "Rank": 1})
     try:
-        response_data = matchmaking_queue.createMatchResponse(matchid)
+        response_data = matchmaking_queue.createMatchResponse(matchId=matchid)
         logger.graylog_logger(level="debug", handler="match", message=response_data)
         if response_data == "null":
             response_data = matchmaking_queue.getKilledLobbyById(matchid)
@@ -183,7 +164,7 @@ def match_kill(matchid_unsanitized):
         lobby, _ = matchmaking_queue.getLobbyById(matchid)
 
         if lobby and matchmaking_queue.isOwner(matchid, userid):
-            response_data = matchmaking_queue.createMatchResponse(matchid, killed=True)
+            response_data = matchmaking_queue.createMatchResponse(matchid=matchid, killed=True)
             matchmaking_queue.deleteMatch(matchid)
             logger.graylog_logger(level="info", handler="match_kill", message=f"Killed Match: {matchid}"
                                                                               f"by User: {userid}")
@@ -311,11 +292,85 @@ def match_create():
 
 @app.route("/api/v1/extensions/progression/playerEndOfMatch", methods=["POST"])
 def progression_player_end_of_match():
-    # {"data":{"playerId":"619d6f42-db87-4f3e-8dc9-3c9995613614",
-    # "faction":"Runner","characterGroup":"RunnerGroupE",
-    # "playtime":79,"platform":"PC","hasQuit":false,"characterState":"Dead",
-    # "matchId":"63203229-1cd7-42da-8821-540eb87536c1",
-    # "experienceEvents":[{"type":"GardenFinale","amount":5}],"earnedCurrencies":[],"completedChallenges":[]}}
+    # {
+    #    "data":{
+    #       "playerId":"00658d11-2dfd-41e8-b6d2-2462e8f3aa47",
+    #       "faction":"Runner",
+    #       "characterGroup":"RunnerGroupE",
+    #       "playtime":547,
+    #       "platform":"PC",
+    #       "hasQuit":false,
+    #       "characterState":"Escaped",
+    #       "matchId":"A9B72FEC485695753C8181AE3168877B-1",
+    #       "experienceEvents":[
+    #          {
+    #             "type":"MarkedSupplier",
+    #             "amount":600
+    #          },
+    #          {
+    #             "type":"ResourceLootBonus",
+    #             "amount":510
+    #          },
+    #          {
+    #             "type":"PlayTime",
+    #             "amount":45
+    #          },
+    #          {
+    #             "type":"FriendlyEffectBonus",
+    #             "amount":975
+    #          },
+    #          {
+    #             "type":"ResourceDepositBonus",
+    #             "amount":3750
+    #          },
+    #          {
+    #             "type":"GoldenCrateLootBonus",
+    #             "amount":5
+    #          },
+    #          {
+    #             "type":"EscapeBonus",
+    #             "amount":1000
+    #          },
+    #          {
+    #             "type":"ResourceEscapeBonus",
+    #             "amount":20
+    #          },
+    #          {
+    #             "type":"BloodModeEscapeBonus",
+    #             "amount":100
+    #          }
+    #       ],
+    #       "earnedCurrencies":[
+    #          {
+    #             "currencyName":"CurrencyA",
+    #             "amount":617
+    #          },
+    #          {
+    #             "currencyName":"CurrencyB",
+    #             "amount":620
+    #          },
+    #          {
+    #             "currencyName":"CurrencyC",
+    #             "amount":619
+    #          }
+    #       ],
+    #       "completedChallenges":[
+    #          {
+    #             "challengeId":"24CE65364362CB2A90C0E08876176937",
+    #             "challengeType":"Challenge.Type.Progression"
+    #          },
+    #          {
+    #             "challengeId":"B4B156CC47C8D987B9BDBEB910B12C9E",
+    #             "challengeType":"Challenge.Type.Progression"
+    #          },
+    #          {
+    #             "challengeId":"ECCBA78D4055676F9C17D79B9D5FA2D4",
+    #             "challengeType":"Challenge.Type.Progression"
+    #          }
+    #       ]
+    #    }
+    # }
+    #
     check_for_game_client("strict")
     session_cookie = sanitize_input(request.cookies.get("bhvrSession"))
     userid = session_manager.get_user_id(session_cookie)
@@ -361,6 +416,453 @@ def progression_end_of_match():
         return jsonify({"status": "error"})
     except Exception as e:
         logger.graylog_logger(level="error", handler="matchmaking_endOfMatch", message=e)
+
+
+@app.route("/metrics/endofmatch/event", methods=["POST"])
+def metrics_end_of_match_event():
+    #
+    # {
+    # 	"matchId": "A9B72FEC485695753C8181AE3168877B-1",
+    # 	"gameVersion": "te-f9b4768a-26590-ue4-cefc1aee",
+    # 	"roundEvents": [
+    # 		{
+    # 			"round": 1,
+    # 			"roundLength": 547,
+    # 			"gamemode": "None",
+    # 			"biomeName": "",
+    # 			"randomSeed": 0,
+    # 			"runnerCount": 2,
+    # 			"hunterCount": 0,
+    # 			"weather": "",
+    # 			"supplierCounts": [],
+    # 			"endOfRoundObjectiveState":
+    # 			{
+    # 				"bAreObjectivesCompleted": false,
+    # 				"fullyCapturedObjectivesCount": 0,
+    # 				"objectivesFilledCompartmentsCount": 0,
+    # 				"progressionByObjective": []
+    # 			},
+    # 			"endOfRoundExitState":
+    # 			{
+    # 				"bAreExitOpened": true,
+    # 				"openTime": 548.63604736328125,
+    # 				"openReason": "HunterDomination",
+    # 				"exitCoords": [
+    # 					{
+    # 						"x": -4371.796875,
+    # 						"y": -7400,
+    # 						"z": -400
+    # 					},
+    # 					{
+    # 						"x": 3942.046875,
+    # 						"y": 7000,
+    # 						"z": -400
+    # 					}
+    # 				]
+    # 			}
+    # 		}
+    # 	],
+    # 	"runnerMatchAnalytics": [
+    # 		{
+    # 			"roundEvents": [
+    # 				{
+    # 					"caltrops": [],
+    # 					"specialArrows": [],
+    # 					"role": "PlayerRole.Support",
+    # 					"state": "Escaped",
+    # 					"suicideCount": 0,
+    # 					"timeOfDeath": -1,
+    # 					"rescueCount": 0,
+    # 					"rescuedCount": 0,
+    # 					"downedCount": 0,
+    # 					"damageDealtToHunter": 0,
+    # 					"damageDealtToMines": 0,
+    # 					"damageDealtToTurrets": 0,
+    # 					"damageDealtToDrones": 44,
+    # 					"arenaObjectivesMarked": 0,
+    # 					"resourceSuppliersMarked": 1,
+    # 					"totalObjectsMarked": 1,
+    # 					"murderPostRescueCount": 0,
+    # 					"rescuedFromMurderPostCount": 0,
+    # 					"sentToMurderPostCount": 0,
+    # 					"hunterHitsCount": 0,
+    # 					"unsecuredBloodCount": 0,
+    # 					"bankedBloodCount": 0,
+    # 					"round": 1,
+    # 					"gamemode": "",
+    # 					"country": "DE",
+    # 					"gender": "Male",
+    # 					"damageTaken": 0,
+    # 					"headshotCount": 0,
+    # 					"longestHeadshotDistance": -1,
+    # 					"totalShotsFired": 3,
+    # 					"supplierUsedCounts": [
+    # 						{
+    # 							"type": "SupplyCrate_AmmunitionPack_C",
+    # 							"count": 3
+    # 						},
+    # 						{
+    # 							"type": "SupplyCrate_WeaponParts_C",
+    # 							"count": 1
+    # 						},
+    # 						{
+    # 							"type": "BP_ResourceCrate_ResourceTypeB_C",
+    # 							"count": 66
+    # 						},
+    # 						{
+    # 							"type": "GoldenCrate_Unlimited_C",
+    # 							"count": 1
+    # 						}
+    # 					],
+    # 					"resourcesUsage": [
+    # 						{
+    # 							"type": "Resource.Ammo.ReserveEarned",
+    # 							"amount": 34
+    # 						},
+    # 						{
+    # 							"type": "Resource.NPIEarned",
+    # 							"amount": 3
+    # 						},
+    # 						{
+    # 							"type": "Resource.NPIExpended",
+    # 							"amount": 3
+    # 						},
+    # 						{
+    # 							"type": "Resource.ResourceCharge.TypeB.UnsecuredEarned",
+    # 							"amount": 66
+    # 						},
+    # 						{
+    # 							"type": "Resource.ResourceCharge.TypeB.UnsecuredExpended",
+    # 							"amount": 56
+    # 						},
+    # 						{
+    # 							"type": "Resource.ResourceCharge.TypeB.BankedEarned",
+    # 							"amount": 56
+    # 						},
+    # 						{
+    # 							"type": "Resource.Ammo.ClipExpended",
+    # 							"amount": 2
+    # 						}
+    # 					],
+    # 					"pingInformation":
+    # 					{
+    # 						"readCount": 108,
+    # 						"average": 0,
+    # 						"variance": 0,
+    # 						"maximum": 0,
+    # 						"minimum": 0
+    # 					},
+    # 					"crouchingTime": 18.294017791748047,
+    # 					"capturingObjectivesTime": 0,
+    # 					"holdingKeyTime": 0,
+    # 					"keysDelivered": 0,
+    # 					"objectsDestroyedCount": 1,
+    # 					"perksChosen": [
+    # 						"Shimmey",
+    # 						"Ammo Opportunist"
+    # 					],
+    # 					"chatMessagesCounts": [],
+    # 					"effectsAppliedCounts": [],
+    # 					"customizationItems": [
+    # 						{
+    # 							"itemSlot": "Head",
+    # 							"customizationItem": "Default Smoke Head"
+    # 						},
+    # 						{
+    # 							"itemSlot": "Outfit",
+    # 							"customizationItem": "Default Smoke Upperbody"
+    # 						},
+    # 						{
+    # 							"itemSlot": "Lower Body Section",
+    # 							"customizationItem": "Default Smoke Lowerbody"
+    # 						},
+    # 						{
+    # 							"itemSlot": "Gauntlet",
+    # 							"customizationItem": "Default Smoke Vambrace"
+    # 						}
+    # 					],
+    # 					"customizationWeaponSkins": [],
+    # 					"chaseAmount": 0,
+    # 					"chaseAmountEscape": 0
+    # 				}
+    # 			],
+    # 			"playerName": "HEX: Dino Nuggies",
+    # 			"playerUniqueId": "619d6f42-db87-4f3e-8dc9-3c9995613614",
+    # 			"playerSessionId": "71E8AFB54DFFCC83A69D3F80A5CBADD5"
+    # 		},
+    # 		{
+    # 			"roundEvents": [
+    # 				{
+    # 					"caltrops": [],
+    # 					"specialArrows": [],
+    # 					"role": "PlayerRole.Support",
+    # 					"state": "Escaped",
+    # 					"suicideCount": 0,
+    # 					"timeOfDeath": -1,
+    # 					"rescueCount": 0,
+    # 					"rescuedCount": 0,
+    # 					"downedCount": 0,
+    # 					"damageDealtToHunter": 0,
+    # 					"damageDealtToMines": 0,
+    # 					"damageDealtToTurrets": 0,
+    # 					"damageDealtToDrones": 0,
+    # 					"arenaObjectivesMarked": 5,
+    # 					"resourceSuppliersMarked": 26,
+    # 					"totalObjectsMarked": 31,
+    # 					"murderPostRescueCount": 0,
+    # 					"rescuedFromMurderPostCount": 0,
+    # 					"sentToMurderPostCount": 0,
+    # 					"hunterHitsCount": 0,
+    # 					"unsecuredBloodCount": 0,
+    # 					"bankedBloodCount": 0,
+    # 					"round": 1,
+    # 					"gamemode": "",
+    # 					"country": "DE",
+    # 					"gender": "Male",
+    # 					"damageTaken": 0,
+    # 					"headshotCount": 0,
+    # 					"longestHeadshotDistance": -1,
+    # 					"totalShotsFired": 76,
+    # 					"supplierUsedCounts": [
+    # 						{
+    # 							"type": "SupplyCrate_AmmunitionPack_C",
+    # 							"count": 3
+    # 						},
+    # 						{
+    # 							"type": "SupplyCrate_WeaponParts_C",
+    # 							"count": 2
+    # 						},
+    # 						{
+    # 							"type": "BP_ResourceCrate_ResourceTypeB_C",
+    # 							"count": 51
+    # 						},
+    # 						{
+    # 							"type": "GoldenCrate_Unlimited_C",
+    # 							"count": 1
+    # 						}
+    # 					],
+    # 					"resourcesUsage": [
+    # 						{
+    # 							"type": "Resource.Ammo.ReserveEarned",
+    # 							"amount": 34
+    # 						},
+    # 						{
+    # 							"type": "Resource.Ammo.ClipExpended",
+    # 							"amount": 35
+    # 						},
+    # 						{
+    # 							"type": "Resource.NPIEarned",
+    # 							"amount": 6
+    # 						},
+    # 						{
+    # 							"type": "Resource.NPIExpended",
+    # 							"amount": 6
+    # 						},
+    # 						{
+    # 							"type": "Resource.ResourceCharge.TypeB.UnsecuredEarned",
+    # 							"amount": 51
+    # 						},
+    # 						{
+    # 							"type": "Resource.ResourceCharge.TypeB.UnsecuredExpended",
+    # 							"amount": 50
+    # 						},
+    # 						{
+    # 							"type": "Resource.ResourceCharge.TypeB.BankedEarned",
+    # 							"amount": 50
+    # 						}
+    # 					],
+    # 					"pingInformation":
+    # 					{
+    # 						"readCount": 110,
+    # 						"average": 225,
+    # 						"variance": 82.481819152832031,
+    # 						"maximum": 268,
+    # 						"minimum": 215
+    # 					},
+    # 					"crouchingTime": 13.677490234375,
+    # 					"capturingObjectivesTime": 0,
+    # 					"holdingKeyTime": 0,
+    # 					"keysDelivered": 0,
+    # 					"objectsDestroyedCount": 0,
+    # 					"perksChosen": [
+    # 						"Shimmey",
+    # 						"Ammo Opportunist"
+    # 					],
+    # 					"chatMessagesCounts": [
+    # 						{
+    # 							"messageType": "IntelliCommsMsgNoChannel",
+    # 							"messageCount": 3
+    # 						},
+    # 						{
+    # 							"messageType": "IntelliCommsMsgFaction",
+    # 							"messageCount": 23
+    # 						}
+    # 					],
+    # 					"effectsAppliedCounts": [
+    # 						{
+    # 							"effectSource": "BP_Arrow_SmokeScreen_C",
+    # 							"count": 39
+    # 						}
+    # 					],
+    # 					"customizationItems": [
+    # 						{
+    # 							"itemSlot": "Head",
+    # 							"customizationItem": "Default Smoke Head"
+    # 						},
+    # 						{
+    # 							"itemSlot": "Outfit",
+    # 							"customizationItem": "Default Smoke Upperbody"
+    # 						},
+    # 						{
+    # 							"itemSlot": "Lower Body Section",
+    # 							"customizationItem": "Default Smoke Lowerbody"
+    # 						},
+    # 						{
+    # 							"itemSlot": "Gauntlet",
+    # 							"customizationItem": "Default Smoke Vambrace"
+    # 						}
+    # 					],
+    # 					"customizationWeaponSkins": [],
+    # 					"chaseAmount": 0,
+    # 					"chaseAmountEscape": 0
+    # 				}
+    # 			],
+    # 			"playerName": "Miraak",
+    # 			"playerUniqueId": "00658d11-2dfd-41e8-b6d2-2462e8f3aa47",
+    # 			"playerSessionId": "B9BB33074498771555A3DBAF95D124CE"
+    # 		},
+    # 		{
+    # 			"roundEvents": [
+    # 				{
+    # 					"caltrops": [],
+    # 					"specialArrows": [],
+    # 					"role": "",
+    # 					"state": "Alive",
+    # 					"suicideCount": 0,
+    # 					"timeOfDeath": -1,
+    # 					"rescueCount": 0,
+    # 					"rescuedCount": 0,
+    # 					"downedCount": 0,
+    # 					"damageDealtToHunter": 0,
+    # 					"damageDealtToMines": 0,
+    # 					"damageDealtToTurrets": 0,
+    # 					"damageDealtToDrones": 0,
+    # 					"arenaObjectivesMarked": 0,
+    # 					"resourceSuppliersMarked": 0,
+    # 					"totalObjectsMarked": 0,
+    # 					"murderPostRescueCount": 0,
+    # 					"rescuedFromMurderPostCount": 0,
+    # 					"sentToMurderPostCount": 0,
+    # 					"hunterHitsCount": 0,
+    # 					"unsecuredBloodCount": 0,
+    # 					"bankedBloodCount": 0,
+    # 					"round": 1,
+    # 					"gamemode": "",
+    # 					"country": "",
+    # 					"gender": "",
+    # 					"damageTaken": 0,
+    # 					"headshotCount": 0,
+    # 					"longestHeadshotDistance": -1,
+    # 					"totalShotsFired": 0,
+    # 					"supplierUsedCounts": [],
+    # 					"resourcesUsage": [],
+    # 					"pingInformation":
+    # 					{
+    # 						"readCount": 1,
+    # 						"average": 0,
+    # 						"variance": 0,
+    # 						"maximum": 0,
+    # 						"minimum": 0
+    # 					},
+    # 					"crouchingTime": 0,
+    # 					"capturingObjectivesTime": 0,
+    # 					"holdingKeyTime": 0,
+    # 					"keysDelivered": 0,
+    # 					"objectsDestroyedCount": 0,
+    # 					"perksChosen": [],
+    # 					"chatMessagesCounts": [],
+    # 					"effectsAppliedCounts": [],
+    # 					"customizationItems": [],
+    # 					"customizationWeaponSkins": [],
+    # 					"chaseAmount": 0,
+    # 					"chaseAmountEscape": 0
+    # 				}
+    # 			],
+    # 			"playerName": "",
+    # 			"playerUniqueId": "",
+    # 			"playerSessionId": ""
+    # 		}
+    # 	],
+    # 	"hunterMatchAnalytics": [],
+    # 	"hitDetectionErrorRate": 0,
+    # 	"hitDetectionErrors": [],
+    # 	"lobbyAnalytics": [],
+    # 	"eventType": "Server"
+    # }
+    #
+    check_for_game_client("strict")
+    try:
+        data = request.get_json()
+        # Keys LV 1
+        match_id = data["matchId"]
+        game_version = data["gameVersion"]
+        round_events = data["roundEvents"]
+        runner_match_analytics = data["runnerMatchAnalytics"]
+        hunter_match_analytics = data["hunterMatchAnalytics"]
+        hit_detection_error_rate = data["hitDetectionErrorRate"]
+        hit_detection_errors = data["hitDetectionErrors"]
+        lobby_analytics = data["lobbyAnalytics"]
+        event_type = data["eventType"]
+
+        # Keys round_events
+        round_events_item1 = round_events[0]
+        round_value = round_events_item1["round"]
+        round_length = round_events_item1["roundLength"]
+        # gamemode = round_events_item1["gamemode"]
+        biome_name = round_events_item1["biomeName"]
+        random_seed = round_events_item1["randomSeed"]
+        runner_count = round_events_item1["runnerCount"]
+        hunter_count = round_events_item1["hunterCount"]
+        weather = round_events_item1["weather"]
+        supplier_counts = round_events_item1["supplierCounts"]
+        end_of_round_objective_state = round_events_item1["endOfRoundObjectiveState"]
+        end_of_round_exit_state = round_events_item1["endOfRoundExitState"]
+
+        # Keys end_of_round_objective_state
+        b_are_objectives_completed = end_of_round_objective_state["bAreObjectivesCompleted"]
+        fully_captured_objectives_count = end_of_round_objective_state["fullyCapturedObjectivesCount"]
+        objectives_filled_compartments_count = end_of_round_objective_state["objectivesFilledCompartmentsCount"]
+        progression_by_objective = end_of_round_objective_state["progressionByObjective"]
+
+        # Keys end_of_round_exit_state
+        b_are_exit_opened = end_of_round_exit_state["bAreExitOpened"]
+        open_time = end_of_round_exit_state["openTime"]
+        open_reason = end_of_round_exit_state["openReason"]
+        exit_coords = end_of_round_exit_state["exitCoords"]
+
+        # keys exit_coords
+        # Per Player XYZ
+
+        # Keys runner_match_analytics
+        # For all players in game LOOP Func
+        roundEvents = runner_match_analytics[0]["roundEvents"]
+        playerName = runner_match_analytics[0]["playerName"]
+        playerUniqueId = runner_match_analytics[0]["playerUniqueId"]
+        playerSessionId = runner_match_analytics[0]["playerSessionId"]
+
+        # Keys hunter_match_analytics
+
+        # Keys hit_detection_errors
+
+        # Keys lobby_analytics
+
+
+        logger.graylog_logger(level="info", handler="logging_endOfMatch_Event", message=data)
+        return jsonify({"Success": True})
+    except TimeoutError:
+        return jsonify({"Success": False})
+    except Exception as e:
+        logger.graylog_logger(level="error", handler="logging_endOfMatch_Event", message=e)
 
 
 
