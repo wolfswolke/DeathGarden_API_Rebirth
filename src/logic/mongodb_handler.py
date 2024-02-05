@@ -23,7 +23,82 @@ class Mongo:
             'special_unlocks': [],
             'finished_challenges': [],
             'open_challenges': [],
-            'unread_msg_ids': []
+            'unread_msg_ids': [],
+            'last_played_faction': 'Runner',
+            'tutorial_completed': False,
+            'last_runner': 'Runner.Fog',
+            'last_hunter': 'Hunter.Inquisitor',
+            'hasPlayedDeathGarden1': False,
+            'Dash': {
+                'Equipment': [],
+                'EquippedPerks': [],
+                'EquippedPowers': [],
+                'EquippedWeapons': [],
+                'EquippedBonuses': []
+            },
+            'Fog': {
+                'Equipment': [],
+                'EquippedPerks': [],
+                'EquippedPowers': [],
+                'EquippedWeapons': [],
+                'EquippedBonuses': []
+            },
+            'Ghost': {
+                'Equipment': [],
+                'EquippedPerks': [],
+                'EquippedPowers': [],
+                'EquippedWeapons': [],
+                'EquippedBonuses': []
+            },
+            'Ink': {
+                'Equipment': [],
+                'EquippedPerks': [],
+                'EquippedPowers': [],
+                'EquippedWeapons': [],
+                'EquippedBonuses': []
+            },
+            'Sawbones': {
+                'Equipment': [],
+                'EquippedPerks': [],
+                'EquippedPowers': [],
+                'EquippedWeapons': [],
+                'EquippedBonuses': []
+            },
+            'Switch': {
+                'Equipment': [],
+                'EquippedPerks': [],
+                'EquippedPowers': [],
+                'EquippedWeapons': [],
+                'EquippedBonuses': []
+            },
+            'Inquisitor': {
+                'Equipment': [],
+                'EquippedPerks': [],
+                'EquippedPowers': [],
+                'EquippedWeapons': [],
+                'EquippedBonuses': []
+            },
+            'Stalker': {
+                'Equipment': [],
+                'EquippedPerks': [],
+                'EquippedPowers': [],
+                'EquippedWeapons': [],
+                'EquippedBonuses': []
+            },
+            'Poacher': {
+                'Equipment': [],
+                'EquippedPerks': [],
+                'EquippedPowers': [],
+                'EquippedWeapons': [],
+                'EquippedBonuses': []
+            },
+            'Mass': {
+                'Equipment': [],
+                'EquippedPerks': [],
+                'EquippedPowers': [],
+                'EquippedWeapons': [],
+                'EquippedBonuses': []
+            }
         }
 
     def setup(self, server, db, collection):
