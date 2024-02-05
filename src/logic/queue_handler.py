@@ -47,6 +47,7 @@ class MatchmakingQueue:
         self.openLobbies = []
         self.killedLobbies = []
         self.queuedPlayers = []
+        self.devs = ["95041085-e7e4-4759-be3d-e72c69167578", "00658d11-2dfd-41e8-b6d2-2462e8f3aa47", "619d6f42-db87-4f3e-8dc9-3c9995613614"]
 
     def queuePlayer(self, side, userId):
         try:
@@ -96,7 +97,7 @@ class MatchmakingQueue:
                 matchId = self.genMatchUUID()
                 lobby = Lobby(False, queuedPlayer, [], matchId, False, False)
                 self.openLobbies.append(lobby)
-                return self.createQueueResponseMatched(userId, matchId)
+                return self.createQueueResponseMatched(userId, matchId, region)
         except Exception as e:
             logger.graylog_logger(level="error", handler="matchmaking_getQueueStatus", message=e)
             return None
@@ -124,13 +125,13 @@ class MatchmakingQueue:
             lobby.host = userId
             lobby.isReady = True
             lobby.sessionSettings = sessionSettings
-            return self.createMatchResponse(matchId)
+            return self.createMatchResponse(matchId=matchId, userId=userId)
 
     def closeMatch(self, matchId):
         lobby, _ = self.getLobbyById(matchId)
         if lobby:
             lobby.status = "CLOSED"
-            return self.createMatchResponse(matchId)
+            return self.createMatchResponse(matchId=matchId)
 
     def deleteMatch(self, matchId):
         lobby, index = self.getLobbyById(matchId)
@@ -151,8 +152,14 @@ class MatchmakingQueue:
             if self.killedLobbies[i].killedTime < current_time - 5 * 60 * 1000:
                 self.killedLobbies.pop(i)
 
-    def createMatchResponse(self, matchId, killed=False):
+    def createMatchResponse(self, matchId, killed=None, userId=None):
         try:
+            if userId in self.devs:
+                countA = 1
+                countB = 1
+            else:
+                countA = 1
+                countB = 5
             lobby = self.getLobbyById(matchId)[0] or self.getKilledLobbyById(matchId)
             if not lobby:
                 return {}
@@ -173,10 +180,10 @@ class MatchmakingQueue:
                 },
                 "MatchId": matchId,
                 "props": {
-                    "countA": 1,
-                    "countB": 4,
+                    "countA": countA,
+                    "countB": countB,
                     "EncryptionKey": "Rpqy9fgpIWrHxjJpiwnJJtoZ2hbUZZ4paU+0n4K/iZI=",
-                    "gameMode": "4cb782397d46fc432d10bdc24538097a",
+                    "MatchConfiguration": "/Game/Configuration/MatchConfig/MatchConfig_ARC_ScrapYard.MatchConfig_ARC_ScrapYard",
                     "platform": "Windows",
                 },
                 "rank": 1,
@@ -189,8 +196,14 @@ class MatchmakingQueue:
         except Exception as e:
             logger.graylog_logger(level="error", handler="matchmaking_createMatchResponse", message=e)
 
-    def createQueueResponseMatched(self, creatorId, matchId, joinerId=None):
+    def createQueueResponseMatched(self, creatorId, matchId, joinerId=None, region=None):
         try:
+            if region:
+                countA = 1
+                countB = 1
+            else:
+                countA = 1
+                countB = 5
             current_timestamp, expiration_timestamp = get_time()
             return {
                 "status": "MATCHED",
@@ -201,10 +214,10 @@ class MatchmakingQueue:
                     "customData": {},
                     "matchId": matchId,
                     "props": {
-                        "countA": 1,
-                        "countB": 5,
+                        "countA": countA,
+                        "countB": countB,
                         "EncryptionKey": "Rpqy9fgpIWrHxjJpiwnJJtoZ2hbUZZ4paU+0n4K/iZI=",
-                        "gameMode": "4cb782397d46fc432d10bdc24538097a",
+                        "MatchConfiguration": "/Game/Configuration/MatchConfig/MatchConfig_ARC_ScrapYard.MatchConfig_ARC_ScrapYard",
                         "platform": "Windows",
                     },
                     "rank": 1,
