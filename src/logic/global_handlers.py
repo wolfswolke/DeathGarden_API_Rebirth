@@ -2,6 +2,8 @@ from flask_definitions import *
 import time
 import uuid
 import bleach
+import os
+import json
 
 
 def _get_remote_ip(check_type="strict"):
@@ -58,11 +60,27 @@ def sanitize_input(input_value):
 class Session_Manager:
     def __init__(self):
         self.sessions = {}
+        self.session_file = "sessions.json"
+        # Relative Path /app/tmp/sessions.json
+        self.session_file_path = f"/app/tmp/{self.session_file}"
+
+    def setup(self):
+        print("Setting up Session Manager")
+        print(f"Session File Path: {self.session_file_path}")
+        if not os.path.exists(self.session_file_path):
+            print("Session File not found, creating new one.")
+            with open(self.session_file_path, "w") as session_file:
+                session_file.write("{}")
+        with open(self.session_file_path, "r") as session_file:
+            print("Loading Sessions")
+            self.sessions = json.load(session_file)
+            print(f"DEBUG Sessions: {self.sessions}")
 
     def create_session(self, user_id):
         session_id = str(uuid.uuid4())
         expires = time.time() + 3600
         self.sessions[session_id] = {"session_id": session_id, "expires": expires, "user": user_id}
+        self.save_sessions(clean=True)
         return session_id
 
     def get_user_id(self, session_id):
@@ -71,12 +89,14 @@ class Session_Manager:
             logger.graylog_logger(level="info", handler="session_manager", message=f"Session ID: {session_id} not found.")
             return None
         self.extend_session(session_id)
+        self.save_sessions()
         return self.sessions[session_id]["user"]
 
     def extend_session(self, session_id):
         session_expires = self.sessions[session_id]["expires"]
         if session_expires <= 3600:
             self.sessions[session_id]["expires"] = time.time() + 4600
+            self.save_sessions()
         else:
             pass
 
@@ -87,6 +107,15 @@ class Session_Manager:
         expired_sessions = [session_id for session_id, data in self.sessions.items() if data["expires"] < current_time]
         for session_id in expired_sessions:
             self.sessions.pop(session_id)
+
+    def __write_sessions__(self):
+        with open(self.session_file_path, "w") as session_file:
+            json.dump(self.sessions, session_file)
+
+    def save_sessions(self, clean=False):
+        if clean:
+            self.clean_sessions()
+        self.__write_sessions__()
 
 
 session_manager = Session_Manager()
