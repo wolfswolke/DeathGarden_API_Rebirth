@@ -169,11 +169,12 @@ def healthcheck():
 
 @app.route("/api/v1/services/tex/")
 def services_tex():
+    current_time = get_date_and_time()
     try:
         user_agent = request.headers.get('User-Agent')
         if "TheExit/++UE4+Release-4.21-CL-0 Windows/" in user_agent:
             # EStashboard [0 Up, 1 Down, 2 Warning, 3 Failed]
-            current_time = get_date_and_time()
+            # up, down, available
             return jsonify({
                 "description": "The Exit - Live",
                 "url": "https://api.zkwolf.com/api/v1/services/tex",
@@ -201,9 +202,54 @@ def services_tex():
             return {"current-event": {"status": {"id": "live"}, "message": ""}}  # Alpha 2 WARNING Msg text?!?!
 
     except TimeoutError:
-        return jsonify({"status": "error"})
+        return jsonify({
+            "description": "The Exit - Live",
+            "url": "https://api.zkwolf.com/api/v1/services/tex",
+            "list": None,
+            "current-event": {
+                "status": {
+                    "description": "The service is maybe working",
+                    "level": "ERROR",
+                    "default": True,
+                    "image": "https://api.zkwolf.com/images/icons/fugue/tick-circle.png",
+                    "url": "https://api.zkwolf.com/api/v1/statuses/up",
+                    "id": "available",
+                    "name": "available"
+                },
+                "url": "https://api.zkwolf.com/api/v1/services/tex/events/ahdzfnB1Ymxpc2hpbmctc3Rhc2hib2FyZHISCxIFRXZlbnQYgICAgMC1mwoM",
+                "timestamp": current_time,
+                "sid": "ahdzfnB1Ymxpc2hpbmctc3Rhc2hib2FyZHISCxIFRXZlbnQYgICAgMC1mwoM",
+                "message": "available",
+                "informational": False
+            },
+            "id": "tex",
+            "name": "tex"
+        })
     except Exception as e:
         logger.graylog_logger(level="error", handler="general-services-tex", message=e)
+        return jsonify({
+            "description": "The Exit - Live",
+            "url": "https://api.zkwolf.com/api/v1/services/tex",
+            "list": None,
+            "current-event": {
+                "status": {
+                    "description": "The service is not working",
+                    "level": "ERROR",
+                    "default": False,
+                    "image": "https://api.zkwolf.com/images/icons/fugue/tick-circle.png",
+                    "url": "https://api.zkwolf.com/api/v1/statuses/up",
+                    "id": "down",
+                    "name": "down"
+                },
+                "url": "https://api.zkwolf.com/api/v1/services/tex/events/ahdzfnB1Ymxpc2hpbmctc3Rhc2hib2FyZHISCxIFRXZlbnQYgICAgMC1mwoM",
+                "timestamp": current_time,
+                "sid": "ahdzfnB1Ymxpc2hpbmctc3Rhc2hib2FyZHISCxIFRXZlbnQYgICAgMC1mwoM",
+                "message": "down",
+                "informational": False
+            },
+            "id": "tex",
+            "name": "tex"
+        })
 
 
 @app.route("/api/v1/statuses/up", methods=["GET"])
