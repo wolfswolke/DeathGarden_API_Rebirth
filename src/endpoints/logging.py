@@ -66,7 +66,19 @@ def analytics_batch_post():
     try:
         data = request.get_json()
         logger.graylog_logger(level="info", handler="logging_gameDataAnalyticsBatch", message=data)
-        return jsonify({"status": "success"})
+        item_count = len(data["body"])
+        data = []
+        for item in range(item_count):
+            rand_record_id = uuid.uuid4()
+            data.append({
+                "RecordId": f"{rand_record_id}"
+            })
+        return jsonify(
+            {
+                "FailedPutCount": 0,
+                "RequestResponses": data
+            }
+        )
     except TimeoutError:
         return jsonify({"status": "error"})
     except Exception as e:
