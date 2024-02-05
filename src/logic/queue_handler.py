@@ -47,7 +47,8 @@ class MatchmakingQueue:
         self.openLobbies = []
         self.killedLobbies = []
         self.queuedPlayers = []
-        self.devs = ["95041085-e7e4-4759-be3d-e72c69167578", "00658d11-2dfd-41e8-b6d2-2462e8f3aa47", "619d6f42-db87-4f3e-8dc9-3c9995613614"]
+        self.devs = ["a"]
+        # "95041085-e7e4-4759-be3d-e72c69167578", "00658d11-2dfd-41e8-b6d2-2462e8f3aa47", "619d6f42-db87-4f3e-8dc9-3c9995613614"
 
     def queuePlayer(self, side, userId):
         try:
@@ -183,7 +184,8 @@ class MatchmakingQueue:
                     "countA": countA,
                     "countB": countB,
                     "EncryptionKey": "Rpqy9fgpIWrHxjJpiwnJJtoZ2hbUZZ4paU+0n4K/iZI=",
-                    "MatchConfiguration": "/Game/Configuration/MatchConfig/MatchConfig_ARC_ScrapYard.MatchConfig_ARC_ScrapYard",
+                    "gameMode": "MatchConfig_NewMaps",
+                    "MatchConfiguration": "Game/Content/Configuration/MatchConfig/MatchConfig_NewMaps.MatchConfig_NewMaps",
                     "platform": "Windows",
                 },
                 "rank": 1,
@@ -217,7 +219,8 @@ class MatchmakingQueue:
                         "countA": countA,
                         "countB": countB,
                         "EncryptionKey": "Rpqy9fgpIWrHxjJpiwnJJtoZ2hbUZZ4paU+0n4K/iZI=",
-                        "MatchConfiguration": "/Game/Configuration/MatchConfig/MatchConfig_ARC_ScrapYard.MatchConfig_ARC_ScrapYard",
+                        "gameMode": "MatchConfig_NewMaps",
+                        "MatchConfiguration": "/Game/Configuration/MatchConfig/MatchConfig_NewMaps.MatchConfig_NewMaps",
                         "platform": "Windows",
                     },
                     "rank": 1,
