@@ -88,6 +88,9 @@ def analytics_batch_post():
 @app.route("/api/v1/me/richPresence", methods=["POST"])
 def me_rich_presence():
     check_for_game_client()
+    session_cookie = request.cookies.get("bhvrSession")
+    userid = session_manager.get_user_id(session_cookie)
+
     try:
         logger.graylog_logger(level="info", handler="logging_meRichPresence", message=request.get_json())
         return jsonify({"status": "success"})
