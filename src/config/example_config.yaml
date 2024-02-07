@@ -11,3 +11,7 @@ api:
   allowed_tokens: token1, token2, token3, token4
 test_case:
   user_cookie: ThisIsAUserCookieString
+webhooks:
+  discord:
+    url: https://discord.com/api/webhooks/A/A
+    use: true
