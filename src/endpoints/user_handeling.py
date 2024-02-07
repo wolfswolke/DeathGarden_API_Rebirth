@@ -116,8 +116,6 @@ def get_init_or_get_groups(userid, request_data):
                        "EquippedPowers": hunter_equipment[hunter_name]["EquippedPowers"],
                        "EquippedWeapons": hunter_equipment[hunter_name]["EquippedWeapons"],
                        "EquippedBonuses": hunter_equipment[hunter_name]["EquippedBonuses"]}
-        print(runner_equipment)
-        print(runner_equipment[runner_name])
 
         player_data = {"LastPlayedFaction": last_played_faction["last_played_faction"],
                        "LastPlayedRunnerId": {"tagName": last_runner["last_runner"]},
@@ -364,11 +362,11 @@ def inventories():
             return jsonify({"Code": 200, "Message": "OK",
                             "Data": {"PlayerId": userid,
                                      "Inventory": [
-                                         {"ObjectId": "16FEF910-4BD42353-C010579D-56FD5B2F", "Quantity": 1,
+                                         {"ObjectId": "DF5E3FD0-49902AB5-DC1B3C8E-22625AAF", "Quantity": 1,
                                           "LastUpdateAt": 1687377305},
-                                         {"ObjectId": "C1672541-4A4B16B9-AD557C9E-E865D113", "Quantity": 1,
+                                         {"ObjectId": "0ADDB41F-4216A32D-8F1853BA-B25D20F2", "Quantity": 1,
                                           "LastUpdateAt": 1687377305},
-                                         {"ObjectId": "56B7B6F6-473712D0-B7A2F992-BB2C16CD", "Quantity": 1,
+                                         {"ObjectId": "E5010955-45F87E64-AAFC74A0-4F1CFF5B", "Quantity": 1,
                                           "LastUpdateAt": 1687377305}
                                          , {"ObjectId": "33E6325A-4E098D5D-47DBD48A-DE746024", "Quantity": 1,
                                             "LastUpdateAt": 1687377305}
