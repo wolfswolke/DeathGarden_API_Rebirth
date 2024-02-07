@@ -25,21 +25,22 @@ class QueuedPlayer:
 
 
 class Lobby:
-    def __init__(self, isReady, host, nonHosts, id, isPrepared, hasStarted):
+    def __init__(self, isReady, host, nonHosts, id, isPrepared, hasStarted, status):
         self.isReady = isReady
         self.host = host
         self.nonHosts = nonHosts
         self.id = id
         self.isPrepared = isPrepared
         self.hasStarted = hasStarted
-        self.status = "OPENED"
+        self.status = status
 
 
 class KilledLobby:
-    def __init__(self, id, reason, killedTime):
+    def __init__(self, id, reason, killedTime, host):
         self.id = id
         self.reason = reason
         self.killedTime = killedTime
+        self.host = host
 
 
 class MatchmakingQueue:
@@ -55,6 +56,8 @@ class MatchmakingQueue:
             current_timestamp, expiration_timestamp = get_time()
             queuedPlayer = QueuedPlayer(userId, side,
                                         current_timestamp)
+            if userId in [player.userId for player in self.queuedPlayers]:
+                return
             self.queuedPlayers.append(queuedPlayer)
         except Exception as e:
             logger.graylog_logger(level="error", handler="matchmaking_queuePlayer", message=e)
@@ -79,7 +82,7 @@ class MatchmakingQueue:
                     for openLobby in self.openLobbies:
                         if not openLobby.isReady or openLobby.hasStarted:
                             continue
-                        if len(openLobby.nonHosts) < 4:
+                        if len(openLobby.nonHosts) < 5:
                             openLobby.nonHosts.append(queuedPlayer)
                             self.queuedPlayers.pop(index)
                             return self.createQueueResponseMatched(openLobby.host, openLobby.id, userId)
@@ -96,9 +99,11 @@ class MatchmakingQueue:
                     }
             else:
                 matchId = self.genMatchUUID()
-                lobby = Lobby(False, queuedPlayer, [], matchId, False, False)
+                lobby = Lobby(isReady=False, host=queuedPlayer, nonHosts=[], id=matchId, isPrepared=False,
+                              hasStarted=False, status="OPENED")
                 self.openLobbies.append(lobby)
-                return self.createQueueResponseMatched(userId, matchId, region)
+                self.queuedPlayers.pop(index)
+                return self.createQueueResponseMatched(userId, matchId, region=region)
         except Exception as e:
             logger.graylog_logger(level="error", handler="matchmaking_getQueueStatus", message=e)
             return None
@@ -136,11 +141,10 @@ class MatchmakingQueue:
 
     def deleteMatch(self, matchId):
         lobby, index = self.getLobbyById(matchId)
-        logger.graylog_logger(level="info", handler="deleteMatch", message=f"Deleting Match: {matchId}")
         if lobby:
             self.openLobbies.pop(index)
             current_timestamp, expiration_timestamp = get_time()
-            killedLobby = KilledLobby(lobby.id, "killed_by_host", current_timestamp)
+            killedLobby = KilledLobby(lobby.id, "killed_by_host", current_timestamp, lobby.host)
             self.killedLobbies.append(killedLobby)
 
     def isOwner(self, matchId, userid):
@@ -161,10 +165,19 @@ class MatchmakingQueue:
             else:
                 countA = 1
                 countB = 5
-            lobby = self.getLobbyById(matchId)[0] or self.getKilledLobbyById(matchId)
+            lobby, id = self.getLobbyById(matchId)
             if not lobby:
-                return {}
+                lobby = self.getKilledLobbyById(matchId)
             host = lobby.host
+            if type(host) == QueuedPlayer:
+                host = host.userId
+            non_host = []
+            for item in lobby.nonHosts:
+                if type(item) == QueuedPlayer:
+                    non_host.append(item.userId)
+                else:
+                    non_host.append(item)
+
             if killed:
                 lobby.status = "KILLED"
             current_timestamp, expiration_timestamp = get_time()
@@ -183,16 +196,15 @@ class MatchmakingQueue:
                 "props": {
                     "countA": countA,
                     "countB": countB,
-                    "EncryptionKey": "Rpqy9fgpIWrHxjJpiwnJJtoZ2hbUZZ4paU+0n4K/iZI=",
-                    "gameMode": "MatchConfig_NewMaps",
-                    "MatchConfiguration": "Game/Content/Configuration/MatchConfig/MatchConfig_NewMaps.MatchConfig_NewMaps",
+                    "gameMode": "789c81dfb11fe39b7247c7e488e5b0d4-Default",
+                    "MatchConfiguration": "/Game/Configuration/MatchConfig/MatchConfig_Demo_HarvestYourExit_1v5.MatchConfig_Demo_HarvestYourExit_1v5",
                     "platform": "Windows",
                 },
                 "rank": 1,
                 "Schema": 3,
                 "sideA": [host],
                 "sideB": [player.userId for player in lobby.nonHosts],
-                "Players": [host] + [player.userId for player in lobby.nonHosts],
+                "Players": [host] + non_host,
                 "status": lobby.status
             }
         except Exception as e:
@@ -218,9 +230,8 @@ class MatchmakingQueue:
                     "props": {
                         "countA": countA,
                         "countB": countB,
-                        "EncryptionKey": "Rpqy9fgpIWrHxjJpiwnJJtoZ2hbUZZ4paU+0n4K/iZI=",
-                        "gameMode": "MatchConfig_NewMaps",
-                        "MatchConfiguration": "/Game/Configuration/MatchConfig/MatchConfig_NewMaps.MatchConfig_NewMaps",
+                        "gameMode": "789c81dfb11fe39b7247c7e488e5b0d4-Default",
+                        "MatchConfiguration": "/Game/Configuration/MatchConfig/MatchConfig_Demo_HarvestYourExit_1v5.MatchConfig_Demo_HarvestYourExit_1v5",
                         "platform": "Windows",
                     },
                     "rank": 1,

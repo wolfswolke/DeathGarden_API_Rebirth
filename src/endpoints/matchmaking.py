@@ -12,7 +12,7 @@ import uuid
 def match_making_regions_raw():
     check_for_game_client("strict")
     try:
-        return jsonify(["EU", "DEV"])
+        return jsonify(["EU"])
     except TimeoutError:
         return jsonify({"status": "error"})
     except Exception as e:
@@ -29,8 +29,8 @@ def queue_info():
         category = sanitize_input(request.args.get("category"))
         game_mode = sanitize_input(request.args.get("gameMode"))
         region = sanitize_input(request.args.get("region"))
-        count_a = request.args.get("countA") # Hunter Count
-        count_b = request.args.get("countB") # Runner Count
+        count_a = request.args.get("countA")  # Hunter Count
+        count_b = request.args.get("countB")  # Runner Count
         side = sanitize_input(request.args.get("side", ""))
         session = matchmaking_queue.getSession(userid)
         if not side:
@@ -67,7 +67,6 @@ def queue():
     region = sanitize_input(request.json.get("region"))
     count_a = request.json.get("countA")
     count_b = request.json.get("countB")
-    spoofed_match_id = "0051681e-72ce-46f0-bda2-752e471d0d08"
     epoch = datetime.now().timestamp()
 
     logger.graylog_logger(level="info", handler="logging_queue_DUMP", message=request.get_json())
@@ -98,6 +97,8 @@ def queue():
     except Exception as e:
         logger.graylog_logger(level="error", handler="queue", message=e)
         return jsonify({"message": "Internal Server Error"}), 500
+
+
 #    if region == "DEV":
 #        all_users = [userid]
 #        if additional_user_ids:
@@ -116,7 +117,7 @@ def queue():
 #                           "Schema": 11122334455666}})
 #    else:
 #        return {"status": "QUEUED", "queueData": {"ETA": -10000, "position": 0, "stable": False}}
-    # eta, position = match_manager.find_eta_and_position(data["_match_uuid"])
+# eta, position = match_manager.find_eta_and_position(data["_match_uuid"])
 
 
 @app.route("/api/v1/queue/cancel", methods=["POST"])
@@ -140,14 +141,14 @@ def match(matchid_unsanitized):
     check_for_game_client("strict")
     session_cookie = sanitize_input(request.cookies.get("bhvrSession"))
     userid = session_manager.get_user_id(session_cookie)
-    if matchid == "0051681e-72ce-46f0-bda2-752e471d0d08":
-        return jsonify({"MatchId": matchid, "Category": "Steam-te-18f25613-36778-ue4-374f864b", "Rank": 1})
     try:
         response_data = matchmaking_queue.createMatchResponse(matchId=matchid)
-        logger.graylog_logger(level="debug", handler="match", message=response_data)
+        # logger.graylog_logger(level="debug", handler="match", message=response_data)
         if response_data == "null":
+            logger.graylog_logger(level="error", handler="match", message=f"MatchResponse is null for MatchID: {matchid}")
             response_data = matchmaking_queue.getKilledLobbyById(matchid)
-            logger.graylog_logger(level="debug", handler="match", message=response_data)
+            # logger.graylog_logger(level="debug", handler="match", message=response_data)
+        logger.graylog_logger(level="debug", handler="match", message=f"DEBUG MatchResponse: {response_data}")
         return jsonify(response_data)
     except Exception as e:
         logger.graylog_logger(level="error", handler="match", message=e)
@@ -196,6 +197,31 @@ def match_register(match_id_unsanitized):
         response = matchmaking_queue.registerMatch(match_id, session_settings, userid)
 
         if response:
+            if discord_mm_use:
+                game_mode = response["props"]["gameMode"]
+                if game_mode == "789c81dfb11fe39b7247c7e488e5b0d4-Default":
+                    game_mode = "Default"
+                match_configuration = response["props"]["MatchConfiguration"]
+                if match_configuration == "/Game/Configuration/MatchConfig/MatchConfig_Demo_HarvestYourExit_1v5.MatchConfig_Demo_HarvestYourExit_1v5":
+                    match_configuration = "Harvest Your Exit 1v5"
+                webhook_data = {
+                    "content": "",
+                    "embeds": [
+                        {
+                            "title": f"Match Registered by {userid}",
+                            "description": f"MatchID: {match_id} \n GameMode: {game_mode} \n MatchConfiguration: {match_configuration}",
+                            "color": 7932020
+                        }
+                    ],
+                    "attachments": []
+                }
+                try:
+                    discord_webhook(discord_mm_url, webhook_data)
+                    discord_webhook(discord_public_url, webhook_data)
+                    discord_webhook(discord_rebirth_url, webhook_data)
+                except Exception as e:
+                    logger.graylog_logger(level="error", handler="discord_webhook_message", message=e)
+
             return jsonify(response)
 
         else:
@@ -209,6 +235,7 @@ def match_register(match_id_unsanitized):
 @app.route("/api/v1/match/<match_id_unsanitized>/Quit", methods=["PUT"])
 def match_quit(match_id_unsanitized):
     try:
+        # todo If OWNER Crash -> Runner sends QUIT acknowledge when players less then 2
         check_for_game_client("strict")
         session_cookie = sanitize_input(request.cookies.get("bhvrSession"))
         userid = session_manager.get_user_id(session_cookie)
@@ -247,8 +274,12 @@ def close_lobby(match_id_unsanitized):
 
         if lobby:
             if matchmaking_queue.isOwner(match_id, userid):
-                matchmaking_queue.deleteMatch(match_id)
-                return "", 204
+                #matchmaking_queue.deleteMatch(match_id)
+                #return "", 204
+                # set lobby.status to "Closed"
+                matchmaking_queue.closeMatch(match_id)
+                data = matchmaking_queue.createMatchResponse(matchId=match_id, killed=False, userId=userid)
+                return jsonify(data), 200
             else:
                 return jsonify({"message": "Unauthorized"}), 401
 
@@ -856,14 +887,12 @@ def metrics_end_of_match_event():
 
         # Keys lobby_analytics
 
-
         logger.graylog_logger(level="info", handler="logging_endOfMatch_Event", message=data)
         return jsonify({"Success": True})
     except TimeoutError:
         return jsonify({"Success": False})
     except Exception as e:
         logger.graylog_logger(level="error", handler="logging_endOfMatch_Event", message=e)
-
 
 
 @app.route("/file/<game_version_unsanitized>/<seed_unsanitized>/<map_name_unsanitized>", methods=["POST", "GET"])
