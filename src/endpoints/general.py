@@ -404,3 +404,20 @@ def get_quitter_state():
         return jsonify({"status": "error"})
     except Exception as e:
         logger.graylog_logger(level="error", handler="logging_getQuitterState", message=e)
+
+
+@app.route("//api/v1/feedback", methods=["POST"])
+def feedback():
+    check_for_game_client("strict")
+    session_cookie = sanitize_input(request.cookies.get("bhvrSession"))
+    userid = session_manager.get_user_id(session_cookie)
+
+    try:
+        # {"type":"PlayerReport","entityId":"00658d11-2dfd-41e8-b6d2-2462e8f3aa47","platformId":"PC","reason":"GriefingToxicBehavior","details":"TEST MSG 01","gameSpecificData":{"matchId":"0e019267-b57c-4ca4-a429-78e851515027","playerInfoList":[{"playerId":"88d55eca-37b9-4ac1-8c93-5d7a395175b4","characterState":"InArena","faction":"Hunter","totalXpEarned":0,"playtimeInSec":231.60643005371094,"isReportedPlayer":false,"isReporterPlayer":false},{"playerId":"619d6f42-db87-4f3e-8dc9-3c9995613614","characterState":"InArena","faction":"Runner","totalXpEarned":0,"playtimeInSec":231.60643005371094,"isReportedPlayer":false,"isReporterPlayer":true},{"playerId":"6220aa12-7dc4-4850-80f7-dd1ce8054204","characterState":"InArena","faction":"Runner","totalXpEarned":25,"playtimeInSec":231.60643005371094,"isReportedPlayer":false,"isReporterPlayer":false},{"playerId":"00658d11-2dfd-41e8-b6d2-2462e8f3aa47","characterState":"InArena","faction":"Runner","totalXpEarned":45,"playtimeInSec":231.60643005371094,"isReportedPlayer":true,"isReporterPlayer":false},{"playerId":"cc4240ba-d7fd-4dd5-a3b7-ed42002e13cc","characterState":"InArena","faction":"Runner","totalXpEarned":15,"playtimeInSec":231.60643005371094,"isReportedPlayer":false,"isReporterPlayer":false},{"playerId":"0385496c-f0ae-44d3-a777-26092750f39c","characterState":"InArena","faction":"Runner","totalXpEarned":0,"playtimeInSec":231.60643005371094,"isReportedPlayer":false,"isReporterPlayer":false}]}}
+        # logger.graylog_logger(level="info", handler="logging_feedback", message=request.get_json())
+        return jsonify({"status": "success"})
+    except TimeoutError:
+        return jsonify({"status": "error"})
+    except Exception as e:
+        logger.graylog_logger(level="error", handler="logging_feedback", message=e)
+
