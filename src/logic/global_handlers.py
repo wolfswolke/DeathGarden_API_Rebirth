@@ -94,8 +94,10 @@ class Session_Manager:
 
     def extend_session(self, session_id):
         session_expires = self.sessions[session_id]["expires"]
-        if session_expires <= 3600:
-            self.sessions[session_id]["expires"] = time.time() + 4600
+        epoch = time.time() + 3600
+        if session_expires <= epoch:
+            logger.graylog_logger(level="info", handler="session_manager", message=f"Extending Session: {session_id}")
+            self.sessions[session_id]["expires"] = time.time() + 7200
             self.save_sessions()
         else:
             pass
