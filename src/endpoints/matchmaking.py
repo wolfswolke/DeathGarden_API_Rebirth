@@ -77,6 +77,9 @@ def queue():
         queue_data = side, check_only
         if not check_only:
             matchmaking_queue.queuePlayer(side=side, userId=userid)
+            if additional_user_ids:
+                for user in additional_user_ids:
+                    matchmaking_queue.queuePlayer(side=side, userId=user)
 
             response_data = {
                 "queueData": {
@@ -92,6 +95,8 @@ def queue():
 
         else:
             response_data = matchmaking_queue.getQueueStatus(side, userid, region)
+            logger.graylog_logger(level="debug", handler="debug_logging_queue", message=type(response_data))
+            logger.graylog_logger(level="debug", handler="debug_logging_queue", message=response_data)
             return jsonify(response_data)
 
     except Exception as e:
@@ -930,6 +935,25 @@ def metrics_matchmaking_event():
 
     try:
         logger.graylog_logger(level="info", handler="logging_matchmaking_Event", message=request.get_json())
+        # {
+        # 	"playerId": "619d6f42-db87-4f3e-8dc9-3c9995613614",
+        # 	"matchId": "",
+        # 	"playerRole": "Leader",
+        # 	"faction": "Runner",
+        # 	"endState": "Cancelled",
+        # 	"group": "Default",
+        # 	"region": "EU",
+        # 	"groupSize": 1,
+        # 	"beginTime": 1707419672,
+        # 	"endTime": 1707419822,
+        # 	"eventType": "Client"
+        # }
+
+        endState = request.get_json()["endState"]
+        if endState == "Cancelled":
+            matchmaking_queue.removePlayerFromQueue(userid)
+            return jsonify({"status": "success"})
+
         return jsonify({"status": "success"})
     except TimeoutError:
         return jsonify({"status": "error"})
