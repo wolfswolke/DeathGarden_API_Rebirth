@@ -1,6 +1,21 @@
 import uuid
+import random
 from logic.time_handler import get_time
 from logic.logging_handler import logger
+
+
+def random_game_mode():
+    MatchConfig_SLU_DownTown = {"gameMode": "4b4bbb82b85e662e5121233ae06f9b1c-Default",
+                                "MatchConfiguration": "/Game/Configuration/MatchConfig/MatchConfig_SLU_DownTown.MatchConfig_SLU_DownTown"}
+
+    MatchConfig_Demo_HarvestYourExit_1v5 = {"gameMode": "789c81dfb11fe39b7247c7e488e5b0d4-Default",
+                                           "MatchConfiguration": "/Game/Configuration/MatchConfig/MatchConfig_Demo_HarvestYourExit_1v5.MatchConfig_Demo_HarvestYourExit_1v5"}
+    MatchConfig_Demo = {"gameMode": "08d2279d2ed3fba559918aaa08a73fa8-Default",
+                        "MatchConfiguration": "/Game/Configuration/MatchConfig/MatchConfig_Demo.MatchConfig_Demo"}
+
+    list_of_game_modes = [MatchConfig_Demo, MatchConfig_Demo_HarvestYourExit_1v5]
+    return random.choice(list_of_game_modes)
+
 
 
 class QueueData:
@@ -25,7 +40,7 @@ class QueuedPlayer:
 
 
 class Lobby:
-    def __init__(self, isReady, host, nonHosts, id, isPrepared, hasStarted, status):
+    def __init__(self, isReady, host, nonHosts, id, isPrepared, hasStarted, status, MatchConfig):
         self.isReady = isReady
         self.host = host
         self.nonHosts = nonHosts
@@ -33,6 +48,7 @@ class Lobby:
         self.isPrepared = isPrepared
         self.hasStarted = hasStarted
         self.status = status
+        self.matchConfig = MatchConfig
 
 
 class KilledLobby:
@@ -72,20 +88,58 @@ class MatchmakingQueue:
             logger.graylog_logger(level="error", handler="matchmaking_getQueuedPlayer", message=e)
             return None
 
-    def getQueueStatus(self, side, userId, region):
+    def getQueueStatus(self, side, userId, region, additional_user_ids=None):
         try:
+            #if additional_user_ids:
+            #    for additional_user_id in additional_user_ids:
+            #        queuedPlayer, index = self.getQueuedPlayer(additional_user_id)
+
             queuedPlayer, index = self.getQueuedPlayer(userId)
             if not queuedPlayer:
                 return {}
             if side == 'B':
                 if self.openLobbies:
                     for openLobby in self.openLobbies:
-                        if not openLobby.isReady or openLobby.hasStarted:
+                        if not openLobby.isReady or openLobby.hasStarted or openLobby.status == "CLOSED":
                             continue
                         if len(openLobby.nonHosts) < 5:
                             openLobby.nonHosts.append(queuedPlayer)
                             self.queuedPlayers.pop(index)
-                            return self.createQueueResponseMatched(openLobby.host, openLobby.id, userId)
+                            data = self.createQueueResponseMatched(openLobby.host, openLobby.id, userId, matchConfig=openLobby.matchConfig)
+                            if data:
+                                return data
+                            else:
+                                return {
+                                    "queueData": {
+                                        "ETA": -10000,
+                                        "position": 0,
+                                        "sizeA": 0,
+                                        "sizeB": 1,
+                                    },
+                                    "status": "QUEUED",
+                                }
+                        else:
+                            logger.graylog_logger(level="debug", handler="matchmaking_getQueueStatus",
+                                                  message=f"Len Non Hosts >= 3 for {openLobby.id}")
+                            return {
+                                "queueData": {
+                                    "ETA": -10000,
+                                    "position": 0,
+                                    "sizeA": 0,
+                                    "sizeB": 1,
+                                },
+                                "status": "QUEUED",
+                            }
+                    logger.graylog_logger(level="debug", handler="matchmaking_getQueueStatus",message="No Open Lobbies")
+                    return {
+                        "queueData": {
+                            "ETA": -10000,
+                            "position": 0,
+                            "sizeA": 0,
+                            "sizeB": 1,
+                        },
+                        "status": "QUEUED",
+                    }
 
                 else:
                     return {
@@ -99,11 +153,12 @@ class MatchmakingQueue:
                     }
             else:
                 matchId = self.genMatchUUID()
+                Match_Config = random_game_mode()
                 lobby = Lobby(isReady=False, host=queuedPlayer, nonHosts=[], id=matchId, isPrepared=False,
-                              hasStarted=False, status="OPENED")
+                              hasStarted=False, status="OPENED", MatchConfig=Match_Config)
                 self.openLobbies.append(lobby)
                 self.queuedPlayers.pop(index)
-                return self.createQueueResponseMatched(userId, matchId, region=region)
+                return self.createQueueResponseMatched(userId, matchId, region=region, matchConfig=Match_Config)
         except Exception as e:
             logger.graylog_logger(level="error", handler="matchmaking_getQueueStatus", message=e)
             return None
@@ -185,6 +240,9 @@ class MatchmakingQueue:
                 sessionSettings = lobby.sessionSettings
             except:
                 sessionSettings = ""
+            gameMode = lobby.matchConfig["gameMode"]
+            MatchConfiguration = lobby.matchConfig["MatchConfiguration"]
+
             return {
                 "Category": "Steam-te-18f25613-36778-ue4-374f864b",
                 "creationDateTime": current_timestamp,
@@ -196,8 +254,8 @@ class MatchmakingQueue:
                 "props": {
                     "countA": countA,
                     "countB": countB,
-                    "gameMode": "789c81dfb11fe39b7247c7e488e5b0d4-Default",
-                    "MatchConfiguration": "/Game/Configuration/MatchConfig/MatchConfig_Demo_HarvestYourExit_1v5.MatchConfig_Demo_HarvestYourExit_1v5",
+                    "gameMode": gameMode,
+                    "MatchConfiguration": MatchConfiguration,
                     "platform": "Windows",
                 },
                 "rank": 1,
@@ -210,7 +268,7 @@ class MatchmakingQueue:
         except Exception as e:
             logger.graylog_logger(level="error", handler="matchmaking_createMatchResponse", message=e)
 
-    def createQueueResponseMatched(self, creatorId, matchId, joinerId=None, region=None):
+    def createQueueResponseMatched(self, creatorId, matchId, joinerId=None, region=None, matchConfig=None):
         try:
             if region:
                 countA = 1
@@ -219,6 +277,8 @@ class MatchmakingQueue:
                 countA = 1
                 countB = 5
             current_timestamp, expiration_timestamp = get_time()
+            gameMode = matchConfig["gameMode"]
+            MatchConfiguration = matchConfig["MatchConfiguration"]
             return {
                 "status": "MATCHED",
                 "matchData": {
@@ -230,8 +290,8 @@ class MatchmakingQueue:
                     "props": {
                         "countA": countA,
                         "countB": countB,
-                        "gameMode": "789c81dfb11fe39b7247c7e488e5b0d4-Default",
-                        "MatchConfiguration": "/Game/Configuration/MatchConfig/MatchConfig_Demo_HarvestYourExit_1v5.MatchConfig_Demo_HarvestYourExit_1v5",
+                        "gameMode": gameMode,
+                        "MatchConfiguration": MatchConfiguration,
                         "platform": "Windows",
                     },
                     "rank": 1,
