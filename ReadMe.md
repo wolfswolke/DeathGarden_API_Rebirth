@@ -2,6 +2,9 @@
 
 **This project is Work in Progress! We already got far but there is still much to do so don't rush us please.**
 
+**Current Status: The Matchmaking is working, and you can play games. We have some known Bugs 
+which we are trying to fix ASAP**
+
 **Current Progress:**
 - Logging (Stashboard, Metrics, gameDataAnalytics) See [Logging.md](https://github.com/wolfswolke/DeathGarden_API_Rebirth/blob/master/Doc/Logging.md) for details.
 - Steam Login
@@ -12,11 +15,12 @@
 - Matchmaking via Steam P2P
 - Leaderboard doesn't crash anymore
 - GameNews
+- InitOrGetGroup
 - and alot of other things and Endpoints. (Most of them keep the game from crashing)
 
+
 **To-Do List:**
-- Fixing the Catalog crash (This is the most important thing!)
-- InitOrGetGroup
+- Fixing the Catalog 
 - Dynamic Leaderboards
 - Challenges
 - Progression
@@ -34,6 +38,9 @@ From what we know the Game was based on WH40KEC (Warhammer 40k Eternal Crusade) 
 - Discord: sunywolf
 
 ## Usage
+
+0. If you do not already own Deathgarden, you can get it with this command: 
+steam://run/555440
 
 1. Download the [TheExit-Rebirth-Updater.bat](https://github.com/wolfswolke/DeathGarden_API_Rebirth/blob/master/src/files/TheExit-Rebirth-Updater.bat) file and place it in the following directory: "\steamapps\common\DEATHGARDEN\"
 
