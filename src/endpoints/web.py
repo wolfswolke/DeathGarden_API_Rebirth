@@ -1,4 +1,5 @@
 from flask_definitions import *
+from logic.queue_handler import matchmaking_queue
 
 
 @app.route('/', methods=["GET"])
@@ -166,6 +167,37 @@ def debug_mirrors_get():
                                                                   "Please try again later."}), 400
                 return_val.pop("_id")
                 return jsonify({"Data": return_val}), 200
+
+            except TimeoutError:
+                return jsonify({"status": "error"})
+            except Exception as e:
+                logger.graylog_logger(level="error", handler="logging_debug_mirror_write", message=e)
+        if request.method == "GET":
+            return jsonify({"message": "Endpoint not found"}), 404
+    except Exception as e:
+        logger.graylog_logger(level="error", handler="web_debug_mirrors", message=e)
+
+
+@app.route("/debug/mirrors/clear", methods=["POST"])
+def debug_mirrors_clear():
+    check_for_game_client("soft")
+    try:
+        if request.method == "POST":
+            try:
+                api_token = sanitize_input(request.cookies.get("api_token"))
+                if api_token is None:
+                    return jsonify({"status": "error", "message": "No api token found"}, 401)
+                if api_token not in allowed_tokens:
+                    return jsonify({"status": "error", "message": "Invalid api token"}), 401
+                # logger.graylog_logger(level="info", handler="logging_debug_mirror_read",
+                #                      message={"IP": check_for_game_client("remote"), "steamid": steam_user_id})
+
+                return_val = matchmaking_queue.clear_queue()
+
+                if return_val is None:
+                    return jsonify({"status": "error", "message": "There was a error on our End. "
+                                                                  "Please try again later."}), 400
+                return jsonify({"status": "success", "message": "Queues Cleared."}), 200
 
             except TimeoutError:
                 return jsonify({"status": "error"})
