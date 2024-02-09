@@ -147,7 +147,7 @@ def match(matchid_unsanitized):
     session_cookie = sanitize_input(request.cookies.get("bhvrSession"))
     userid = session_manager.get_user_id(session_cookie)
     try:
-        response_data = matchmaking_queue.createMatchResponse(matchId=matchid)
+        response_data = matchmaking_queue.createMatchResponse(matchId=matchid, userId=userid)
         # logger.graylog_logger(level="debug", handler="match", message=response_data)
         if response_data == "null":
             logger.graylog_logger(level="error", handler="match", message=f"MatchResponse is null for MatchID: {matchid}")
@@ -206,9 +206,13 @@ def match_register(match_id_unsanitized):
                 game_mode = response["props"]["gameMode"]
                 if game_mode == "789c81dfb11fe39b7247c7e488e5b0d4-Default":
                     game_mode = "Default"
+                elif game_mode == "08d2279d2ed3fba559918aaa08a73fa8-Default":
+                    game_mode = "Default"
                 match_configuration = response["props"]["MatchConfiguration"]
                 if match_configuration == "/Game/Configuration/MatchConfig/MatchConfig_Demo_HarvestYourExit_1v5.MatchConfig_Demo_HarvestYourExit_1v5":
                     match_configuration = "Harvest Your Exit 1v5"
+                elif match_configuration == "/Game/Configuration/MatchConfig/MatchConfig_Demo.MatchConfig_Demo":
+                    match_configuration = "Survival"
                 webhook_data = {
                     "content": "",
                     "embeds": [
@@ -256,6 +260,7 @@ def match_quit(match_id_unsanitized):
                 matchmaking_queue.deleteMatch(match_id)
             else:
                 matchmaking_queue.removePlayerFromQueue(userid)
+                matchmaking_queue.remove_player_from_match(match_id, userid)
 
             return "", 204
 
@@ -969,11 +974,11 @@ def remove_player_from_match(match_id_unsanitized, user_id):
     match_id = sanitize_input(match_id_unsanitized)
 
     try:
-        response = matchmaking_queue.remove_user_from_Match(match_id, user_id)
+        response = matchmaking_queue.remove_player_from_match(match_id, user_id)
         if response == {"status": "success"}:
             return "", 204
         else:
-            return jsonify({"message": "Internal Server Error"}), 500
+            return jsonify({"message": "Something is fucked"}), 500
     except Exception as e:
         logger.graylog_logger(level="error", handler="remove_player_from_match", message=e)
         return jsonify({"message": "Internal Server Error"}), 500

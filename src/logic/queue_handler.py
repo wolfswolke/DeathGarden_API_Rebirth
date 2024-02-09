@@ -40,7 +40,7 @@ class QueuedPlayer:
 
 
 class Lobby:
-    def __init__(self, isReady, host, nonHosts, id, isPrepared, hasStarted, status, MatchConfig):
+    def __init__(self, isReady, host, nonHosts, id, isPrepared, hasStarted, status, MatchConfig, last_host_check):
         self.isReady = isReady
         self.host = host
         self.nonHosts = nonHosts
@@ -49,6 +49,7 @@ class Lobby:
         self.hasStarted = hasStarted
         self.status = status
         self.matchConfig = MatchConfig
+        self.last_host_check = last_host_check
 
 
 class KilledLobby:
@@ -99,6 +100,13 @@ class MatchmakingQueue:
                 return {}
             if side == 'B':
                 if self.openLobbies:
+                    for openLobby in self.openLobbies:
+                        if openLobby.last_host_check < get_time()[0] - 15:
+                            self.openLobbies.pop(self.openLobbies.index(openLobby))
+                            logger.graylog_logger(level="info", handler="matchmaking_getQueueStatus", message="Lobby killed due to host not checking in")
+                        if openLobby.host == userId:
+                            self.openLobbies.pop(self.openLobbies.index(openLobby))
+                            logger.graylog_logger(level="info", handler="matchmaking_getQueueStatus", message="Killed broken lobby")
                     for openLobby in self.openLobbies:
                         if not openLobby.isReady or openLobby.hasStarted or openLobby.status == "CLOSED":
                             continue
@@ -152,10 +160,17 @@ class MatchmakingQueue:
                         "status": "QUEUED",
                     }
             else:
+                if self.openLobbies:
+                    for openLobby in self.openLobbies:
+                        if openLobby.host == userId:
+                            self.openLobbies.pop(self.openLobbies.index(openLobby))
+                            logger.graylog_logger(level="info", handler="matchmaking_getQueueStatus",
+                                                  message="Killed broken lobby")
                 matchId = self.genMatchUUID()
                 Match_Config = random_game_mode()
+                current_time = get_time()[0]
                 lobby = Lobby(isReady=False, host=queuedPlayer, nonHosts=[], id=matchId, isPrepared=False,
-                              hasStarted=False, status="OPENED", MatchConfig=Match_Config)
+                              hasStarted=False, status="OPENED", MatchConfig=Match_Config, last_host_check=current_time)
                 self.openLobbies.append(lobby)
                 self.queuedPlayers.pop(index)
                 return self.createQueueResponseMatched(userId, matchId, region=region, matchConfig=Match_Config)
@@ -167,6 +182,19 @@ class MatchmakingQueue:
         _, index = self.getQueuedPlayer(userid)
         if index != -1:
             self.queuedPlayers.pop(index)
+
+    def remove_player_from_match(self, matchId, userId):
+        try:
+            lobby, _ = self.getLobbyById(matchId)
+            if lobby:
+                for i, player in enumerate(lobby.nonHosts):
+                    if player.userId == userId:
+                        lobby.nonHosts.pop(i)
+                        break
+            return {"status": "success"}
+        except Exception as e:
+            logger.graylog_logger(level="error", handler="remove_player_from_match", message=e)
+            return {"status": "error"}
 
     def getLobbyById(self, id):
         for i, lobby in enumerate(self.openLobbies):
@@ -220,7 +248,17 @@ class MatchmakingQueue:
             else:
                 countA = 1
                 countB = 5
+            lobby_temp, id_temp = self.getLobbyById(matchId)
+            if lobby_temp.host == userId:
+                # lobby.last_host_check = get_time()[0] + 3
+                self.openLobbies[id_temp].last_host_check = get_time()[0] + 3
             lobby, id = self.getLobbyById(matchId)
+            logger.graylog_logger(level="info", handler="matchmaking_createMatchResponse", message=f"current_time: {get_time()[0]}")
+            logger.graylog_logger(level="info", handler="matchmaking_createMatchResponse", message=f"last_host_check: {lobby.last_host_check}")
+            if lobby.last_host_check < get_time()[0] - 15:
+                self.openLobbies.pop(self.openLobbies.index(lobby))
+                logger.graylog_logger(level="info", handler="matchmaking_createMatchResponse",
+                                      message="Lobby killed due to host not checking in")
             if not lobby:
                 lobby = self.getKilledLobbyById(matchId)
             host = lobby.host
@@ -270,6 +308,8 @@ class MatchmakingQueue:
 
     def createQueueResponseMatched(self, creatorId, matchId, joinerId=None, region=None, matchConfig=None):
         try:
+            lobby, index = self.getLobbyById(matchId)
+            self.openLobbies[index].last_host_check = get_time()[0] + 3
             if region:
                 countA = 1
                 countB = 1
@@ -320,21 +360,11 @@ class MatchmakingQueue:
     def genMatchUUID(self):
         return str(uuid.uuid4())
 
-    def remove_user_from_Match(self, matchId, userId):
-        try:
-            lobby, _ = self.getLobbyById(matchId)
-            if lobby:
-                if lobby.host == userId:
-                    self.deleteMatch(matchId)
-                else:
-                    for i, player in enumerate(lobby.nonHosts):
-                        if player.userId == userId:
-                            lobby.nonHosts.pop(i)
-                            break
-            return {"status": "success"}
-        except Exception as e:
-            logger.graylog_logger(level="error", handler="remove_user_from_Match", message=e)
-            return {"status": "error"}
+    def clear_queue(self):
+        self.queuedPlayers = []
+        self.openLobbies = []
+        self.killedLobbies = []
+        return {"status": "success"}
 
 
 matchmaking_queue = MatchmakingQueue()
