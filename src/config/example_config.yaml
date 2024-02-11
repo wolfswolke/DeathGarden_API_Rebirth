@@ -13,5 +13,7 @@ test_case:
   user_cookie: ThisIsAUserCookieString
 webhooks:
   discord:
-    url: https://discord.com/api/webhooks/A/A
-    use: true
+    mm_url: https://discord.com/api/webhooks/A
+    public_url: https://discord.com/api/webhooks/A
+    rebirth_url: https://discord.com/api/webhooks/A
+    mm_use: false
