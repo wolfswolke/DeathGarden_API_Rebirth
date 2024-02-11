@@ -21,6 +21,9 @@ def steam_login_function():
             response = requests.get(
                 'https://api.steampowered.com/ISteamUserAuth/AuthenticateUserTicket/v1/?key={}&ticket={}&appid={}'.format(
                     steam_api_key, steam_session_token, appid))
+            steamid = response.json()["response"]["params"]["steamid"]
+            logger.graylog_logger(level="info", handler="steam_login", message="User {} logged in with SOFTLAUNCH".format(steamid))
+            return jsonify({"status": "error"})
 
         steamid = response.json()["response"]["params"]["steamid"]
         # owner_id = response.json()["response"]["params"]["result"]["ownersteamid"]  # This is providerId
@@ -200,7 +203,7 @@ def modifiers():
     userid = session_manager.get_user_id(session_cookie)
 
     steamid, token = mongo.get_data_with_list(login=userid, login_steam=False,
-                                              items={"token", "steamid"})
+                                              items={"steamid", "token"})
     try:
         return jsonify({"TokenId": token, "UserId": userid, "RoleIds": ["755D4DFE-40DA1512-B01E3D8C-FF3C8D4D",
                                                                         "C50FFFBF-46866131-82F45890-651797CE"]})
@@ -615,10 +618,14 @@ def messages_count():
             return jsonify({"Count": 0})
         else:
             try:
+                if unread_message_ids["unread_msg_ids"] == "":
+                    return jsonify({"Count": 0})
                 id_len = unread_message_ids["unread_msg_ids"].split(",")
                 return jsonify({"Count": len(id_len)})
             except TypeError:
                 return jsonify({"Count": unread_message_ids["unread_msg_ids"]})
+            except AttributeError:
+                return jsonify({"Count": 0})
     except TimeoutError:
         return jsonify({"status": "error"})
     except Exception as e:
