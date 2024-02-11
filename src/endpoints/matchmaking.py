@@ -149,11 +149,11 @@ def match(matchid_unsanitized):
     try:
         response_data = matchmaking_queue.createMatchResponse(matchId=matchid, userId=userid)
         # logger.graylog_logger(level="debug", handler="match", message=response_data)
-        if response_data == "null":
+        if response_data == "null" or response_data is None:
             logger.graylog_logger(level="error", handler="match", message=f"MatchResponse is null for MatchID: {matchid}")
-            response_data = matchmaking_queue.getKilledLobbyById(matchid)
+            return jsonify({"message": "Match not found"}), 404
+            # response_data = matchmaking_queue.getKilledLobbyById(matchid)
             # logger.graylog_logger(level="debug", handler="match", message=response_data)
-        logger.graylog_logger(level="debug", handler="match", message=f"DEBUG MatchResponse: {response_data}")
         return jsonify(response_data)
     except Exception as e:
         logger.graylog_logger(level="error", handler="match", message=e)
@@ -170,7 +170,7 @@ def match_kill(matchid_unsanitized):
         lobby, _ = matchmaking_queue.getLobbyById(matchid)
 
         if lobby and matchmaking_queue.isOwner(matchid, userid):
-            response_data = matchmaking_queue.createMatchResponse(matchid=matchid, killed=True)
+            response_data = matchmaking_queue.createMatchResponse(matchId=matchid, killed=True)
             matchmaking_queue.deleteMatch(matchid)
             logger.graylog_logger(level="info", handler="match_kill", message=f"Killed Match: {matchid}"
                                                                               f"by User: {userid}")
