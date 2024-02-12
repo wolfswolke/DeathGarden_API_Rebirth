@@ -208,11 +208,27 @@ def match_register(match_id_unsanitized):
                     game_mode = "Default"
                 elif game_mode == "08d2279d2ed3fba559918aaa08a73fa8-Default":
                     game_mode = "Default"
+                elif game_mode == "d071fb6678668246d6d999c9892c2a60-Default":
+                    game_mode = "Default",
+                elif game_mode == "e3744bb4acbc0e5dc107e999c6132f18-Default":
+                    game_mode = "REMIX"
+                elif game_mode == "a0fdf9ce92261dcc5492f353b62f34f3-Default":
+                    game_mode = "4 Needles"
+
                 match_configuration = response["props"]["MatchConfiguration"]
                 if match_configuration == "/Game/Configuration/MatchConfig/MatchConfig_Demo_HarvestYourExit_1v5.MatchConfig_Demo_HarvestYourExit_1v5":
                     match_configuration = "Harvest Your Exit 1v5"
                 elif match_configuration == "/Game/Configuration/MatchConfig/MatchConfig_Demo.MatchConfig_Demo":
                     match_configuration = "Survival"
+                elif match_configuration == "/Game/Configuration/MatchConfig/MatchConfig_ARC_Fortress.MatchConfig_ARC_Fortress":
+                    match_configuration = "Arctic Fortress"
+                elif match_configuration == "/Game/Configuration/MatchConfig/MatchConfig_CustomMatch.MatchConfig_CustomMatch":
+                    match_configuration = "REMIX Deathgarden - Gold Rush"
+                elif match_configuration == "/Game/Configuration/MatchConfig/MatchConfig_Demo_2v8_4Needles.MatchConfig_Demo_2v8_4Needles":
+                    match_configuration = "Harvest Your Exit 4Needles"
+                elif match_configuration == "/Game/Configuration/MatchConfig/MatchConfig_DES_City_2Hunters.MatchConfig_DES_City_2Hunters":
+                    match_configuration = "Desert City 5 needles"
+
                 webhook_data = {
                     "content": "",
                     "embeds": [
