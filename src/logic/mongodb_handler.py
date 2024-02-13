@@ -26,7 +26,7 @@ class Mongo:
             'unread_msg_ids': [],
             'last_played_faction': 'Runner',
             'tutorial_completed': False,
-            'last_runner': 'Runner.Fog',
+            'last_runner': 'Runner.Smoke',
             'last_hunter': 'Hunter.Inquisitor',
             'hasPlayedDeathGarden1': False,
             'Dash': {
@@ -36,7 +36,7 @@ class Mongo:
                 'EquippedWeapons': [],
                 'EquippedBonuses': []
             },
-            'Fog': {
+            'Smoke': {
                 'Equipment': [],
                 'EquippedPerks': [],
                 'EquippedPowers': [],
