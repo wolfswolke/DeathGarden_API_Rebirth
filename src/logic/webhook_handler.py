@@ -1,5 +1,6 @@
 import requests
 
 
-def discord_webhook(url, data):
-    requests.post(url, json=data)
+def discord_webhook(urls, data):
+    for url in urls:
+        requests.post(url, json=data)
