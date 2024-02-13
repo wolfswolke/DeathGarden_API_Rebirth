@@ -6,10 +6,10 @@ from logic.logging_handler import logger
 
 def random_game_mode():
     MatchConfig_SLU_DownTown = {"gameMode": "4b4bbb82b85e662e5121233ae06f9b1c-Default",
-                                "MatchConfiguration": "/Game/Configuration/MatchConfig/MatchConfig_SLU_DownTown.MatchConfig_SLU_DownTown"} # broken
+                                "MatchConfiguration": "/Game/Configuration/MatchConfig/MatchConfig_SLU_DownTown.MatchConfig_SLU_DownTown"}  # broken
 
     MatchConfig_Demo_HarvestYourExit_1v5 = {"gameMode": "789c81dfb11fe39b7247c7e488e5b0d4-Default",
-                                           "MatchConfiguration": "/Game/Configuration/MatchConfig/MatchConfig_Demo_HarvestYourExit_1v5.MatchConfig_Demo_HarvestYourExit_1v5"}
+                                            "MatchConfiguration": "/Game/Configuration/MatchConfig/MatchConfig_Demo_HarvestYourExit_1v5.MatchConfig_Demo_HarvestYourExit_1v5"}
     MatchConfig_Demo = {"gameMode": "08d2279d2ed3fba559918aaa08a73fa8-Default",
                         "MatchConfiguration": "/Game/Configuration/MatchConfig/MatchConfig_Demo.MatchConfig_Demo"}
     MatchConfig_ARC_Fortress = {'gameMode': 'd071fb6678668246d6d999c9892c2a60-Default',
@@ -34,7 +34,7 @@ def random_game_mode():
     MatchConfig_Custom = {'gameMode': '401cc719864f3e7dade5291ea1399469-Default',
                           'MatchConfiguration': '/Game/Configuration/MatchConfig/MatchConfig_Custom.MatchConfig_Custom'}
     MatchConfig_CustomMatch = {'gameMode': 'e3744bb4acbc0e5dc107e999c6132f18-Default',
-                               'MatchConfiguration': '/Game/Configuration/MatchConfig/MatchConfig_CustomMatch.MatchConfig_CustomMatch'}
+                               'MatchConfiguration': '/Game/Configuration/MatchConfig/MatchConfig_CustomMatch.MatchConfig_CustomMatch'}  # Broken
     MatchConfig_Demo_2v10_4Needles = {'gameMode': 'b844f2e112df38cb1696c10012aa2976-Default',
                                       'MatchConfiguration': '/Game/Configuration/MatchConfig/MatchConfig_Demo_2v10_4Needles.MatchConfig_Demo_2v10_4Needles'}
     MatchConfig_Demo_2v10_5Needles = {'gameMode': '5ecd49c3b64a089717e0e604bd32a76a-Default',
@@ -49,7 +49,7 @@ def random_game_mode():
     MatchConfig_DES_City = {'gameMode': 'b05564a0712a62ebe5dd2228333c9237-Default',
                             'MatchConfiguration': '/Game/Configuration/MatchConfig/MatchConfig_DES_City.MatchConfig_DES_City'}
     MatchConfig_DES_City_2Hunters = {'gameMode': 'a0fdf9ce92261dcc5492f353b62f34f3-Default',
-                                     'MatchConfiguration': '/Game/Configuration/MatchConfig/MatchConfig_DES_City_2Hunters.MatchConfig_DES_City_2Hunters'}
+                                     'MatchConfiguration': '/Game/Configuration/MatchConfig/MatchConfig_DES_City_2Hunters.MatchConfig_DES_City_2Hunters'}  # Broken
     MatchConfig_DES_Fortress = {'gameMode': 'b63232e2c852823ac87bae2367edf875-Default',
                                 'MatchConfiguration': '/Game/Configuration/MatchConfig/MatchConfig_DES_Fortress.MatchConfig_DES_Fortress'}
     MatchConfig_DES_Fortress_2Hunters = {'gameMode': 'e3b6d0d277c8f36dffc0bb9f51e057c0-Default',
@@ -88,9 +88,8 @@ def random_game_mode():
                                       'MatchConfiguration': '/Game/Configuration/MatchConfig/MatchConfig_WA_Rivers_2Hunters.MatchConfig_WA_Rivers_2Hunters'}
 
     list_of_game_modes = [MatchConfig_Demo, MatchConfig_Demo_HarvestYourExit_1v5, MatchConfig_ARC_Fortress,
-                          MatchConfig_CustomMatch, MatchConfig_Demo_2v8_4Needles, MatchConfig_DES_City_2Hunters]
+                          MatchConfig_Demo_2v8_4Needles]
     return random.choice(list_of_game_modes)
-
 
 
 class QueueData:
@@ -128,11 +127,11 @@ class Lobby:
 
 
 class KilledLobby:
-    def __init__(self, id, reason, killedTime, host):
+    def __init__(self, id, reason, killedTime, lobby):
         self.id = id
         self.reason = reason
         self.killedTime = killedTime
-        self.host = host
+        self.lobby = lobby
 
 
 class MatchmakingQueue:
@@ -145,6 +144,9 @@ class MatchmakingQueue:
 
     def queuePlayer(self, side, userId):
         try:
+
+            # Check if user is owner of broken lobby
+
             current_timestamp, expiration_timestamp = get_time()
             queuedPlayer = QueuedPlayer(userId, side,
                                         current_timestamp)
@@ -185,11 +187,18 @@ class MatchmakingQueue:
                         if not openLobby.isReady or openLobby.hasStarted or openLobby.status == "CLOSED":
                             if openLobby.last_host_check < get_time()[0] - 15:
                                 self.openLobbies.pop(self.openLobbies.index(openLobby))
-                                logger.graylog_logger(level="info", handler="matchmaking_getQueueStatus", message="Lobby killed due to host not checking in")
+                                logger.graylog_logger(level="info", handler="matchmaking_getQueueStatus",
+                                                      message="Lobby killed due to host not checking in")
                                 return eta_data
                             if openLobby.host == userId:
+                                logger.graylog_logger(level="info", handler="matchmaking_getQueueStatus",
+                                                      message= f"Kill lobby due to host not checking in: {openLobby.id}"
+                                                               f", index: {index}, val: "
+                                                               f"{self.openLobbies.index(openLobby)}")
+                                # todo check if this is the correct way to remove the lobby
                                 self.openLobbies.pop(self.openLobbies.index(openLobby))
-                                logger.graylog_logger(level="info", handler="matchmaking_getQueueStatus", message="Killed broken lobby Host on Side RUNNER.")
+                                logger.graylog_logger(level="info", handler="matchmaking_getQueueStatus",
+                                                      message="Killed broken lobby Host on Side RUNNER.")
                                 return eta_data
                     for openLobby in self.openLobbies:
                         if not openLobby.isReady or openLobby.hasStarted or openLobby.status == "CLOSED":
@@ -211,7 +220,8 @@ class MatchmakingQueue:
                                     continue
                             openLobby.nonHosts.append(queuedPlayer)
                             self.queuedPlayers.pop(index)
-                            data = self.createQueueResponseMatched(openLobby.host, openLobby.id, userId, matchConfig=openLobby.matchConfig)
+                            data = self.createQueueResponseMatched(openLobby.host, openLobby.id, userId,
+                                                                   matchConfig=openLobby.matchConfig)
                             if data:
                                 return data
                             else:
@@ -220,7 +230,8 @@ class MatchmakingQueue:
                             logger.graylog_logger(level="debug", handler="matchmaking_getQueueStatus",
                                                   message=f"Len Non Hosts >= 3 for {openLobby.id}")
                             return eta_data
-                    logger.graylog_logger(level="debug", handler="matchmaking_getQueueStatus",message="No Open Lobbies fit the criteria.")
+                    logger.graylog_logger(level="debug", handler="matchmaking_getQueueStatus",
+                                          message="No Open Lobbies fit the criteria.")
                     return eta_data
 
                 else:
@@ -293,7 +304,7 @@ class MatchmakingQueue:
         if lobby:
             self.openLobbies.pop(index)
             current_timestamp, expiration_timestamp = get_time()
-            killedLobby = KilledLobby(lobby.id, "killed_by_host", current_timestamp, lobby.host)
+            killedLobby = KilledLobby(lobby.id, "killed_by_host", current_timestamp, lobby=lobby)
             self.killedLobbies.append(killedLobby)
 
     def isOwner(self, matchId, userid):
@@ -315,6 +326,10 @@ class MatchmakingQueue:
                 countA = 1
                 countB = 5
             lobby_temp, id_temp = self.getLobbyById(matchId)
+            if lobby_temp is None:
+                # Could be killed lobby so check
+                # todo Add Killed Lobby check here
+                return
             if lobby_temp.host == userId:
                 # lobby.last_host_check = get_time()[0] + 3
                 self.openLobbies[id_temp].last_host_check = get_time()[0] + 3
