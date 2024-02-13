@@ -202,7 +202,7 @@ def match_register(match_id_unsanitized):
         response = matchmaking_queue.registerMatch(match_id, session_settings, userid)
 
         if response:
-            if discord_mm_use:
+            if use_discord:
                 game_mode = response["props"]["gameMode"]
                 if game_mode == "789c81dfb11fe39b7247c7e488e5b0d4-Default":
                     game_mode = "Default"
@@ -229,6 +229,9 @@ def match_register(match_id_unsanitized):
                 elif match_configuration == "/Game/Configuration/MatchConfig/MatchConfig_DES_City_2Hunters.MatchConfig_DES_City_2Hunters":
                     match_configuration = "Desert City 5 needles"
 
+                if dev_env == "true":
+                    match_id = f"DEV-{match_id}"
+
                 webhook_data = {
                     "content": "",
                     "embeds": [
@@ -241,9 +244,7 @@ def match_register(match_id_unsanitized):
                     "attachments": []
                 }
                 try:
-                    discord_webhook(discord_mm_url, webhook_data)
-                    discord_webhook(discord_public_url, webhook_data)
-                    discord_webhook(discord_rebirth_url, webhook_data)
+                    discord_webhook(url_list, webhook_data)
                 except Exception as e:
                     logger.graylog_logger(level="error", handler="discord_webhook_message", message=e)
 
