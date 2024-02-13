@@ -104,8 +104,9 @@ class Session_Manager:
         current_time = time.time()
         if self.sessions == {}:
             return
-        for session in self.sessions:
-            if self.sessions[session]["expires"] < current_time:
+        temp_sessions = dict(self.sessions)
+        for session in temp_sessions:
+            if temp_sessions[session]["expires"] < current_time:
                 self.sessions.pop(session)
 
     def __write_sessions__(self):
