@@ -202,11 +202,13 @@ def modifiers():
     session_cookie = sanitize_input(request.cookies.get("bhvrSession"))
     userid = session_manager.get_user_id(session_cookie)
 
-    steamid, token = mongo.get_data_with_list(login=userid, login_steam=False,
+    data = mongo.get_data_with_list(login=userid, login_steam=False,
                                               items={"steamid", "token"})
+
+    token = data["token"]
+    steamid = data["steamid"]
     try:
-        return jsonify({"TokenId": token, "UserId": userid, "RoleIds": ["755D4DFE-40DA1512-B01E3D8C-FF3C8D4D",
-                                                                        "C50FFFBF-46866131-82F45890-651797CE"]})
+        return jsonify({"Modifiers": []})
     except TimeoutError:
         return jsonify({"status": "error"})
     except Exception as e:
@@ -221,8 +223,7 @@ def modifiers_userid(userid):
     steamid, token = mongo.get_data_with_list(login=userid, login_steam=False,
                                               items={"token", "steamid"})
     try:
-        return jsonify({"TokenId": token, "UserId": userid, "RoleIds": ["755D4DFE-40DA1512-B01E3D8C-FF3C8D4D",
-                                                                        "C50FFFBF-46866131-82F45890-651797CE"]})
+        return jsonify({"Modifiers": []})
     except TimeoutError:
         return jsonify({"status": "error"})
     except Exception as e:
@@ -246,10 +247,6 @@ def moderation_check_username():
             "PlayerName": username,
             "UserId": steamid
         })
-        #
-        return jsonify({"Id": userid, "Token": token,
-                        "Provider": {"ProviderName": request_var["username"],
-                                     "ProviderId": steamid}})  # CLIENT:{"userId": "ID-ID-ID-ID-SEE-AUTH",	"username": "Name-Name-Name"}
     except TimeoutError:
         return jsonify({"status": "error"})
     except Exception as e:
@@ -681,7 +678,6 @@ def messages_list():
 
 @app.route("/api/v1/messages/v2/markAs", methods=["POST"])
 def messages_mark_as():
-    # {"messageList":[{"received":1687192385,"recipientId":"2"}],"flag":"READ"}
     try:
         check_for_game_client("strict")
         session_cookie = sanitize_input(request.cookies.get("bhvrSession"))
@@ -706,8 +702,6 @@ def messages_mark_as():
         logger.graylog_logger(level="error", handler="messages_mark_as", message=e)
         return jsonify({"status": "API error"})
 
-
-# Temp response.
 @app.route("/moderation/check/chat", methods=["POST"])
 def moderation_check_chat():
     check_for_game_client("strict")
@@ -719,15 +713,13 @@ def moderation_check_chat():
         userid = sanitize_input(data["userId"])
         language = sanitize_input(data["language"])
         message = sanitize_input(data["message"])
-        # Why should we care? Can we get in trouble if we don't?
-        return jsonify({"status": "success", "result": "OK"})  # Testing stuff
+        return jsonify({"status": "success", "result": "OK"})
     except TimeoutError:
         return jsonify({"status": "error"})
     except Exception as e:
         logger.graylog_logger(level="error", handler="moderation_check_chat", message=e)
 
 
-# This is intently broken. If this works the game crashes in matchmaking.
 @app.route("/api/v1/extensions/progression/initOrGetGroups", methods=["POST"])
 def extension_progression_init_or_get_groups():
     check_for_game_client("strict")
@@ -735,9 +727,6 @@ def extension_progression_init_or_get_groups():
     userid = session_manager.get_user_id(session_cookie)
 
     try:
-        # Client sends: {"data":{"skipProgressionGroups":false,"skipMetadataGroups":false,"playerName":"Steam-Name-Here"}}
-        # The client cant understand CharacterId for some reason??? But if this is removed the game doesn't load the
-        # "Choose Hunter or Runner" screen.
         request_data = request.get_json()
         data = get_init_or_get_groups(userid, request_data)
         return jsonify(data)
@@ -760,103 +749,33 @@ def update_metadata_group():
         version = data["data"]["version"]
         metadata = data["data"]["metadata"]
         last_played_faction = metadata["lastPlayedFaction"]
-        last_played_runner_id = metadata["lastPlayedRunnerId"]
-        last_played_hunter_id = metadata["lastPlayedHunterId"]
+        last_played_runner_id = metadata["lastPlayedRunnerId"]["tagName"]
+        last_played_hunter_id = metadata["lastPlayedHunterId"]["tagName"]
         should_play_without_contextual_help = metadata["shouldPlayWithoutContextualHelp"]
-        has_played_death_garden_1 = metadata["hasPlayedDeathGarden1"]
-        reason = data["data"]["reason"]
+        try:
+            has_played_death_garden_1 = metadata["hasPlayedDeathGarden1"]
+            reason = data["data"]["reason"]
+        except KeyError:
+            # old version of game
+            has_played_death_garden_1 = False
+            reason = "SetLastPlayedCharacterId"
 
-        logger.graylog_logger(level="info", handler="logging_updateMetadataGroup", message=data)
-        # return jsonify({"status": "success"})
-        mongo.write_data_with_list(login=userid, login_steam=False,
-                                   items_dict={"last_played_faction": last_played_faction})
-        return jsonify({
-            "ProgressionGroups": [
-                {
-                    "ObjectId": "RunnerProgression",
-                    "Version": 1,
-                    "SchemaVersion": 1.1,
-                    "Data": {
-                        "Experience": {
-                            "Level": 1,
-                            "CurrentExperience": 2,
-                            "ExperienceToReach": 30
-                        }
-                    }
-                },
-                {
-                    "ObjectId": "HunterProgression",
-                    "Version": 1,
-                    "SchemaVersion": 1.1,
-                    "Data": {
-                        "Experience": {
-                            "Level": 1,
-                            "CurrentExperience": 12,
-                            "ExperienceToReach": 30
-                        }
-                    }
-                },
-                {
-                    "ObjectId": "PlayerProgression",
-                    "Version": 1,
-                    "SchemaVersion": 1.1,
-                    "Data": {
-                        "Experience": {
-                            "Level": 1,
-                            "CurrentExperience": 12,
-                            "ExperienceToReach": 30
-                        }
-                    }
-                }
-            ],
-            "MetadataGroups": [
-                {
-                    "ObjectId": "RunnerMetadata",
-                    "Version": 1,
-                    "SchemaVersion": 1.1,
-                    "Data": {"CharacterId": {"TagName": last_played_runner_id},
-                             "Equipment": [],
-                             "EquippedPerks": ["1E08AFFA-485E92BA-FF2C1BB8-5CEFB81E"],
-                             "EquippedPowers": [],
-                             "EquippedWeapons": ["C8AF3D53-4973F82F-ADBB40BD-A96F9DCD"],
-                             "EquippedBonuses": []
-                             }
-                },
-                {
-                    "ObjectId": "HunterMetadata",
-                    "Version": 1,
-                    "SchemaVersion": 1.1,
-                    "Data": {"CharacterId": {"TagName": last_played_hunter_id},
-                             "Equipment": [],
-                             "EquippedPerks": ["791F12E0-47DA9E26-E246E385-9C3F587E"],
-                             "EquippedPowers": ["08DC38B6-470A7A5B-0BA025B9-6279DAA8"],
-                             "EquippedWeapons": ["307A0B13-417737DE-D675309F-8B978AB8"],
-                             "EquippedBonuses": []
-                             }
-                },
-                {
-                    "ObjectId": "PlayerMetadata",
-                    "Version": 1,
-                    "SchemaVersion": 1.1,
-                    "Data": {
-                        "LastPlayedFaction": last_played_faction,
-                        "LastPlayedRunnerId": {"tagName": last_played_runner_id},
-                        "LastPlayedHunterId": {"tagName": last_played_hunter_id},
-                        "shouldPlayWithoutContextualHelp": should_play_without_contextual_help,
-                        "hasPlayedDeathGarden1": True
-                    }
-                }
-            ]})
+        if reason == "SetLastPlayedCharacterId" or reason == "SetLastPlayedFaction":
+            mongo.write_data_with_list(login=userid, login_steam=False,
+                                       items_dict={"last_played_faction": last_played_faction,
+                                                   "last_hunter": last_played_hunter_id,
+                                                   "last_runner": last_played_runner_id,
+                                                   "hasPlayedDeathGarden1": has_played_death_garden_1,
+                                                   "tutorial_completed": should_play_without_contextual_help})
+        else:
+            logger.graylog_logger(level="error", handler="updateMetadataGroup", message=f"New reason: {reason}")
+
+        data = get_init_or_get_groups(userid, fake_request)
+        return jsonify(data)
     except TimeoutError:
         return jsonify({"status": "error"})
     except Exception as e:
         logger.graylog_logger(level="error", handler="logging_updateMetadataGroup", message=e)
-
-
-# POST https://api.zkwolf.com/api/v1/extensions/progression/updateMetadataGroup HTTP/1.1
-# {"data":{"objectId":"PlayerMetadata","version":2,"metadata":{
-# "lastPlayedFaction":"Runner","lastPlayedRunnerId":{"tagName":"Runner.Ink"},"lastPlayedHunterId":{"tagName":"None"},
-# "shouldPlayWithoutContextualHelp":false,"hasPlayedDeathGarden1":false},"reason":"SetLastPlayedCharacterId"}}
 
 
 # dont know if this works. Hope it does.
