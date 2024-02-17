@@ -28,6 +28,10 @@ def run():
 
 def keep_alive():
     try:
+        if dev_env == "true":
+            logger.graylog_logger(level="info", handler="api", message={"event": "DEV api started."})
+        else:
+            logger.graylog_logger(level="info", handler="api", message={"event": "api started."})
         t = Thread(target=run)
         t.daemon = True
         t.start()
