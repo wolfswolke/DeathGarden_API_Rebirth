@@ -90,8 +90,6 @@ def me_rich_presence():
     session_cookie = request.cookies.get("bhvrSession")
     session_manager.extend_session(session_cookie)
     user_id = session_manager.get_user_id(session_cookie)
-    # Hope this fixes Blackscreen
-    # todo remove comment if it works
 
     try:
         logger.graylog_logger(level="info", handler="logging_meRichPresence", message=f"User: {user_id} - {request.get_json()}")
