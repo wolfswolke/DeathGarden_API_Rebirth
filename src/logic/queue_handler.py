@@ -1,3 +1,4 @@
+import os
 import uuid
 import random
 from logic.time_handler import get_time
@@ -146,7 +147,11 @@ class MatchmakingQueue:
         try:
 
             # Check if user is owner of broken lobby
-
+            for openLobby in self.openLobbies:
+                if openLobby.host == userId:
+                    self.openLobbies.pop(self.openLobbies.index(openLobby))
+                    logger.graylog_logger(level="info", handler="matchmaking_queuePlayer",
+                                          message="Killed broken lobby from queuePlayer")
             current_timestamp, expiration_timestamp = get_time()
             queuedPlayer = QueuedPlayer(userId, side,
                                         current_timestamp)
@@ -181,6 +186,12 @@ class MatchmakingQueue:
             queuedPlayer, index = self.getQueuedPlayer(userId)
             if not queuedPlayer:
                 return {}
+
+            if os.environ['DEV'] == "true":
+                max_players_b = 2
+            else:
+                max_players_b = 5
+
             if side == 'B':
                 if self.openLobbies:
                     for openLobby in self.openLobbies:
@@ -208,7 +219,7 @@ class MatchmakingQueue:
                                                                    matchConfig=openLobby.matchConfig)
                             self.queuedPlayers.pop(index)
                             return data
-                        if len(openLobby.nonHosts) < 5:
+                        if len(openLobby.nonHosts) < max_players_b:
                             if additional_user_ids:
                                 open_slots = 5 - len(openLobby.nonHosts)
                                 queued_player_count = 1 + len(additional_user_ids)
@@ -319,9 +330,9 @@ class MatchmakingQueue:
 
     def createMatchResponse(self, matchId, killed=None, userId=None):
         try:
-            if userId in self.devs:
+            if os.environ['DEV'] == "true":
                 countA = 1
-                countB = 1
+                countB = 2
             else:
                 countA = 1
                 countB = 5
@@ -390,9 +401,9 @@ class MatchmakingQueue:
         try:
             lobby, index = self.getLobbyById(matchId)
             self.openLobbies[index].last_host_check = get_time()[0] + 3
-            if region:
+            if os.environ['DEV'] == "true":
                 countA = 1
-                countB = 1
+                countB = 2
             else:
                 countA = 1
                 countB = 5
