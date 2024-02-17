@@ -10,18 +10,15 @@ class Mongo:
         self.dyn_collection = ""
         self.default_user_schema = {
             'eula': False,
-            'account_xp': 0,
-            'prestige_xp': 0,
             'currency_blood_cells': 0,
             'currency_iron': 0,
             'currency_ink_cells': 0,
-            'unlocked_items': [],
+            'inventory': [],
             'is_banned': False,
             'ban_reason': "NoReasonGiven",
             'ban_start': 2177449139,
             'ban_expire': 253392484149,
             'special_unlocks': [],
-            'finished_challenges': [],
             'open_challenges': [],
             'unread_msg_ids': [],
             'last_played_faction': 'Runner',
@@ -29,75 +26,179 @@ class Mongo:
             'last_runner': 'Runner.Smoke',
             'last_hunter': 'Hunter.Inquisitor',
             'hasPlayedDeathGarden1': False,
-            'Dash': {
+            'RunnerGroupA': {
+                'prestige': 0,
+                'experience': {
+                    'level': 1,
+                    'experienceToReach': 5403,
+                    'currentExperience': 0
+                },
                 'Equipment': [],
                 'EquippedPerks': [],
                 'EquippedPowers': [],
                 'EquippedWeapons': [],
-                'EquippedBonuses': []
+                'EquippedBonuses': [],
+                'pickedChallenges': [],
+                'characterId': {"tagName":"Runner.Sawbones"}
             },
-            'Smoke': {
+            'RunnerGroupB': {
+                'prestige': 0,
+                'experience': {
+                    'level': 1,
+                    'experienceToReach': 5403,
+                    'currentExperience': 0
+                },
                 'Equipment': [],
                 'EquippedPerks': [],
                 'EquippedPowers': [],
                 'EquippedWeapons': [],
-                'EquippedBonuses': []
+                'EquippedBonuses': [],
+                'pickedChallenges': [],
+                'characterId': {"tagName":"Runner.Ink"}
             },
-            'Ghost': {
+            'RunnerGroupC': {
+                'prestige': 0,
+                'experience': {
+                    'level': 1,
+                    'experienceToReach': 5403,
+                    'currentExperience': 0
+                },
                 'Equipment': [],
                 'EquippedPerks': [],
                 'EquippedPowers': [],
                 'EquippedWeapons': [],
-                'EquippedBonuses': []
+                'EquippedBonuses': [],
+                'pickedChallenges': [],
+                'characterId': {"tagName":"Runner.Ghost"}
             },
-            'Ink': {
+            'RunnerGroupD': {
+                'prestige': 0,
+                'experience': {
+                    'level': 1,
+                    'experienceToReach': 5403,
+                    'currentExperience': 0
+                },
                 'Equipment': [],
                 'EquippedPerks': [],
                 'EquippedPowers': [],
                 'EquippedWeapons': [],
-                'EquippedBonuses': []
+                'EquippedBonuses': [],
+                'pickedChallenges': [],
+                'characterId': {"tagName":"Runner.Switch"}
             },
-            'Sawbones': {
+            'RunnerGroupE': {
+                'prestige': 0,
+                'experience': {
+                    'level': 1,
+                    'experienceToReach': 5403,
+                    'currentExperience': 0
+                },
                 'Equipment': [],
                 'EquippedPerks': [],
                 'EquippedPowers': [],
                 'EquippedWeapons': [],
-                'EquippedBonuses': []
+                'EquippedBonuses': [],
+                'pickedChallenges': [],
+                'characterId': {"tagName":"Runner.Smoke"}
             },
-            'Switch': {
+            'RunnerGroupF': {
+                'prestige': 0,
+                'experience': {
+                    'level': 1,
+                    'experienceToReach': 5403,
+                    'currentExperience': 0
+                },
                 'Equipment': [],
                 'EquippedPerks': [],
                 'EquippedPowers': [],
                 'EquippedWeapons': [],
-                'EquippedBonuses': []
+                'EquippedBonuses': [],
+                'pickedChallenges': [],
+                'characterId': {"tagName":"Runner.Dash"}
             },
-            'Inquisitor': {
+            'HunterGroupA': {
+                'prestige': 0,
+                'experience': {
+                    'level': 1,
+                    'experienceToReach': 5403,
+                    'currentExperience': 0
+                },
                 'Equipment': [],
                 'EquippedPerks': [],
                 'EquippedPowers': [],
                 'EquippedWeapons': [],
-                'EquippedBonuses': []
+                'EquippedBonuses': [],
+                'pickedChallenges': [],
+                'characterId': {"tagName":"Hunter.Stalker"}
             },
-            'Stalker': {
+            'HunterGroupB': {
+                'prestige': 0,
+                'experience': {
+                    'level': 1,
+                    'experienceToReach': 5403,
+                    'currentExperience': 0
+                },
                 'Equipment': [],
                 'EquippedPerks': [],
                 'EquippedPowers': [],
                 'EquippedWeapons': [],
-                'EquippedBonuses': []
+                'EquippedBonuses': [],
+                'pickedChallenges': [],
+                'characterId': {"tagName":"Hunter.Inquisitor"}
             },
-            'Poacher': {
+            'HunterGroupC': {
+                'prestige': 0,
+                'experience': {
+                    'level': 1,
+                    'experienceToReach': 5403,
+                    'currentExperience': 0
+                },
                 'Equipment': [],
                 'EquippedPerks': [],
                 'EquippedPowers': [],
                 'EquippedWeapons': [],
-                'EquippedBonuses': []
+                'EquippedBonuses': [],
+                'pickedChallenges': [],
+                'characterId': {"tagName":"Hunter.Poacher"}
             },
-            'Mass': {
+            'HunterGroupD': {
+                'prestige': 0,
+                'experience': {
+                    'level': 1,
+                    'experienceToReach': 5403,
+                    'currentExperience': 0
+                },
                 'Equipment': [],
                 'EquippedPerks': [],
                 'EquippedPowers': [],
                 'EquippedWeapons': [],
-                'EquippedBonuses': []
+                'EquippedBonuses': [],
+                'pickedChallenges': [],
+                'characterId': {"tagName":"Hunter.Mass"}
+            },
+            'RunnerProgression':{
+                "experience": {
+                    "level": 1,
+                    "experienceToReach": 5,
+                    "currentExperience": 3
+                }
+            },
+            'HunterProgression': {
+                "experience": {
+                    "level": 1,
+                    "experienceToReach": 5,
+                    "currentExperience": 3
+                }
+            },
+            'PlayerProgression': {
+                "experience": {
+                    "level": 1,
+                    "experienceToReach": 5,
+                    "currentExperience": 3
+                }
+            },
+            'ProfileMetaData': {
+                'characterCumulativeExperience': 0
             }
         }
 
