@@ -399,7 +399,22 @@ def get_quitter_state():
 
     try:
         logger.graylog_logger(level="info", handler="logging_getQuitterState", message=request.get_json())
-        return jsonify({"status": "success"})
+        return jsonify({
+            "strikeRefreshTime": 0,
+            "quitMatchStreakPrevious": 0,
+            "strikeLeft": 1,
+            "stayedMatchStreak": 100,
+            "stayedMatchStreakPrevious": 100,
+            "hasQuitOnce": False,
+            "quitMatchStreak": 0,
+            "stayMatchStreakRewards": [
+                {
+                    "id": "CurrencyA",
+                    "type": "currency",
+                    "amount": 20
+                }
+            ]
+        })
     except TimeoutError:
         return jsonify({"status": "error"})
     except Exception as e:
@@ -421,3 +436,64 @@ def feedback():
     except Exception as e:
         logger.graylog_logger(level="error", handler="logging_feedback", message=e)
 
+@app.route("/api/v1/extensions/purchase/set", methods=["POST"])
+def purchase_set():
+    check_for_game_client("strict")
+    session_cookie = sanitize_input(request.cookies.get("bhvrSession"))
+    userid = session_manager.get_user_id(session_cookie)
+
+    data = request.get_json()
+    itemid = data["data"]["itemId"]
+    currencygroup = data["data"]["currencyGroup"]
+
+    try:
+        logger.graylog_logger(level="info", handler="logging_purchase_item", message=request.get_json())
+        #{"data":{"itemId":"D89AA4884C54121C007FC3B613A8DDE8","currencyGroup":"SoftCurrencyGroup"}}
+        return jsonify({
+            "Cost": {},
+            "NewBalance": {},
+            "PurchasedItems": [itemid],
+            "RewardItems": [],
+        })
+    except TimeoutError:
+        return jsonify({"status": "error"})
+    except Exception as e:
+        logger.graylog_logger(level="error", handler="logging_purchase_item", message=e)
+
+
+@app.route("/api/v1/extensions/purchase/item", methods=["POST"])
+def purchase_item():
+    check_for_game_client("strict")
+    session_cookie = sanitize_input(request.cookies.get("bhvrSession"))
+    userid = session_manager.get_user_id(session_cookie)
+
+    data = request.get_json()
+    itemid = data["data"]["objectId"]
+    oldquantity = data["data"]["oldQuantity"]
+    wantedquantity = data["data"]["wantedQuantity"]
+    currencygroup = data["data"]["currencyGroup"]
+
+    try:
+        logger.graylog_logger(level="info", handler="logging_purchase_item", message=request.get_json())
+        # {"data":{"objectId":"99752C6E4F54F9D7A4FFF3AA9A50B3E6","oldQuantity":0,"wantedQuantity":1,"currencyGroup":"SoftCurrencyGroup"}}
+        return jsonify({
+            "PlayerId": userid,
+            "ObjectId": itemid,
+            "Quantity": 1,
+            "RewardItems": [
+                itemid
+            ],
+            "Wallet":
+            [
+                {
+                    "Id": "CurrencyA",
+                    "Balance": 1000000,
+                    "Debited": 100
+                }
+            ]
+        })
+    except TimeoutError:
+        return jsonify({"status": "error"})
+    except Exception as e:
+        logger.graylog_logger(level="error", handler="logging_purchase_item", message=e)
+# {"data":{"objectId":"99752C6E4F54F9D7A4FFF3AA9A50B3E6","oldQuantity":0,"wantedQuantity":1,"currencyGroup":"SoftCurrencyGroup"}}
