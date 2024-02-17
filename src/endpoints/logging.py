@@ -65,7 +65,6 @@ def analytics_batch_post():
     check_for_game_client()
     try:
         data = request.get_json()
-        logger.graylog_logger(level="info", handler="logging_gameDataAnalyticsBatch", message=data)
         item_count = len(data["body"])
         data = []
         for item in range(item_count):
@@ -89,11 +88,14 @@ def analytics_batch_post():
 def me_rich_presence():
     check_for_game_client()
     session_cookie = request.cookies.get("bhvrSession")
-    userid = session_manager.get_user_id(session_cookie)
+    session_manager.extend_session(session_cookie)
+    user_id = session_manager.get_user_id(session_cookie)
+    # Hope this fixes Blackscreen
+    # todo remove comment if it works
 
     try:
-        logger.graylog_logger(level="info", handler="logging_meRichPresence", message=request.get_json())
-        return jsonify({"status": "success"})
+        logger.graylog_logger(level="info", handler="logging_meRichPresence", message=f"User: {user_id} - {request.get_json()}")
+        return "", 204
     except TimeoutError:
         return jsonify({"status": "error"})
     except Exception as e:
