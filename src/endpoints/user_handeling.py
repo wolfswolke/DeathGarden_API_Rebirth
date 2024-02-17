@@ -52,99 +52,282 @@ def get_init_or_get_groups(userid, request_data):
     skip_progression_groups = request_data["data"]["skipProgressionGroups"]
     skip_metadata_groups = request_data["data"]["skipMetadataGroups"]
     if not skip_progression_groups:
+        Progression_HunterGroupA = mongo.get_data_with_list(login=userid, login_steam=False,
+                                                            items={"HunterGroupA"})
+        Progression_HunterGroupB = mongo.get_data_with_list(login=userid, login_steam=False,
+                                                            items={"HunterGroupB"})
+        Progression_HunterGroupC = mongo.get_data_with_list(login=userid, login_steam=False,
+                                                            items={"HunterGroupC"})
+        Progression_HunterGroupD = mongo.get_data_with_list(login=userid, login_steam=False,
+                                                            items={"HunterGroupD"})
+        Progression_RunnerGroupA = mongo.get_data_with_list(login=userid, login_steam=False,
+                                                            items={"RunnerGroupA"})
+        Progression_RunnerGroupB = mongo.get_data_with_list(login=userid, login_steam=False,
+                                                            items={"RunnerGroupB"})
+        Progression_RunnerGroupC = mongo.get_data_with_list(login=userid, login_steam=False,
+                                                            items={"RunnerGroupC"})
+        Progression_RunnerGroupD = mongo.get_data_with_list(login=userid, login_steam=False,
+                                                            items={"RunnerGroupD"})
+        Progression_RunnerGroupE = mongo.get_data_with_list(login=userid, login_steam=False,
+                                                            items={"RunnerGroupE"})
+        Progression_RunnerGroupF = mongo.get_data_with_list(login=userid, login_steam=False,
+                                                            items={"RunnerGroupF"})
+        RunnerProgression = mongo.get_data_with_list(login=userid, login_steam=False,
+                                                        items={"RunnerProgression"})
+        HunterProgression = mongo.get_data_with_list(login=userid, login_steam=False,
+                                                        items={"HunterProgression"})
+        PlayerProgression = mongo.get_data_with_list(login=userid, login_steam=False,
+                                                        items={"PlayerProgression"})
+
+
+
+        # 'HunterGroupD': {
+        #                 'prestige': 0,
+        #                 'experience': {
+        #                     'level': 1,
+        #                     'experienceToReach': 5403,
+        #                     'currentExperience': 0
+        #                 },
+        #                 'Equipment': [],
+        #                 'EquippedPerks': [],
+        #                 'EquippedPowers': [],
+        #                 'EquippedWeapons': [],
+        #                 'EquippedBonuses': [],
+        #                 'pickedChallenges': []
+
         data["ProgressionGroups"] = [
             {
-                "ObjectId": "RunnerProgression",
-                "Version": 1,
-                "SchemaVersion": 1.1,
-                "Data": {
-                    "Experience": {
-                        "Level": 1,
-                        "CurrentExperience": 2,
-                        "ExperienceToReach": 30
-                    }
-                }
+                "version": 10,
+                "objectId": "HunterGroupA",
+                "data": {
+                    "experience": Progression_HunterGroupA["HunterGroupA"]["experience"],
+                    "metadata": [
+
+                    ]
+                },
+                "schemaVersion": 1
             },
             {
-                "ObjectId": "HunterProgression",
-                "Version": 1,
-                "SchemaVersion": 1.1,
-                "Data": {
-                    "Experience": {
-                        "Level": 1,
-                        "CurrentExperience": 12,
-                        "ExperienceToReach": 30
-                    }
-                }
+                "version": 2,
+                "objectId": "HunterGroupB",
+                "data": {
+                    "experience": Progression_HunterGroupB["HunterGroupB"]["experience"],
+                    "metadata": [
+
+                    ]
+                },
+                "schemaVersion": 1
             },
             {
-                "ObjectId": "PlayerProgression",
-                "Version": 1,
-                "SchemaVersion": 1.1,
-                "Data": {
-                    "Experience": {
-                        "Level": 1,
-                        "CurrentExperience": 12,
-                        "ExperienceToReach": 30
-                    }
-                }
+                "version": 2,
+                "objectId": "HunterGroupC",
+                "data": {
+                    "experience": Progression_HunterGroupC["HunterGroupC"]["experience"],
+                    "metadata": [
+
+                    ]
+                },
+                "schemaVersion": 1
+            },
+            {
+                "version": 2,
+                "objectId": "HunterGroupD",
+                "data": {
+                    "experience": Progression_HunterGroupD["HunterGroupD"]["experience"],
+                    "metadata": [
+
+                    ]
+                },
+                "schemaVersion": 1
+            },
+            {
+                "version": 2,
+                "objectId": "HunterProgression",
+                "data": {
+                    "experience": HunterProgression["HunterProgression"]["experience"],
+                    "metadata": [
+
+                    ]
+                },
+                "schemaVersion": 1
+            },
+            {
+                "version": 2,
+                "objectId": "PlayerProgression",
+                "data": {
+                    "experience": PlayerProgression["PlayerProgression"]["experience"],
+                    "metadata": [
+
+                    ]
+                },
+                "schemaVersion": 1
+            },
+            {
+                "version": 646,
+                "objectId": "RunnerGroupA",
+                "data": {
+                    "experience": Progression_RunnerGroupA["RunnerGroupA"]["experience"],
+                    "metadata": [
+
+                    ]
+                },
+                "schemaVersion": 1
+            },
+            {
+                "version": 2,
+                "objectId": "RunnerGroupB",
+                "data": {
+                    "experience": Progression_RunnerGroupB["RunnerGroupB"]["experience"],
+                    "metadata": [
+
+                    ]
+                },
+                "schemaVersion": 1
+            },
+            {
+                "version": 2,
+                "objectId": "RunnerGroupC",
+                "data": {
+                    "experience": Progression_RunnerGroupC["RunnerGroupC"]["experience"],
+                    "metadata": [
+
+                    ]
+                },
+                "schemaVersion": 1
+            },
+            {
+                "version": 36,
+                "objectId": "RunnerGroupD",
+                "data": {
+                    "experience": Progression_RunnerGroupD["RunnerGroupD"]["experience"],
+                    "metadata": [
+
+                    ]
+                },
+                "schemaVersion": 1
+            },
+            {
+                "version": 3229,
+                "objectId": "RunnerGroupE",
+                "data": {
+                    "experience": Progression_RunnerGroupE["RunnerGroupE"]["experience"],
+                    "metadata": [
+
+                    ]
+                },
+                "schemaVersion": 1
+            },
+            {
+                "version": 7,
+                "objectId": "RunnerGroupF",
+                "data": {
+                    "experience": Progression_RunnerGroupF["RunnerGroupF"]["experience"],
+                    "metadata": [
+
+                    ]
+                },
+                "schemaVersion": 1
+            },
+            {
+                "version": 235,
+                "objectId": "RunnerProgression",
+                "data": {
+                    "experience": RunnerProgression["RunnerProgression"]["experience"],
+                    "metadata": [
+
+                    ]
+                },
+                "schemaVersion": 1
             }
         ]
     if not skip_metadata_groups:
+        data["MetadataGroups"] = []
+
         last_played_faction = mongo.get_data_with_list(login=userid, login_steam=False, items={"last_played_faction"})
         tutorial_completed = mongo.get_data_with_list(login=userid, login_steam=False, items={"tutorial_completed"})
         last_runner = mongo.get_data_with_list(login=userid, login_steam=False, items={"last_runner"})
         last_hunter = mongo.get_data_with_list(login=userid, login_steam=False, items={"last_hunter"})
         hasPlayedDeathGarden1 = mongo.get_data_with_list(login=userid, login_steam=False,
                                                          items={"hasPlayedDeathGarden1"})
-        print(last_played_faction, tutorial_completed, last_runner, last_hunter)
-        # {'last_played_faction': 'Runner'} {'tutorial_completed': False} {'last_runner': 'Runner.Fog'} {'last_hunter': 'Hunter.Inquisitor'}
-        runner_name = last_runner["last_runner"][7:]
-        hunter_name = last_hunter["last_hunter"][7:]
-        runner_equipment = mongo.get_data_with_list(login=userid, login_steam=False, items={runner_name})
-        hunter_equipment = mongo.get_data_with_list(login=userid, login_steam=False, items={hunter_name})
-        logger.graylog_logger(level="info", handler="logging_initOrGetGroups", message=request.get_json())
-        # print(runner_equipment, hunter_equipment)
+        characterCumulativeExperience = mongo.get_data_with_list(login=userid, login_steam=False,
+                                                                 items={"ProfileMetaData"})["ProfileMetaData"][
+            "characterCumulativeExperience"]
 
-        runner_data = {"CharacterId": {"TagName": last_runner["last_runner"]},
-                       "Equipment": runner_equipment[runner_name]["Equipment"],
-                       "EquippedPerks": runner_equipment[runner_name]["EquippedPerks"],
-                       "EquippedPowers": runner_equipment[runner_name]["EquippedPowers"],
-                       "EquippedWeapons": runner_equipment[runner_name]["EquippedWeapons"],
-                       "EquippedBonuses": runner_equipment[runner_name]["EquippedBonuses"]}
+        Runner_List = ["RunnerGroupA", "RunnerGroupB", "RunnerGroupC", "RunnerGroupD", "RunnerGroupE", "RunnerGroupF"]
+        Hunter_List = ["HunterGroupA", "HunterGroupB", "HunterGroupC", "HunterGroupD"]
 
-        hunter_data = {"CharacterId": {"TagName": last_hunter["last_hunter"]},
-                       "Equipment": hunter_equipment[hunter_name]["Equipment"],
-                       "EquippedPerks": hunter_equipment[hunter_name]["EquippedPerks"],
-                       "EquippedPowers": hunter_equipment[hunter_name]["EquippedPowers"],
-                       "EquippedWeapons": hunter_equipment[hunter_name]["EquippedWeapons"],
-                       "EquippedBonuses": hunter_equipment[hunter_name]["EquippedBonuses"]}
-
-        player_data = {"LastPlayedFaction": last_played_faction["last_played_faction"],
-                       "LastPlayedRunnerId": {"tagName": last_runner["last_runner"]},
-                       "LastPlayedHunterId": {"tagName": last_hunter["last_hunter"]},
-                       "shouldPlayWithoutContextualHelp": tutorial_completed["tutorial_completed"],
-                       "hasPlayedDeathGarden1": hasPlayedDeathGarden1["hasPlayedDeathGarden1"]}
         data["MetadataGroups"] = [
             {
-                "ObjectId": "RunnerMetadata",
-                "Version": 1,
-                "SchemaVersion": 1.1,
-                "Data": runner_data
+                "version": 342,
+                "objectId": "PlayerMetadata",
+                "data": {
+                    "lastPlayedFaction": last_played_faction["last_played_faction"],
+                    "shouldPlayWithoutContextualHelp": tutorial_completed["tutorial_completed"],
+                    "lastPlayedRunnerId": {
+                        "tagName": last_runner["last_runner"]
+                    },
+                    "lastPlayedHunterId": {
+                        "tagName": last_hunter["last_hunter"]
+                    },
+                    "hasPlayedDeathGarden1": hasPlayedDeathGarden1["hasPlayedDeathGarden1"]
+                },
+                "schemaVersion": 1
             },
             {
-                "ObjectId": "HunterMetadata",
-                "Version": 1,
-                "SchemaVersion": 1.1,
-                "Data": hunter_data
+                "version": 2,
+                "objectId": "HunterMetadata",
+                "data": [
+                ],
+                "schemaVersion": 1
             },
             {
-                "ObjectId": "PlayerMetadata",
-                "Version": 1,
-                "SchemaVersion": 1.1,
-                "Data": player_data
+                "version": 804,
+                "objectId": "ProfileMetadata",
+                "data": {
+                    "characterCumulativeExperience": characterCumulativeExperience
+                },
+                "schemaVersion": 1
+            },
+            {
+                "version": 2,
+                "objectId": "RunnerMetadata",
+                "data": [
+                ],
+                "schemaVersion": 1
             }
         ]
+
+
+
+        for group in Runner_List + Hunter_List:
+            group_data = mongo.get_data_with_list(login=userid, login_steam=False, items={group})[group]
+            equippedPerks = group_data["EquippedPerks"]
+            equippedWeapons = group_data["EquippedWeapons"]
+            equipment = group_data["Equipment"]
+            equippedBonuses = group_data["EquippedBonuses"]
+            equippedPowers = group_data["EquippedPowers"]
+            prestige = group_data["prestige"]
+            pickedChallenges = group_data["pickedChallenges"]
+            characterId = group_data["characterId"]
+
+            data["MetadataGroups"].append({
+                    "version": 3,
+                    "objectId": group,
+                    "data": {
+                        "equippedPerks": equippedPerks,
+                        "equippedWeapons": equippedWeapons,
+                        "equipment": equipment,
+                        "equippedBonuses": equippedBonuses,
+                        "pickedChallenges": pickedChallenges,
+                        "characterId": characterId,
+                        "equippedPowers": equippedPowers,
+                        "prestigeLevel": prestige
+                    },
+                    "schemaVersion": 1
+                })
+
+
+    data["rewards"] = []
     return data
 
 
@@ -241,11 +424,10 @@ def moderation_check_username():
         request_var = request.get_json()
         userid = sanitize_input(request_var["userId"])
         username = sanitize_input(request_var["username"])
-        steamid, token = mongo.get_user_info(userId=userid)
         # temp test
         return jsonify({
             "PlayerName": username,
-            "UserId": steamid
+            "UserId": userid
         })
     except TimeoutError:
         return jsonify({"status": "error"})
@@ -358,59 +540,26 @@ def inventories():
     try:
         page = request.args.get('page', default=0, type=int)
         limit = request.args.get('limit', default=500, type=int)
+        items = mongo.get_data_with_list(login=userid, login_steam=False, items={"inventory"})
+        inventory = []
+        for item in items["inventory"]:
+            inventory.append({"quantity": 1, "objectId": item, "lastUpdateAt": 1574612664})
+
+
         if page == 0:
-            return jsonify({"Code": 200, "Message": "OK",
-                            "Data": {"PlayerId": userid,
-                                     "Inventory": [
-                                         {"ObjectId": "DF5E3FD0-49902AB5-DC1B3C8E-22625AAF", "Quantity": 1,
-                                          "LastUpdateAt": 1687377305},
-                                         {"ObjectId": "0ADDB41F-4216A32D-8F1853BA-B25D20F2", "Quantity": 1,
-                                          "LastUpdateAt": 1687377305},
-                                         {"ObjectId": "E5010955-45F87E64-AAFC74A0-4F1CFF5B", "Quantity": 1,
-                                          "LastUpdateAt": 1687377305}
-                                         , {"ObjectId": "33E6325A-4E098D5D-47DBD48A-DE746024", "Quantity": 1,
-                                            "LastUpdateAt": 1687377305}
-                                         , {"ObjectId": "18D077C2-4D7418C1-2CDE2297-CC661AF7", "Quantity": 1,
-                                            "LastUpdateAt": 1687377305}
-                                         , {"ObjectId": "7B2C394F-46245407-23117D83-A6752CED", "Quantity": 1,
-                                            "LastUpdateAt": 1687377305}
-                                         , {"ObjectId": "33E6325A-4E098D5D-47DBD48A-DE746024", "Quantity": 1,
-                                            "LastUpdateAt": 1687377305}
-                                         , {"ObjectId": "38E5F7F2-41E2BA11-77419BB3-12FC1ACE", "Quantity": 1,
-                                            "LastUpdateAt": 1687377305}
-                                         , {"ObjectId": "1A09DB19-434DA733-AAD3D9B5-B1929CD4", "Quantity": 1,
-                                            "LastUpdateAt": 1687377305}
-                                         , {"ObjectId": "19FB6205-4E644ECD-C831E29F-C5B9E501", "Quantity": 1,
-                                            "LastUpdateAt": 1687377305}
-                                         , {"ObjectId": "32065218-4E1A719D-EF1D3C93-95EE7344", "Quantity": 1,
-                                            "LastUpdateAt": 1687377305}
-                                         , {"ObjectId": "69055D53-4DF27180-C4B36CAB-4B651054", "Quantity": 1,
-                                            "LastUpdateAt": 1687377305}
-                                         , {"ObjectId": "1F5CD900-4224C567-46D81991-AA40448A", "Quantity": 1,
-                                            "LastUpdateAt": 1687377305}
-                                         , {"ObjectId": "1E08AFFA-485E92BA-FF2C1BB8-5CEFB81E", "Quantity": 1,
-                                            "LastUpdateAt": 1687377305}
-                                         , {"ObjectId": "01AFD779-45C31407-5E09ACBF-70455761", "Quantity": 1,
-                                            "LastUpdateAt": 1687377305}
-                                         , {"ObjectId": "7CE5AFBF-459102E5-728DCDAA-6F88C0F1", "Quantity": 1,
-                                            "LastUpdateAt": 1687377305}
-                                         , {"ObjectId": "2DBF9B11-4B82A639-40936396-CBA68BCD", "Quantity": 1,
-                                            "LastUpdateAt": 1687377305}
-                                         , {"ObjectId": "10A8C667-45801664-6E2EFA94-52E3141A", "Quantity": 1,
-                                            "LastUpdateAt": 1687377305}
-                                         , {"ObjectId": "08DC38B6-470A7A5B-0BA025B9-6279DAA8", "Quantity": 1,
-                                            "LastUpdateAt": 1687377305}
-                                         , {"ObjectId": "51595917-43CBF0B5-7EC6FEB3-341960D6", "Quantity": 1,
-                                            "LastUpdateAt": 1687377305}
-                                         , {"ObjectId": "36466540-42433114-08F6A0BD-4DCE05BD", "Quantity": 1,
-                                            "LastUpdateAt": 1687377305}
-                                         , {"ObjectId": "307A0B13-417737DE-D675309F-8B978AB8", "Quantity": 1,
-                                            "LastUpdateAt": 1687377305}
-                                         , {"ObjectId": "791F12E0-47DA9E26-E246E385-9C3F587E", "Quantity": 1,
-                                            "LastUpdateAt": 1687377305}
-                                         , {"ObjectId": "8A5BF227-4640C2F2-3EF3C996-A6F6404D", "Quantity": 1,
-                                            "LastUpdateAt": 1687377305}
-                                     ], "NextPage": 0}})
+            return jsonify({
+   "code":200,
+   "message":"OK",
+   "data":{
+      "playerId":"userid",
+      "inventory":[{'quantity': 1, 'objectId': '69055D534DF27180C4B36CAB4B651054', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '5A2DD3F6433AB83A725513B868D240CF', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '5D230967452FEEE13F1CA780F580E889', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': 'F42C5B4148F22D29DA976BA8667964F4', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '51E112D1407DC2F33CD6C98B31E1F1BD', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': 'C9C6D40A4D6A6A5748D5C0A17763C9C1', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '5DA9F0DE40A95322DC5453A4F85B7B2B', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '38E5F7F241E2BA1177419BB312FC1ACE', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '1A09DB19434DA733AAD3D9B5B1929CD4', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '320652184E1A719DEF1D3C9395EE7344', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '9FCAAC9143A827E79DC179B762B1E520', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '274EB0B34AB39E468BFA878F7E87465B', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '04FC953E40A601200FA1C181A0D3C913', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': 'D495BCB543F2D005B559C888E4BF2B3B', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': 'F05493F04CF30636487243B5776882D6', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': 'CAA84E294F02ECF88B08FB96E481194D', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '1258297B4BCBFB39628E22A58C77EA87', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': 'A858CAF640A824508A028D89AFC44366', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '78C4B6734B7C9DD1D2488EBA8EB5A7E4', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '6340FA564B0C4E692AD174BB743607F5', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '75A9B5A34CD7815B6D77248506897122', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '5681640F41DF9BEF0659C3A951BFC01B', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '25BF0927456349471A1C77A852342246', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '60542B19472C7AACEABFAA83D8112ACA', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '105AE7CE41DBBBE92EEBFBB32FDFEC20', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': 'FD1F569B450C253D3EC750A68A9A177A', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': 'E30FA007473CD2472AE5798B679DA419', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '5889E8B1404109B1D4623B9DD2057608', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '2F3693A4473188D2787CC899A70DC563', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '9B34059A4199ACBEE46BB4B0472E7CC3', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '4886DDC446B96FEE1255D6A2AB114B0D', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '7037D4804CB9931A4DDF23A35E321775', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': 'C215B81F4E42196103ECE98949892499', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '0C6D2A4648B95C2264312783F977F211', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '0FA5CBDA402FB9FCC8B56CAE69202061', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '08E1B04246C86826FA5FBE9B8030EB01', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': 'B7287C204907B7DDFC7D0EA0B8252E60', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '9281A7AB4EE28B4FB6341886DFD50391', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '9281A7AB4EE28B4FB6341886DFD50391', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '47FCA62C449C01963D2293A422A41CF3', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '3D3C4F024308BA7C67306783902EECAB', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '7899428947342326CE6B3B83021529E8', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': 'BFC78D3E4DEFDB5C6369A7B0EF5260C9', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '00CE22624386379A86512A9500B41ABC', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '97D7970A47CDE0451384D098E7E4A681', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '2046082F4049FFABD5A933A4559B3AE0', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': 'DE624DB646B9EEAA7CBDFF9A62D96293', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '48072EAA49C83C6F387236955B3C7B6E', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '1B51D59C47F565A20E743BA187B83642', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '2732AE1E44D10CF38EE2BE9A5927AA6F', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': 'B83A141A45FB8D96D48A5185CD607AA3', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': 'F7B0756043C628036D038BBED754E89A', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '759E44DD469C284175C2D6A1AB0B0FA7', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '56B7B6F6473712D0B7A2F992BB2C16CD', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '234FFD464C55514B6C1E738645993CAA', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': 'C300E3A84E571D549E014B9051A18BE8', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '755D4DFE40DA1512B01E3D8CFF3C8D4D', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '38A4EF8140822E498B2FD196B757F7AD', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': 'CCA2272D408ED95387F017BED437FF9A', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': 'C50FFFBF4686613182F45890651797CE', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': 'EF96A20249884D437B87A6A4BDE81B7F', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '606129DC45AB9D16B69E2FA5C99A9835', 'lastUpdateAt': 1574612664},{'quantity': 1, 'objectId': '0398A38946C5FD3871B10A9E6B4B2BEC', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': 'B83713F044EED4FB220F2F9337AD14A2', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '4F563EB64882529F0CC42397CCCCB4A4', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '9373067D4895DE2C33EFBA8711F6E1D6', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': 'D91835664F2FAD7765BCF78B18CA9082', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': 'AA25DA8543EDF88C233713B438B43365', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': 'EB90A75F44EA4D821B385EA00B45E1BE', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '305F597C424FDD0A0A6B2BB6CF5CC542', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': 'D14477DA4ED69E001DC36ABCEA0B42BC', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '08DC38B6470A7A5B0BA025B96279DAA8', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '5159591743CBF0B57EC6FEB3341960D6', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '89A14A794CD70E50ADFEB497B89E4381', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '738CFAEB44A48BF6DA5F109C50068BE3', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '6BE28177483A89CF00B2FD839726ACE1', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '4431395744543533907B099952F81510', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '1069E6DF40AB4CAEF2AF03B4FD60BB22', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '5B6E31EA4E175EB002243D8942832223', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '334A7F0D417F3922E34BBDA4A66A5334', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': 'CC59BE294499B62827A639949AB3C2A3', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '3BB3C4774D87712BF8F6388F14E48FB2', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': 'B95774E641C37130DAE2F0A6C5E82C38', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '667EF1B74448A67A2E1B5EB74B2DBA66', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '7CE5AFBF459102E5728DCDAA6F88C0F1', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '2DBF9B114B82A63940936396CBA68BCD', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '10A8C667458016646E2EFA9452E3141A', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '08DC38B6470A7A5B0BA025B96279DAA8', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '5159591743CBF0B57EC6FEB3341960D6', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '364665404243311408F6A0BD4DCE05BD', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '307A0B13417737DED675309F8B978AB8', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '791F12E047DA9E26E246E3859C3F587E', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '8A5BF2274640C2F23EF3C996A6F6404D', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '1069E6DF40AB4CAEF2AF03B4FD60BB22', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '5CBD38644EA136989CB0E3BBF4A8E54B', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '321B9FA34B4497CA94F1CDB007735A57', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '525F6BE644576B3832ED77A10193F8A3', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': 'F01A992E429392A4F839FD93C25B34DB', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '9109796A49930831B017B3994A9F22EA', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': 'C814E8904A7C9D9A2F2594A3153E77A0', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '3C9D2E0A44ED015979667DBA4F080B49', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': 'AA00BB584A47234168A63D9F14C4C4E8', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '7A541DCB4F04DAB2E10FAB84395BB967', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '08DC38B6470A7A5B0BA025B96279DAA8', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '0703E3634B0E4409623E2D8C06B14C79', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '6562B26B48C9C791C82A3EAE344EBEE1', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '0606F8464D4C7EB70601CC84C50BCAC6', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '172080544A05F838E2473790FDF4873A', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '3D377249421D35F0F750578919A7E210', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '1069E6DF40AB4CAEF2AF03B4FD60BB22', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '0C06E9B5426B42D8C09C6B926938329D', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '44DD11E54FF689A553D297AB4FC1A7B2', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': 'E6448020488885E9F3D1FDBA8A70EBBF', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': 'AD900FC94C6608A4F88E8B8A87402F0F', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': 'BE1C0D4C4CE0861122BE22B2736D9091', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': 'F2768C4541C8262EFF4922B372AB7306', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': 'C8AF3D534973F82FADBB40BDA96F9DCD', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '4E171BD14FF98ED43A7AFAB57FE55578', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '109BC5904DC1272D70822EBA79CC85B1', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '54B3EF794FCB0643C4644FA15BEF31D5', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '487DEBE247818A01797AF5B3FD04C2B2', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': 'BA470A974C8EEC39D7248F91F3ABFACD', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '6A45DC544903218CEC18D4B7A27CEE51', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '1EBB7B3043BED679F382B087C0D6DE56', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '92CC1AC04868D1F9A99E6EA35BCDAD56', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '97501DEF493625107AEDCAAB2ADEDF4B', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '2BD43A50459BD9094DADC49A0F5F2551', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': 'C8AF3D534973F82FADBB40BDA96F9DCD', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '272369C042147225E364CFA42947859F', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': 'E13EA0CF46EE94F27F75BFAAD48D29D1', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': 'CEE62C37472E49AF36BC2A9809EEF2AD', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '487DEBE247818A01797AF5B3FD04C2B2', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '733A624F49F34D4659C084A4325D3202', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': 'B782F75E4A250FBD58BED0AAA2F9B4B0', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '2F282A504F9D04B0E3E8089CDAAC31FC', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '540DB1914938D04F524DC9850A325B21', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '48C47A4341B0E3E001F3D18537658D40', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '366DFB0841631FE3A1F4FE9BF814CF2C', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': 'C8AF3D534973F82FADBB40BDA96F9DCD', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '62AF95414827D3B29B9DFD97D54F1E95', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '261144CC43A9F74A60506AB0335B23B2', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '92B767F442A89C87CC3C9CB5D279D6EA', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '487DEBE247818A01797AF5B3FD04C2B2', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': 'F201BA114D675F8B62879199B3E5BEC9', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '81688A484ADDF511C219C89DF3B2CE4F', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '5DD486354855AEA9825B79AE6E306C82', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': 'C619BC1049C2C0FAC3907A914FD26469', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '350B26074604529237BF0CB22B60A9B8', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '04650B23493C386FA87E48947D26D79F', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': 'C8AF3D534973F82FADBB40BDA96F9DCD', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '23744B06493AE1220576529C4DB530B1', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': 'CE235B2C497B4381DA1742BA22999128', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': 'F91593E346415A85CFD0ED9CEBFBBDEA', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '487DEBE247818A01797AF5B3FD04C2B2', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '6B1B9949479BFD2B75E137AFFF3DBBD4', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '54526C4A4FF83835E02711B308AA80F5', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '5C4F9FC84B0CAE9CF00423A6768AEA23', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '24D5F6164191358D93B8E5BDFFE763F1', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '3B3BC3704395FAF545A97CBF8F601901', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '611F4DCB4A5C38EC4E423DB512CD9DC6', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': 'F055513D48AACBAC280B2AA00A984180', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '5998C1C548AB7BDA80C87295F2764C5D', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '7902D836470BBB49DE9B9D97F17C9DB5', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '08DC38B6470A7A5B0BA025B96279DAA8', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '5159591743CBF0B57EC6FEB3341960D6', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '50D3005B437066E4C4D99F9397CF1B0B', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '973C9176404A29F926D13BACB76A2425', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '1098BEE241B1515B44013A87EDB16BDC', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': 'EDB6D6B742023AE61AD8718CAC073C0E', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '1069E6DF40AB4CAEF2AF03B4FD60BB22', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '84DBF7B141246372690AFBA436B51C30', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '642E3BFA4F89698DD59E64AC133E266B', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '74C21FF949E644AF2231CDB796E9386E', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '0743E9B44190283D81A76480701EB07E', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '20FF1865462FD26B0253A08F18EFAA10', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': 'E4892E8A495FFB38F90729A1C97F3AC9', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': 'C8AF3D534973F82FADBB40BDA96F9DCD', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '492232504161420C872A0F82FC16ACDB', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '1E08AFFA485E92BAFF2C1BB85CEFB81E', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '1F5CD9004224C56746D81991AA40448A', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '487DEBE247818A01797AF5B3FD04C2B2', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': 'F6C3C02843F4DBA84109A0BF2D607DC2', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '97F3953347EE8BE10A29D39E3C4F0D1E', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': 'B3F3E6D84078F1DAE3C95AB5BFDEE945', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': 'BE23A8F14E783C51E662DCADD9AA76FF', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '6A8FA1C845AE1D7576BD87A53F7ED4A4', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': 'C7A898A44F208F9F85CE75969A98242D', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': 'C8AF3D534973F82FADBB40BDA96F9DCD', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '0E262D7A47567BE03A49ABA756FC1482', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '8EFCD5CC464EBFE1B7B03A984563710A', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '336D01F84D412B0D0D38F39311CA8D64', 'lastUpdateAt': 1574612664}, {'quantity': 1, 'objectId': '487DEBE247818A01797AF5B3FD04C2B2', 'lastUpdateAt': 1574612664}]
+   }
+})
+            return jsonify({
+                "code": 200,
+                "message": "OK",
+                "data": inventory
+            })
         elif page == 1:
             return jsonify({"Code": 200, "Message": "OK", "Data": {"PlayerId": userid, "Inventory": [
                 {"ObjectId": "C1672541-4A4B16B9-AD557C9E-E865D113", "Quantity": 1, "LastUpdateAt": 1687377305}
@@ -549,7 +698,13 @@ def achievements_get():
 
     try:
         # I don't know how this fixes the console error but if it works for now idc...
-        return jsonify({"UserId": userid, "StateName": "Fstring", "Segment": "FString", "List": [
+        return jsonify({"UserId": userid,
+                        "StateName": "Fstring",
+                        "Segment": "FString",
+                        "ObjectId": "",
+                        "Version": 1,
+                        "SchemaVersion": 1,
+                        "Data": [
             {
                 "ObjectId": "EFAB89E6465D1163D62A07B11048F2B6",
                 "Version": 11111111,
@@ -709,6 +864,7 @@ def moderation_check_chat():
     userid = session_manager.get_user_id(session_cookie)
 
     try:
+        # Request: FApiHttpCheckChatRequest
         data = request.get_json()
         userid = sanitize_input(data["userId"])
         language = sanitize_input(data["language"])
@@ -743,42 +899,94 @@ def update_metadata_group():
     session_cookie = sanitize_input(request.cookies.get("bhvrSession"))
     userid = session_manager.get_user_id(session_cookie)
     try:
-        fake_request = {"data": {"skipProgressionGroups": False, "skipMetadataGroups": False}}
         data = request.get_json()
         object_id = data["data"]["objectId"]
         version = data["data"]["version"]
         metadata = data["data"]["metadata"]
-        last_played_faction = metadata["lastPlayedFaction"]
-        last_played_runner_id = metadata["lastPlayedRunnerId"]["tagName"]
-        last_played_hunter_id = metadata["lastPlayedHunterId"]["tagName"]
-        should_play_without_contextual_help = metadata["shouldPlayWithoutContextualHelp"]
         try:
-            has_played_death_garden_1 = metadata["hasPlayedDeathGarden1"]
             reason = data["data"]["reason"]
         except KeyError:
-            # old version of game
-            has_played_death_garden_1 = False
             reason = "SetLastPlayedCharacterId"
 
         if reason == "SetLastPlayedCharacterId" or reason == "SetLastPlayedFaction":
+
+            last_played_faction = metadata["lastPlayedFaction"]
+            last_played_runner_id = metadata["lastPlayedRunnerId"]["tagName"]
+            last_played_hunter_id = metadata["lastPlayedHunterId"]["tagName"]
+            should_play_without_contextual_help = metadata["shouldPlayWithoutContextualHelp"]
+            try:
+                has_played_death_garden_1 = metadata["hasPlayedDeathGarden1"]
+            except KeyError:
+                # old version of game
+                has_played_death_garden_1 = False
             mongo.write_data_with_list(login=userid, login_steam=False,
                                        items_dict={"last_played_faction": last_played_faction,
                                                    "last_hunter": last_played_hunter_id,
                                                    "last_runner": last_played_runner_id,
                                                    "hasPlayedDeathGarden1": has_played_death_garden_1,
                                                    "tutorial_completed": should_play_without_contextual_help})
+        elif reason == "OnCloseLoadoout" or reason == "Character dirty":
+            # Write data to DB
+            character_id = metadata["characterId"]
+            prestige_level = metadata["prestigeLevel"]
+            equipment = metadata["equipment"]
+            equippedPerks = metadata["equippedPerks"]
+            equippedPowers = metadata["equippedPowers"]
+            equippedWeapons = metadata["equippedWeapons"]
+            equippedBonuses = metadata["equippedBonuses"]
+            equippedConsumables = metadata["equippedConsumables"]
+            pickedChallenges = metadata["pickedChallenges"]
+
+            # 'RunnerGroupC': {
+            #                 'prestige': 0,
+            #                 'experience': {
+            #                     'level': 1,
+            #                     'experienceToReach': 5403,
+            #                     'currentExperience': 0
+            #                 },
+            #                 'Equipment': [],
+            #                 'EquippedPerks': [],
+            #                 'EquippedPowers': [],
+            #                 'EquippedWeapons': [],
+            #                 'EquippedBonuses': [],
+            #                 'pickedChallenges': [],
+            #                 'characterId': {"tagName":"Runner.Ghost"}
+            object_data = mongo.get_data_with_list(login=userid, login_steam=False, items={object_id})
+
+            database_dict = {object_id: {"prestige": prestige_level,
+                                         "experience": object_data[object_id]["experience"],
+                                         "Equipment": equipment,
+                                         "EquippedPerks": equippedPerks,
+                                         "EquippedPowers": equippedPowers,
+                                         "EquippedWeapons": equippedWeapons,
+                                         "EquippedBonuses": equippedBonuses,
+                                         "pickedChallenges": pickedChallenges,
+                                         "characterId": character_id}}
+
+            mongo.write_data_with_list(login=userid, login_steam=False, items_dict=database_dict)
+
+
         else:
             logger.graylog_logger(level="error", handler="updateMetadataGroup", message=f"New reason: {reason}")
 
-        data = get_init_or_get_groups(userid, fake_request)
-        return jsonify(data)
+        # data = get_init_or_get_groups(userid, fake_request)
+        # return jsonify(data)
+
+        return jsonify({"userId":userid,
+                        "stateName":"MetadataGroups",
+                        "objectId":"PlayerMetadata",
+                        "version":343,
+                        "schemaVersion":1,
+                        "data":[]})
+
     except TimeoutError:
         return jsonify({"status": "error"})
     except Exception as e:
+        logger.graylog_logger(level="error", handler="logging_updateMetadataGroup", message=f"Json: {request.get_json()}")
         logger.graylog_logger(level="error", handler="logging_updateMetadataGroup", message=e)
 
 
-# dont know if this works. Hope it does.
+# Should be correct se PDB 0.8.0
 @app.route("/api/v1/extensions/inventory/unlockSpecialItems", methods=["POST"])
 def inventory_unlock_special_items():
     check_for_game_client("strict")
@@ -787,7 +995,7 @@ def inventory_unlock_special_items():
 
     try:
         logger.graylog_logger(level="info", handler="unknown_unlockSpecialItems", message=request.get_json())
-        return jsonify({"UnlockedItems": ["9F54DE7A-4E15935B-503850A1-27B0A2A4"]})
+        return jsonify({"UnlockedItems": []})
     except TimeoutError:
         return jsonify({"status": "error"})
     except Exception as e:
@@ -805,7 +1013,30 @@ def reset_prestige():
         data = request.get_json()
         character_id = data["data"]["characterId"]
         logger.graylog_logger(level="info", handler="resetCharacterProgressionForPrestige", message=data)
-        return jsonify({"status": "success"})
+        return jsonify({
+            "IsCharacterItemsReset": False,
+            "IsCharacterChallengesReset": False,
+            "IsCharacterExperienceReset": False,
+            "PrestigeLevel": 1,
+            "Rewards": [
+                {
+                    "ItemRewards": [],
+                    "CurrencyRewards": [
+                        {
+                            "Currency": "CurrencyA",
+                            "Amount": 100
+                        }
+                    ],
+                    "Costs": [
+                        {
+                            "Currency": "CurrencyA",
+                            "Amount": 100
+                        }
+                    ]
+                }
+            ]
+        })
+        # ItemRewards: UCatalogItemAsset ARRAY
     except TimeoutError:
         return jsonify({"status": "error"})
     except Exception as e:
@@ -819,8 +1050,6 @@ def challenges_get_challenge_progression_batch():
     userid = session_manager.get_user_id(session_cookie)
 
     try:
-        logger.graylog_logger(level="info", handler="logging_getChallengeProgressionBatch",
-                              message=request.get_json())
         # MirrorsExtModelGetChallengeProgressionBatchResponse -> TArray MirrorsExtModelChallengeProgressionOperation
         # {"data":{"userId":"619d6f42-db87-4f3e-8dc9-3c9995613614","challengeIds":["BA2D4A5445CB70276A8F5D9E1AFCE080",
         # "AAD05B9D46471DC811BBE0BA91916AB7","E51981B946BEE3D45C5C41B2FCFF310B","2CAEBB354D506D7C43B941BC1DA775A0",
@@ -866,8 +1095,6 @@ def challenges_get_challenge_progression_batch():
             #  MirrorsExtModelChallengeProgressionOperation
             if challenge == "BA2D4A5445CB70276A8F5D9E1AFCE080":
                 challenge_list.append({"ChallengeId": "BA2D4A5445CB70276A8F5D9E1AFCE080",
-                                       "Type": 2,
-                                       "ChallengeType": 4,
                                        "OperationName": "get",
                                        "OperationData": {"Type": "Achievement", "Progress": 1, "ValueToReach": 100,
                                                          "Body": "Power up a total of 100 Drones across matches",
@@ -937,10 +1164,12 @@ def challenges_get_challenge_progression_batch():
                 challenge_list.append({"challengeId": "24CE65364362CB2A90C0E08876176937",
                                        "operationName": "complete"
                                        })
-            else:
-                logger.graylog_logger(level="error", handler="logging_missing_challenge",
-                                      message=f"Unknown challenge id {challenge}")
-        return jsonify({"ProgressionBatch": challenge_list})
+            #else:
+                #logger.graylog_logger(level="error", handler="logging_missing_challenge",
+                #                      message=f"Unknown challenge id {challenge}")
+
+        return jsonify({"progressionBatch":[{"challengeId":"Challenge_Domination_Hunter:2019-11-25T02:17:22.484Z","completed":False},{"challengeId":"Challenge_Deliver_Runner:2019-11-25T02:17:22.484Z","className":"ChallengeProgressionCounter","rewardsClaimed":[{"type":"currency","amount":30,"id":"CurrencyA"}],"completed":True,"schemaVersion":1,"value":50},{"challengeId":"Challenge_RingOut_hunterWeekly:2019-11-21T23:22:11.927Z","completed":False},{"challengeId":"Challenge_SurviveAChase_Runner:2019-11-21T23:22:11.927Z","className":"ChallengeProgressionCounter","rewardsClaimed":[{"type":"currency","amount":1000,"id":"CurrencyC"}],"completed":True,"schemaVersion":1,"value":10}]})
+        # return jsonify({"ProgressionBatch": challenge_list})
     except TimeoutError:
         return jsonify({"status": "error"})
 
