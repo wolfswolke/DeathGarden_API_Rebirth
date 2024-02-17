@@ -95,8 +95,6 @@ def queue():
 
         else:
             response_data = matchmaking_queue.getQueueStatus(side, userid, region)
-            logger.graylog_logger(level="debug", handler="debug_logging_queue", message=type(response_data))
-            logger.graylog_logger(level="debug", handler="debug_logging_queue", message=response_data)
             return jsonify(response_data)
 
     except Exception as e:
