@@ -141,7 +141,6 @@ class MatchmakingQueue:
         self.killedLobbies = []
         self.queuedPlayers = []
         self.devs = ["a"]
-        # "95041085-e7e4-4759-be3d-e72c69167578", "00658d11-2dfd-41e8-b6d2-2462e8f3aa47", "619d6f42-db87-4f3e-8dc9-3c9995613614"
 
     def queuePlayer(self, side, userId):
         try:
@@ -153,6 +152,9 @@ class MatchmakingQueue:
                     logger.graylog_logger(level="info", handler="matchmaking_queuePlayer",
                                           message="Killed broken lobby from queuePlayer")
             current_timestamp, expiration_timestamp = get_time()
+            # check if user is already in queue
+            if userId in [player.userId for player in self.queuedPlayers]:
+                return
             queuedPlayer = QueuedPlayer(userId, side,
                                         current_timestamp)
             if userId in [player.userId for player in self.queuedPlayers]:
@@ -188,7 +190,7 @@ class MatchmakingQueue:
                 return {}
 
             if os.environ['DEV'] == "true":
-                max_players_b = 2
+                max_players_b = 1
             else:
                 max_players_b = 5
 
@@ -227,6 +229,8 @@ class MatchmakingQueue:
                                     for user_id in additional_user_ids:
                                         if user_id not in openLobby.nonHosts:
                                             openLobby.nonHosts.append(user_id)
+                                            additional_queuedPlayer, additional_index = self.getQueuedPlayer(user_id)
+                                            self.queuedPlayers.pop(additional_index)
                                 else:
                                     continue
                             openLobby.nonHosts.append(queuedPlayer)
@@ -332,7 +336,7 @@ class MatchmakingQueue:
         try:
             if os.environ['DEV'] == "true":
                 countA = 1
-                countB = 2
+                countB = 1
             else:
                 countA = 1
                 countB = 5
@@ -399,11 +403,9 @@ class MatchmakingQueue:
 
     def createQueueResponseMatched(self, creatorId, matchId, joinerId=None, region=None, matchConfig=None):
         try:
-            lobby, index = self.getLobbyById(matchId)
-            self.openLobbies[index].last_host_check = get_time()[0] + 3
             if os.environ['DEV'] == "true":
                 countA = 1
-                countB = 2
+                countB = 1
             else:
                 countA = 1
                 countB = 5
@@ -452,10 +454,36 @@ class MatchmakingQueue:
         return str(uuid.uuid4())
 
     def clear_queue(self):
-        self.queuedPlayers = []
-        self.openLobbies = []
-        self.killedLobbies = []
+        open_lobbies = self.openLobbies
+        for lobby in open_lobbies:
+            match_id = lobby.id
+            self.deleteMatch(match_id)
+            logger.graylog_logger(level="info", handler="clear_queue", message=f"Killed lobby: {match_id} with CLEAR_QUEUE")
         return {"status": "success"}
+
+    def get_len_of_queue(self):
+        length = len(self.queuedPlayers)
+        return int(length)
+
+    def get_len_of_killed_lobbies(self):
+        length = len(self.killedLobbies)
+        return int(length)
+
+    def get_len_of_queued_runners(self):
+        length = len([player for player in self.queuedPlayers if player.side == "B"])
+        return int(length)
+
+    def get_len_of_queued_hunters(self):
+        length = len([player for player in self.queuedPlayers if player.side == "A"])
+        return int(length)
+
+    def get_len_of_open_lobbies(self):
+        length = len(self.openLobbies)
+        return int(length)
+
+    def get_lobby_data(self):
+        return self.openLobbies
+
 
 
 matchmaking_queue = MatchmakingQueue()
