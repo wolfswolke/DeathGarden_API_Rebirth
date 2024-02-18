@@ -256,3 +256,53 @@ def updater_script():
         return jsonify({"status": "error"})
     except Exception as e:
         logger.graylog_logger(level="error", handler="web-updater-script", message=e)
+
+
+@app.route("/debug/MatchMaking", methods=["GET"])
+def debug_matchmaking():
+    len_queue = matchmaking_queue.get_len_of_queue()
+    len_killed_lobbies = matchmaking_queue.get_len_of_killed_lobbies()
+    len_queued_runners = matchmaking_queue.get_len_of_queued_runners()
+    len_queued_hunters = matchmaking_queue.get_len_of_queued_hunters()
+    len_open_lobbies = matchmaking_queue.get_len_of_open_lobbies()
+
+    lobby_data = matchmaking_queue.get_lobby_data()
+
+    return render_template('debug/matchmaking.html',
+                           len_queue=len_queue,
+                           len_killed_lobbies=len_killed_lobbies,
+                           len_queued_runners=len_queued_runners,
+                           len_queued_hunters=len_queued_hunters,
+                           len_open_lobbies=len_open_lobbies,
+                           lobby_data=lobby_data)
+
+
+
+@app.route("/api/debug/MatchMaking", methods=["GET"])
+def api_debug_matchmaking():
+    len_queue = matchmaking_queue.get_len_of_queue()
+    len_killed_lobbies = matchmaking_queue.get_len_of_killed_lobbies()
+    len_queued_runners = matchmaking_queue.get_len_of_queued_runners()
+    len_queued_hunters = matchmaking_queue.get_len_of_queued_hunters()
+    len_open_lobbies = matchmaking_queue.get_len_of_open_lobbies()
+
+    lobby_data = matchmaking_queue.get_lobby_data()
+    lobby_return_data = []
+    for item in lobby_data:
+        # Hunters needs to be changed from STRING to LIST some day
+        lobby_info = {
+            "id": item.id,
+            "Hunters": 1,
+            "Runners": len(item.nonHosts),
+            "status": item.status
+        }
+        lobby_return_data.append(lobby_info)
+
+    return jsonify({
+        "len_queue": len_queue,
+        "len_killed_lobbies": len_killed_lobbies,
+        "len_queued_runners": len_queued_runners,
+        "len_queued_hunters": len_queued_hunters,
+        "len_open_lobbies": len_open_lobbies,
+        "lobby_data": lobby_return_data
+    })

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matchmaking Debug</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Matchmaking Debug Information</h1>
+    <p><strong>Length of Queue:</strong> {{ len_queue }}</p>
+    <p><strong>Killed Lobbies:</strong> {{ len_killed_lobbies }}</p>
+    <p><strong>Queued Runners:</strong> {{ len_queued_runners }}</p>
+    <p><strong>Queued Hunters:</strong> {{ len_queued_hunters }}</p>
+    <p><strong>Open Lobbies:</strong> {{ len_open_lobbies }}</p>
+
+    <h2>Lobby Data</h2>
+    <table>
+        <tr>
+            <th>Lobby ID</th>
+            <th>Hunters</th>
+            <th>Runners</th>
+            <th>Status</th>
+        </tr>
+        {% for lobby in lobby_data %}
+        <tr>
+            <td>{{ lobby.id }}</td>
+            <td>{{ lobby.host }}</td>
+            <td>
+                <ul>
+                    {% for runner in lobby.nonHosts  %}
+                    <li>{{ runner.userId }}</li>
+                    {% endfor %}
+                </ul>
+            </td>
+            <td>{{ lobby.status }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
