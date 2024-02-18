@@ -6,6 +6,8 @@ from logic.global_handlers import check_for_game_client
 from logic.global_handlers import sanitize_input
 from logic.mongodb_handler import mongo
 from logic.webhook_handler import discord_webhook
+from logic.time_handler import get_lifetime
+from logic.challenge_handler import get_challenge
 import json
 import os
 
