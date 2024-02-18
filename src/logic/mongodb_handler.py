@@ -19,8 +19,283 @@ class Mongo:
             'ban_start': 2177449139,
             'ban_expire': 253392484149,
             'special_unlocks': [],
-            'open_challenges': [],
+            'challenges': [],
             'unread_msg_ids': [],
+            'daily_challenges': [
+                {
+                    'challenge_id': "",
+                    'faction': 'Runner',
+                    'challengeBlueprint': 'Placeholder',
+                    'ChallengeCompletionValue': 1,
+                    'last_completion': 0,
+                    'claimed': False,
+                    'completion_count': 0,
+                },
+                {
+                    'faction': 'Hunter',
+                    'last_completion': 0,
+                    'claimed': False,
+                    'completion_count': 0,
+                }
+            ],
+            'weekly_challenges': [
+                {
+                    'challenge_id': 1,
+                    'challengeBlueprint': 'Challenge_BleedOut_RunnerWeekly',
+                    'ChallengeCompletionValue': 30,
+                    'last_completion': 0,
+                    'claimed': False,
+                    'completion_count': 0,
+                },
+                {
+                    'challenge_id': 2,
+                    'challengeBlueprint': 'Challenge_Emotional_RunnerWeekly',
+                    'ChallengeCompletionValue': 60,
+                    'last_completion': 0,
+                    'claimed': False,
+                    'completion_count': 0,
+                },
+                {
+                    'challenge_id': 3,
+                    'challengeBlueprint': 'Challenge_Greed_RunnerWeekly',
+                    'ChallengeCompletionValue': 200,
+                    'last_completion': 0,
+                    'claimed': False,
+                    'completion_count': 0,
+                },
+                {
+                    'challenge_id': 4,
+                    'challengeBlueprint': 'Challenge_Mines_RunnerWeekly',
+                    'ChallengeCompletionValue': 50,
+                    'last_completion': 0,
+                    'claimed': False,
+                    'completion_count': 0,
+                },
+                {
+                    'challenge_id': 5,
+                    'challengeBlueprint': 'Challenge_Shields_RunnerWeekly',
+                    'ChallengeCompletionValue': 100,
+                    'last_completion': 0,
+                    'claimed': False,
+                    'completion_count': 0,
+                },
+                {
+                    'challenge_id': 6,
+                    'challengeBlueprint': 'Challenge_SpeedCapture_RunnerWeekly',
+                    'ChallengeCompletionValue': 10,
+                    'last_completion': 0,
+                    'claimed': False,
+                    'completion_count': 0,
+                },
+                {
+                    'challenge_id': 7,
+                    'challengeBlueprint': 'Challenge_Stuns_RunnerWeekly',
+                    'ChallengeCompletionValue': 100,
+                    'last_completion': 0,
+                    'claimed': False,
+                    'completion_count': 0,
+                },
+                {
+                    'challenge_id': 8,
+                    'challengeBlueprint': 'Challenge_Turrets_RunnerWeekly',
+                    'ChallengeCompletionValue': 10,
+                    'last_completion': 0,
+                    'claimed': False,
+                    'completion_count': 0,
+                },
+                {
+                    'challenge_id': 9,
+                    'challengeBlueprint': 'Challenge_UPs_RunnerWeekly',
+                    'ChallengeCompletionValue': 30,
+                    'last_completion': 0,
+                    'claimed': False,
+                    'completion_count': 0,
+                },
+                {
+                    'challenge_id': 10,
+                    'challengeBlueprint': 'Challenge_Wasteful_RunnerWeekly',
+                    'ChallengeCompletionValue': 10000,
+                    'last_completion': 0,
+                    'claimed': False,
+                    'completion_count': 0,
+                },
+                {
+                    'challenge_id': 11,
+                    'challengeBlueprint': 'Challenge_WUP_RunnerWeekly',
+                    'ChallengeCompletionValue': 150,
+                    'last_completion': 0,
+                    'claimed': False,
+                    'completion_count': 0,
+                },
+                {
+                    'challenge_id': 12,
+                    'challengeBlueprint': 'Challenge_ARB_Damage_HunterWeekly',
+                    'ChallengeCompletionValue': 10000,
+                    'last_completion': 0,
+                    'claimed': False,
+                    'completion_count': 0,
+                },
+                {
+                    'challenge_id': 13,
+                    'challengeBlueprint': 'Challenge_AssaultRifleWins_HunterWeekly',
+                    'ChallengeCompletionValue': 100,
+                    'last_completion': 0,
+                    'claimed': False,
+                    'completion_count': 0,
+                },
+                {
+                    'challenge_id': 14,
+                    'challengeBlueprint': 'Challenge_BleedOut_HunterWeekly',
+                    'ChallengeCompletionValue': 15,
+                    'last_completion': 0,
+                    'claimed': False,
+                    'completion_count': 0,
+                },
+                {
+                    'challenge_id': 15,
+                    'challengeBlueprint': 'Challenge_Damage_HunterWeekly',
+                    'ChallengeCompletionValue': 10000,
+                    'last_completion': 0,
+                    'claimed': False,
+                    'completion_count': 0,
+                },
+                {
+                    'challenge_id': 16,
+                    'challengeBlueprint': 'Challenge_Double_HunterWeekly',
+                    'ChallengeCompletionValue': 10,
+                    'last_completion': 0,
+                    'claimed': False,
+                    'completion_count': 0,
+                },
+                {
+                    'challenge_id': 17,
+                    'challengeBlueprint': 'Challenge_DroneActivation_HunterWeekly',
+                    'ChallengeCompletionValue': 100,
+                    'last_completion': 0,
+                    'claimed': False,
+                    'completion_count': 0,
+                },
+                {
+                    'challenge_id': 18,
+                    'challengeBlueprint': 'Challenge_Efficient_HunterWeekly',
+                    'ChallengeCompletionValue': 20,
+                    'last_completion': 0,
+                    'claimed': False,
+                    'completion_count': 0,
+                },
+                {
+                    'challenge_id': 19,
+                    'challengeBlueprint': 'Challenge_Emotional_HunterWeekly',
+                    'ChallengeCompletionValue': 60,
+                    'last_completion': 0,
+                    'claimed': False,
+                    'completion_count': 0,
+                },
+                {
+                    'challenge_id': 20,
+                    'challengeBlueprint': 'Challenge_Greed_HunterWeekly',
+                    'ChallengeCompletionValue': 200,
+                    'last_completion': 0,
+                    'claimed': False,
+                    'completion_count': 0,
+                },
+                {
+                    'challenge_id': 21,
+                    'challengeBlueprint': 'Challenge_Headshot_HunterWeekly',
+                    'ChallengeCompletionValue': 15,
+                    'last_completion': 0,
+                    'claimed': False,
+                    'completion_count': 0,
+                },
+                {
+                    'challenge_id': 22,
+                    'challengeBlueprint': 'Challenge_HuntingShotgunWins_HunterWeekly',
+                    'ChallengeCompletionValue': 30,
+                    'last_completion': 0,
+                    'claimed': False,
+                    'completion_count': 0,
+                },
+                {
+                    'challenge_id': 23,
+                    'challengeBlueprint': 'Challenge_InDenial_HunterWeekly',
+                    'ChallengeCompletionValue': 50,
+                    'last_completion': 0,
+                    'claimed': False,
+                    'completion_count': 0,
+                },
+                {
+                    'challenge_id': 24,
+                    'challengeBlueprint': 'Challenge_LMGWins_HunterWeekly',
+                    'ChallengeCompletionValue': 100,
+                    'last_completion': 0,
+                    'claimed': False,
+                    'completion_count': 0,
+                },
+                {
+                    'challenge_id': 25,
+                    'challengeBlueprint': 'Challenge_Mines_HunterWeekly',
+                    'ChallengeCompletionValue': 60,
+                    'last_completion': 0,
+                    'claimed': False,
+                    'completion_count': 0,
+                },
+                {
+                    'challenge_id': 26,
+                    'challengeBlueprint': 'Challenge_Reveals_hunterWeekly',
+                    'ChallengeCompletionValue': 100,
+                    'last_completion': 0,
+                    'claimed': False,
+                    'completion_count': 0,
+                },
+                {
+                    'challenge_id': 27,
+                    'challengeBlueprint': 'Challenge_RingOut_hunterWeekly',
+                    'ChallengeCompletionValue': 15,
+                    'last_completion': 0,
+                    'claimed': False,
+                    'completion_count': 0,
+                },
+                {
+                    'challenge_id': 28,
+                    'challengeBlueprint': 'Challenge_ShotgunDowns_HunterWeekly',
+                    'ChallengeCompletionValue': 100,
+                    'last_completion': 0,
+                    'claimed': False,
+                    'completion_count': 0,
+                },
+                {
+                    'challenge_id': 29,
+                    'challengeBlueprint': 'Challenge_Speed_HunterWeekly',
+                    'ChallengeCompletionValue': 10,
+                    'last_completion': 0,
+                    'claimed': False,
+                    'completion_count': 0,
+                },
+                {
+                    'challenge_id': 30,
+                    'challengeBlueprint': 'Challenge_Turrets_HunterWeekly',
+                    'ChallengeCompletionValue': 30,
+                    'last_completion': 0,
+                    'claimed': False,
+                    'completion_count': 0,
+                },
+                {
+                    'challenge_id': 31,
+                    'challengeBlueprint': 'Challenge_Wasteful_HunterWeekly',
+                    'ChallengeCompletionValue': 10000,
+                    'last_completion': 0,
+                    'claimed': False,
+                    'completion_count': 0,
+                },
+                {
+                    'challenge_id': 32,
+                    'challengeBlueprint': 'Challenge_WUP_HunterWeekly',
+                    'ChallengeCompletionValue': 150,
+                    'last_completion': 0,
+                    'claimed': False,
+                    'completion_count': 0,
+                }
+            ],
             'last_played_faction': 'Runner',
             'tutorial_completed': False,
             'last_runner': 'Runner.Smoke',
@@ -342,24 +617,62 @@ class Mongo:
             logger.graylog_logger(level="error", handler="mongo_write_data_with_list", message=e)
             return None
 
-    def get_user_info(self, userId):
-        # TEMPORARY
+
+    def add_to_array(self, login, login_steam, array_name, data):
         try:
             client = pymongo.MongoClient(self.dyn_server)
-            dyn_db = client[self.dyn_db]
-            dyn_collection = dyn_db[self.dyn_collection]
-            existing_document = dyn_collection.find_one({'userId': userId})
-            if existing_document:
-                steamid = existing_document['steamid']
-                token = existing_document['token']
-                client.close()
-                return steamid, token
+            dyn_client_db = client[self.dyn_db]
+            dyn_collection = dyn_client_db[self.dyn_collection]
+            if login_steam:
+                steam_id = str(login)
+                existing_document = dyn_collection.find_one({'steamid': steam_id})
             else:
+                user_id = str(login)
+                existing_document = dyn_collection.find_one({"userId": user_id})
+            if existing_document:
+                update_query = {'$push': {array_name: data}}
+                if login_steam:
+                    dyn_collection.update_one({'steamid': steam_id}, update_query)
+                else:
+                    dyn_collection.update_one({'userId': user_id}, update_query)
                 client.close()
-                return "10000000aa000000gg00001", "10000000aa000000gg00001"
+                return {"status": "success", "message": "Data updated"}
+            else:
+                print(f"No user found with steamid: {steam_id}")
+                client.close()
+                return None
         except Exception as e:
-            logger.graylog_logger(level="error", handler="mongodb_get_user_info", message=e)
-            return None, None
+            print(e)
+            logger.graylog_logger(level="error", handler="mongo_add_to_array", message=e)
+            return None
+
+    def update_array(self, login, login_steam, array_name, data, index):
+        try:
+            client = pymongo.MongoClient(self.dyn_server)
+            dyn_client_db = client[self.dyn_db]
+            dyn_collection = dyn_client_db[self.dyn_collection]
+            if login_steam:
+                steam_id = str(login)
+                existing_document = dyn_collection.find_one({'steamid': steam_id})
+            else:
+                user_id = str(login)
+                existing_document = dyn_collection.find_one({"userId": user_id})
+            if existing_document:
+                update_query = {'$set': {f"{array_name}.{index}": data}}
+                if login_steam:
+                    dyn_collection.update_one({'steamid': steam_id}, update_query)
+                else:
+                    dyn_collection.update_one({'userId': user_id}, update_query)
+                client.close()
+                return {"status": "success", "message": "Data updated"}
+            else:
+                print(f"No user found with steamid: {steam_id}")
+                client.close()
+                return None
+        except Exception as e:
+            print(e)
+            logger.graylog_logger(level="error", handler="mongo_update_array", message=e)
+            return None
 
 
 mongo = Mongo()
