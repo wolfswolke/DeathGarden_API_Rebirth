@@ -74,7 +74,6 @@ def queue():
     logger.graylog_logger(level="info", handler="logging_queue",
                           message=f"User {userid} is queueing for {category} in {region} with {count_a} hunters and {count_b} runners")
     try:
-        queue_data = side, check_only
         if not check_only:
             matchmaking_queue.queuePlayer(side=side, userId=userid)
             if additional_user_ids:
@@ -228,6 +227,7 @@ def match_register(match_id_unsanitized):
                     match_configuration = "Desert City 5 needles"
 
                 if dev_env == "true":
+                    match_id = f"DEV-{match_id}"
                     match_id = f"DEV-{match_id}"
 
                 webhook_data = {
