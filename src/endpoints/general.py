@@ -23,6 +23,9 @@ def gamenews():
         messageType = sanitize_input(request.args.get('messageType'))
         faction = sanitize_input(request.args.get('faction'))
         playerLevel = sanitize_input(request.args.get('playerLevel'))
+        if dev_env == "true":
+            output = json.load(open(os.path.join(app.root_path, "json", "placeholders", "dev_gamenews.json"), "r"))
+            return jsonify(output)
         output = json.load(open(os.path.join(app.root_path, "json", "placeholders", "gamenews.json"), "r"))
         return jsonify(output)
     except TimeoutError:
