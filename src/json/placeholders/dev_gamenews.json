@@ -1,0 +1,64 @@
+{
+   "messages":[
+      {
+         "shouldQuitTheGame":false,
+         "onlyForPlayersThatCompletedAtLeastOneMatch":false,
+         "gameVersion":"4190433",
+         "messageType":"PopUpNews",
+         "isEnabled":true,
+         "isOneTimeGameNews":false,
+         "redirectMode":"None",
+         "redirectItem":"None",
+         "translations":[
+            {
+               "language":"EN",
+               "title":"DEV Build",
+               "body":"Hello!\r\nWelcome to the DEV Build.\r\nPlease take a cookie and have fun breaking things.\r\n\r\n--\r\nDEV Team"
+            }
+         ],
+         "createdAt":"2019-08-23T23:06:30.745Z",
+         "updatedAt":"2019-08-23T23:06:30.745Z",
+         "displayXTimes":null,
+         "embeddedBackgroundImage":"null",
+         "embeddedInGameNewsBackgroundImage":"null",
+         "embeddedInGameNewsThumbnailImage":"null",
+         "factions":null,
+         "fromDate":null,
+         "maxPlayerLevel":null,
+         "platforms":null,
+         "redirectUrl":null,
+         "toDate":null,
+         "id":"5d607176c7361c00124c511d"
+      },
+      {
+         "shouldQuitTheGame":false,
+         "onlyForPlayersThatCompletedAtLeastOneMatch":false,
+         "gameVersion":"4190433",
+         "messageType":"PopUpNews",
+         "isEnabled":true,
+         "isOneTimeGameNews":false,
+         "redirectMode":"None",
+         "redirectItem":"None",
+         "translations":[
+            {
+               "language":"EN",
+               "title":"New Build",
+               "body":"Hello!\r\nWelcome to the Current LIVE Build of Project Rebirth Deathgarden.\r\nWe hope you have fun! \r\n If you find any Bugs please message us on Discord!\r\n\r\nOffical Links:\r\nGithub: https://github.com/wolfswolke/DeathGarden_API_Rebirth \r\nProject Chronos Discord: https://tinyurl.com/chronosdiscord\r\n\r\n--\r\nProject Rebirth Team"
+            }
+         ],
+         "createdAt":"2024-02-17T20:48:00.000Z",
+         "updatedAt":"2024-02-17T20:48:00.000Z",
+         "displayXTimes":null,
+         "embeddedBackgroundImage":"null",
+         "embeddedInGameNewsBackgroundImage":"null",
+         "embeddedInGameNewsThumbnailImage":"null",
+         "factions":null,
+         "fromDate":"2024-02-17T20:48:00.000Z",
+         "maxPlayerLevel":null,
+         "platforms":null,
+         "redirectUrl":null,
+         "toDate":null,
+         "id":"5d607176c7361c00124c511e"
+      }
+   ]
+}
