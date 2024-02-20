@@ -8,6 +8,7 @@ from logic.mongodb_handler import mongo
 from logic.webhook_handler import discord_webhook
 from logic.time_handler import get_lifetime
 from logic.challenge_handler import get_challenge
+from logic.hash_handler import hash_handler
 import json
 import os
 

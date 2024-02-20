@@ -306,3 +306,15 @@ def api_debug_matchmaking():
         "len_open_lobbies": len_open_lobbies,
         "lobby_data": lobby_return_data
     })
+
+
+@app.route("/api/sha", methods=["GET"])
+def api_sha():
+    try:
+        # todo generate this on BOOT
+        # generate SHA256 of PAK and SIG on boot then save it to a file and return here
+        hashes = hash_handler.get_hash()
+        return jsonify({"pak": hashes[0], "sig": hashes[1]})
+    except Exception as e:
+        logger.graylog_logger(level="error", handler="web-api-sha", message=e)
+        return jsonify({"status": "error"}), 500
