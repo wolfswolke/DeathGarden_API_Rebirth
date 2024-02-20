@@ -88,8 +88,9 @@ def random_game_mode():
     MatchConfig_WA_Rivers_2Hunters = {'gameMode': 'feac811fdef1d1a2f2fc26b3c99205fd-Default',
                                       'MatchConfiguration': '/Game/Configuration/MatchConfig/MatchConfig_WA_Rivers_2Hunters.MatchConfig_WA_Rivers_2Hunters'}
 
-    list_of_game_modes = [MatchConfig_Demo, MatchConfig_Demo_HarvestYourExit_1v5, MatchConfig_ARC_Fortress,
-                          MatchConfig_Demo_2v8_4Needles]
+    list_of_game_modes = [MatchConfig_WA_Rivers, MatchConfig_WA_Cemetery,
+                          MatchConfig_DES_Oilfield, MatchConfig_ARC_BlastFurnace, MatchConfig_DES_Mayan,
+                          MatchConfig_ARC_Expedition, MatchConfig_RUI_All, MatchConfig_ARC_Fortress]
     return random.choice(list_of_game_modes)
 
 

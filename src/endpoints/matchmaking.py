@@ -211,6 +211,8 @@ def match_register(match_id_unsanitized):
                     game_mode = "REMIX"
                 elif game_mode == "a0fdf9ce92261dcc5492f353b62f34f3-Default":
                     game_mode = "4 Needles"
+                else:
+                    game_mode = "Default"
 
                 match_configuration = response["props"]["MatchConfiguration"]
                 if match_configuration == "/Game/Configuration/MatchConfig/MatchConfig_Demo_HarvestYourExit_1v5.MatchConfig_Demo_HarvestYourExit_1v5":
@@ -225,6 +227,20 @@ def match_register(match_id_unsanitized):
                     match_configuration = "Harvest Your Exit 4Needles"
                 elif match_configuration == "/Game/Configuration/MatchConfig/MatchConfig_DES_City_2Hunters.MatchConfig_DES_City_2Hunters":
                     match_configuration = "Desert City 5 needles"
+                elif match_configuration == "/Game/Configuration/MatchConfig/MatchConfig_WA_Rivers.MatchConfig_WA_Rivers":
+                    match_configuration = "Creek"
+                elif match_configuration == "/Game/Configuration/MatchConfig/MatchConfig_WA_Cemetery.MatchConfig_WA_Cemetery":
+                    match_configuration = "Tombstone"
+                elif match_configuration == "/Game/Configuration/MatchConfig/MatchConfig_DES_Oilfield.MatchConfig_DES_Oilfield":
+                    match_configuration = "Blowout"
+                elif match_configuration == "/Game/Configuration/MatchConfig/MatchConfig_ARC_BlastFurnace.MatchConfig_ARC_BlastFurnace":
+                    match_configuration = "Fire in the Sky"
+                elif match_configuration == "/Game/Configuration/MatchConfig/MatchConfig_DES_Mayan.MatchConfig_DES_Mayan":
+                    match_configuration = "Dust & Blood"
+                elif match_configuration == "/Game/Configuration/MatchConfig/MatchConfig_ARC_Expedition.MatchConfig_ARC_Expedition":
+                    match_configuration = "Arctic Expedition"
+                elif match_configuration == "/Game/Configuration/MatchConfig/MatchConfig_RUI_All.MatchConfig_RUI_All":
+                    match_configuration = "First Strike"
 
                 if dev_env == "true":
                     match_id = f"DEV-{match_id}"
