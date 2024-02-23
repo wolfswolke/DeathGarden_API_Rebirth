@@ -206,7 +206,7 @@ def match_register(match_id_unsanitized):
                 elif game_mode == "08d2279d2ed3fba559918aaa08a73fa8-Default":
                     game_mode = "Default"
                 elif game_mode == "d071fb6678668246d6d999c9892c2a60-Default":
-                    game_mode = "Default",
+                    game_mode = "Default"
                 elif game_mode == "e3744bb4acbc0e5dc107e999c6132f18-Default":
                     game_mode = "REMIX"
                 elif game_mode == "a0fdf9ce92261dcc5492f353b62f34f3-Default":
@@ -243,7 +243,6 @@ def match_register(match_id_unsanitized):
                     match_configuration = "First Strike"
 
                 if dev_env == "true":
-                    match_id = f"DEV-{match_id}"
                     match_id = f"DEV-{match_id}"
 
                 webhook_data = {
@@ -448,7 +447,67 @@ def progression_player_end_of_match():
     userid = session_manager.get_user_id(session_cookie)
     try:
         logger.graylog_logger(level="info", handler="matchmaking_playerEndOfMatch", message=request.get_json())
-        return jsonify({"Player": {"Success": True}})
+        data = request.get_json()["data"]
+        characterGroup = data["characterGroup"]
+        experience = 0
+        for event in data["experienceEvents"]:
+            experience += event["amount"]
+        CurrencyA = 0
+        CurrencyB = 0
+        CurrencyC = 0
+        wallet = []
+
+        for currency in data["earnedCurrencies"]:
+            if currency["currencyName"] == "CurrencyA":
+                wallet.append({"Currency": "CurrencyA", "Amount": currency["amount"]})
+            elif currency["currencyName"] == "CurrencyB":
+                wallet.append({"Currency": "CurrencyB", "Amount": currency["amount"]})
+            elif currency["currencyName"] == "CurrencyC":
+                wallet.append({"Currency": "CurrencyC", "Amount": currency["amount"]})
+        # return jsonify({
+        #             "Player": {
+        #                 "InitialExperienceProgressions": [
+        #                     FGMProgressionExperienceModel
+        #                 ],
+        #                 "NewExperienceProgressions": [
+        #                     FGMProgressionExperienceModel
+        #                 ],
+        #                 "TotalEarnedCurrency": [
+        #                     FCurrencyModel
+        #                 ],
+        #                 "Wallet": [
+        #                     FCurrencyModel
+        #                 ],
+        #                 "Events": [
+        #                     FGMExperienceEvent
+        #                 ]
+        #             }
+        #         })
+        return jsonify({
+            "Player": {
+                "InitialExperienceProgressions": [
+                    {
+                        "ObjectId": characterGroup,
+                        "Level": 1,
+                        "ExperienceToReach": 100000,
+                        "CurrentExperience": 1
+                    }
+                ],
+                "NewExperienceProgressions": [
+                    {
+                        "ObjectId": characterGroup,
+                        "Level": 1,
+                        "ExperienceToReach": 100000,
+                        "CurrentExperience": experience
+                    }
+                ],
+                "TotalEarnedCurrency": wallet,
+                "Wallet": wallet,
+                "Events": [
+
+                ]
+            }
+        })
     except TimeoutError:
         return jsonify({"status": "error"})
     except Exception as e:
@@ -479,11 +538,7 @@ def progression_end_of_match():
                 # What could this struct be????
             }
         logger.graylog_logger(level="info", handler="matchmaking_endOfMatch", message=request.get_json())
-        return jsonify({"Players": [
-            {},
-            {}
-        ]})
-        sub_list = {"Level": 3, "Ratio": 0.4}
+        return jsonify({"Success": True})
     except TimeoutError:
         return jsonify({"status": "error"})
     except Exception as e:
