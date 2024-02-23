@@ -1,6 +1,7 @@
 import os
 import uuid
 import random
+from collections import Counter
 from logic.time_handler import get_time
 from logic.logging_handler import logger
 
@@ -88,10 +89,11 @@ def random_game_mode():
     MatchConfig_WA_Rivers_2Hunters = {'gameMode': 'feac811fdef1d1a2f2fc26b3c99205fd-Default',
                                       'MatchConfiguration': '/Game/Configuration/MatchConfig/MatchConfig_WA_Rivers_2Hunters.MatchConfig_WA_Rivers_2Hunters'}
 
-    list_of_game_modes = [MatchConfig_WA_Rivers, MatchConfig_WA_Cemetery,
-                          MatchConfig_DES_Oilfield, MatchConfig_ARC_BlastFurnace, MatchConfig_DES_Mayan,
-                          MatchConfig_ARC_Expedition, MatchConfig_RUI_All, MatchConfig_ARC_Fortress]
-    return random.choice(list_of_game_modes)
+    high_probability = [MatchConfig_WA_Rivers, MatchConfig_WA_Cemetery, MatchConfig_DES_Oilfield] * 3
+    normal_probability = [MatchConfig_ARC_BlastFurnace, MatchConfig_DES_Mayan, MatchConfig_ARC_Expedition] * 2
+    low_probability = [MatchConfig_RUI_All, MatchConfig_ARC_Fortress]
+    probability_list = high_probability + normal_probability + low_probability
+    return random.choice(probability_list)
 
 
 class QueueData:
@@ -141,11 +143,17 @@ class MatchmakingQueue:
         self.openLobbies = []
         self.killedLobbies = []
         self.queuedPlayers = []
-        self.devs = ["a"]
+
+    def cleanup_queue_players(self):
+        for i, player in enumerate(self.queuedPlayers):
+            if player.lastCheckedForMatch < get_time()[0] - 15:
+                self.queuedPlayers.pop(i)
+                logger.graylog_logger(level="info", handler="cleanup_queue_players", message="Removed player from queue due to timeout.")
+
 
     def queuePlayer(self, side, userId):
+        self.cleanup_queue_players()
         try:
-
             # Check if user is owner of broken lobby
             for openLobby in self.openLobbies:
                 if openLobby.host == userId:
@@ -153,14 +161,15 @@ class MatchmakingQueue:
                     logger.graylog_logger(level="info", handler="matchmaking_queuePlayer",
                                           message="Killed broken lobby from queuePlayer")
             current_timestamp, expiration_timestamp = get_time()
+
             # check if user is already in queue
             if userId in [player.userId for player in self.queuedPlayers]:
                 return
-            queuedPlayer = QueuedPlayer(userId, side,
+            queued_player = QueuedPlayer(userId, side,
                                         current_timestamp)
             if userId in [player.userId for player in self.queuedPlayers]:
                 return
-            self.queuedPlayers.append(queuedPlayer)
+            self.queuedPlayers.append(queued_player)
         except Exception as e:
             logger.graylog_logger(level="error", handler="matchmaking_queuePlayer", message=e)
 
@@ -185,6 +194,11 @@ class MatchmakingQueue:
                 },
                 "status": "QUEUED"
             }
+
+            self.cleanup_queue_players()
+            for player in self.queuedPlayers:
+                if player.userId == userId:
+                    player.lastCheckedForMatch = get_time()[0]
 
             queuedPlayer, index = self.getQueuedPlayer(userId)
             if not queuedPlayer:
