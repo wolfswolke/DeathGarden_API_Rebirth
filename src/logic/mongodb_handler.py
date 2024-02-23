@@ -21,6 +21,7 @@ class Mongo:
             'special_unlocks': [],
             'challenges': [],
             'unread_msg_ids': [],
+            'unlocked_special_item_ids': [],
             'daily_challenges': [
                 {
                     'challenge_id': "",
