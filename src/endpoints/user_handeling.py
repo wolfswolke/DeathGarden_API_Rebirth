@@ -306,6 +306,7 @@ def get_init_or_get_groups(userid, request_data):
             prestige = group_data["prestige"]
             pickedChallenges = group_data["pickedChallenges"]
             characterId = group_data["characterId"]
+            equippedConsumables = group_data["equippedConsumables"]
 
             data["MetadataGroups"].append({
                 "version": 3,
@@ -316,6 +317,7 @@ def get_init_or_get_groups(userid, request_data):
                     "equipment": equipment,
                     "equippedBonuses": equippedBonuses,
                     "pickedChallenges": pickedChallenges,
+                    "equippedConsumables": equippedConsumables,
                     "characterId": characterId,
                     "equippedPowers": equippedPowers,
                     "prestigeLevel": prestige
@@ -578,7 +580,7 @@ def challenges_get_challenges():
 def challenges_execute_challenge_progression_operation_batch():
     check_for_game_client("strict")
     session_cookie = sanitize_input(request.cookies.get("bhvrSession"))
-    userid = session_manager.get_user_id(session_cookie)
+    user_id = session_manager.get_user_id(session_cookie)
     # {
     #    "data":{
     #       "userId":"d7662a88-72f4-4279-a985-c2c6ac0a8404",
@@ -631,21 +633,27 @@ def challenges_execute_challenge_progression_operation_batch():
         data = request.get_json()
         userId = data["data"]["userId"]
         operations = data["data"]["operations"]
+        error_list = []
         for operation in operations:
             challenge_id = operation["challengeId"]
             operation_name = operation["operationName"]
             if operation_name == "complete":
-                # Do something with challenge_id
-                pass
+                ret = update_progression_batch(challenge_id, userId, complete=True)
+                if ret:
+                    pass
+                else:
+                    error_list.append(challenge_id)
             elif operation_name == "save":
                 operation_data = operation["operationData"]
                 value = operation_data["value"]
-                # Do something with value
-        return jsonify({"Id": "AssaultRifleWins_HunterWeekly", "Type": 2, "Title": "Hunter_DroneCharger_Name",
-                        "Body": "Hunter_DroneCharger_DESC", "Progress": 1, "ValueToReach": 10, "TimeLeft": 1440000000,
-                        "ShouldShowCompleteAnimation": True, "Rewards":
-                            [{"Type": "Weekly", "Id": "C90F72FC4D61B1F2FBC73F8A4685EA41", "Amount": 1.0,
-                              "Claimed": False}]})
+                ret = update_progression_batch(challenge_id, userId, value=value)
+                if ret:
+                    pass
+                else:
+                    error_list.append(challenge_id)
+        if error_list:
+            logger.graylog_logger(level="error", handler="executeChallengeProgressionOperationBatch", message=f"Error while saving challenges for {userId} with challenge_ids {error_list}")
+        return "", 204
     except TimeoutError:
         return jsonify({"status": "error"})
     except Exception as e:
@@ -653,7 +661,6 @@ def challenges_execute_challenge_progression_operation_batch():
                               message=e)
 
 
-# idk dont think it works
 @app.route("/api/v1/inventories", methods=["GET"])
 def inventories():
     check_for_game_client("strict")
@@ -1319,15 +1326,35 @@ def update_metadata_group():
                                          "EquippedWeapons": equippedWeapons,
                                          "EquippedBonuses": equippedBonuses,
                                          "pickedChallenges": pickedChallenges,
+                                         "equippedConsumables": equippedConsumables,
                                          "characterId": character_id}}
 
             mongo.write_data_with_list(login=userid, login_steam=False, items_dict=database_dict)
 
         elif reason == "OnRequestCharacterOverrideEvent":
-            # todo Find out what this does and who triggerd it how
-            logger.graylog_logger(level="info",
-                                  handler="updateMetadataGroup",
-                                  message=f"REASON: OnRequestCharacterOverrideEvent, DATA: {data}")
+            character_id = metadata["characterId"]
+            prestige_level = metadata["prestigeLevel"]
+            equipment = metadata["equipment"]
+            equippedPerks = metadata["equippedPerks"]
+            equippedPowers = metadata["equippedPowers"]
+            equippedWeapons = metadata["equippedWeapons"]
+            equippedBonuses = metadata["equippedBonuses"]
+            equippedConsumables = metadata["equippedConsumables"]
+            pickedChallenges = metadata["pickedChallenges"]
+            object_data = mongo.get_data_with_list(login=userid, login_steam=False, items={object_id})
+
+            database_dict = {object_id: {"prestige": prestige_level,
+                                         "experience": object_data[object_id]["experience"],
+                                         "Equipment": equipment,
+                                         "EquippedPerks": equippedPerks,
+                                         "EquippedPowers": equippedPowers,
+                                         "EquippedWeapons": equippedWeapons,
+                                         "EquippedBonuses": equippedBonuses,
+                                         "pickedChallenges": pickedChallenges,
+                                         "equippedConsumables": equippedConsumables,
+                                         "characterId": character_id}}
+
+            mongo.write_data_with_list(login=userid, login_steam=False, items_dict=database_dict)
 
         else:
             logger.graylog_logger(level="error", handler="updateMetadataGroup", message=f"New reason: {reason}")
@@ -1387,6 +1414,10 @@ def inventory_unlock_special_items():
     if 920440 in data and 920440 not in writen_sets:
         unlocked_items.extend(hearts_and_minds_items)
         writen_sets.append(920440)
+    for appid in data:
+        if appid not in [872770, 381210, 1024660, 1083130, 920440]:
+            logger.graylog_logger(level="error", handler="unknown_unlockSpecialItems",
+                                  message=f"Unknown appid {appid} for user {userid}")
 
     for item in unlocked_items:
         if item not in user_inventory["inventory"]:
@@ -1447,15 +1478,17 @@ def reset_prestige():
 def challenges_get_challenge_progression_batch():
     check_for_game_client("strict")
     session_cookie = sanitize_input(request.cookies.get("bhvrSession"))
-    userid = session_manager.get_user_id(session_cookie)
+    user_id = session_manager.get_user_id(session_cookie)
 
     try:
         data = request.get_json()
         challenge_ids = data["data"]["challengeIds"]
         challenge_list = []
+        userid = data["data"]["userId"]
         for challenge in challenge_ids:
-            # todo Add Database Logic
-            challenge_data = get_challenge(challenge)
+            if ":" in challenge:
+                challenge = challenge.split(":")[0]
+            challenge_data = get_progression_batch(challenge, userid)
             if challenge_data:
                 challenge_list.append(challenge_data)
             else:

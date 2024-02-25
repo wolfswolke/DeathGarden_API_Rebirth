@@ -1,274 +1,2134 @@
+raw_challenges = [
+    {"challengeId": 'AAA17F074165BF5D36D1029C127A0D4E',
+     "challengeCompletionValue": 540,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_ConstructDefeats_Runner.Challenge_ConstructDefeats_Runner'},
 
+    {"challengeId": '6D7104C44F1D143B6C7A96B214155193',
+     "challengeCompletionValue": 21,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_DisableDrones_Runner.Challenge_DisableDrones_Runner'},
 
-# What we need
-# GUID
-# Item 3 NAME if Type is GMChallenge (Challenge_RingOut_hunterWeekly)
+    {"challengeId": 'ED1B3E1B4AC3E5D56C670A9F62F07C92',
+     "challengeCompletionValue": 4,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_SurviveAChase_Runner.Challenge_SurviveAChase_Runner'},
 
-# All Challange ids?
-# 8AD5A0194A0528BDC957EFABCFF03CA4
-# AC14BF3547AB708F0D50C58C5440CFEB
-# 290112D94B4F60152BAE088F9E942F1F
-# 8CD20AD04CCF051497216F84AF29A327
-# 35368570459015AD1FD2F9A209909515
-# FF8996344C73AADD1D2C1C9E26BD23EF
-# 83BE1ABF46705544813B42AC257A2A2C
-# 21B04F8E4D93BAE9A3550190FF918AD7
-# A6941C2F42077160B5FFF49887ABD46C
-# 702074B04572D0ECF67FA9BF1AE5DD7E
-# D880BF184B480D714667688CC4D9D6C0
-# EDED745B4523ADC54CD950BD8B238F6B
-# D635E5CE4EEF85664D87F490CF01B01E
-# 6049D85045161D075666E18DE4AFC772
-# C9E2E88A4502470E1146629BBD79A876
-# 50EF445E456459E224013C8E2B24A336
-# 8DAE5C0943DA33C28E82FC92B9644702
-# AACEE7044F69CED52B10F0AF6C70D433
-# 885A5CBE4C36F665FA3296ABDD81D610
-# 44EA40CE43D410AF19A687A993EF7EBC
-# 2A5C401C49DE3F36D0D999983B2C5D98
-# 69371CA0409766B1F0DAAC80A900893A
-# 2675258345FC8734A6CB0E98E02DE88A
-# 077EEED2433E763CEE4657B929E23043
-# 9B3DF194466FF239257F1289F7BC4A71
-# 6E327F42491E3FC4FF0A77A0ECFDBF09
-# FDC959494B25E5982F050DAE6D312DF2
-# 9A0964D947748E6C0338AA9684DF1055
-# A1047B3B49BFBF12313991A8FBB3E215
-# F34255F3443EB1429FCA809DF2DFA012
-# 997A3A384F8156F76E9405ABA503DDEE
-# FBA3C3F3458AAD1B6D8199AF1451FE45
-# 9953E63E44CB478CAD903D82263F72B8
-# A207A3624BEA90AE22A71BA08F529866
-# B54522334820602C6E998D9FD7E785BA
-# 24424E874589E3D4582EF198EE7D1E42
-# AF8CBA94413BCED1445D269F99D3F747
-# ECAEAF9A4A2A0038999D738A7C9E502F
-# 4BDF4B094F7B2FC939E21CA64F95A749
-# A45C7DF44353DDAAF58F1EB1CAF954FF
-# AB8313E24DFB01401DEF5E92219A8965
-# 508182E842C9BEFA20BE5488083716CC
-# 87A39D494DF78A55D012B4BCA091E043
-# 0D884DA743B3AFAA884DD3B7CFF0364D
-# 2C4E3AB94438A43C81D515815ACB4C9D
-# 5FE03903416D3BBE9D2FD592B36809FC
-# 9764321E4BC15FC21F0AD782BB98802A
-# 9D59DA354BB511D4C7EE64B60B546A1B
-# 153C237F41FFA085A7114795F0DB33FC
-# 950524C144BE794AABFFED8142C119B4
-# 9BB2D0A04B6B168325E9A080E84EBD05
-# 15BAB1914646A660541129B61394D930
-# 15317A48494297C052E6EFBB3DA122BF
-# D8DBF1924EAEA4218A2110B54339E020
-# 77B930CE49352D062CCBD0A27C8E0F0A
-# 0901F162440C086DB4E112956F7E651D
-# ACB79B5049C283856BEA039BEF9952A1
-# 499EBA6443A83B4FE1F4F7AFE8EFE66E
-# 269DDC2D41013F0AD817C4ACA0BA139C
-# 836A4FD246B33F91BDC4C3A2608C6289
-# FB53A7E442EA53EA5727E4BA3611F45C
-# 9CD0EEEC4D2D193E168AD78026BFC6E3
-# 229F8DD3420F6E79CBBC5D87FD40243F
-# F531602641251AEE39C024B3F85845FD
-# 067F39B3487120E9110DFFA181AB78B3
-# A00E590E4EB9F479ACE7BD852BCBA78C
-# 9F8EE83B438410496374ADA522F55713
-# 4A63E56745F10564D6111EABB309C47C
-# 608464EC41965D826856CEA1174CD757
-# A00B9E6844C5ABFF86DB4FAA5B81CBC7
-# E239202F452ED0540F4479AFF248A3D4
-# D686CACE4B3C6C55F5BD9A80177D12AE
-# 8894F68B4549F8F096812AB6896D48AC
-# D6C518B242C0F5C6ABDB32984C0970EF
-# 4212C3604C9FD931278E189EB962B5F1
-# 35E18B6B48AC6D8022E13B88A3853F81
-# 2ACEB8984337D2518F010E9337EB656B
-# 6F499FE24C36B15740613AB3200B5B4B
-# 3E4613F84B59697E68DE42A3B0E5F4CB
-# 0DEBB34141DD7D719EE5C199707ED8E4
-# 27A4E81B472948ED80142E8E6749F979
-# A1F03DFD49F4100C2153CEAAF8EAF151
-# 05DFDE95403708570292FE847BBA8EA2
-# CF6113864077974B00CD37B51736426B
-# 72718B874504A50CD3FA4385FB5523FF
-# 99B40C044F75D1324B48DCA4FAC3D5DF
-# FA8F508E40A808178CE740940F817554
-# 85C7B811415DA97C04FB609BE76ACDF0
-# 15C925544AA67E20214C8AB09F5B33E9
-# B78308DF48036BCF914060944AAF4A19
-# 6AFBAEC144C206BDBFD4F0B2216148B6
-# F2D57F3443BF0F1A162ED8AF80A509D7
-# EFAA2DFC4C3AAEE70EB32697013003D7
-# 0EAEAA3C494F4F47A35AF885FDAD8939
-# 674BB4C7477253BA116C8CBE079E27D6
-# 21CBC39E4B2D8C37439881A5879570EC
-# E3F005244D6BE2A392382F8CA270474F
-# 5D2E6D06498C0F005E0EF78E7580AAA9
-# B48B9B9743994F0AA12B82BAF69AE738
-# 2AFA685143848895C024E1B3AF427DE1
-# FB6DFDE94DAE90B29C20F7A65FD4D050
-# 7E173CD547DB59D507CDD492C9F2CB93
-# CDE15380452E06616D377190D2028AB7
-# 1CA09F684C2F4464AA4C158F9BAA72D1
-# BE19828E4910DB01722D3384A491DCAD
-# 6246612A483F1C1D0D9AD48568591FDB
-# A734774F4E6162C9A60C4B9D537D0723
-# C3CEEED74144161D420801B656C5BB8D
-# 9053883B41EBC8D6A9A8CA809D02845A
-# 0A728AD54AF5EAB6CB4356A074F01C1B
-# 1D4401744D1CCCF2CE52628E0A6929A2
-# 786DF18B48F5D69CA1BD558B5240A2EA
-# DE92510443074D9DB518B7A93A3A2FD9
-# 6F9FFCE24EE28E24EEF4C69E8FF69F99
-# 4246C6904E8F91584CE55885C633683E
-# 5E5F70254373FB5C274AD9BA59A49E32
-# AA0018EC4461BE055CF7428554EC046F
-# C3C6528F4CA1D3D4B34235968746C223
-# C8C05D874477C9A9413F9F9BF6BB29E8
-# 310D7A264DC6FD62F67B3BAFE2E6876B
-# 2D233F9F4106D8660D3D5D997E68EC0F
-# 0C7FE4CB479408600F00EDB83279C7D2
-# 8DF21FE8442BD778190141A9C9E06BC6
-# 66E774454A815AE6E2A7FEA0B502ACD7
-# 8D8F602F4D0BFDE7B2A884A97D88F169
-# FF4AA7174BA721EA6B449AA8D7D2B70C
-# D56D259A4F85D29F4F4164B8F27F3BB1
-# 7F3CF15A48BE7AE1948698A7BD718D2E
-# 0E7912E34B0F76F06A54769371A1615A
-# 164FAA5D41B127B316ABAD9E7DAAD674
-# 15EA674043E212F8616A059D5297CB35
-# C08D9F6B4F6414A99BDB569495AA0A9B
-# C40789F0410D07A6DFACCBB46A28EACB
-# 75885A2644B01B3CCA579E8B86159713
-# 831999A04EEA4635762B8A8606F0D4DD
-# DB625B8B415DE703C5DB0698D1969A8E
-# 55B032B147384D04065B39A0CC5D825D
-# 721E2D644D051394207BC492127586CA
-# 734B85884E566BD13FD2BDA148F6055C
-# 7673C2D347769AAB0539D1B57E0928E3
-# F40221D745C692533271C3BDD63633A1
-# 164B28054A2E2DAEC8BF5C820AF4B9B2
-# B0CB575B40C95E09484440B04BA36E08
-# 0A5C2455485A166F60009FA3246504C4
-# C987A00C4AB705897336E1A84899264B
-# 2D426791495793A662D1DBACCFAAE3CC
-# CC8DAF104B0229ADA48CF4A6784CC03A
-# DAFFE67D41200269194C65B9BCD7F32D
-# 00C0407C47E60CDB558C67B153E75DB6
-# E32CC16A47F9C290EC993696079BB6DC
-# 4F99C43949B5CAC87BCEB4877B7FAB64
-# 2F143F5E4568F315134B928703F5E5D8
-# FD314A694D049989202D01BC36269F44
-# 46B1491D436AEBB823247297F4943066
-# 1E01EC5A44B1016ED59E0ABD6C2FAF60
-# F2182D4C49439EEFDB38EAA2F35C5D9C
-# 9878CAFC405F96494869F5AE145254FC
-# 82033B9F4033D82B4392779F3A986F09
-# 24CE65364362CB2A90C0E08876176937
-# DC70D1B746AF456C71FB29BFB27F356E
-# B0B11BDC4AF524274D6171A8BF605CF8
-# 89444BC84AA08F43E29B4DA1EB983561
-# D80A9221429E0A5FCD91DCB002D73482
-# F2C4067544A6B04B10FF6CB2C404BB55
-# 1D7A66E34ECAF02BC243FB880323A6B8
-# FD1AA64E41BA2576DBF566B436C256C6
-# 5879F0FC4892D53FE2195AABA05EDA2A
-# B5F0CB894653B2C56CED9E92C7BB1251
-# 4D6510D3474A414BE76C95A42D09024C
-# F13B9B0F4BF97BB9C7023F90EF1C0594
-# EED2F02B4A55B844E1B682804C84308D
-# F2A11BEC42ED900D1C8F10B90B7D658B
-# CF29BA964B65E429DD2B559A4D335CD3
-# 6B20937348A89A1A9E6CCB9EE09FC4DA
-# FCB391DA4DAD486C8E31EABAE21EB19A
-# 35898FD44E80FD68376F67A560E815BC
-# 3941A0454830CAB53F4C6B993F1BC7B8
-# 86F2BDF74F433C03F8FE62B5C5F47AF9
-# 0FFB7F6A41EBE9C6DB89108D46762F53
-# FA07B43A4338C9246A1B02A7EED39599
-# A1DFB20F48B76A509B424599E30F8A0E
-# 5B9ED08049C7E6777E231D84F4EDBC91
-# 356CFA3942F21C3B64160D9942DF1C52
-# F56098E54E0F19E6F67FB89C42212AB8
-# 5B9CCC03408C7B49717192831A9E4288
-# 43AB4B234479F0002C8D798F583CF6F4
-# C6BA901346B618AB770225B3B48D6509
-# 49C135BD4F919597CF8D3D99F5FC3E79
-# A75399654B2523F75B30BAA3704B5898
-# 444383D34E12F314623320B0E23CA691
-# E4A92BE94DA6CA174AD3F282FA512BA1
-# 03A1382643FC39C99F58C6BB3FF4DB05
-# C327A6394A86400943197881CFF49AD8
-# C78F353F40FF62E7298ECD94086D78D7
-# AB4B4E524F00B197156256AFACE501EF
-# 22B70F5B49B3973D84DD9E9E621987BC
-# 34F4FE4C4825CB2E34D1CD8ADBF43312
-# 0C5A99E44EDD7325ED5BC687F75374DE
-# 48769C24490AE4488D7CCD906E283EEB
-# 72A784C644E05E2631AB88883C1A11B1
-# 0A27212D496448FD389A1DA525E284CE
-# 92B4BBED409F403E37B844879B3AEB7A
-# AC2C19A94926471049C06DA3C519ADE9
-# DFA555C7452D8461CD412DA68D4FB301
-# 37B650F145BF27B3B670CB9D84D58111
-# 0502BFE9440E8A45212F4EBF2023368B
-# E8ED480C4FAD11C001A840AA53B55B4F
-# ECCBA78D4055676F9C17D79B9D5FA2D4
-# E9C46086458C98543BBA0790979E1DF4
-# B2B903254EB0C6ADAD59599C40A3C5FE
-# 4A40EFB44EAC4CDEB16D8B8E7D6ECA8F
-# 919AD6964781C5FFED35F19DF9CB5560
-# 049CDB464DF3A69EA626BF9593DF01F8
-# 1FD7D2EB4616FC6F475D58AA8AF7F93B
-# AC5CED5D4D2F28952117F0B0EA0085E3
-# 400AE859456112F4EB7516A42821AEF3
-# 4C48C95A4ED425708F038591BC28446D
-# 590D3041420289011FB868A89A43F7CF
-# A26AB1694E2CC8669D08CD8E5F4F64BE
-# 2CE18C86481989D772300DAD6D054A0C
-# ABCDD5744A0CB60A8F40FEABD293FE18
-# 2BBECCBD478778B7D2A1B0AED3E46150
-# 4D5CCA7D42CD770262551591FB8D1C62
-# ACE6AD4440EFB8606FAC8282301CDBF5
-# 6AD7B28E48E611BDAD2386940B2790AA
-# B4B156CC47C8D987B9BDBEB910B12C9E
-# 6F53D959409C9C2740F6789E221BCECF
-# E7B6132F461D5850A8D0738D87D54C0A
-# ADA907B24D8DCBD28848F18B6D15FF57
-# AA290B6544528300C0B85A9A6B3FB6F7
-# 7A25ABAE43856F2D5233F5A39CFAF921
-# 0AE15B56425FB92D3301D9932FED9D74
-# F62DA5304F26F2F0FCDFFCB7DBA45398
-# EBF333814F32313057BC0AA50BF880FC
-# 6CAD2AAC4C56C1224448C599A0E16119
-# 5129E6EE4DC7B2DCDF3C96A8E80910F3
-# 6D79A03B4F3E4EDA33FAD69FF55289BA
-# 589168EA42DE8131A4611ABD189B1EEF
-# 59DCADA849BC53D93DD04D9D63EF6351
-# 6871DC8B46D62AEFDE7FDCBC7B1AF9B4
-# 99A6BD974F814624352257B2DDAAC3B7
-# 45D437BD4AD85F9477DD5593AAE9130F
-# AA2DE101478F3F59FBCA7C9B67EB8280
-# 9EFF069F492B3251D37FCD9BB813523C
-# 8BFB3FCD4432176BAAFB90BF65EB6165
-# 605347B34E33EFAB829163AF16B6C0FB
-# 6DFAA85548F1C349CE1E6A9F29188FCF
-# BC7EB2484D54F89131082FBCEDB1F34C
-# E1BB40D145181323071EBBAAC924E4F5
-# EE05AA53420DF8C7E43A1EACB7C407FE
-# 23F0E5E7497912D11C520EA86348C114
-# 4555B2C545C8B41867FB9299306D3108
-# 1D23B53D43864CD2CA8F1990B011DB16
-# 5E661D664FB8560D3519ECA53BB97ED2
-# 0E514F8A467DB3E7DEBF99ABAC2313A0
-# CA2FE47E45EE792DFA26FFA3A30FC0A3
-# 8F2FD32744CCF967D64953B8C27B8B4C
-# 676FAE5145065F8BBA15679F1E969C2B
-# 2ABDC29A4D174CDC114AEBACB898927E
-# 92F65520408CBF8F52028FB3D83C6D5A
-# D33B49BB4F79DE0F6E39BD94DA15FA23
-# 4583917643CA36A950C56CA0FD5EBD82
-# 688EC1704C4EA4BCB18181ADE23E2C3D
-# 32749AFC47E7C872933FC9AB8E76AD61
-# 9A5FDE8841D953C38AA5BBB47EEFB01D
-# EAC4FDA245A1B54CB15BE8926EB62E89
-# 8046419A474EDC58A273FDA473064FF8
+    {"challengeId": 'D23CCD2440F235D959F516A6787B7A71',
+     "challengeCompletionValue": 51,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectAmmo.Challenge_CollectAmmo'},
+
+    {"challengeId": '9D2C755D41ACB426C2042EA6487E1945',
+     "challengeCompletionValue": 6000,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_HunterClose_Runner.Challenge_HunterClose_Runner'},
+
+    {"challengeId": '85D90BCC4147CD43F2044C821D6EB49D',
+     "challengeCompletionValue": 3780,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_ConstructDefeats_Runner.Challenge_ConstructDefeats_Runner'},
+
+    {"challengeId": '23757B8E40899EF1A0E4F7A4686E9D0C',
+     "challengeCompletionValue": 2,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_SurviveAChase_Runner.Challenge_SurviveAChase_Runner'},
+
+    {"challengeId": 'F7A6294144F05769C416A3BBFBE57C22',
+     "challengeCompletionValue": 5,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_DangerClose_Runner.Challenge_DangerClose_Runner'},
+
+    {"challengeId": 'A4E40AF148E7B58E6E58C48291C6297B',
+     "challengeCompletionValue": 27,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectWeaponUpgrades_Runner.Challenge_CollectWeaponUpgrades_Runner'},
+
+    {"challengeId": 'FAF0784740A1FB67281B5092951102F4',
+     "challengeCompletionValue": 9450,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_HunterClose_Runner.Challenge_HunterClose_Runner'},
+
+    {"challengeId": '9E0448E34302A5AB2792159B3055E0F6',
+     "challengeCompletionValue": 500,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_TakeDamage_Runner.Challenge_TakeDamage_Runner'},
+
+    {"challengeId": '8C12E22F4325BC90558D7BA934B93E8B',
+     "challengeCompletionValue": 14000,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Travel_Runner.Challenge_Travel_Runner'},
+
+    {"challengeId": '42723BB44FF9DC6167710EBD3BB1974E',
+     "challengeCompletionValue": 50,
+     "challengeAsset": '/Game/Challenges/Challenge_Deliver_Runner.Challenge_Deliver_Runner'},
+
+    {"challengeId": 'F0151A004C947006E58CE396309648DE',
+     "challengeCompletionValue": 84,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Evade_Runner.Challenge_Evade_Runner'},
+
+    {"challengeId": 'B2058F55486621D39C9E0886337D460E',
+     "challengeCompletionValue": 90,
+     "challengeAsset": '/Game/Challenges/Challenge_Deliver_Runner.Challenge_Deliver_Runner'},
+
+    {"challengeId": '8B99C4B84F34B0F2AF386BBE4BCD789D',
+     "challengeCompletionValue": 4,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_AssistAChase_Runner.Challenge_AssistAChase_Runner'},
+
+    {"challengeId": 'E69B0FAA4F4FAC91B5787F9DB3767BF0',
+     "challengeCompletionValue": 10,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_SurviveAChase_Runner.Challenge_SurviveAChase_Runner'},
+
+    {"challengeId": 'C72716CA47D500773FC92DBCB5255106',
+     "challengeCompletionValue": 14,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectHealthCrates.Challenge_CollectHealthCrates'},
+
+    {"challengeId": '706225D341BDAF02FD2DE489FDAE40FA',
+     "challengeCompletionValue": 1350,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_TeamActions_Runner.Challenge_TeamActions_Runner'},
+
+    {"challengeId": '1270093F4EBCC061941CC9A24487F4BA',
+     "challengeCompletionValue": 35,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_SpendNPI_Runner.Challenge_SpendNPI_Runner'},
+
+    {"challengeId": '3AE829D3417269BA58C78C9B6CE68FC5',
+     "challengeCompletionValue": 972,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_ConstructDefeats_Runner.Challenge_ConstructDefeats_Runner'},
+
+    {"challengeId": '32842C1A49A9FA69F3B59BA9719D9CF0',
+     "challengeCompletionValue": 4,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Exit_Runner.Challenge_Exit_Runner'},
+
+    {"challengeId": '9EC0B6BB467C2BDDEAA4FEB0A82A5539',
+     "challengeCompletionValue": 750,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Heal_Runner.Challenge_Heal_Runner'},
+
+    {"challengeId": '46A33A56458CDBF6C9700296A13AA6C3',
+     "challengeCompletionValue": 105,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectAmmo.Challenge_CollectAmmo'},
+
+    {"challengeId": 'A01881EA449E3C4D41DBAD934AB22597',
+     "challengeCompletionValue": 6300,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Ressources_Runner.Challenge_Ressources_Runner'},
+
+    {"challengeId": '3FA81C43432C4DEA41B6758D0FE8A67A',
+     "challengeCompletionValue": 2,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Exit_Runner.Challenge_Exit_Runner'},
+
+    {"challengeId": '42C825664E99C96FEABA959B232936F8',
+     "challengeCompletionValue": 360,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Climb_Runner.Challenge_Climb_Runner'},
+
+    {"challengeId": '750289504426ADB8B60708AF69B86D0D',
+     "challengeCompletionValue": 51,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectWeaponUpgrades_Runner.Challenge_CollectWeaponUpgrades_Runner'},
+
+    {"challengeId": 'FA0E56EE4F397A01C00EC08098DF5385',
+     "challengeCompletionValue": 125,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_SpendNPI_Runner.Challenge_SpendNPI_Runner'},
+
+    {"challengeId": '164951C94A19DB316632A3A046D9BD65',
+     "challengeCompletionValue": 8400,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_HunterClose_Runner.Challenge_HunterClose_Runner'},
+
+    {"challengeId": '8B5F3CD6462B8F079E9A86ACB18A7E8C',
+     "challengeCompletionValue": 15,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectAmmo.Challenge_CollectAmmo'},
+
+    {"challengeId": '8FB6FB66450F5309051BAD833482623D',
+     "challengeCompletionValue": 3,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_SurviveAChase_Runner.Challenge_SurviveAChase_Runner'},
+
+    {"challengeId": '603C159E423B886BFBDB8DB8B531CEFC',
+     "challengeCompletionValue": 4,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectHealthCrates.Challenge_CollectHealthCrates'},
+
+    {"challengeId": 'C5A3051242EF5CC2075AEDA6737F6A78',
+     "challengeCompletionValue": 85,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_SpendNPI_Runner.Challenge_SpendNPI_Runner'},
+
+    {"challengeId": '0065304F4C997DBC41E1D4B97CB8C862',
+     "challengeCompletionValue": 5,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Exit_Runner.Challenge_Exit_Runner'},
+
+    {"challengeId": '7CF554E54AFF988E8547EF9D9045CE09',
+     "challengeCompletionValue": 105,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectWeaponUpgrades_Runner.Challenge_CollectWeaponUpgrades_Runner'},
+
+    {"challengeId": '5893E0D94DB8A214A95264998BB64F87',
+     "challengeCompletionValue": 1200,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_HunterClose_Runner.Challenge_HunterClose_Runner'},
+
+    {"challengeId": 'F163ED574599F99909E48F9335B3A1EE',
+     "challengeCompletionValue": 1680,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_HunterClose_Runner.Challenge_HunterClose_Runner'},
+
+    {"challengeId": 'D3AB5C05423354AF7CB31091084A7E5A',
+     "challengeCompletionValue": 360,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Climb_Runner.Challenge_Climb_Runner'},
+
+    {"challengeId": 'D073F5084433EA1F7C18DAB318653311',
+     "challengeCompletionValue": 204,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Evade_Runner.Challenge_Evade_Runner'},
+
+    {"challengeId": 'AAD9E4254D00764939666B9DC156C759',
+     "challengeCompletionValue": 2700,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_ConstructDefeats_Runner.Challenge_ConstructDefeats_Runner'},
+
+    {"challengeId": '591522B94F53059CCA6C8D9470B857CF',
+     "challengeCompletionValue": 350,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Mark_Runner.Challenge_Mark_Runner'},
+
+    {"challengeId": '1EFAB0FB46A2A7A21C13B79582DA3266',
+     "challengeCompletionValue": 15,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectAmmo.Challenge_CollectAmmo'},
+
+    {"challengeId": 'ADFE598B4A7C43682E8957BB6DE649E6',
+     "challengeCompletionValue": 21,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectAmmo.Challenge_CollectAmmo'},
+
+    {"challengeId": '7EE014F04125C50B6B6255800EEFAAE3',
+     "challengeCompletionValue": 2430,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_TeamActions_Runner.Challenge_TeamActions_Runner'},
+
+    {"challengeId": 'CBFE70634B82AC7C22CF4F8DAB454492',
+     "challengeCompletionValue": 51,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectWeaponUpgrades_Runner.Challenge_CollectWeaponUpgrades_Runner'},
+
+    {"challengeId": '6AC6D5594F4307C7253B918EABDFF3E0',
+     "challengeCompletionValue": 5,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Exit_Runner.Challenge_Exit_Runner'},
+
+    {"challengeId": 'C7206BC84327B808DF4A76B1A8C324B8',
+     "challengeCompletionValue": 7,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_AssistAChase_Runner.Challenge_AssistAChase_Runner'},
+
+    {"challengeId": 'F7078C8D406048F06C9D3E8CE12DD56B',
+     "challengeCompletionValue": 540,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_ConstructDefeats_Runner.Challenge_ConstructDefeats_Runner'},
+
+    {"challengeId": '66EC672C444D73BD9B47E78D8C904ED6',
+     "challengeCompletionValue": 2,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_BloodMode_Runner.Challenge_BloodMode_Runner'},
+
+    {"challengeId": 'DA7110DE4FF009FCE54AFF82592B5C8D',
+     "challengeCompletionValue": 11340,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Ressources_Runner.Challenge_Ressources_Runner'},
+
+    {"challengeId": 'F1C883B04A1391995B772183648BBD57',
+     "challengeCompletionValue": 85,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_SpendNPI_Runner.Challenge_SpendNPI_Runner'},
+
+    {"challengeId": 'CDE496DC4D0DA4B0496677A341F1AF51',
+     "challengeCompletionValue": 5,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_AssistAChase_Runner.Challenge_AssistAChase_Runner'},
+
+    {"challengeId": 'D5DCCA6E431ACFD7D424828F82A7B61A',
+     "challengeCompletionValue": 105,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_DisableDrones_Runner.Challenge_DisableDrones_Runner'},
+
+    {"challengeId": '0AC000E2483D9DDAF111CB8C694133F0',
+     "challengeCompletionValue": 1,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_BloodMode_Runner.Challenge_BloodMode_Runner'},
+
+    {"challengeId": '4A7FB78F4F530C0B3CCAC59F777777B8',
+     "challengeCompletionValue": 84,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Evade_Runner.Challenge_Evade_Runner'},
+
+    {"challengeId": '6FB16D124A5F585A7BCB148AAEBF596A',
+     "challengeCompletionValue": 27,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectWeaponUpgrades_Runner.Challenge_CollectWeaponUpgrades_Runner'},
+
+    {"challengeId": '45C10C124535F0340C0336B85B316A7E',
+     "challengeCompletionValue": 51,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectAmmo.Challenge_CollectAmmo'},
+
+    {"challengeId": '9DE5C1044206ECBF86F8149D9FFE8EC0',
+     "challengeCompletionValue": 250,
+     "challengeAsset": '/Game/Challenges/Challenge_Deliver_Runner.Challenge_Deliver_Runner'},
+
+    {"challengeId": 'A683FE3949DA091923CD0E831266BB82',
+     "challengeCompletionValue": 14,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectHealthCrates.Challenge_CollectHealthCrates'},
+
+    {"challengeId": 'E468EFA0429FAF9457710BA79A3AE558',
+     "challengeCompletionValue": 1,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_BloodMode_Runner.Challenge_BloodMode_Runner'},
+
+    {"challengeId": '0EB94497403DE9F5D2668DB924C8D101',
+     "challengeCompletionValue": 2800,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Travel_Runner.Challenge_Travel_Runner'},
+
+    {"challengeId": '98F9681D4003C0FB51B9EF930DFB2B3C',
+     "challengeCompletionValue": 972,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_ConstructDefeats_Runner.Challenge_ConstructDefeats_Runner'},
+
+    {"challengeId": '163D4DA246FF4443E97826A31C4A3AC1',
+     "challengeCompletionValue": 9450,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_HunterClose_Runner.Challenge_HunterClose_Runner'},
+
+    {"challengeId": 'E1A9D7B64F8EF23D889B5C80D1A7B806',
+     "challengeCompletionValue": 75,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectAmmo.Challenge_CollectAmmo'},
+
+    {"challengeId": '04F9E7C14939F94BCDA87EB649202CD2',
+     "challengeCompletionValue": 7,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Exit_Runner.Challenge_Exit_Runner'},
+
+    {"challengeId": 'E4DEF0C64FEA1AC7A6BA5F9717A20266',
+     "challengeCompletionValue": 15,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_DisableDrones_Runner.Challenge_DisableDrones_Runner'},
+
+    {"challengeId": '059227104A00630F8A08DBB8CFB6273D',
+     "challengeCompletionValue": 21,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectAmmo.Challenge_CollectAmmo'},
+
+    {"challengeId": '09B0305041CA51C2248975930B1324EC',
+     "challengeCompletionValue": 45,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_SpendNPI_Runner.Challenge_SpendNPI_Runner'},
+
+    {"challengeId": '69CA910845AB81A4CFC4C3B940EEA1A9',
+     "challengeCompletionValue": 4,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_BloodMode_Runner.Challenge_BloodMode_Runner'},
+
+    {"challengeId": '7009CA6E4FF410F3254A678401BA7842',
+     "challengeCompletionValue": 250,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Mark_Runner.Challenge_Mark_Runner'},
+
+    {"challengeId": 'BFADEA9745CCDF83DAE0FC928072D33E',
+     "challengeCompletionValue": 7,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_AssistAChase_Runner.Challenge_AssistAChase_Runner'},
+
+    {"challengeId": '92C3E6EF4FAC78B1C39E7288EE9E1795',
+     "challengeCompletionValue": 2000,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Travel_Runner.Challenge_Travel_Runner'},
+
+    {"challengeId": '9AC18CBF4FF9575E229AECA3B5417A13',
+     "challengeCompletionValue": 140,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_TakeDamage_Runner.Challenge_TakeDamage_Runner'},
+
+    {"challengeId": 'F0052A4947B609EC8AB1E1ADD1A77DC3',
+     "challengeCompletionValue": 2,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_AssistAChase_Runner.Challenge_AssistAChase_Runner'},
+
+    {"challengeId": '6D34DAEE43E5D78968FA199F200D733C',
+     "challengeCompletionValue": 6750,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Ressources_Runner.Challenge_Ressources_Runner'},
+
+    {"challengeId": 'C4D8FAD94D32B38C2FEF01AEEB8B7E01',
+     "challengeCompletionValue": 5,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Exit_Runner.Challenge_Exit_Runner'},
+
+    {"challengeId": 'A183C0D3408DE57E1000F28CA3613929',
+     "challengeCompletionValue": 7,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Exit_Runner.Challenge_Exit_Runner'},
+
+    {"challengeId": '05161C8749F31F177A0BCBAEBCD7AC9B',
+     "challengeCompletionValue": 6300,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Ressources_Runner.Challenge_Ressources_Runner'},
+
+    {"challengeId": '59C019E84AAE0006C937DCB91707FC87',
+     "challengeCompletionValue": 756,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_ConstructDefeats_Runner.Challenge_ConstructDefeats_Runner'},
+
+    {"challengeId": '9949A5D34C3C06041D180EBB040D87A7',
+     "challengeCompletionValue": 3600,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Travel_Runner.Challenge_Travel_Runner'},
+
+    {"challengeId": '1E85903B4CC9099002E3F79AFF06A2DF',
+     "challengeCompletionValue": 7,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectHealthCrates.Challenge_CollectHealthCrates'},
+
+    {"challengeId": '15EA8D7E4BF9757FB8B1FDA103FC2BC0',
+     "challengeCompletionValue": 6000,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_HunterClose_Runner.Challenge_HunterClose_Runner'},
+
+    {"challengeId": '98F402784EB4DBE2B4735FAFA172E275',
+     "challengeCompletionValue": 350,
+     "challengeAsset": '/Game/Challenges/Challenge_Deliver_Runner.Challenge_Deliver_Runner'},
+
+    {"challengeId": 'D922EF45416CD5BCB5C4719593D720D3',
+     "challengeCompletionValue": 15,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_DisableDrones_Runner.Challenge_DisableDrones_Runner'},
+
+    {"challengeId": 'A22145A740EBBECB2B523388EE869A30',
+     "challengeCompletionValue": 756,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_ConstructDefeats_Runner.Challenge_ConstructDefeats_Runner'},
+
+    {"challengeId": 'EEA2A912460118B9CAA06EA9920E76C4',
+     "challengeCompletionValue": 90,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Mark_Runner.Challenge_Mark_Runner'},
+
+    {"challengeId": '8AFC192646EB8D57C0A4518F0F13EFC8',
+     "challengeCompletionValue": 170,
+     "challengeAsset": '/Game/Challenges/Challenge_Deliver_Runner.Challenge_Deliver_Runner'},
+
+    {"challengeId": '1B71DA4E403D35E8B5452F8D3E8A769A',
+     "challengeCompletionValue": 750,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Heal_Runner.Challenge_Heal_Runner'},
+
+    {"challengeId": 'B5DA00184414589945D4EBBE694F7560',
+     "challengeCompletionValue": 9450,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_TeamActions_Runner.Challenge_TeamActions_Runner'},
+
+    {"challengeId": '174C50B54DDC26925C21DF80D6270F0C',
+     "challengeCompletionValue": 25,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_SpendNPI_Runner.Challenge_SpendNPI_Runner'},
+
+    {"challengeId": 'F46A7D004C759979D5E792A31DB57D78',
+     "challengeCompletionValue": 2,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_BloodMode_Runner.Challenge_BloodMode_Runner'},
+
+    {"challengeId": '5D9306164D90E8943FDC22B62381F1B0',
+     "challengeCompletionValue": 27,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectWeaponUpgrades_Runner.Challenge_CollectWeaponUpgrades_Runner'},
+
+    {"challengeId": 'B2E82C2C494AC504CFD276988ED4B8B7',
+     "challengeCompletionValue": 7,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectHealthCrates.Challenge_CollectHealthCrates'},
+
+    {"challengeId": '5B803D4E4B03704131C014BAD8C0AFCA',
+     "challengeCompletionValue": 500,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_TakeDamage_Runner.Challenge_TakeDamage_Runner'},
+
+    {"challengeId": '2AE248D44BF86C4AFF937096385B29A5',
+     "challengeCompletionValue": 14,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_SurviveAChase_Runner.Challenge_SurviveAChase_Runner'},
+
+    {"challengeId": '7896DADB42E5A3F7F7B0D3A3EA7BE835',
+     "challengeCompletionValue": 1200,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_HunterClose_Runner.Challenge_HunterClose_Runner'},
+
+    {"challengeId": '461AB9F64F22C5BA2C0132A703991391',
+     "challengeCompletionValue": 21,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectWeaponUpgrades_Runner.Challenge_CollectWeaponUpgrades_Runner'},
+
+    {"challengeId": 'BCBFD25F44922B3D1B8224BB26FF5C3E',
+     "challengeCompletionValue": 11340,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Ressources_Runner.Challenge_Ressources_Runner'},
+
+    {"challengeId": 'C88D6602411137B4BE090191F882E370',
+     "challengeCompletionValue": 4590,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_TeamActions_Runner.Challenge_TeamActions_Runner'},
+
+    {"challengeId": 'C92343134AC1B78E360372B5FD1A1D12',
+     "challengeCompletionValue": 125,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_SpendNPI_Runner.Challenge_SpendNPI_Runner'},
+
+    {"challengeId": 'DA239E56489929FAF7005394B6DD2AE0',
+     "challengeCompletionValue": 1050,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Heal_Runner.Challenge_Heal_Runner'},
+
+    {"challengeId": 'EF6954524C56AFDF9E56CCB96EE9577B',
+     "challengeCompletionValue": 2000,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Travel_Runner.Challenge_Travel_Runner'},
+
+    {"challengeId": '28C59774451700EBB70E958FC6171D31',
+     "challengeCompletionValue": 5,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_DangerClose_Runner.Challenge_DangerClose_Runner'},
+
+    {"challengeId": 'F762F80847C407137CA3A5B21F591B40',
+     "challengeCompletionValue": 180,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_TakeDamage_Runner.Challenge_TakeDamage_Runner'},
+
+    {"challengeId": 'ABAA68CA4089D15F7EEB08964EB3AAE5',
+     "challengeCompletionValue": 1836,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_ConstructDefeats_Runner.Challenge_ConstructDefeats_Runner'},
+
+    {"challengeId": '2755281243A26C43273AA19C057D5F0B',
+     "challengeCompletionValue": 10,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_SurviveAChase_Runner.Challenge_SurviveAChase_Runner'},
+
+    {"challengeId": '3955701343985CAC238B55B4CD7B5CE7',
+     "challengeCompletionValue": 105,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectAmmo.Challenge_CollectAmmo'},
+
+    {"challengeId": '1546DDAA4853CAA51906F79A5FAD865A',
+     "challengeCompletionValue": 540,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_ConstructDefeats_Runner.Challenge_ConstructDefeats_Runner'},
+
+    {"challengeId": 'FF58FDB64DAD1547B9A7358753B3DF12',
+     "challengeCompletionValue": 5,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_DangerClose_Runner.Challenge_DangerClose_Runner'},
+
+    {"challengeId": '036F25EC4DD408316D952DB676EFF044',
+     "challengeCompletionValue": 45,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_SpendNPI_Runner.Challenge_SpendNPI_Runner'},
+
+    {"challengeId": 'F7AA22B44C90014CB065B5911C578C4C',
+     "challengeCompletionValue": 7,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectHealthCrates.Challenge_CollectHealthCrates'},
+
+    {"challengeId": '997258A24843F1E80DD676BB41B9107B',
+     "challengeCompletionValue": 5,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Exit_Runner.Challenge_Exit_Runner'},
+
+    {"challengeId": 'B4CF103C4717A51624FAC9A7CE22D3F2',
+     "challengeCompletionValue": 7,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_AssistAChase_Runner.Challenge_AssistAChase_Runner'},
+
+    {"challengeId": '169A25E84BF7BE4853B3058303507AAF',
+     "challengeCompletionValue": 15,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectWeaponUpgrades_Runner.Challenge_CollectWeaponUpgrades_Runner'},
+
+    {"challengeId": 'D3D8315247133A0B0D40A69A5E1E6719',
+     "challengeCompletionValue": 84,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Evade_Runner.Challenge_Evade_Runner'},
+
+    {"challengeId": 'A696FEF048FA3384D78B859B2DE741EB',
+     "challengeCompletionValue": 4,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectHealthCrates.Challenge_CollectHealthCrates'},
+
+    {"challengeId": '9BBA3FF4492F32575EC7DEA6A06F7164',
+     "challengeCompletionValue": 340,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_TakeDamage_Runner.Challenge_TakeDamage_Runner'},
+
+    {"challengeId": '38016B1E4F18E86CE5145C8136B5C1FF',
+     "challengeCompletionValue": 500,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_TakeDamage_Runner.Challenge_TakeDamage_Runner'},
+
+    {"challengeId": 'E9EC69E145769F48D2DE78AD5297DC3D',
+     "challengeCompletionValue": 21,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_DangerClose_Runner.Challenge_DangerClose_Runner'},
+
+    {"challengeId": '4E0F23E3412D0A0F24F6F28B4276AE09',
+     "challengeCompletionValue": 15,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectAmmo.Challenge_CollectAmmo'},
+
+    {"challengeId": '4E601129495EC548005489B7F060E30A',
+     "challengeCompletionValue": 2,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_BloodMode_Runner.Challenge_BloodMode_Runner'},
+
+    {"challengeId": '7BF92257432294693A2FD28893AB9976',
+     "challengeCompletionValue": 2160,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_HunterClose_Runner.Challenge_HunterClose_Runner'},
+
+    {"challengeId": '962EE31A423129BF016982B386942B06',
+     "challengeCompletionValue": 85,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_SpendNPI_Runner.Challenge_SpendNPI_Runner'},
+
+    {"challengeId": '1F41D86145B2220958430087F8E4F777',
+     "challengeCompletionValue": 15,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_DangerClose_Runner.Challenge_DangerClose_Runner'},
+
+    {"challengeId": 'B2CF1E1F499B71CACEE56881CD6860E4',
+     "challengeCompletionValue": 350,
+     "challengeAsset": '/Game/Challenges/Challenge_Deliver_Runner.Challenge_Deliver_Runner'},
+
+    {"challengeId": 'E229A5204C58A10236ABBD819855EEAC',
+     "challengeCompletionValue": 60,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Evade_Runner.Challenge_Evade_Runner'},
+
+    {"challengeId": '56B3864846DF674AB111E5A98825CFE9',
+     "challengeCompletionValue": 21,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectWeaponUpgrades_Runner.Challenge_CollectWeaponUpgrades_Runner'},
+
+    {"challengeId": '18B9683744C9F21BAAE84393382E9A72',
+     "challengeCompletionValue": 4,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_SurviveAChase_Runner.Challenge_SurviveAChase_Runner'},
+
+    {"challengeId": 'AABDE5134D9D217100D68885A267539C',
+     "challengeCompletionValue": 4,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_AssistAChase_Runner.Challenge_AssistAChase_Runner'},
+
+    {"challengeId": '6D145AFA4F3DB055AC39168AEDDA94EA',
+     "challengeCompletionValue": 6000,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_HunterClose_Runner.Challenge_HunterClose_Runner'},
+
+    {"challengeId": '065CB5D34EDA174A7BDB0299FBDCA79F',
+     "challengeCompletionValue": 3780,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_ConstructDefeats_Runner.Challenge_ConstructDefeats_Runner'},
+
+    {"challengeId": '19DA7D4B49FB74C397BC72AEC7C0355F',
+     "challengeCompletionValue": 540,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_ConstructDefeats_Runner.Challenge_ConstructDefeats_Runner'},
+
+    {"challengeId": '36EF7149447BD17D1EA6EB9D6CDD78C7',
+     "challengeCompletionValue": 21,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectWeaponUpgrades_Runner.Challenge_CollectWeaponUpgrades_Runner'},
+
+    {"challengeId": '5ED0A6F6444EBCE486CAF78D8B448317',
+     "challengeCompletionValue": 27,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_DisableDrones_Runner.Challenge_DisableDrones_Runner'},
+
+    {"challengeId": 'A1EB501E46B1C338F4A3A395781476AF',
+     "challengeCompletionValue": 170,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Mark_Runner.Challenge_Mark_Runner'},
+
+    {"challengeId": 'C4EE835D4931FCC86E1A20BFF15130D0',
+     "challengeCompletionValue": 10,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_SurviveAChase_Runner.Challenge_SurviveAChase_Runner'},
+
+    {"challengeId": '67238BEC4BE231ACF535F38C23A7266F',
+     "challengeCompletionValue": 420,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Evade_Runner.Challenge_Evade_Runner'},
+
+    {"challengeId": 'E12A636A4634823E381923BD1C1FC8A9',
+     "challengeCompletionValue": 25,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_SpendNPI_Runner.Challenge_SpendNPI_Runner'},
+
+    {"challengeId": '75BF02A64A5C3B68BDAD9E8DBAA56B37',
+     "challengeCompletionValue": 2800,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Travel_Runner.Challenge_Travel_Runner'},
+
+    {"challengeId": 'DBCA16B240902F1B6ECD4E8F0CC94D4A',
+     "challengeCompletionValue": 972,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_ConstructDefeats_Runner.Challenge_ConstructDefeats_Runner'},
+
+    {"challengeId": '872B0B1D4041CCA913357A9F20862E22',
+     "challengeCompletionValue": 4,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_AssistAChase_Runner.Challenge_AssistAChase_Runner'},
+
+    {"challengeId": 'DC365A434E6B15782137379511889DC5',
+     "challengeCompletionValue": 300,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Evade_Runner.Challenge_Evade_Runner'},
+
+    {"challengeId": '55318B5A432DF1D7CDEABF99A7D5395D',
+     "challengeCompletionValue": 14,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectHealthCrates.Challenge_CollectHealthCrates'},
+
+    {"challengeId": '05B53085458EF8914EDFCD9384CEAE03',
+     "challengeCompletionValue": 100,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_TakeDamage_Runner.Challenge_TakeDamage_Runner'},
+
+    {"challengeId": '1CD80000427F00763959A0A6B89976C4',
+     "challengeCompletionValue": 2800,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Travel_Runner.Challenge_Travel_Runner'},
+
+    {"challengeId": 'BA6D4C0544CAC07C2A3DC5809E1BF1D3',
+     "challengeCompletionValue": 360,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Climb_Runner.Challenge_Climb_Runner'},
+
+    {"challengeId": '34CAB3C441A6B009913CD896B2C360E0',
+     "challengeCompletionValue": 4,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_BloodMode_Runner.Challenge_BloodMode_Runner'},
+
+    {"challengeId": 'CD62C97F41A854DE857405B4D60650B5',
+     "challengeCompletionValue": 31500,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Ressources_Runner.Challenge_Ressources_Runner'},
+
+    {"challengeId": '1AE367C443582706BB158990CE887DAC',
+     "challengeCompletionValue": 44100,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Ressources_Runner.Challenge_Ressources_Runner'},
+
+    {"challengeId": '0B6C5E534DB5A4558470498026D141E7',
+     "challengeCompletionValue": 1200,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_HunterClose_Runner.Challenge_HunterClose_Runner'},
+
+    {"challengeId": '3FE930264D67A74322052F9D8F681D3B',
+     "challengeCompletionValue": 2,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Exit_Runner.Challenge_Exit_Runner'},
+
+    {"challengeId": 'F2B9423C42605CAD77E39C80EB763499',
+     "challengeCompletionValue": 108,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Evade_Runner.Challenge_Evade_Runner'},
+
+    {"challengeId": 'DA207F1E42C1A9C646E3829DA5844F43',
+     "challengeCompletionValue": 7,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_SurviveAChase_Runner.Challenge_SurviveAChase_Runner'},
+
+    {"challengeId": 'D5D062F84C15E86C5460BAA05FACCBB1',
+     "challengeCompletionValue": 5,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Exit_Runner.Challenge_Exit_Runner'},
+
+    {"challengeId": 'F93FAAAD499A95DA71FAA2B6E7A9A40D',
+     "challengeCompletionValue": 44100,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Ressources_Runner.Challenge_Ressources_Runner'},
+
+    {"challengeId": '6DDB9CD04AC3650334DAC1B4E2441203',
+     "challengeCompletionValue": 6300,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Ressources_Runner.Challenge_Ressources_Runner'},
+
+    {"challengeId": '8E8832024C6495502620C19553E22C92',
+     "challengeCompletionValue": 35,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_SpendNPI_Runner.Challenge_SpendNPI_Runner'},
+
+    {"challengeId": '2BF407594A478736B9B781BFA63F7D4D',
+     "challengeCompletionValue": 180,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_TakeDamage_Runner.Challenge_TakeDamage_Runner'},
+
+    {"challengeId": '45F1D9A449A00416B1CCA3A3168EE378',
+     "challengeCompletionValue": 6750,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Ressources_Runner.Challenge_Ressources_Runner'},
+
+    {"challengeId": 'F2435C384654B7B302EA589B5A991FC0',
+     "challengeCompletionValue": 75,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectAmmo.Challenge_CollectAmmo'},
+
+    {"challengeId": '4FB5DACD409DEBDA6B98D58CDC7BFADB',
+     "challengeCompletionValue": 175,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_SpendNPI_Runner.Challenge_SpendNPI_Runner'},
+
+    {"challengeId": '2BFEF31440B7397EE8A966BD4665FA54',
+     "challengeCompletionValue": 25,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_SpendNPI_Runner.Challenge_SpendNPI_Runner'},
+
+    {"challengeId": '13F9C0754105DB7C89677CB148CF6B32',
+     "challengeCompletionValue": 84,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Evade_Runner.Challenge_Evade_Runner'},
+
+    {"challengeId": 'CC286C9640A50510B51C4DA5BE3FB302',
+     "challengeCompletionValue": 4,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_SurviveAChase_Runner.Challenge_SurviveAChase_Runner'},
+
+    {"challengeId": '608C4A1D4118B3AB02FC2A9D36D7B924',
+     "challengeCompletionValue": 7,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_SurviveAChase_Runner.Challenge_SurviveAChase_Runner'},
+
+    {"challengeId": '196A8EA1481213547C42D687B89E55C3',
+     "challengeCompletionValue": 5,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_AssistAChase_Runner.Challenge_AssistAChase_Runner'},
+
+    {"challengeId": 'BCAEBA8144F4E2EA5F423C879F3DC2B5',
+     "challengeCompletionValue": 9450,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_TeamActions_Runner.Challenge_TeamActions_Runner'},
+
+    {"challengeId": '97FB5BBC4ACEC49D2CF9429C9D91867C',
+     "challengeCompletionValue": 15,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectWeaponUpgrades_Runner.Challenge_CollectWeaponUpgrades_Runner'},
+
+    {"challengeId": '48151EA64045F7038803C0A9BC0CBD2A',
+     "challengeCompletionValue": 21,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectWeaponUpgrades_Runner.Challenge_CollectWeaponUpgrades_Runner'},
+
+    {"challengeId": '482681A246632681F2422BB5D83C76B4',
+     "challengeCompletionValue": 270,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Heal_Runner.Challenge_Heal_Runner'},
+
+    {"challengeId": '844F97884EEF96B95A3CB79B592FFE5A',
+     "challengeCompletionValue": 4,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_AssistAChase_Runner.Challenge_AssistAChase_Runner'},
+
+    {"challengeId": 'FFC2BF94472CD33CEF3F04A797599B0C',
+     "challengeCompletionValue": 5,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Exit_Runner.Challenge_Exit_Runner'},
+
+    {"challengeId": '8C472D41428C21037BED70BAC405DF83',
+     "challengeCompletionValue": 7,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_BloodMode_Runner.Challenge_BloodMode_Runner'},
+
+    {"challengeId": 'DE506D7146741C14D3E570915C93BAAF',
+     "challengeCompletionValue": 60,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Evade_Runner.Challenge_Evade_Runner'},
+
+    {"challengeId": '43BDD08946497B9092A965969E04F0EF',
+     "challengeCompletionValue": 70,
+     "challengeAsset": '/Game/Challenges/Challenge_Deliver_Runner.Challenge_Deliver_Runner'},
+
+    {"challengeId": '163D880C4F2458C9B0F578ABA4F48829',
+     "challengeCompletionValue": 27,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectWeaponUpgrades_Runner.Challenge_CollectWeaponUpgrades_Runner'},
+
+    {"challengeId": '4352D1CE44E94FE9E83EE9B022765D13',
+     "challengeCompletionValue": 85,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_SpendNPI_Runner.Challenge_SpendNPI_Runner'},
+
+    {"challengeId": '55840FDB4183457E8E9338B42E58FF16',
+     "challengeCompletionValue": 5,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_AssistAChase_Runner.Challenge_AssistAChase_Runner'},
+
+    {"challengeId": 'FEF1EB04436543EC78076FA5B4D683D9',
+     "challengeCompletionValue": 420,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Evade_Runner.Challenge_Evade_Runner'},
+
+    {"challengeId": '66440FF14462830A1430F48E6D208700',
+     "challengeCompletionValue": 540,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_ConstructDefeats_Runner.Challenge_ConstructDefeats_Runner'},
+
+    {"challengeId": '0E2EC800441DAC59B95BA99EB12BE93C',
+     "challengeCompletionValue": 21,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectAmmo.Challenge_CollectAmmo'},
+
+    {"challengeId": 'F3B9AD584485D2922367BA8F27DE5B38',
+     "challengeCompletionValue": 6,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_DangerClose_Runner.Challenge_DangerClose_Runner'},
+
+    {"challengeId": '5BCD08534B40721E037FED9B84A067A5',
+     "challengeCompletionValue": 51,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectAmmo.Challenge_CollectAmmo'},
+
+    {"challengeId": '96854C5744248E69DA6BDCBF1649E50D',
+     "challengeCompletionValue": 5,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_BloodMode_Runner.Challenge_BloodMode_Runner'},
+
+    {"challengeId": '532ABF474B5204C9AE8181AC6229DA4A',
+     "challengeCompletionValue": 105,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_DisableDrones_Runner.Challenge_DisableDrones_Runner'},
+
+    {"challengeId": '3936E915400264F07EFA10B8C86F82EC',
+     "challengeCompletionValue": 2,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_SurviveAChase_Runner.Challenge_SurviveAChase_Runner'},
+
+    {"challengeId": 'E8D73E764734C06F07B26F8CB9216948',
+     "challengeCompletionValue": 2800,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Travel_Runner.Challenge_Travel_Runner'},
+
+    {"challengeId": '8D208A2C48CD0ECB21770F8C4749FEF7',
+     "challengeCompletionValue": 2,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_AssistAChase_Runner.Challenge_AssistAChase_Runner'},
+
+    {"challengeId": '6CE2326B4185086029627FB62A521472',
+     "challengeCompletionValue": 204,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Evade_Runner.Challenge_Evade_Runner'},
+
+    {"challengeId": '4C0003C84B2281BE374C5A9C9CB12138',
+     "challengeCompletionValue": 750,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Heal_Runner.Challenge_Heal_Runner'},
+
+    {"challengeId": '31A25AC44573CA7EB6753DAB6282F085',
+     "challengeCompletionValue": 700,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_TakeDamage_Runner.Challenge_TakeDamage_Runner'},
+
+    {"challengeId": 'FE057AA34C42FA716CDDC6877FE1B794',
+     "challengeCompletionValue": 540,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_ConstructDefeats_Runner.Challenge_ConstructDefeats_Runner'},
+
+    {"challengeId": 'A75663B64E9C7BD673A35F9773BC8A3E',
+     "challengeCompletionValue": 5,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_DangerClose_Runner.Challenge_DangerClose_Runner'},
+
+    {"challengeId": 'A61972474D92FECCCE0E2FA63472A16D',
+     "challengeCompletionValue": 90,
+     "challengeAsset": '/Game/Challenges/Challenge_Deliver_Runner.Challenge_Deliver_Runner'},
+
+    {"challengeId": '779163ED40920922476AE6B089D7DCDE',
+     "challengeCompletionValue": 85,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_SpendNPI_Runner.Challenge_SpendNPI_Runner'},
+
+    {"challengeId": '9452224E4A2EEBF58F7C159BF4597D92',
+     "challengeCompletionValue": 2700,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_ConstructDefeats_Runner.Challenge_ConstructDefeats_Runner'},
+
+    {"challengeId": '654DF5994AEF4407310BFCA2765BCD6A',
+     "challengeCompletionValue": 7,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_AssistAChase_Runner.Challenge_AssistAChase_Runner'},
+
+    {"challengeId": '37E04B7F43CCEA7269C8EF9690DDF59B',
+     "challengeCompletionValue": 25,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_SpendNPI_Runner.Challenge_SpendNPI_Runner'},
+
+    {"challengeId": '037E9EA045EFB79EF804B880B9541F03',
+     "challengeCompletionValue": 756,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_ConstructDefeats_Runner.Challenge_ConstructDefeats_Runner'},
+
+    {"challengeId": 'AC8A90934C381CC44E46E18D8E27B94E',
+     "challengeCompletionValue": 108,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Evade_Runner.Challenge_Evade_Runner'},
+
+    {"challengeId": '0632304440CF07FDABAF89A07024890F',
+     "challengeCompletionValue": 11,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_DangerClose_Runner.Challenge_DangerClose_Runner'},
+
+    {"challengeId": '8385C1F8491ECC0B44A2EDB55AC81125',
+     "challengeCompletionValue": 75,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectAmmo.Challenge_CollectAmmo'},
+
+    {"challengeId": '93C161134CEEAF1AA74228B8182AE6A5',
+     "challengeCompletionValue": 350,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Mark_Runner.Challenge_Mark_Runner'},
+
+    {"challengeId": '600A434C4E3771514A09EEB5ACC557F1',
+     "challengeCompletionValue": 1,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Exit_Runner.Challenge_Exit_Runner'},
+
+    {"challengeId": '79FCC284493740AE837D37A2336AED4D',
+     "challengeCompletionValue": 70,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Mark_Runner.Challenge_Mark_Runner'},
+
+    {"challengeId": 'FD0513C841AFD9088926ABBB475D1258',
+     "challengeCompletionValue": 3600,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Travel_Runner.Challenge_Travel_Runner'},
+
+    {"challengeId": '4CC4E8C24351DA95908B7A90061F9DBB',
+     "challengeCompletionValue": 4,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Exit_Runner.Challenge_Exit_Runner'},
+
+    {"challengeId": '9BE2C2F94A9D727AB2AC3685AB1F7330',
+     "challengeCompletionValue": 75,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectAmmo.Challenge_CollectAmmo'},
+
+    {"challengeId": '6DB4EB1E41636E83312DEE89FB2CF44E',
+     "challengeCompletionValue": 21,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_DangerClose_Runner.Challenge_DangerClose_Runner'},
+
+    {"challengeId": 'E0696E684104FF90CC56A5BB45B83307',
+     "challengeCompletionValue": 200,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Climb_Runner.Challenge_Climb_Runner'},
+
+    {"challengeId": '6DC50A604D67748F1E02B8A70E110A03',
+     "challengeCompletionValue": 756,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_ConstructDefeats_Runner.Challenge_ConstructDefeats_Runner'},
+
+    {"challengeId": '5E9B862549B2552585A2F5AD25FCEA40',
+     "challengeCompletionValue": 108,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Evade_Runner.Challenge_Evade_Runner'},
+
+    {"challengeId": '4BBB62A34BB22D602520158BCBCD2CCF',
+     "challengeCompletionValue": 1836,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_ConstructDefeats_Runner.Challenge_ConstructDefeats_Runner'},
+
+    {"challengeId": '17D51EAC4D124D764233798151969128',
+     "challengeCompletionValue": 125,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_SpendNPI_Runner.Challenge_SpendNPI_Runner'},
+
+    {"challengeId": '0E14CAE941FDE3DE234EACA60EA8EACC',
+     "challengeCompletionValue": 105,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectWeaponUpgrades_Runner.Challenge_CollectWeaponUpgrades_Runner'},
+
+    {"challengeId": '45FA8D83455CD3861CD46181FABE5A52',
+     "challengeCompletionValue": 1,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_BloodMode_Runner.Challenge_BloodMode_Runner'},
+
+    {"challengeId": '9B82F45946C61F6529F9DE9D9CDA95C7',
+     "challengeCompletionValue": 70,
+     "challengeAsset": '/Game/Challenges/Challenge_Deliver_Runner.Challenge_Deliver_Runner'},
+
+    {"challengeId": 'A186C08A4373196CCFE03885412E6231',
+     "challengeCompletionValue": 90,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Mark_Runner.Challenge_Mark_Runner'},
+
+    {"challengeId": '6B21EED64756586CFE550986146D6BA8',
+     "challengeCompletionValue": 85,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_SpendNPI_Runner.Challenge_SpendNPI_Runner'},
+
+    {"challengeId": '018DCE9D474FDC62EDFB76851A80B4FC',
+     "challengeCompletionValue": 5,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Exit_Runner.Challenge_Exit_Runner'},
+
+    {"challengeId": '7877F66546938C9F36B1C5AA35BB2665',
+     "challengeCompletionValue": 3780,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_ConstructDefeats_Runner.Challenge_ConstructDefeats_Runner'},
+
+    {"challengeId": '7ABF3C314F7B2F0394F7FE99D74FB0B5',
+     "challengeCompletionValue": 2,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_SurviveAChase_Runner.Challenge_SurviveAChase_Runner'},
+
+    {"challengeId": '4E5D3FA14E5FC13EF4D153B36DEB2F44',
+     "challengeCompletionValue": 3,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_SurviveAChase_Runner.Challenge_SurviveAChase_Runner'},
+
+    {"challengeId": '64EF2715495A57ED33EC0F9746E8C340',
+     "challengeCompletionValue": 6,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_DangerClose_Runner.Challenge_DangerClose_Runner'},
+
+    {"challengeId": '6C79957240AB9A6194AAC09909BD463E',
+     "challengeCompletionValue": 170,
+     "challengeAsset": '/Game/Challenges/Challenge_Deliver_Runner.Challenge_Deliver_Runner'},
+
+    {"challengeId": '8C25E8284FF576AE31B37BB5CA44C968',
+     "challengeCompletionValue": 75,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_DisableDrones_Runner.Challenge_DisableDrones_Runner'},
+
+    {"challengeId": '6850CB1D45C2E8FED39C9D888420EF29',
+     "challengeCompletionValue": 7,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_AssistAChase_Runner.Challenge_AssistAChase_Runner'},
+
+    {"challengeId": '6712657D4D850CA80C75868B4316F2D2',
+     "challengeCompletionValue": 1,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_BloodMode_Runner.Challenge_BloodMode_Runner'},
+
+    {"challengeId": 'AA7AC9BD47C52C590778199B3B62F8F8',
+     "challengeCompletionValue": 84,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Evade_Runner.Challenge_Evade_Runner'},
+
+    {"challengeId": 'DEA988464ADB1ABC692BB8A9D882B0E0',
+     "challengeCompletionValue": 90,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Mark_Runner.Challenge_Mark_Runner'},
+
+    {"challengeId": 'E488E10444690F84DC417CAD56249018',
+     "challengeCompletionValue": 1836,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_ConstructDefeats_Runner.Challenge_ConstructDefeats_Runner'},
+
+    {"challengeId": 'BB0BC1A047EE6D25A1B32490785D6B9B',
+     "challengeCompletionValue": 750,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Heal_Runner.Challenge_Heal_Runner'},
+
+    {"challengeId": '56B3B1024D63C067DC59439F277413BF',
+     "challengeCompletionValue": 175,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_SpendNPI_Runner.Challenge_SpendNPI_Runner'},
+
+    {"challengeId": 'EAEBE1294401AF40714DE792A97A70D1',
+     "challengeCompletionValue": 50,
+     "challengeAsset": '/Game/Challenges/Challenge_Deliver_Runner.Challenge_Deliver_Runner'},
+
+    {"challengeId": '8275929343583667137F81B4A4D795C6',
+     "challengeCompletionValue": 280,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Climb_Runner.Challenge_Climb_Runner'},
+
+    {"challengeId": '126C948848F1E740565FEAA9A8893B0E',
+     "challengeCompletionValue": 180,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_TakeDamage_Runner.Challenge_TakeDamage_Runner'},
+
+    {"challengeId": '0FF59116401E217A44A27FBE02796DCC',
+     "challengeCompletionValue": 51,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectAmmo.Challenge_CollectAmmo'},
+
+    {"challengeId": '3C87B22B42626E1E3A5CB88799351D08',
+     "challengeCompletionValue": 2700,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_ConstructDefeats_Runner.Challenge_ConstructDefeats_Runner'},
+
+    {"challengeId": '4E693EF14DC18A4B91DB959546DE983B',
+     "challengeCompletionValue": 420,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Evade_Runner.Challenge_Evade_Runner'},
+
+    {"challengeId": 'FBFAB7964EF765CD355EA982118C10B1',
+     "challengeCompletionValue": 1,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Exit_Runner.Challenge_Exit_Runner'},
+
+    {"challengeId": '8EBB2B90481482237E1095BE49E6B8FB',
+     "challengeCompletionValue": 5,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_DangerClose_Runner.Challenge_DangerClose_Runner'},
+
+    {"challengeId": 'D77235244F6877FF7165F3A8D12C60C8',
+     "challengeCompletionValue": 11340,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Ressources_Runner.Challenge_Ressources_Runner'},
+
+    {"challengeId": '4539060D4C54FA6B5246419D5C47645D',
+     "challengeCompletionValue": 340,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_TakeDamage_Runner.Challenge_TakeDamage_Runner'},
+
+    {"challengeId": 'FCBB6FFF4CC2B6BCAD96F79BD42875BB',
+     "challengeCompletionValue": 75,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectWeaponUpgrades_Runner.Challenge_CollectWeaponUpgrades_Runner'},
+
+    {"challengeId": '95A4EC1C4DADBAC0CBDBCEBB23945A82',
+     "challengeCompletionValue": 350,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Mark_Runner.Challenge_Mark_Runner'},
+
+    {"challengeId": '78A3F70740D1BFE21A5187BBB4C16C21',
+     "challengeCompletionValue": 100,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_TakeDamage_Runner.Challenge_TakeDamage_Runner'},
+
+    {"challengeId": 'DEE3F0534C4959950B4C9E863BEE20FA',
+     "challengeCompletionValue": 280,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Climb_Runner.Challenge_Climb_Runner'},
+
+    {"challengeId": 'BA517A924215D22F9D848A809533BF9F',
+     "challengeCompletionValue": 2,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Exit_Runner.Challenge_Exit_Runner'},
+
+    {"challengeId": 'ECF222BA4AF4135BDD057CBE874905F7',
+     "challengeCompletionValue": 4,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_AssistAChase_Runner.Challenge_AssistAChase_Runner'},
+
+    {"challengeId": '3E87EE0040170F507B236BB749EA5E04',
+     "challengeCompletionValue": 500,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_TakeDamage_Runner.Challenge_TakeDamage_Runner'},
+
+    {"challengeId": 'B43B27124C8262C43CDBD68A4F487333',
+     "challengeCompletionValue": 7,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_AssistAChase_Runner.Challenge_AssistAChase_Runner'},
+
+    {"challengeId": '417F869543A501F0C5F6958D910A1BC7',
+     "challengeCompletionValue": 2000,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Travel_Runner.Challenge_Travel_Runner'},
+
+    {"challengeId": '03D2B11A476DA71E762F1F996B5CF9AA',
+     "challengeCompletionValue": 756,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_ConstructDefeats_Runner.Challenge_ConstructDefeats_Runner'},
+
+    {"challengeId": 'B97C6AB24306EB77966A308E052C80E9',
+     "challengeCompletionValue": 90,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Mark_Runner.Challenge_Mark_Runner'},
+
+    {"challengeId": 'B3D273EA468C2DF124DC268105223A38',
+     "challengeCompletionValue": 7,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_SurviveAChase_Runner.Challenge_SurviveAChase_Runner'},
+
+    {"challengeId": '6E3643024C2BF7992605B88840448509',
+     "challengeCompletionValue": 75,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectAmmo.Challenge_CollectAmmo'},
+
+    {"challengeId": 'F97623484222025061C10AAA9548E938',
+     "challengeCompletionValue": 105,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectWeaponUpgrades_Runner.Challenge_CollectWeaponUpgrades_Runner'},
+
+    {"challengeId": '316E9D0A4E348A899F817AB8BC241E3D',
+     "challengeCompletionValue": 15,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectAmmo.Challenge_CollectAmmo'},
+
+    {"challengeId": '884E5E144DD86D127A9797843A2E68CA',
+     "challengeCompletionValue": 756,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_ConstructDefeats_Runner.Challenge_ConstructDefeats_Runner'},
+
+    {"challengeId": '2C6E39CF473498C302D52B85F70EBAC2',
+     "challengeCompletionValue": 27,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_DisableDrones_Runner.Challenge_DisableDrones_Runner'},
+
+    {"challengeId": 'D6E984B643404F1C4A1CA2984781A0FC',
+     "challengeCompletionValue": 340,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_TakeDamage_Runner.Challenge_TakeDamage_Runner'},
+
+    {"challengeId": 'DEA0380D492D525CB81599A50177194D',
+     "challengeCompletionValue": 10,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_SurviveAChase_Runner.Challenge_SurviveAChase_Runner'},
+
+    {"challengeId": '07641C70428A2A5FF41FB3B76462B50B',
+     "challengeCompletionValue": 350,
+     "challengeAsset": '/Game/Challenges/Challenge_Deliver_Runner.Challenge_Deliver_Runner'},
+
+    {"challengeId": 'B673DBAC4CF237CA7D8829A036CC4033',
+     "challengeCompletionValue": 6300,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Ressources_Runner.Challenge_Ressources_Runner'},
+
+    {"challengeId": '3B9D178F44BC35FB6653D9BB506ADCE6',
+     "challengeCompletionValue": 35,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_SpendNPI_Runner.Challenge_SpendNPI_Runner'},
+
+    {"challengeId": '8B3805374EF3064CC22DCDA64C8DE521',
+     "challengeCompletionValue": 180,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_TakeDamage_Runner.Challenge_TakeDamage_Runner'},
+
+    {"challengeId": 'C7D626DC4A901421DBD141BD4E0B09D7',
+     "challengeCompletionValue": 340,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_TakeDamage_Runner.Challenge_TakeDamage_Runner'},
+
+    {"challengeId": 'AB874CEB4D2D591A08DF5EA669B1454F',
+     "challengeCompletionValue": 10,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_SurviveAChase_Runner.Challenge_SurviveAChase_Runner'},
+
+    {"challengeId": '325A9E5F41061F3BC834DCA2DCEA3A9D',
+     "challengeCompletionValue": 21,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_DangerClose_Runner.Challenge_DangerClose_Runner'},
+
+    {"challengeId": 'FFD721B046320248FE855B81A7DF887A',
+     "challengeCompletionValue": 3,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_DangerClose_Runner.Challenge_DangerClose_Runner'},
+
+    {"challengeId": '96F279AE44DF7A95A613AD895AFE37E1',
+     "challengeCompletionValue": 70,
+     "challengeAsset": '/Game/Challenges/Challenge_Deliver_Runner.Challenge_Deliver_Runner'},
+
+    {"challengeId": '6E1578164A5F12779AE1929F152C3CB1',
+     "challengeCompletionValue": 2,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_AssistAChase_Runner.Challenge_AssistAChase_Runner'},
+
+    {"challengeId": '3659C7134DC957B2D8AF208032E9998D',
+     "challengeCompletionValue": 6750,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Ressources_Runner.Challenge_Ressources_Runner'},
+
+    {"challengeId": '879DCA4241B115AD2FA4C7800EC1F860',
+     "challengeCompletionValue": 300,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Evade_Runner.Challenge_Evade_Runner'},
+
+    {"challengeId": '5BFB317F48E7D4307FF26C9351A25CCF',
+     "challengeCompletionValue": 14,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_SurviveAChase_Runner.Challenge_SurviveAChase_Runner'},
+
+    {"challengeId": '912F3EA64C0BBD18054E4DB964439DB9',
+     "challengeCompletionValue": 1,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_BloodMode_Runner.Challenge_BloodMode_Runner'},
+
+    {"challengeId": '554E1F1043510A52E2EBDEB0C8E73FBB',
+     "challengeCompletionValue": 756,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_ConstructDefeats_Runner.Challenge_ConstructDefeats_Runner'},
+
+    {"challengeId": '101B66194A4A111DBFCC82AE6ADBD75E',
+     "challengeCompletionValue": 2,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Exit_Runner.Challenge_Exit_Runner'},
+
+    {"challengeId": '3D4E59A14FC9E887D46E779BE2C25D43',
+     "challengeCompletionValue": 1836,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_ConstructDefeats_Runner.Challenge_ConstructDefeats_Runner'},
+
+    {"challengeId": '60B1BFC741B502E8E2F88791738C54E4',
+     "challengeCompletionValue": 300,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Evade_Runner.Challenge_Evade_Runner'},
+
+    {"challengeId": '271D018B46A39EA1CB3E409645913280',
+     "challengeCompletionValue": 14000,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Travel_Runner.Challenge_Travel_Runner'},
+
+    {"challengeId": '1BFB28584EB0F872D278F28971BE0AA0',
+     "challengeCompletionValue": 540,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_ConstructDefeats_Runner.Challenge_ConstructDefeats_Runner'},
+
+    {"challengeId": '88F917094F77F0F610050998E5DD4157',
+     "challengeCompletionValue": 140,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_TakeDamage_Runner.Challenge_TakeDamage_Runner'},
+
+    {"challengeId": '82DEF8AE4575062516E595A9358DB330',
+     "challengeCompletionValue": 11340,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Ressources_Runner.Challenge_Ressources_Runner'},
+
+    {"challengeId": '44D5F8254E63B6BE535B899418DB18C3',
+     "challengeCompletionValue": 85,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_SpendNPI_Runner.Challenge_SpendNPI_Runner'},
+
+    {"challengeId": '3CF6BB164AA978CC477B43A3BAC27931',
+     "challengeCompletionValue": 2700,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_ConstructDefeats_Runner.Challenge_ConstructDefeats_Runner'},
+
+    {"challengeId": 'D1A234104ECDBECAC65F189B23DE6628',
+     "challengeCompletionValue": 44100,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Ressources_Runner.Challenge_Ressources_Runner'},
+
+    {"challengeId": 'DCB92FCC42BE9D370AE3319C884492C9',
+     "challengeCompletionValue": 3000,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Travel_Hunter.Challenge_Travel_Hunter'},
+
+    {"challengeId": 'DFA32F29462005F463753DB1AFF45363',
+     "challengeCompletionValue": 35,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_HackCrates_Hunter.Challenge_HackCrates_Hunter'},
+
+    {"challengeId": 'B8D4D5F04BB6B46F717E5BA9BCAB19DD',
+     "challengeCompletionValue": 216,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_RingOut_Hunter.Challenge_RingOut_Hunter'},
+
+    {"challengeId": '416AFD98439DB116F6814C8803CC9D5B',
+     "challengeCompletionValue": 51,
+     "challengeAsset": '/Game/Challenges/Challenge_DroneCharger_Hunter.Challenge_DroneCharger_Hunter'},
+
+    {"challengeId": '90DF801D4F63346716A817890113A4A0',
+     "challengeCompletionValue": 42000,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Downing_Hunter.Challenge_Downing_Hunter'},
+
+    {"challengeId": '614BA77749DCB088EF3864BC9D39E060',
+     "challengeCompletionValue": 52500,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Execution_Hunter.Challenge_Execution_Hunter'},
+
+    {"challengeId": '8DE146FD4E7B54928DC03E8FA520E839',
+     "challengeCompletionValue": 7500,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Execution_Hunter.Challenge_Execution_Hunter'},
+
+    {"challengeId": '4CEAC318465B9DCE0F5299978BE5BB19',
+     "challengeCompletionValue": 35,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Reveal_Hunter.Challenge_Reveal_Hunter'},
+
+    {"challengeId": '9B87F77F4D4102244FA088AD12641BD0',
+     "challengeCompletionValue": 2,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_LastMAnStanding_Hunter.Challenge_LastManStanding_Hunter'},
+
+    {"challengeId": '95ED5B054FA37DD50DBB769A3D7BEF11',
+     "challengeCompletionValue": 5100,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Hacking_Hunter.Challenge_Hacking_Hunter'},
+
+    {"challengeId": '047123084261A40C69363798C33B11D4',
+     "challengeCompletionValue": 15000,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Travel_Hunter.Challenge_Travel_Hunter'},
+
+    {"challengeId": '60E619B54B23CCD46C103F9DB2C1C429',
+     "challengeCompletionValue": 105,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectAmmo.Challenge_CollectAmmo'},
+
+    {"challengeId": '6E7FE9EC4D10F936A6AEB1A614DE31F9',
+     "challengeCompletionValue": 120,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_RingOut_Hunter.Challenge_RingOut_Hunter'},
+
+    {"challengeId": 'B8A3998A4E1561254EB97DA431228316',
+     "challengeCompletionValue": 2100,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Drones_Hunter.Challenge_Drones_Hunter'},
+
+    {"challengeId": '820E1F864C7374462FA94DB4F41C6F79',
+     "challengeCompletionValue": 13500,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Execution_Hunter.Challenge_Execution_Hunter'},
+
+    {"challengeId": '55CE30D243A0A202B654BAB29F9964E0',
+     "challengeCompletionValue": 25500,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Execution_Hunter.Challenge_Execution_Hunter'},
+
+    {"challengeId": '5776CC20434CD8C6508E178FEDED520D',
+     "challengeCompletionValue": 7500,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Hacking_Hunter.Challenge_Hacking_Hunter'},
+
+    {"challengeId": 'F036A4E44BA16494AF6888AB659B75D7',
+     "challengeCompletionValue": 105,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectAmmo.Challenge_CollectAmmo'},
+
+    {"challengeId": 'D484B4534A0F7502BB7A56BB3339C10B',
+     "challengeCompletionValue": 5,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Aim_Hunter.Challenge_Aim_Hunter'},
+
+    {"challengeId": '0E56E8834E4492D6F60CB89D0D253DE2',
+     "challengeCompletionValue": 1680,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Damage_Hunter.Challenge_Damage_Hunter'},
+
+    {"challengeId": '30A47EA040A97112034A4A8323B946F8',
+     "challengeCompletionValue": 216,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Supercharge_Hunter.Challenge_Supercharge_Hunter'},
+
+    {"challengeId": '2A71B42A461617A5AEBD30874A9F9C07',
+     "challengeCompletionValue": 5100,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Hacking_Hunter.Challenge_Hacking_Hunter'},
+
+    {"challengeId": '71598BEC466C1C3E0C0DF7B6EDCD5843',
+     "challengeCompletionValue": 42000,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Downing_Hunter.Challenge_Downing_Hunter'},
+
+    {"challengeId": 'AF8E633540C03ECBEE17A5AF815EC0B9',
+     "challengeCompletionValue": 52500,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Execution_Hunter.Challenge_Execution_Hunter'},
+
+    {"challengeId": 'AB6D78814C4140A9FC12CDBD5E337906',
+     "challengeCompletionValue": 5,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Aim_Hunter.Challenge_Aim_Hunter'},
+
+    {"challengeId": 'B35772FB48CBB381E9FC55BF303E68C3',
+     "challengeCompletionValue": 10500,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Execution_Hunter.Challenge_Execution_Hunter'},
+
+    {"challengeId": 'B0F4E6874472ACB92722D2B08DA59FB0',
+     "challengeCompletionValue": 45,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Reveal_Hunter.Challenge_Reveal_Hunter'},
+
+    {"challengeId": '5A7B97CA46EEA18FF3A4BBAD8DC239C3',
+     "challengeCompletionValue": 5100,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Hacking_Hunter.Challenge_Hacking_Hunter'},
+
+    {"challengeId": '9FAF17A449CBAC432BC2098994E11E18',
+     "challengeCompletionValue": 7500,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Drones_Hunter.Challenge_Drones_Hunter'},
+
+    {"challengeId": '5217BAB947FB58408AB3E4AB2EAD78AC',
+     "challengeCompletionValue": 105,
+     "challengeAsset": '/Game/Challenges/Challenge_DroneCharger_Hunter.Challenge_DroneCharger_Hunter'},
+
+    {"challengeId": '61CB73574BAC0C69429A6F86B30133F1',
+     "challengeCompletionValue": 120,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_RingOut_Hunter.Challenge_RingOut_Hunter'},
+
+    {"challengeId": 'CF0119DD4AE1F82068AB18A1FB115D02',
+     "challengeCompletionValue": 35,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Reveal_Hunter.Challenge_Reveal_Hunter'},
+
+    {"challengeId": '3368F739404426559F6A3A873CEE5DF0',
+     "challengeCompletionValue": 18,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Stomp_Hunter.Challenge_Stomp_Hunter'},
+
+    {"challengeId": 'BFA738BE496B18463927A2ACF0D26703',
+     "challengeCompletionValue": 34,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Stomp_Hunter.Challenge_Stomp_Hunter'},
+
+    {"challengeId": 'BD7BDDE448067BF3591405B1C374EA10',
+     "challengeCompletionValue": 25,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Aim_Hunter.Challenge_Aim_Hunter'},
+
+    {"challengeId": 'ED4D6914411F2EA9BDA50FA8D8A90A73',
+     "challengeCompletionValue": 175,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Reveal_Hunter.Challenge_Reveal_Hunter'},
+
+    {"challengeId": '361E338845BD912078DBAC8564662A37',
+     "challengeCompletionValue": 7500,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Execution_Hunter.Challenge_Execution_Hunter'},
+
+    {"challengeId": '8FEA3CC74C199D8847AF4F8BDF36066E',
+     "challengeCompletionValue": 1680,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Damage_Hunter.Challenge_Damage_Hunter'},
+
+    {"challengeId": 'D4FD0A5F4EF1C68E2D0E90A3DFE7F25E',
+     "challengeCompletionValue": 27,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectAmmo.Challenge_CollectAmmo'},
+
+    {"challengeId": 'D48C17EE4CDC2BE8736663B030771D01',
+     "challengeCompletionValue": 25500,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Execution_Hunter.Challenge_Execution_Hunter'},
+
+    {"challengeId": 'D15A648945D87D6910551D95377FB676',
+     "challengeCompletionValue": 600,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_RingOut_Hunter.Challenge_RingOut_Hunter'},
+
+    {"challengeId": '82F9285940925F3CF4E9B89C636948C6',
+     "challengeCompletionValue": 105,
+     "challengeAsset": '/Game/Challenges/Challenge_DroneCharger_Hunter.Challenge_DroneCharger_Hunter'},
+
+    {"challengeId": 'AF49E8854AF90258FB0CB5925F1280C5',
+     "challengeCompletionValue": 120,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Supercharge_Hunter.Challenge_Supercharge_Hunter'},
+
+    {"challengeId": '6B2465894CC277B984F3609CB9F1B173',
+     "challengeCompletionValue": 10500,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Execution_Hunter.Challenge_Execution_Hunter'},
+
+    {"challengeId": 'B3C2A4C3488C5F8DAC236DB50C006776',
+     "challengeCompletionValue": 2700,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Drones_Hunter.Challenge_Drones_Hunter'},
+
+    {"challengeId": 'CA3C76284F80887C3F6B0D8181D6C6DE',
+     "challengeCompletionValue": 25500,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Execution_Hunter.Challenge_Execution_Hunter'},
+
+    {"challengeId": '4F68D0A7426CE06A7B9FFC840F9270D7',
+     "challengeCompletionValue": 75,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectHealthCrates.Challenge_CollectHealthCrates'},
+
+    {"challengeId": '1F3F32ED4BDEFAA0F63690AE73CC762F',
+     "challengeCompletionValue": 105,
+     "challengeAsset": '/Game/Challenges/Challenge_DroneCharger_Hunter.Challenge_DroneCharger_Hunter'},
+
+    {"challengeId": '261E4A0747E2258D4092A396EB3920B6',
+     "challengeCompletionValue": 25,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_HackCrates_Hunter.Challenge_HackCrates_Hunter'},
+
+    {"challengeId": 'B9B28EFE4720ED2B85535AABBE01E9F1',
+     "challengeCompletionValue": 10500,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Execution_Hunter.Challenge_Execution_Hunter'},
+
+    {"challengeId": '8675C8554E7921F9BD0B318BD3AFC1D5',
+     "challengeCompletionValue": 9,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Aim_Hunter.Challenge_Aim_Hunter'},
+
+    {"challengeId": '129D557E45C35D65A445E98638975713',
+     "challengeCompletionValue": 408,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Supercharge_Hunter.Challenge_Supercharge_Hunter'},
+
+    {"challengeId": 'DA2804E64DDD361AAA095DAE73A4FE25',
+     "challengeCompletionValue": 6000,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Damage_Hunter.Challenge_Damage_Hunter'},
+
+    {"challengeId": '38618C9E4079EF8897AF5786D6A5BBE5',
+     "challengeCompletionValue": 10500,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Drones_Hunter.Challenge_Drones_Hunter'},
+
+    {"challengeId": '8BBB61AE4E06E378D5185BABBCE65CB8',
+     "challengeCompletionValue": 1500,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Drones_Hunter.Challenge_Drones_Hunter'},
+
+    {"challengeId": '2A69969E448A6C46A551C1981D44CC3B',
+     "challengeCompletionValue": 10500,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Execution_Hunter.Challenge_Execution_Hunter'},
+
+    {"challengeId": '31CBC6644EC11C787107B1980C26D62F',
+     "challengeCompletionValue": 9,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Aim_Hunter.Challenge_Aim_Hunter'},
+
+    {"challengeId": 'B10B10924C71861914FA16BDFFF349D8',
+     "challengeCompletionValue": 408,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_RingOut_Hunter.Challenge_RingOut_Hunter'},
+
+    {"challengeId": '39763AE84036C7853B4AAAA91841E434',
+     "challengeCompletionValue": 25,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Aim_Hunter.Challenge_Aim_Hunter'},
+
+    {"challengeId": '7D49C57A4C5960EC4763DB85EE245A3A',
+     "challengeCompletionValue": 105,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectHealthCrates.Challenge_CollectHealthCrates'},
+
+    {"challengeId": 'F792E9BE4393B5D5409A66B1BBE6BE13',
+     "challengeCompletionValue": 15,
+     "challengeAsset": '/Game/Challenges/Challenge_DroneCharger_Hunter.Challenge_DroneCharger_Hunter'},
+
+    {"challengeId": 'C1AA03EC4189571DB33EB0A314F99A06',
+     "challengeCompletionValue": 2100,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Hacking_Hunter.Challenge_Hacking_Hunter'},
+
+    {"challengeId": '459D254C4321A84AF894D39057AD8878',
+     "challengeCompletionValue": 27,
+     "challengeAsset": '/Game/Challenges/Challenge_DroneCharger_Hunter.Challenge_DroneCharger_Hunter'},
+
+    {"challengeId": '9C854EA94D3184FB6C3E97A3C8E5127D',
+     "challengeCompletionValue": 5100,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Drones_Hunter.Challenge_Drones_Hunter'},
+
+    {"challengeId": '6DB47CD642558C1E93525680F3272846',
+     "challengeCompletionValue": 125,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_HackCrates_Hunter.Challenge_HackCrates_Hunter'},
+
+    {"challengeId": 'D224172244C5901F8E500E93237B79D0',
+     "challengeCompletionValue": 105,
+     "challengeAsset": '/Game/Challenges/Challenge_DroneCharger_Hunter.Challenge_DroneCharger_Hunter'},
+
+    {"challengeId": '315F687547B0B48506ECC6B3B0B1D28A',
+     "challengeCompletionValue": 25,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Reveal_Hunter.Challenge_Reveal_Hunter'},
+
+    {"challengeId": '627D610949C861DD115DC98DDD0A4603',
+     "challengeCompletionValue": 10500,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Execution_Hunter.Challenge_Execution_Hunter'},
+
+    {"challengeId": 'D2233C3B45C9A8CEB2FAD7AE4A5CBA75',
+     "challengeCompletionValue": 5400,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Travel_Hunter.Challenge_Travel_Hunter'},
+
+    {"challengeId": '669586A0465325C449B9CDBBCB1D702D',
+     "challengeCompletionValue": 34,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Stomp_Hunter.Challenge_Stomp_Hunter'},
+
+    {"challengeId": 'D61A1DC54BF6D8DEF76746BC857FBC79',
+     "challengeCompletionValue": 75,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectAmmo.Challenge_CollectAmmo'},
+
+    {"challengeId": 'AB4EC4084221002C6C8B028457B8D33F',
+     "challengeCompletionValue": 58800,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Downing_Hunter.Challenge_Downing_Hunter'},
+
+    {"challengeId": '501940744554461643B8B0935351E8A5',
+     "challengeCompletionValue": 15,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectAmmo.Challenge_CollectAmmo'},
+
+    {"challengeId": '270350C642B42C6B49D055A83078CD50',
+     "challengeCompletionValue": 10500,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Execution_Hunter.Challenge_Execution_Hunter'},
+
+    {"challengeId": 'E59D76A14078E64102F1FB92124FAC72',
+     "challengeCompletionValue": 27,
+     "challengeAsset": '/Game/Challenges/Challenge_DroneCharger_Hunter.Challenge_DroneCharger_Hunter'},
+
+    {"challengeId": 'C397753D47F60B92F550FDA294454E14',
+     "challengeCompletionValue": 4080,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Damage_Hunter.Challenge_Damage_Hunter'},
+
+    {"challengeId": 'F39777774D91859F8F3B1AB3BCE02E11',
+     "challengeCompletionValue": 75,
+     "challengeAsset": '/Game/Challenges/Challenge_DroneCharger_Hunter.Challenge_DroneCharger_Hunter'},
+
+    {"challengeId": '5CACFEA64B6E5498E8E283B1A9C4AB70',
+     "challengeCompletionValue": 8400,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Damage_Hunter.Challenge_Damage_Hunter'},
+
+    {"challengeId": 'ECB444994501D360A04AEB961490BF7F',
+     "challengeCompletionValue": 5,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Aim_Hunter.Challenge_Aim_Hunter'},
+
+    {"challengeId": '0965D81E46519BE334B88B9363CF0FEC',
+     "challengeCompletionValue": 168,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Supercharge_Hunter.Challenge_Supercharge_Hunter'},
+
+    {"challengeId": '7C886A4B4A973DC40C6819AF8E5821EF',
+     "challengeCompletionValue": 2160,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Damage_Hunter.Challenge_Damage_Hunter'},
+
+    {"challengeId": 'A8E417F941F75B0DF086F6BF33556F7B',
+     "challengeCompletionValue": 51,
+     "challengeAsset": '/Game/Challenges/Challenge_DroneCharger_Hunter.Challenge_DroneCharger_Hunter'},
+
+    {"challengeId": '994B515643DB544EEF5621985F99114F',
+     "challengeCompletionValue": 125,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Reveal_Hunter.Challenge_Reveal_Hunter'},
+
+    {"challengeId": 'AE24C9F546BC4D9F5A6DBF9798021031',
+     "challengeCompletionValue": 7,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_LastMAnStanding_Hunter.Challenge_LastManStanding_Hunter'},
+
+    {"challengeId": '28814D7D49263DB24BF6D8A3F062ADFB',
+     "challengeCompletionValue": 1500,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Hacking_Hunter.Challenge_Hacking_Hunter'},
+
+    {"challengeId": '655EF1824CE7E794F325DAABADB206CB',
+     "challengeCompletionValue": 10500,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Execution_Hunter.Challenge_Execution_Hunter'},
+
+    {"challengeId": 'FC5E6F8249F763CDAC6EBE94F1E3066C',
+     "challengeCompletionValue": 45,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_HackCrates_Hunter.Challenge_HackCrates_Hunter'},
+
+    {"challengeId": '595213CE4C0FDFF637D41CB310976211',
+     "challengeCompletionValue": 17,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Aim_Hunter.Challenge_Aim_Hunter'},
+
+    {"challengeId": '140342BC4D92E3ED74BFEBB2F6753D63',
+     "challengeCompletionValue": 600,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Supercharge_Hunter.Challenge_Supercharge_Hunter'},
+
+    {"challengeId": '7DDE2030442DDB6828CEA88F35D7FAE6',
+     "challengeCompletionValue": 21000,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Travel_Hunter.Challenge_Travel_Hunter'},
+
+    {"challengeId": '546B950F4AFF9B44008A2A841FA48C84',
+     "challengeCompletionValue": 1500,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Drones_Hunter.Challenge_Drones_Hunter'},
+
+    {"challengeId": '604FBB8D464FECD9E9E9E4B40F4B14E9',
+     "challengeCompletionValue": 2100,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Drones_Hunter.Challenge_Drones_Hunter'},
+
+    {"challengeId": '6F5EF1AF41605B95A1030FA7A1883B10',
+     "challengeCompletionValue": 27,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectAmmo.Challenge_CollectAmmo'},
+
+    {"challengeId": '0878CA434DFA158425B66982ABD06074',
+     "challengeCompletionValue": 51,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectHealthCrates.Challenge_CollectHealthCrates'},
+
+    {"challengeId": '9570DA3845398BF46CC656AEC28D12BD',
+     "challengeCompletionValue": 75,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectAmmo.Challenge_CollectAmmo'},
+
+    {"challengeId": '58FB6A2C42DBD6D13C03259B643C8DDE',
+     "challengeCompletionValue": 7,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_LastMAnStanding_Hunter.Challenge_LastManStanding_Hunter'},
+
+    {"challengeId": '50AC8712417A4B5CA01C4DB175AF78A8',
+     "challengeCompletionValue": 25,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_HackCrates_Hunter.Challenge_HackCrates_Hunter'},
+
+    {"challengeId": 'DCDD95A24B2BFCCA151614AD11C79355',
+     "challengeCompletionValue": 35,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Reveal_Hunter.Challenge_Reveal_Hunter'},
+
+    {"challengeId": 'C641D23F4A60B235146541B9A9AB464E',
+     "challengeCompletionValue": 2700,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Hacking_Hunter.Challenge_Hacking_Hunter'},
+
+    {"challengeId": 'C63D0E2640DA950F06BDB8AF9D5ABA88',
+     "challengeCompletionValue": 28560,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Downing_Hunter.Challenge_Downing_Hunter'},
+
+    {"challengeId": '9D12783B4E0FBC46B85953A83667FC3C',
+     "challengeCompletionValue": 50,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Stomp_Hunter.Challenge_Stomp_Hunter'},
+
+    {"challengeId": '0A38F9864A96B05F2BD80C82ABD71707',
+     "challengeCompletionValue": 105,
+     "challengeAsset": '/Game/Challenges/Challenge_DroneCharger_Hunter.Challenge_DroneCharger_Hunter'},
+
+    {"challengeId": '64CCC6B7458FBF580FFF01B645D39E81',
+     "challengeCompletionValue": 25,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_HackCrates_Hunter.Challenge_HackCrates_Hunter'},
+
+    {"challengeId": '7DA727D049CB91CF922C0095DA4FCE5D',
+     "challengeCompletionValue": 168,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_RingOut_Hunter.Challenge_RingOut_Hunter'},
+
+    {"challengeId": '43D8C7434DEA0FC6361C07BB9FFF7372',
+     "challengeCompletionValue": 27,
+     "challengeAsset": '/Game/Challenges/Challenge_DroneCharger_Hunter.Challenge_DroneCharger_Hunter'},
+
+    {"challengeId": '7307E47F433CD5AF6F577EA5603E7D28',
+     "challengeCompletionValue": 4,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_LastMAnStanding_Hunter.Challenge_LastManStanding_Hunter'},
+
+    {"challengeId": '5D9FD6F9463E3C6D9B2709BDFC7560FB',
+     "challengeCompletionValue": 5,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_LastMAnStanding_Hunter.Challenge_LastManStanding_Hunter'},
+
+    {"challengeId": 'AB13DF0C41E11C362E1057A0876D470A',
+     "challengeCompletionValue": 840,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_RingOut_Hunter.Challenge_RingOut_Hunter'},
+
+    {"challengeId": 'E2A1BC424525BC43EBF5DCAAD62E0E33',
+     "challengeCompletionValue": 10,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Stomp_Hunter.Challenge_Stomp_Hunter'},
+
+    {"challengeId": '04F7C8124F1B0BF5B266939552F005FF',
+     "challengeCompletionValue": 2100,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Drones_Hunter.Challenge_Drones_Hunter'},
+
+    {"challengeId": 'CD03381F4F6426F09ED86B8D2FB2A716',
+     "challengeCompletionValue": 45,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_HackCrates_Hunter.Challenge_HackCrates_Hunter'},
+
+    {"challengeId": 'CCA293C34B7D525FF295809180FD3E72',
+     "challengeCompletionValue": 10200,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Travel_Hunter.Challenge_Travel_Hunter'},
+
+    {"challengeId": 'C7619B8A40755DC90325F7AB4A68AFB0',
+     "challengeCompletionValue": 75,
+     "challengeAsset": '/Game/Challenges/Challenge_DroneCharger_Hunter.Challenge_DroneCharger_Hunter'},
+
+    {"challengeId": '29574EC049CEC135B7F555936A0FC85F',
+     "challengeCompletionValue": 175,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Reveal_Hunter.Challenge_Reveal_Hunter'},
+
+    {"challengeId": 'DF1847264871DC8C231B4D86FC5A3D26',
+     "challengeCompletionValue": 15,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectHealthCrates.Challenge_CollectHealthCrates'},
+
+    {"challengeId": '969879514E89EFDF66C7AE864B1B3F95',
+     "challengeCompletionValue": 4200,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Travel_Hunter.Challenge_Travel_Hunter'},
+
+    {"challengeId": 'BE255A7E4A77CABF5237E7ADE319DAC4',
+     "challengeCompletionValue": 2160,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Damage_Hunter.Challenge_Damage_Hunter'},
+
+    {"challengeId": 'BB64C9D64F978E2A8CC5E5ABE777CE43',
+     "challengeCompletionValue": 51,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectAmmo.Challenge_CollectAmmo'},
+
+    {"challengeId": '502C37614F78819D0679D9B492FACD05',
+     "challengeCompletionValue": 7500,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Hacking_Hunter.Challenge_Hacking_Hunter'},
+
+    {"challengeId": '25233E9C498B046CE3834CA39CC40F68',
+     "challengeCompletionValue": 10500,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Hacking_Hunter.Challenge_Hacking_Hunter'},
+
+    {"challengeId": '258CF54E4B083D00CDB22F8436E8DACA',
+     "challengeCompletionValue": 1,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_LastMAnStanding_Hunter.Challenge_LastManStanding_Hunter'},
+
+    {"challengeId": 'E25E5A8A4C58C3C184104480207DC761',
+     "challengeCompletionValue": 35,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_HackCrates_Hunter.Challenge_HackCrates_Hunter'},
+
+    {"challengeId": 'B79C42B1464BC0D9E263608E0C5931F0',
+     "challengeCompletionValue": 216,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_RingOut_Hunter.Challenge_RingOut_Hunter'},
+
+    {"challengeId": '359DE01D40A363D83FC7CE84029958D1',
+     "challengeCompletionValue": 34,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Stomp_Hunter.Challenge_Stomp_Hunter'},
+
+    {"challengeId": '8E82394549CE12A39CB119BBA3548A3A',
+     "challengeCompletionValue": 125,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Reveal_Hunter.Challenge_Reveal_Hunter'},
+
+    {"challengeId": 'BE290D2245088B230DEB0AB49D24ABD1',
+     "challengeCompletionValue": 105,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectHealthCrates.Challenge_CollectHealthCrates'},
+
+    {"challengeId": 'D2B103364D0138EA4D8FCEBE9290734D',
+     "challengeCompletionValue": 25,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_HackCrates_Hunter.Challenge_HackCrates_Hunter'},
+
+    {"challengeId": '582C65B8429B0E12F8ADBBA732FB242B',
+     "challengeCompletionValue": 21,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectHealthCrates.Challenge_CollectHealthCrates'},
+
+    {"challengeId": '99FCD5D141D233B0AA10B09499B5B726',
+     "challengeCompletionValue": 2,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_LastMAnStanding_Hunter.Challenge_LastManStanding_Hunter'},
+
+    {"challengeId": '3E17BB214E97BDD16C26B2ABAB472F4B',
+     "challengeCompletionValue": 4,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_LastMAnStanding_Hunter.Challenge_LastManStanding_Hunter'},
+
+    {"challengeId": '7144FA8F4DC8586E27E4AFB100B526CB',
+     "challengeCompletionValue": 7500,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Drones_Hunter.Challenge_Drones_Hunter'},
+
+    {"challengeId": 'D03DA2884E91DB6FB5298D8B1AD5A831',
+     "challengeCompletionValue": 21000,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Travel_Hunter.Challenge_Travel_Hunter'},
+
+    {"challengeId": 'CE1D8624459B18BB427360A65B336B5F',
+     "challengeCompletionValue": 120,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_RingOut_Hunter.Challenge_RingOut_Hunter'},
+
+    {"challengeId": 'ED11BF044F9AA2F46AA339863D0F1FCA',
+     "challengeCompletionValue": 21,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectAmmo.Challenge_CollectAmmo'},
+
+    {"challengeId": '9C5D248F47ABC797C34B859D0D848350',
+     "challengeCompletionValue": 2700,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Drones_Hunter.Challenge_Drones_Hunter'},
+
+    {"challengeId": '9BB10EEC48A4E344BCB8A1902C4211FE',
+     "challengeCompletionValue": 51,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectHealthCrates.Challenge_CollectHealthCrates'},
+
+    {"challengeId": 'C3A86FC14225D5195536F1901A622FC4',
+     "challengeCompletionValue": 75,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectAmmo.Challenge_CollectAmmo'},
+
+    {"challengeId": '323ABD8E49F88B732D8188B2E3338203',
+     "challengeCompletionValue": 105,
+     "challengeAsset": '/Game/Challenges/Challenge_DroneCharger_Hunter.Challenge_DroneCharger_Hunter'},
+
+    {"challengeId": '928704A143ED2A240C30009631469493',
+     "challengeCompletionValue": 25,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_HackCrates_Hunter.Challenge_HackCrates_Hunter'},
+
+    {"challengeId": '62E041F845C382EE592B378372EFBDA6',
+     "challengeCompletionValue": 35,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Reveal_Hunter.Challenge_Reveal_Hunter'},
+
+    {"challengeId": '73090F59403D011E60D07CAF6A5D3B38',
+     "challengeCompletionValue": 2160,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Damage_Hunter.Challenge_Damage_Hunter'},
+
+    {"challengeId": '1774AD6B4C4BA913168C0AB98AD3720E',
+     "challengeCompletionValue": 10200,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Travel_Hunter.Challenge_Travel_Hunter'},
+
+    {"challengeId": '77F6C3CD405B8984C18C0E82E7F8494F',
+     "challengeCompletionValue": 125,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_HackCrates_Hunter.Challenge_HackCrates_Hunter'},
+
+    {"challengeId": '69CC6D4841E3E865AE14D9BF9651262F',
+     "challengeCompletionValue": 21000,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Travel_Hunter.Challenge_Travel_Hunter'},
+
+    {"challengeId": 'C9CA82B34CDA32C160B191BAF80EECC8',
+     "challengeCompletionValue": 1,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_LastMAnStanding_Hunter.Challenge_LastManStanding_Hunter'},
+
+    {"challengeId": 'FF384041406E46D36B3D4D8774B87E26',
+     "challengeCompletionValue": 2100,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Drones_Hunter.Challenge_Drones_Hunter'},
+
+    {"challengeId": '883292D0456E314E41C9939C44EE9ECA',
+     "challengeCompletionValue": 15120,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Downing_Hunter.Challenge_Downing_Hunter'},
+
+    {"challengeId": 'B5462A3D4FB854FF46050BA4C5FF1119',
+     "challengeCompletionValue": 4,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_LastMAnStanding_Hunter.Challenge_LastManStanding_Hunter'},
+
+    {"challengeId": 'B610A93A4E5724CD4673C28542313CD1',
+     "challengeCompletionValue": 42000,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Downing_Hunter.Challenge_Downing_Hunter'},
+
+    {"challengeId": 'C7CAB62544C9C8AF72AF45AB9D7D92E1',
+     "challengeCompletionValue": 7,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_LastMAnStanding_Hunter.Challenge_LastManStanding_Hunter'},
+
+    {"challengeId": '772734FF40F812A1EA66119037FBD8B1',
+     "challengeCompletionValue": 1500,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Hacking_Hunter.Challenge_Hacking_Hunter'},
+
+    {"challengeId": 'A12FA6C041D02002022496877A0148F0',
+     "challengeCompletionValue": 168,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Supercharge_Hunter.Challenge_Supercharge_Hunter'},
+
+    {"challengeId": '77EFA0114751FB5555D037BA34C54D97',
+     "challengeCompletionValue": 27,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectAmmo.Challenge_CollectAmmo'},
+
+    {"challengeId": 'E7CA31CC405280433D2C44BA65277CA5',
+     "challengeCompletionValue": 408,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Supercharge_Hunter.Challenge_Supercharge_Hunter'},
+
+    {"challengeId": 'C499B1EC45D8174D4EDB0CBE735F0F80',
+     "challengeCompletionValue": 125,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Reveal_Hunter.Challenge_Reveal_Hunter'},
+
+    {"challengeId": '1B49E9ED4D9C7AADED6B66BEC9688F5C',
+     "challengeCompletionValue": 105,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectHealthCrates.Challenge_CollectHealthCrates'},
+
+    {"challengeId": 'E5220391492AFD2B354815AE2A1B517C',
+     "challengeCompletionValue": 25,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_HackCrates_Hunter.Challenge_HackCrates_Hunter'},
+
+    {"challengeId": 'A71A05964273C756A2FEF382566C7878',
+     "challengeCompletionValue": 11760,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Downing_Hunter.Challenge_Downing_Hunter'},
+
+    {"challengeId": 'DE0F5DA34BF1532B2FF4B39279BB1FA7',
+     "challengeCompletionValue": 216,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_RingOut_Hunter.Challenge_RingOut_Hunter'},
+
+    {"challengeId": '6C99A51C4EB589A8A37DB3A32FC76A3D',
+     "challengeCompletionValue": 25500,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Execution_Hunter.Challenge_Execution_Hunter'},
+
+    {"challengeId": 'CDC366604DCA8B506538EABC506A915D',
+     "challengeCompletionValue": 37500,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Execution_Hunter.Challenge_Execution_Hunter'},
+
+    {"challengeId": '2550058642E1B9453138C2AE42E974F7',
+     "challengeCompletionValue": 105,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectAmmo.Challenge_CollectAmmo'},
+
+    {"challengeId": '8CC7F2D847E54850AF7D6DBC26704D1F',
+     "challengeCompletionValue": 1500,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Drones_Hunter.Challenge_Drones_Hunter'},
+
+    {"challengeId": '3F54925A4297A06A834353ACE22E2D62',
+     "challengeCompletionValue": 21,
+     "challengeAsset": '/Game/Challenges/Challenge_DroneCharger_Hunter.Challenge_DroneCharger_Hunter'},
+
+    {"challengeId": '1F96617648BE2D3A7AFCAEB0E8F2F3A3',
+     "challengeCompletionValue": 5400,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Travel_Hunter.Challenge_Travel_Hunter'},
+
+    {"challengeId": '5B495EB24E9A52F92AB11E8F402443F2',
+     "challengeCompletionValue": 10200,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Travel_Hunter.Challenge_Travel_Hunter'},
+
+    {"challengeId": '83AD10264C70F950AACF5592269F1378',
+     "challengeCompletionValue": 25,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Aim_Hunter.Challenge_Aim_Hunter'},
+
+    {"challengeId": 'A8A6DE22402055670F921A9597805615',
+     "challengeCompletionValue": 840,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Supercharge_Hunter.Challenge_Supercharge_Hunter'},
+
+    {"challengeId": '62EC375C42A55B0002909AA7D930E5D9',
+     "challengeCompletionValue": 1500,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Drones_Hunter.Challenge_Drones_Hunter'},
+
+    {"challengeId": '434B35DB4A4D2BB2F7386199E7A0D015',
+     "challengeCompletionValue": 21,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectHealthCrates.Challenge_CollectHealthCrates'},
+
+    {"challengeId": 'DED9AB8249C47DD58202F4BE6B4798A8',
+     "challengeCompletionValue": 45,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Reveal_Hunter.Challenge_Reveal_Hunter'},
+
+    {"challengeId": '8AD3C9C74E94440706B3619EE91910AA',
+     "challengeCompletionValue": 10200,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Travel_Hunter.Challenge_Travel_Hunter'},
+
+    {"challengeId": 'D5BE1E024A3DE77193295B9EA20D6450',
+     "challengeCompletionValue": 75,
+     "challengeAsset": '/Game/Challenges/Challenge_DroneCharger_Hunter.Challenge_DroneCharger_Hunter'},
+
+    {"challengeId": '96FF5A4344D5C642E9E5F697F35614E7',
+     "challengeCompletionValue": 10500,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Drones_Hunter.Challenge_Drones_Hunter'},
+
+    {"challengeId": 'D736300846860319BD4165ABBB35E0F0',
+     "challengeCompletionValue": 120,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_RingOut_Hunter.Challenge_RingOut_Hunter'},
+
+    {"challengeId": '2040B158499CF4E5BDF741838F099C89',
+     "challengeCompletionValue": 168,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_RingOut_Hunter.Challenge_RingOut_Hunter'},
+
+    {"challengeId": '914189F446CA895E7A573ABE78E11AC5',
+     "challengeCompletionValue": 27,
+     "challengeAsset": '/Game/Challenges/Challenge_DroneCharger_Hunter.Challenge_DroneCharger_Hunter'},
+
+    {"challengeId": 'E1028BB24DC0CD5B274A2B83610355B4',
+     "challengeCompletionValue": 25500,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Execution_Hunter.Challenge_Execution_Hunter'},
+
+    {"challengeId": 'A385E5C340620E2D675BC09A664B3247',
+     "challengeCompletionValue": 75,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectHealthCrates.Challenge_CollectHealthCrates'},
+
+    {"challengeId": 'B0818B5B4C91EF0FEF7F64AFA1DB63BE',
+     "challengeCompletionValue": 105,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectAmmo.Challenge_CollectAmmo'},
+
+    {"challengeId": 'A7E716234CA8E96F061BB680B60A6E06',
+     "challengeCompletionValue": 25,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_HackCrates_Hunter.Challenge_HackCrates_Hunter'},
+
+    {"challengeId": 'DCE6B1964F09A62636AA6A8A1F20C107',
+     "challengeCompletionValue": 21,
+     "challengeAsset": '/Game/Challenges/Challenge_DroneCharger_Hunter.Challenge_DroneCharger_Hunter'},
+
+    {"challengeId": '770A825A4A0AF2B30F9008ABE398996A',
+     "challengeCompletionValue": 45,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_HackCrates_Hunter.Challenge_HackCrates_Hunter'},
+
+    {"challengeId": 'B3A0F9234DABA3A63BD4AAA3EC439849',
+     "challengeCompletionValue": 51,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectHealthCrates.Challenge_CollectHealthCrates'},
+
+    {"challengeId": 'FF5F17DE41610116334B59BC45FE3E76',
+     "challengeCompletionValue": 75,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectAmmo.Challenge_CollectAmmo'},
+
+    {"challengeId": 'CEBB3A6B40D76CF894B4E4ACCEBF0285',
+     "challengeCompletionValue": 105,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectAmmo.Challenge_CollectAmmo'},
+
+    {"challengeId": '4E051CD848C32CE45A397F890D4908F5',
+     "challengeCompletionValue": 1,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_LastMAnStanding_Hunter.Challenge_LastManStanding_Hunter'},
+
+    {"challengeId": '1A725A8B411BA4BB005C63BE240523AC',
+     "challengeCompletionValue": 2100,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Drones_Hunter.Challenge_Drones_Hunter'},
+
+    {"challengeId": 'AC06AD744F279F2AA412E7817A2CBB6B',
+     "challengeCompletionValue": 27,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectAmmo.Challenge_CollectAmmo'},
+
+    {"challengeId": '0F1DC6A34F9695425924CE8FB66BD430',
+     "challengeCompletionValue": 17,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Aim_Hunter.Challenge_Aim_Hunter'},
+
+    {"challengeId": 'D19B92E442D0372CC14AE7A0125FA8B8',
+     "challengeCompletionValue": 600,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_RingOut_Hunter.Challenge_RingOut_Hunter'},
+
+    {"challengeId": '7656C3584F8994BF46F4BD8B3D724B69',
+     "challengeCompletionValue": 105,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectHealthCrates.Challenge_CollectHealthCrates'},
+
+    {"challengeId": '610073E94C98886783DBBBA65B50DC1D',
+     "challengeCompletionValue": 3000,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Travel_Hunter.Challenge_Travel_Hunter'},
+
+    {"challengeId": '7F936C8A4B2705EF67ED9794A0758BC7',
+     "challengeCompletionValue": 21,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectHealthCrates.Challenge_CollectHealthCrates'},
+
+    {"challengeId": 'D369B7744CDB442D8D8D9B9579189B0D',
+     "challengeCompletionValue": 18,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Stomp_Hunter.Challenge_Stomp_Hunter'},
+
+    {"challengeId": 'D7E161954B0954964DFC41A879AFF7D6',
+     "challengeCompletionValue": 4,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_LastMAnStanding_Hunter.Challenge_LastManStanding_Hunter'},
+
+    {"challengeId": '001844EF46B0EF6E2AF3108BB447088C',
+     "challengeCompletionValue": 5,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_LastMAnStanding_Hunter.Challenge_LastManStanding_Hunter'},
+
+    {"challengeId": '50D46D4D4F58CD06A872198C8B18F88E',
+     "challengeCompletionValue": 10500,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Drones_Hunter.Challenge_Drones_Hunter'},
+
+    {"challengeId": 'AC2C60A54BD71F1F32A154BA132F10D6',
+     "challengeCompletionValue": 25,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_HackCrates_Hunter.Challenge_HackCrates_Hunter'},
+
+    {"challengeId": 'BD2B49D94146B776376B99A45A94FB1D',
+     "challengeCompletionValue": 4200,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Travel_Hunter.Challenge_Travel_Hunter'},
+
+    {"challengeId": '3D327CBE4A80BBB0310712857EBFCE17',
+     "challengeCompletionValue": 5400,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Travel_Hunter.Challenge_Travel_Hunter'},
+
+    {"challengeId": '714366294138F4F41A09F99A74A22271',
+     "challengeCompletionValue": 85,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Reveal_Hunter.Challenge_Reveal_Hunter'},
+
+    {"challengeId": '048EE1BF48FA9959F8C52DBF0CEFB581',
+     "challengeCompletionValue": 6000,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Damage_Hunter.Challenge_Damage_Hunter'},
+
+    {"challengeId": 'E9BF5BA248A2F153522A66B1C0FEF086',
+     "challengeCompletionValue": 105,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectHealthCrates.Challenge_CollectHealthCrates'},
+
+    {"challengeId": '0DA8CED0485630A82C86DDBE67FD77F4',
+     "challengeCompletionValue": 8400,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Downing_Hunter.Challenge_Downing_Hunter'},
+
+    {"challengeId": '65ECFFBE4E5AAB374008A484A4D692E4',
+     "challengeCompletionValue": 35,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_HackCrates_Hunter.Challenge_HackCrates_Hunter'},
+
+    {"challengeId": 'C46A63354887C01D6F9237A45EC6E078',
+     "challengeCompletionValue": 27,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectAmmo.Challenge_CollectAmmo'},
+
+    {"challengeId": 'E4E30D514747443042FF88BE2780E672',
+     "challengeCompletionValue": 25500,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Execution_Hunter.Challenge_Execution_Hunter'},
+
+    {"challengeId": 'A389FBD64B864CADB7D30D92B6814A68',
+     "challengeCompletionValue": 600,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Supercharge_Hunter.Challenge_Supercharge_Hunter'},
+
+    {"challengeId": '8DA38F1B4FB47300699E8381871CB36D',
+     "challengeCompletionValue": 7,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_LastMAnStanding_Hunter.Challenge_LastManStanding_Hunter'},
+
+    {"challengeId": 'D838C1B64F5351869803A28F3B041C32',
+     "challengeCompletionValue": 1500,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Drones_Hunter.Challenge_Drones_Hunter'},
+
+    {"challengeId": 'AD32D3CB40997A00DE699EA32CBBF0FF',
+     "challengeCompletionValue": 2100,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Drones_Hunter.Challenge_Drones_Hunter'},
+
+    {"challengeId": '5A37EACA4EEADA1BA6767EB43F542FC3',
+     "challengeCompletionValue": 2,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_LastMAnStanding_Hunter.Challenge_LastManStanding_Hunter'},
+
+    {"challengeId": 'DCF4B7814E942E1573D7EF99EA14DD0F',
+     "challengeCompletionValue": 85,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Reveal_Hunter.Challenge_Reveal_Hunter'},
+
+    {"challengeId": '0E568A0E478FCC9153B8A3ADB8D54D06',
+     "challengeCompletionValue": 37500,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Execution_Hunter.Challenge_Execution_Hunter'},
+
+    {"challengeId": '7A27F5B145D118D792B2D8B59969481A',
+     "challengeCompletionValue": 105,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectAmmo.Challenge_CollectAmmo'},
+
+    {"challengeId": '70CF13894A5D4CFA690DB182559EE85A',
+     "challengeCompletionValue": 15,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectAmmo.Challenge_CollectAmmo'},
+
+    {"challengeId": 'FA5164ED4EABE0ACE47DDDAC3E854BDF',
+     "challengeCompletionValue": 10500,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Execution_Hunter.Challenge_Execution_Hunter'},
+
+    {"challengeId": '981C0DF54780E21FA5557C880FC43271',
+     "challengeCompletionValue": 45,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Reveal_Hunter.Challenge_Reveal_Hunter'},
+
+    {"challengeId": 'B324E19D4EF7846D00E41892A45C598D',
+     "challengeCompletionValue": 408,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_RingOut_Hunter.Challenge_RingOut_Hunter'},
+
+    {"challengeId": '48048D3640D2363CF6608DA2F3C074B7',
+     "challengeCompletionValue": 7500,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Hacking_Hunter.Challenge_Hacking_Hunter'},
+
+    {"challengeId": 'F10BBB724B55528313AD2681B3D3B71C',
+     "challengeCompletionValue": 10500,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Hacking_Hunter.Challenge_Hacking_Hunter'},
+
+    {"challengeId": '1718C86645AFAAE2AB4282A460A4AC84',
+     "challengeCompletionValue": 3000,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Travel_Hunter.Challenge_Travel_Hunter'},
+
+    {"challengeId": 'BF13CF544A13A8B93B662CA89BB0745E',
+     "challengeCompletionValue": 2,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_LastMAnStanding_Hunter.Challenge_LastManStanding_Hunter'},
+
+    {"challengeId": '45D8760C4C4CA3E70B7E4BAE2A82D100',
+     "challengeCompletionValue": 2700,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Drones_Hunter.Challenge_Drones_Hunter'},
+
+    {"challengeId": 'B9CACA964B9FFBC928AAC18D3C12793D',
+     "challengeCompletionValue": 4080,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Damage_Hunter.Challenge_Damage_Hunter'},
+
+    {"challengeId": '3718D43F44037C86B3D20FB2DA13BADF',
+     "challengeCompletionValue": 50,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Stomp_Hunter.Challenge_Stomp_Hunter'},
+
+    {"challengeId": '13F9A19A4463E27403DA819BA6061993',
+     "challengeCompletionValue": 105,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectAmmo.Challenge_CollectAmmo'},
+
+    {"challengeId": '756FEA904FD555DF7094D4B19A75E23F',
+     "challengeCompletionValue": 5,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Aim_Hunter.Challenge_Aim_Hunter'},
+
+    {"challengeId": '76111C73423154EA1A21C9BED344C90E',
+     "challengeCompletionValue": 21,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectHealthCrates.Challenge_CollectHealthCrates'},
+
+    {"challengeId": 'B18FF3DF4A199C8F4909B38C332F8A69',
+     "challengeCompletionValue": 45,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_HackCrates_Hunter.Challenge_HackCrates_Hunter'},
+
+    {"challengeId": '50D1FAC647B70C1641E9F5BA7DF2F8A0',
+     "challengeCompletionValue": 51,
+     "challengeAsset": '/Game/Challenges/Challenge_DroneCharger_Hunter.Challenge_DroneCharger_Hunter'},
+
+    {"challengeId": 'CA3312CE4ADAA5153567269E4B31CDA9',
+     "challengeCompletionValue": 75,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectHealthCrates.Challenge_CollectHealthCrates'},
+
+    {"challengeId": '755EDB00419874E9F9400884C8345A3B',
+     "challengeCompletionValue": 105,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_CollectAmmo.Challenge_CollectAmmo'},
+
+    {"challengeId": '52D4F4D64D20D1969C720E98152F9069',
+     "challengeCompletionValue": 1200,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Damage_Hunter.Challenge_Damage_Hunter'},
+
+    {"challengeId": 'D3F497FE47D42165A2ABF2A910C0A3A6',
+     "challengeCompletionValue": 35,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_HackCrates_Hunter.Challenge_HackCrates_Hunter'},
+
+    {"challengeId": '65EB708940DDCE3FA7B8DAA8C3A22801',
+     "challengeCompletionValue": 216,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Supercharge_Hunter.Challenge_Supercharge_Hunter'},
+
+    {"challengeId": 'F73A9EB14513566DB5334A8A35D5001C',
+     "challengeCompletionValue": 408,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Supercharge_Hunter.Challenge_Supercharge_Hunter'},
+
+    {"challengeId": '913147E74F09B0816CD1E7860A0C809A',
+     "challengeCompletionValue": 15000,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Travel_Hunter.Challenge_Travel_Hunter'},
+
+    {"challengeId": 'DFF9C1BF47B317D864B924B776C793C4',
+     "challengeCompletionValue": 58800,
+     "challengeAsset": '/Game/Challenges/Progression/General/Challenge_Downing_Hunter.Challenge_Downing_Hunter'}
+]
+return_list = []
+
+for item in raw_challenges:
+    asset = item["challengeAsset"]
+    if "Hunter" in asset:
+        faction = "Hunter"
+    elif "Runner" in asset:
+        faction = "Runner"
+    else:
+        faction = "General"
+    return_list.append({
+        "challenge_id": item["challengeId"],
+        "challengeBlueprint": item["challengeAsset"],
+        "faction": faction,
+        "ChallengeCompletionValue": item["challengeCompletionValue"],
+        "type": "currency",
+        "challengeType": "ChallengeProgressionCounter"
+    })
+
+print(return_list)
+
