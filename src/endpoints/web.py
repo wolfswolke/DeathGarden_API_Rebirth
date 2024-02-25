@@ -258,6 +258,7 @@ def updater_script():
         logger.graylog_logger(level="error", handler="web-updater-script", message=e)
 
 
+@app.route("/debug/matchmaking", methods=["GET"])
 @app.route("/debug/MatchMaking", methods=["GET"])
 def debug_matchmaking():
     len_queue = matchmaking_queue.get_len_of_queue()
@@ -275,7 +276,6 @@ def debug_matchmaking():
                            len_queued_hunters=len_queued_hunters,
                            len_open_lobbies=len_open_lobbies,
                            lobby_data=lobby_data)
-
 
 
 @app.route("/api/debug/MatchMaking", methods=["GET"])
