@@ -22,281 +22,6 @@ class Mongo:
             'challenges': [],
             'unread_msg_ids': [],
             'unlocked_special_item_ids': [],
-            'daily_challenges': [
-                {
-                    'challenge_id': "",
-                    'faction': 'Runner',
-                    'challengeBlueprint': 'Placeholder',
-                    'ChallengeCompletionValue': 1,
-                    'last_completion': 0,
-                    'claimed': False,
-                    'completion_count': 0,
-                },
-                {
-                    'faction': 'Hunter',
-                    'last_completion': 0,
-                    'claimed': False,
-                    'completion_count': 0,
-                }
-            ],
-            'weekly_challenges': [
-                {
-                    'challenge_id': 1,
-                    'challengeBlueprint': 'Challenge_BleedOut_RunnerWeekly',
-                    'ChallengeCompletionValue': 30,
-                    'last_completion': 0,
-                    'claimed': False,
-                    'completion_count': 0,
-                },
-                {
-                    'challenge_id': 2,
-                    'challengeBlueprint': 'Challenge_Emotional_RunnerWeekly',
-                    'ChallengeCompletionValue': 60,
-                    'last_completion': 0,
-                    'claimed': False,
-                    'completion_count': 0,
-                },
-                {
-                    'challenge_id': 3,
-                    'challengeBlueprint': 'Challenge_Greed_RunnerWeekly',
-                    'ChallengeCompletionValue': 200,
-                    'last_completion': 0,
-                    'claimed': False,
-                    'completion_count': 0,
-                },
-                {
-                    'challenge_id': 4,
-                    'challengeBlueprint': 'Challenge_Mines_RunnerWeekly',
-                    'ChallengeCompletionValue': 50,
-                    'last_completion': 0,
-                    'claimed': False,
-                    'completion_count': 0,
-                },
-                {
-                    'challenge_id': 5,
-                    'challengeBlueprint': 'Challenge_Shields_RunnerWeekly',
-                    'ChallengeCompletionValue': 100,
-                    'last_completion': 0,
-                    'claimed': False,
-                    'completion_count': 0,
-                },
-                {
-                    'challenge_id': 6,
-                    'challengeBlueprint': 'Challenge_SpeedCapture_RunnerWeekly',
-                    'ChallengeCompletionValue': 10,
-                    'last_completion': 0,
-                    'claimed': False,
-                    'completion_count': 0,
-                },
-                {
-                    'challenge_id': 7,
-                    'challengeBlueprint': 'Challenge_Stuns_RunnerWeekly',
-                    'ChallengeCompletionValue': 100,
-                    'last_completion': 0,
-                    'claimed': False,
-                    'completion_count': 0,
-                },
-                {
-                    'challenge_id': 8,
-                    'challengeBlueprint': 'Challenge_Turrets_RunnerWeekly',
-                    'ChallengeCompletionValue': 10,
-                    'last_completion': 0,
-                    'claimed': False,
-                    'completion_count': 0,
-                },
-                {
-                    'challenge_id': 9,
-                    'challengeBlueprint': 'Challenge_UPs_RunnerWeekly',
-                    'ChallengeCompletionValue': 30,
-                    'last_completion': 0,
-                    'claimed': False,
-                    'completion_count': 0,
-                },
-                {
-                    'challenge_id': 10,
-                    'challengeBlueprint': 'Challenge_Wasteful_RunnerWeekly',
-                    'ChallengeCompletionValue': 10000,
-                    'last_completion': 0,
-                    'claimed': False,
-                    'completion_count': 0,
-                },
-                {
-                    'challenge_id': 11,
-                    'challengeBlueprint': 'Challenge_WUP_RunnerWeekly',
-                    'ChallengeCompletionValue': 150,
-                    'last_completion': 0,
-                    'claimed': False,
-                    'completion_count': 0,
-                },
-                {
-                    'challenge_id': 12,
-                    'challengeBlueprint': 'Challenge_ARB_Damage_HunterWeekly',
-                    'ChallengeCompletionValue': 10000,
-                    'last_completion': 0,
-                    'claimed': False,
-                    'completion_count': 0,
-                },
-                {
-                    'challenge_id': 13,
-                    'challengeBlueprint': 'Challenge_AssaultRifleWins_HunterWeekly',
-                    'ChallengeCompletionValue': 100,
-                    'last_completion': 0,
-                    'claimed': False,
-                    'completion_count': 0,
-                },
-                {
-                    'challenge_id': 14,
-                    'challengeBlueprint': 'Challenge_BleedOut_HunterWeekly',
-                    'ChallengeCompletionValue': 15,
-                    'last_completion': 0,
-                    'claimed': False,
-                    'completion_count': 0,
-                },
-                {
-                    'challenge_id': 15,
-                    'challengeBlueprint': 'Challenge_Damage_HunterWeekly',
-                    'ChallengeCompletionValue': 10000,
-                    'last_completion': 0,
-                    'claimed': False,
-                    'completion_count': 0,
-                },
-                {
-                    'challenge_id': 16,
-                    'challengeBlueprint': 'Challenge_Double_HunterWeekly',
-                    'ChallengeCompletionValue': 10,
-                    'last_completion': 0,
-                    'claimed': False,
-                    'completion_count': 0,
-                },
-                {
-                    'challenge_id': 17,
-                    'challengeBlueprint': 'Challenge_DroneActivation_HunterWeekly',
-                    'ChallengeCompletionValue': 100,
-                    'last_completion': 0,
-                    'claimed': False,
-                    'completion_count': 0,
-                },
-                {
-                    'challenge_id': 18,
-                    'challengeBlueprint': 'Challenge_Efficient_HunterWeekly',
-                    'ChallengeCompletionValue': 20,
-                    'last_completion': 0,
-                    'claimed': False,
-                    'completion_count': 0,
-                },
-                {
-                    'challenge_id': 19,
-                    'challengeBlueprint': 'Challenge_Emotional_HunterWeekly',
-                    'ChallengeCompletionValue': 60,
-                    'last_completion': 0,
-                    'claimed': False,
-                    'completion_count': 0,
-                },
-                {
-                    'challenge_id': 20,
-                    'challengeBlueprint': 'Challenge_Greed_HunterWeekly',
-                    'ChallengeCompletionValue': 200,
-                    'last_completion': 0,
-                    'claimed': False,
-                    'completion_count': 0,
-                },
-                {
-                    'challenge_id': 21,
-                    'challengeBlueprint': 'Challenge_Headshot_HunterWeekly',
-                    'ChallengeCompletionValue': 15,
-                    'last_completion': 0,
-                    'claimed': False,
-                    'completion_count': 0,
-                },
-                {
-                    'challenge_id': 22,
-                    'challengeBlueprint': 'Challenge_HuntingShotgunWins_HunterWeekly',
-                    'ChallengeCompletionValue': 30,
-                    'last_completion': 0,
-                    'claimed': False,
-                    'completion_count': 0,
-                },
-                {
-                    'challenge_id': 23,
-                    'challengeBlueprint': 'Challenge_InDenial_HunterWeekly',
-                    'ChallengeCompletionValue': 50,
-                    'last_completion': 0,
-                    'claimed': False,
-                    'completion_count': 0,
-                },
-                {
-                    'challenge_id': 24,
-                    'challengeBlueprint': 'Challenge_LMGWins_HunterWeekly',
-                    'ChallengeCompletionValue': 100,
-                    'last_completion': 0,
-                    'claimed': False,
-                    'completion_count': 0,
-                },
-                {
-                    'challenge_id': 25,
-                    'challengeBlueprint': 'Challenge_Mines_HunterWeekly',
-                    'ChallengeCompletionValue': 60,
-                    'last_completion': 0,
-                    'claimed': False,
-                    'completion_count': 0,
-                },
-                {
-                    'challenge_id': 26,
-                    'challengeBlueprint': 'Challenge_Reveals_hunterWeekly',
-                    'ChallengeCompletionValue': 100,
-                    'last_completion': 0,
-                    'claimed': False,
-                    'completion_count': 0,
-                },
-                {
-                    'challenge_id': 27,
-                    'challengeBlueprint': 'Challenge_RingOut_hunterWeekly',
-                    'ChallengeCompletionValue': 15,
-                    'last_completion': 0,
-                    'claimed': False,
-                    'completion_count': 0,
-                },
-                {
-                    'challenge_id': 28,
-                    'challengeBlueprint': 'Challenge_ShotgunDowns_HunterWeekly',
-                    'ChallengeCompletionValue': 100,
-                    'last_completion': 0,
-                    'claimed': False,
-                    'completion_count': 0,
-                },
-                {
-                    'challenge_id': 29,
-                    'challengeBlueprint': 'Challenge_Speed_HunterWeekly',
-                    'ChallengeCompletionValue': 10,
-                    'last_completion': 0,
-                    'claimed': False,
-                    'completion_count': 0,
-                },
-                {
-                    'challenge_id': 30,
-                    'challengeBlueprint': 'Challenge_Turrets_HunterWeekly',
-                    'ChallengeCompletionValue': 30,
-                    'last_completion': 0,
-                    'claimed': False,
-                    'completion_count': 0,
-                },
-                {
-                    'challenge_id': 31,
-                    'challengeBlueprint': 'Challenge_Wasteful_HunterWeekly',
-                    'ChallengeCompletionValue': 10000,
-                    'last_completion': 0,
-                    'claimed': False,
-                    'completion_count': 0,
-                },
-                {
-                    'challenge_id': 32,
-                    'challengeBlueprint': 'Challenge_WUP_HunterWeekly',
-                    'ChallengeCompletionValue': 150,
-                    'last_completion': 0,
-                    'claimed': False,
-                    'completion_count': 0,
-                }
-            ],
             'last_played_faction': 'Runner',
             'tutorial_completed': False,
             'last_runner': 'Runner.Smoke',
@@ -315,6 +40,7 @@ class Mongo:
                 'EquippedWeapons': [],
                 'EquippedBonuses': [],
                 'pickedChallenges': [],
+                'equippedConsumables': [],
                 'characterId': {"tagName":"Runner.Sawbones"}
             },
             'RunnerGroupB': {
@@ -330,6 +56,7 @@ class Mongo:
                 'EquippedWeapons': [],
                 'EquippedBonuses': [],
                 'pickedChallenges': [],
+                'equippedConsumables': [],
                 'characterId': {"tagName":"Runner.Ink"}
             },
             'RunnerGroupC': {
@@ -345,6 +72,7 @@ class Mongo:
                 'EquippedWeapons': [],
                 'EquippedBonuses': [],
                 'pickedChallenges': [],
+                'equippedConsumables': [],
                 'characterId': {"tagName":"Runner.Ghost"}
             },
             'RunnerGroupD': {
@@ -360,6 +88,7 @@ class Mongo:
                 'EquippedWeapons': [],
                 'EquippedBonuses': [],
                 'pickedChallenges': [],
+                'equippedConsumables': [],
                 'characterId': {"tagName":"Runner.Switch"}
             },
             'RunnerGroupE': {
@@ -375,6 +104,7 @@ class Mongo:
                 'EquippedWeapons': [],
                 'EquippedBonuses': [],
                 'pickedChallenges': [],
+                'equippedConsumables': [],
                 'characterId': {"tagName":"Runner.Smoke"}
             },
             'RunnerGroupF': {
@@ -390,6 +120,7 @@ class Mongo:
                 'EquippedWeapons': [],
                 'EquippedBonuses': [],
                 'pickedChallenges': [],
+                'equippedConsumables': [],
                 'characterId': {"tagName":"Runner.Dash"}
             },
             'HunterGroupA': {
@@ -405,6 +136,7 @@ class Mongo:
                 'EquippedWeapons': [],
                 'EquippedBonuses': [],
                 'pickedChallenges': [],
+                'equippedConsumables': [],
                 'characterId': {"tagName":"Hunter.Stalker"}
             },
             'HunterGroupB': {
@@ -420,6 +152,7 @@ class Mongo:
                 'EquippedWeapons': [],
                 'EquippedBonuses': [],
                 'pickedChallenges': [],
+                'equippedConsumables': [],
                 'characterId': {"tagName":"Hunter.Inquisitor"}
             },
             'HunterGroupC': {
@@ -435,6 +168,7 @@ class Mongo:
                 'EquippedWeapons': [],
                 'EquippedBonuses': [],
                 'pickedChallenges': [],
+                'equippedConsumables': [],
                 'characterId': {"tagName":"Hunter.Poacher"}
             },
             'HunterGroupD': {
@@ -450,6 +184,7 @@ class Mongo:
                 'EquippedWeapons': [],
                 'EquippedBonuses': [],
                 'pickedChallenges': [],
+                'equippedConsumables': [],
                 'characterId': {"tagName":"Hunter.Mass"}
             },
             'RunnerProgression':{
@@ -499,6 +234,12 @@ class Mongo:
                     if key not in existing_document:
                         existing_document[key] = default_value
                         logger.graylog_logger(level="info", handler="mongodb", message=f"New key added to database: {key} for user {steamid}")
+
+                    if type(default_value) == dict:
+                        for k, val in default_value.items():
+                            if k not in existing_document[key]:
+                                existing_document[key][k] = val
+                                logger.graylog_logger(level="info", handler="mongodb", message=f"New key added to database: {k} for user {steamid}")
 
                 dyn_collection.replace_one({'steamid': steamid}, existing_document)
 
