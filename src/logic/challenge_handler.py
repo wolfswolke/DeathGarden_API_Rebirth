@@ -4226,7 +4226,7 @@ challenge_data = [
         "challengeType": "ChallengeProgressionCounter"
     },
     {
-        "challenge_id": "Challenge_Domination_Hunter",
+        "challenge_id": "Daily_Domination_Hunter",
         "challengeBlueprint": "/Game/Challenges/Daily/Challenge_Domination_Hunter.Challenge_Domination_Hunter",
         "faction": "Hunter",
         "ChallengeCompletionValue": 1,
@@ -4234,12 +4234,268 @@ challenge_data = [
         "challengeType": "Daily"
     },
     {
-        "challenge_id": "Challenge_Deliver_Runner",
-        "challengeBlueprint": "/Game/Challenges/Daily/Challenge_Deliver_Runner.Challenge_Deliver_Runner",
+        "challenge_id": "Daily_Domination_Runner",
+        "challengeBlueprint": "/Game/Challenges/Daily/Challenge_Domination_Runner.Challenge_Domination_Runner",
+        "faction": "Runner",
+        "ChallengeCompletionValue": 1,
+        "type": "currency",
+        "challengeType": "Daily"
+    },
+    {
+        "challenge_id": "Challenge_ARB_Damage_HunterWeekly",
+        "challengeBlueprint": "/Game/Challenges/Weekly/Challenge_ARB_Damage_HunterWeekly.Challenge_ARB_Damage_HunterWeekly",
+        "faction": "Hunter",
+        "ChallengeCompletionValue": 10000,
+        "type": "currency",
+        "challengeType": "Weekly"
+    },
+    {
+        "challenge_id": "Challenge_AssaultRifleWins_HunterWeekly",
+        "challengeBlueprint": "/Game/Challenges/Weekly/Challenge_AssaultRifleWins_HunterWeekly.Challenge_AssaultRifleWins_HunterWeekly",
+        "faction": "Hunter",
+        "ChallengeCompletionValue": 100,
+        "type": "currency",
+        "challengeType": "Weekly"
+    },
+    {
+        "challenge_id": "Challenge_BleedOut_HunterWeekly",
+        "challengeBlueprint": "/Game/Challenges/Weekly/Challenge_BleedOut_HunterWeekly.Challenge_BleedOut_HunterWeekly",
+        "faction": "Hunter",
+        "ChallengeCompletionValue": 15,
+        "type": "currency",
+        "challengeType": "Weekly"
+    },
+    {
+        "challenge_id": "Challenge_BleedOut_RunnerWeekly",
+        "challengeBlueprint": "/Game/Challenges/Weekly/Challenge_BleedOut_RunnerWeekly.Challenge_BleedOut_RunnerWeekly",
+        "faction": "Runner",
+        "ChallengeCompletionValue": 30,
+        "type": "currency",
+        "challengeType": "Weekly"
+    },
+    {
+        "challenge_id": "Challenge_Damage_HunterWeekly",
+        "challengeBlueprint": "/Game/Challenges/Weekly/Challenge_Damage_HunterWeekly.Challenge_Damage_HunterWeekly",
+        "faction": "Hunter",
+        "ChallengeCompletionValue": 10000,
+        "type": "currency",
+        "challengeType": "Weekly"
+    },
+    {
+        "challenge_id": "Challenge_Double_HunterWeekly",
+        "challengeBlueprint": "/Game/Challenges/Weekly/Challenge_Double_HunterWeekly.Challenge_Double_HunterWeekly",
+        "faction": "Hunter",
+        "ChallengeCompletionValue": 10,
+        "type": "currency",
+        "challengeType": "Weekly"
+    },
+    {
+        "challenge_id": "Challenge_DroneActivation_HunterWeekly",
+        "challengeBlueprint": "/Game/Challenges/Weekly/Challenge_DroneActivation_HunterWeekly.Challenge_DroneActivation_HunterWeekly",
+        "faction": "Hunter",
+        "ChallengeCompletionValue": 100,
+        "type": "currency",
+        "challengeType": "Weekly"
+    },
+    {
+        "challenge_id": "Challenge_Efficient_HunterWeekly",
+        "challengeBlueprint": "/Game/Challenges/Weekly/Challenge_Efficient_HunterWeekly.Challenge_Efficient_HunterWeekly",
+        "faction": "Hunter",
+        "ChallengeCompletionValue": 20,
+        "type": "currency",
+        "challengeType": "Weekly"
+    },
+    {
+        "challenge_id": "Challenge_Emotional_HunterWeekly",
+        "challengeBlueprint": "/Game/Challenges/Weekly/Challenge_Emotional_HunterWeekly.Challenge_Emotional_HunterWeekly",
+        "faction": "Hunter",
+        "ChallengeCompletionValue": 60,
+        "type": "currency",
+        "challengeType": "Weekly"
+    },
+    {
+        "challenge_id": "Challenge_Emotional_RunnerWeekly",
+        "challengeBlueprint": "/Game/Challenges/Weekly/Challenge_Emotional_RunnerWeekly.Challenge_Emotional_RunnerWeekly",
+        "faction": "Runner",
+        "ChallengeCompletionValue": 60,
+        "type": "currency",
+        "challengeType": "Weekly"
+    },
+    {
+        "challenge_id": "Challenge_Greed_HunterWeekly",
+        "challengeBlueprint": "/Game/Challenges/Weekly/Challenge_Greed_HunterWeekly.Challenge_Greed_HunterWeekly",
+        "faction": "Hunter",
+        "ChallengeCompletionValue": 200,
+        "type": "currency",
+        "challengeType": "Weekly"
+    },
+    {
+        "challenge_id": "Challenge_Greed_RunnerWeekly",
+        "challengeBlueprint": "/Game/Challenges/Weekly/Challenge_Greed_RunnerWeekly.Challenge_Greed_RunnerWeekly",
+        "faction": "Runner",
+        "ChallengeCompletionValue": 200,
+        "type": "currency",
+        "challengeType": "Weekly"
+    },
+    {
+        "challenge_id": "Challenge_Headshot_HunterWeekly",
+        "challengeBlueprint": "/Game/Challenges/Weekly/Challenge_Headshot_HunterWeekly.Challenge_Headshot_HunterWeekly",
+        "faction": "Hunter",
+        "ChallengeCompletionValue": 15,
+        "type": "currency",
+        "challengeType": "Weekly"
+    },
+    {
+        "challenge_id": "Challenge_HuntingShotgunWins_HunterWeekly",
+        "challengeBlueprint": "/Game/Challenges/Weekly/Challenge_HuntingShotgunWins_HunterWeekly.Challenge_HuntingShotgunWins_HunterWeekly",
+        "faction": "Hunter",
+        "ChallengeCompletionValue": 30,
+        "type": "currency",
+        "challengeType": "Weekly"
+    },
+    {
+        "challenge_id": "Challenge_InDenial_HunterWeekly",
+        "challengeBlueprint": "/Game/Challenges/Weekly/Challenge_InDenial_HunterWeekly.Challenge_InDenial_HunterWeekly",
+        "faction": "Hunter",
+        "ChallengeCompletionValue": 50,
+        "type": "currency",
+        "challengeType": "Weekly"
+    },
+    {
+        "challenge_id": "Challenge_LMGWins_HunterWeekly",
+        "challengeBlueprint": "/Game/Challenges/Weekly/Challenge_LMGWins_HunterWeekly.Challenge_LMGWins_HunterWeekly",
+        "faction": "Hunter",
+        "ChallengeCompletionValue": 100,
+        "type": "currency",
+        "challengeType": "Weekly"
+    },
+    {
+        "challenge_id": "Challenge_Mines_HunterWeekly",
+        "challengeBlueprint": "/Game/Challenges/Weekly/Challenge_Mines_HunterWeekly.Challenge_Mines_HunterWeekly",
+        "faction": "Hunter",
+        "ChallengeCompletionValue": 60,
+        "type": "currency",
+        "challengeType": "Weekly"
+    },
+    {
+        "challenge_id": "Challenge_Mines_RunnerWeekly",
+        "challengeBlueprint": "/Game/Challenges/Weekly/Challenge_Mines_RunnerWeekly.Challenge_Mines_RunnerWeekly",
         "faction": "Runner",
         "ChallengeCompletionValue": 50,
         "type": "currency",
-        "challengeType": "Daily"
+        "challengeType": "Weekly"
+    },
+    {
+        "challenge_id": "Challenge_Reveals_hunterWeekly",
+        "challengeBlueprint": "/Game/Challenges/Weekly/Challenge_Reveals_hunterWeekly.Challenge_Reveals_hunterWeekly",
+        "faction": "Hunter",
+        "ChallengeCompletionValue": 100,
+        "type": "currency",
+        "challengeType": "Weekly"
+    },
+    {
+        "challenge_id": "Challenge_RingOut_hunterWeekly",
+        "challengeBlueprint": "/Game/Challenges/Weekly/Challenge_RingOut_hunterWeekly.Challenge_RingOut_hunterWeekly",
+        "faction": "Hunter",
+        "ChallengeCompletionValue": 15,
+        "type": "currency",
+        "challengeType": "Weekly"
+    },
+    {
+        "challenge_id": "Challenge_Shields_RunnerWeekly",
+        "challengeBlueprint": "/Game/Challenges/Weekly/Challenge_Shields_RunnerWeekly.Challenge_Shields_RunnerWeekly",
+        "faction": "Runner",
+        "ChallengeCompletionValue": 100,
+        "type": "currency",
+        "challengeType": "Weekly"
+    },
+    {
+        "challenge_id": "Challenge_ShotgunDowns_HunterWeekly",
+        "challengeBlueprint": "/Game/Challenges/Weekly/Challenge_ShotgunDowns_HunterWeekly.Challenge_ShotgunDowns_HunterWeekly",
+        "faction": "Hunter",
+        "ChallengeCompletionValue": 100,
+        "type": "currency",
+        "challengeType": "Weekly"
+    },
+    {
+        "challenge_id": "Challenge_Speed_HunterWeekly",
+        "challengeBlueprint": "/Game/Challenges/Weekly/Challenge_Speed_HunterWeekly.Challenge_Speed_HunterWeekly",
+        "faction": "Hunter",
+        "ChallengeCompletionValue": 10,
+        "type": "currency",
+        "challengeType": "Weekly"
+    },
+    {
+        "challenge_id": "Challenge_SpeedCapture_RunnerWeekly",
+        "challengeBlueprint": "/Game/Challenges/Weekly/Challenge_SpeedCapture_RunnerWeekly.Challenge_SpeedCapture_RunnerWeekly",
+        "faction": "Runner",
+        "ChallengeCompletionValue": 10,
+        "type": "currency",
+        "challengeType": "Weekly"
+    },
+    {
+        "challenge_id": "Challenge_Stuns_RunnerWeekly",
+        "challengeBlueprint": "/Game/Challenges/Weekly/Challenge_Stuns_RunnerWeekly.Challenge_Stuns_RunnerWeekly",
+        "faction": "Runner",
+        "ChallengeCompletionValue": 100,
+        "type": "currency",
+        "challengeType": "Weekly"
+    },
+    {
+        "challenge_id": "Challenge_Turrets_HunterWeekly",
+        "challengeBlueprint": "/Game/Challenges/Weekly/Challenge_Turrets_HunterWeekly.Challenge_Turrets_HunterWeekly",
+        "faction": "Hunter",
+        "ChallengeCompletionValue": 30,
+        "type": "currency",
+        "challengeType": "Weekly"
+    },
+    {
+        "challenge_id": "Challenge_Turrets_RunnerWeekly",
+        "challengeBlueprint": "/Game/Challenges/Weekly/Challenge_Turrets_RunnerWeekly.Challenge_Turrets_RunnerWeekly",
+        "faction": "Runner",
+        "ChallengeCompletionValue": 10,
+        "type": "currency",
+        "challengeType": "Weekly"
+    },
+    {
+        "challenge_id": "Challenge_UPs_RunnerWeekly",
+        "challengeBlueprint": "/Game/Challenges/Weekly/Challenge_UPs_RunnerWeekly.Challenge_UPs_RunnerWeekly",
+        "faction": "Runner",
+        "ChallengeCompletionValue": 30,
+        "type": "currency",
+        "challengeType": "Weekly"
+    },
+    {
+        "challenge_id": "Challenge_Wasteful_HunterWeekly",
+        "challengeBlueprint": "/Game/Challenges/Weekly/Challenge_Wasteful_HunterWeekly.Challenge_Wasteful_HunterWeekly",
+        "faction": "Hunter",
+        "ChallengeCompletionValue": 10000,
+        "type": "currency",
+        "challengeType": "Weekly"
+    },
+    {
+        "challenge_id": "Challenge_Wasteful_RunnerWeekly",
+        "challengeBlueprint": "/Game/Challenges/Weekly/Challenge_Wasteful_RunnerWeekly.Challenge_Wasteful_RunnerWeekly",
+        "faction": "Runner",
+        "ChallengeCompletionValue": 10000,
+        "type": "currency",
+        "challengeType": "Weekly"
+    },
+    {
+        "challenge_id": "Challenge_WUP_HunterWeekly",
+        "challengeBlueprint": "/Game/Challenges/Weekly/Challenge_WUP_HunterWeekly.Challenge_WUP_HunterWeekly",
+        "faction": "Hunter",
+        "ChallengeCompletionValue": 150,
+        "type": "currency",
+        "challengeType": "Weekly"
+    },
+    {
+        "challenge_id": "Challenge_WUP_RunnerWeekly",
+        "challengeBlueprint": "/Game/Challenges/Weekly/Challenge_WUP_RunnerWeekly.Challenge_WUP_RunnerWeekly",
+        "faction": "Runner",
+        "ChallengeCompletionValue": 150,
+        "type": "currency",
+        "challengeType": "Weekly"
     },
     {
         "challenge_id": "B4B156CC47C8D987B9BDBEB910B12C9E",
@@ -5944,6 +6200,318 @@ challenge_data = [
         "ChallengeCompletionValue": 100,
         "type": "currency",
         "challengeType": "ChallengeProgressionCounter"
+    },
+    {
+        "challenge_id": "87A39D494DF78A55D012B4BCA091E043",
+        "challengeBlueprint": "/Game/Challenges/Progression/Challenge_SpendAmmo_AssaultRifle_Hunter.Challenge_SpendAmmo_AssaultRifle_Hunter",
+        "faction": "Hunter",
+        "ChallengeCompletionValue": 210,
+        "type": "currency",
+        "challengeType": "ChallengeProgressionCounter"
+    },
+    {
+        "challenge_id": "164FAA5D41B127B316ABAD9E7DAAD674",
+        "challengeBlueprint": "/Game/Challenges/Progression/Challenge_Shoot_AssaultRifle_Hunter.Challenge_Shoot_AssaultRifle_Hunter",
+        "faction": "Hunter",
+        "ChallengeCompletionValue": 200,
+        "type": "currency",
+        "challengeType": "ChallengeProgressionCounter"
+    },
+    {
+        "challenge_id": "9F8EE83B438410496374ADA522F55713",
+        "challengeBlueprint": "/Game/Challenges/Progression/General/Challenge_Damage_Hunter.Challenge_Damage_Hunter",
+        "faction": "Hunter",
+        "ChallengeCompletionValue": 12000,
+        "type": "currency",
+        "challengeType": "ChallengeProgressionCounter"
+    },
+    {
+        "challenge_id": "997A3A384F8156F76E9405ABA503DDEE",
+        "challengeBlueprint": "/Game/Challenges/Progression/Challenge_SpendAmmo_AutoShotgun_Hunter.Challenge_SpendAmmo_AutoShotgun_Hunter",
+        "faction": "Hunter",
+        "ChallengeCompletionValue": 50,
+        "type": "currency",
+        "challengeType": "ChallengeProgressionCounter"
+    },
+    {
+        "challenge_id": "D686CACE4B3C6C55F5BD9A80177D12AE",
+        "challengeBlueprint": "/Game/Challenges/Progression/Challenge_Shoot_AutoShotgun_Hunter.Challenge_Shoot_AutoShotgun_Hunter",
+        "faction": "Hunter",
+        "ChallengeCompletionValue": 130,
+        "type": "currency",
+        "challengeType": "ChallengeProgressionCounter"
+    },
+    {
+        "challenge_id": "C987A00C4AB705897336E1A84899264B",
+        "challengeBlueprint": "/Game/Challenges/Progression/General/Challenge_Damage_Hunter.Challenge_Damage_Hunter",
+        "faction": "Hunter",
+        "ChallengeCompletionValue": 12000,
+        "type": "currency",
+        "challengeType": "ChallengeProgressionCounter"
+    },
+    {
+        "challenge_id": "1FD7D2EB4616FC6F475D58AA8AF7F93B",
+        "challengeBlueprint": "/Game/Challenges/Progression/Challenge_SpendAmmo_AutoShotgun_Hunter.Challenge_SpendAmmo_AutoShotgun_Hunter",
+        "faction": "Hunter",
+        "ChallengeCompletionValue": 50,
+        "type": "currency",
+        "challengeType": "ChallengeProgressionCounter"
+    },
+    {
+        "challenge_id": "72718B874504A50CD3FA4385FB5523FF",
+        "challengeBlueprint": "/Game/Challenges/Progression/Challenge_Shoot_AutoShotgun_Hunter.Challenge_Shoot_AutoShotgun_Hunter",
+        "faction": "Hunter",
+        "ChallengeCompletionValue": 130,
+        "type": "currency",
+        "challengeType": "ChallengeProgressionCounter"
+    },
+    {
+        "challenge_id": "FA8F508E40A808178CE740940F817554",
+        "challengeBlueprint": "/Game/Challenges/Progression/General/Challenge_Damage_Hunter.Challenge_Damage_Hunter",
+        "faction": "Hunter",
+        "ChallengeCompletionValue": 12000,
+        "type": "currency",
+        "challengeType": "ChallengeProgressionCounter"
+    },
+    {
+        "challenge_id": "FDC959494B25E5982F050DAE6D312DF2",
+        "challengeBlueprint": "/Game/Challenges/Progression/Challenge_SpendAmmo_AutoSniper_Hunter.Challenge_SpendAmmo_AutoSniper_Hunter",
+        "faction": "Hunter",
+        "ChallengeCompletionValue": 60,
+        "type": "currency",
+        "challengeType": "ChallengeProgressionCounter"
+    },
+    {
+        "challenge_id": "4D5CCA7D42CD770262551591FB8D1C62",
+        "challengeBlueprint": "/Game/Challenges/Progression/Challenge_Shoot_AutoSniper_Hunter.Challenge_Shoot_AutoSniper_Hunter",
+        "faction": "Hunter",
+        "ChallengeCompletionValue": 80,
+        "type": "currency",
+        "challengeType": "ChallengeProgressionCounter"
+    },
+    {
+        "challenge_id": "8D8F602F4D0BFDE7B2A884A97D88F169",
+        "challengeBlueprint": "/Game/Challenges/Progression/General/Challenge_Damage_Hunter.Challenge_Damage_Hunter",
+        "faction": "Hunter",
+        "ChallengeCompletionValue": 12000,
+        "type": "currency",
+        "challengeType": "ChallengeProgressionCounter"
+    },
+    {
+        "challenge_id": "702074B04572D0ECF67FA9BF1AE5DD7E",
+        "challengeBlueprint": "/Game/Challenges/Progression/Challenge_SpendAmmo_AutoSniperGuardian_Hunter.Challenge_SpendAmmo_AutoSniperGuardian_Hunter",
+        "faction": "Hunter",
+        "ChallengeCompletionValue": 60,
+        "type": "currency",
+        "challengeType": "ChallengeProgressionCounter"
+    },
+    {
+        "challenge_id": "ADA907B24D8DCBD28848F18B6D15FF57",
+        "challengeBlueprint": "/Game/Challenges/Progression/Challenge_Shoot_AutoSniper_Hunter.Challenge_Shoot_AutoSniper_Hunter",
+        "faction": "Hunter",
+        "ChallengeCompletionValue": 80,
+        "type": "currency",
+        "challengeType": "ChallengeProgressionCounter"
+    },
+    {
+        "challenge_id": "9B3DF194466FF239257F1289F7BC4A71",
+        "challengeBlueprint": "/Game/Challenges/Progression/General/Challenge_Damage_Hunter.Challenge_Damage_Hunter",
+        "faction": "Hunter",
+        "ChallengeCompletionValue": 12000,
+        "type": "currency",
+        "challengeType": "ChallengeProgressionCounter"
+    },
+    {
+        "challenge_id": "6E327F42491E3FC4FF0A77A0ECFDBF09",
+        "challengeBlueprint": "/Game/Challenges/Progression/Challenge_SpendAmmo_BurstRifle_Hunter.Challenge_SpendAmmo_BurstRifle_Hunter",
+        "faction": "Hunter",
+        "ChallengeCompletionValue": 180,
+        "type": "currency",
+        "challengeType": "ChallengeProgressionCounter"
+    },
+    {
+        "challenge_id": "F40221D745C692533271C3BDD63633A1",
+        "challengeBlueprint": "/Game/Challenges/Progression/Challenge_Shoot_BurstRifle_Hunter.Challenge_Shoot_BurstRifle_Hunter",
+        "faction": "Hunter",
+        "ChallengeCompletionValue": 160,
+        "type": "currency",
+        "challengeType": "ChallengeProgressionCounter"
+    },
+    {
+        "challenge_id": "0FFB7F6A41EBE9C6DB89108D46762F53",
+        "challengeBlueprint": "/Game/Challenges/Progression/General/Challenge_Damage_Hunter.Challenge_Damage_Hunter",
+        "faction": "Hunter",
+        "ChallengeCompletionValue": 12000,
+        "type": "currency",
+        "challengeType": "ChallengeProgressionCounter"
+    },
+    {
+        "challenge_id": "F62DA5304F26F2F0FCDFFCB7DBA45398",
+        "challengeBlueprint": "/Game/Challenges/Progression/Challenge_SpendAmmo_BurstRifleInquisitor_Hunter.Challenge_SpendAmmo_BurstRifleInquisitor_Hunter",
+        "faction": "Hunter",
+        "ChallengeCompletionValue": 180,
+        "type": "currency",
+        "challengeType": "ChallengeProgressionCounter"
+    },
+    {
+        "challenge_id": "7F3CF15A48BE7AE1948698A7BD718D2E",
+        "challengeBlueprint": "/Game/Challenges/Progression/Challenge_Shoot_BurstRifle_Hunter.Challenge_Shoot_BurstRifle_Hunter",
+        "faction": "Hunter",
+        "ChallengeCompletionValue": 160,
+        "type": "currency",
+        "challengeType": "ChallengeProgressionCounter"
+    },
+    {
+        "challenge_id": "BC7EB2484D54F89131082FBCEDB1F34C",
+        "challengeBlueprint": "/Game/Challenges/Progression/General/Challenge_Damage_Hunter.Challenge_Damage_Hunter",
+        "faction": "Hunter",
+        "ChallengeCompletionValue": 12000,
+        "type": "currency",
+        "challengeType": "ChallengeProgressionCounter"
+    },
+    {
+        "challenge_id": "77B930CE49352D062CCBD0A27C8E0F0A",
+        "challengeBlueprint": "/Game/Challenges/Progression/Challenge_SpendAmmo_DefaultShotgun_Hunter.Challenge_SpendAmmo_DefaultShotgun_Hunter",
+        "faction": "Hunter",
+        "ChallengeCompletionValue": 60,
+        "type": "currency",
+        "challengeType": "ChallengeProgressionCounter"
+    },
+    {
+        "challenge_id": "DB625B8B415DE703C5DB0698D1969A8E",
+        "challengeBlueprint": "/Game/Challenges/Progression/Challenge_Shoot_DefaultShotgun_Hunter.Challenge_Shoot_DefaultShotgun_Hunter",
+        "faction": "Hunter",
+        "ChallengeCompletionValue": 120,
+        "type": "currency",
+        "challengeType": "ChallengeProgressionCounter"
+    },
+    {
+        "challenge_id": "A26AB1694E2CC8669D08CD8E5F4F64BE",
+        "challengeBlueprint": "/Game/Challenges/Progression/General/Challenge_Damage_Hunter.Challenge_Damage_Hunter",
+        "faction": "Hunter",
+        "ChallengeCompletionValue": 12000,
+        "type": "currency",
+        "challengeType": "ChallengeProgressionCounter"
+    },
+    {
+        "challenge_id": "6049D85045161D075666E18DE4AFC772",
+        "challengeBlueprint": "/Game/Challenges/Progression/Challenge_SpendAmmo_DefaultSniper_Hunter.Challenge_SpendAmmo_DefaultSniper_Hunter",
+        "faction": "Hunter",
+        "ChallengeCompletionValue": 30,
+        "type": "currency",
+        "challengeType": "ChallengeProgressionCounter"
+    },
+    {
+        "challenge_id": "6B20937348A89A1A9E6CCB9EE09FC4DA",
+        "challengeBlueprint": "/Game/Challenges/Progression/Challenge_Shoot_DefaultSniper_Hunter.Challenge_Shoot_DefaultSniper_Hunter",
+        "faction": "Hunter",
+        "ChallengeCompletionValue": 40,
+        "type": "currency",
+        "challengeType": "ChallengeProgressionCounter"
+    },
+    {
+        "challenge_id": "2675258345FC8734A6CB0E98E02DE88A",
+        "challengeBlueprint": "/Game/Challenges/Progression/General/Challenge_Damage_Hunter.Challenge_Damage_Hunter",
+        "faction": "Hunter",
+        "ChallengeCompletionValue": 12000,
+        "type": "currency",
+        "challengeType": "ChallengeProgressionCounter"
+    },
+    {
+        "challenge_id": "00C0407C47E60CDB558C67B153E75DB6",
+        "challengeBlueprint": "/Game/Challenges/Progression/Challenge_SpendAmmo_GrenadeLauncher_Hunter.Challenge_SpendAmmo_GrenadeLauncher_Hunter",
+        "faction": "Hunter",
+        "ChallengeCompletionValue": 60,
+        "type": "currency",
+        "challengeType": "ChallengeProgressionCounter"
+    },
+    {
+        "challenge_id": "4246C6904E8F91584CE55885C633683E",
+        "challengeBlueprint": "/Game/Challenges/Progression/Challenge_Shoot_GrenadeLauncher_Hunter.Challenge_Shoot_GrenadeLauncher_Hunter",
+        "faction": "Hunter",
+        "ChallengeCompletionValue": 80,
+        "type": "currency",
+        "challengeType": "ChallengeProgressionCounter"
+    },
+    {
+        "challenge_id": "9EFF069F492B3251D37FCD9BB813523C",
+        "challengeBlueprint": "/Game/Challenges/Progression/General/Challenge_Damage_Hunter.Challenge_Damage_Hunter",
+        "faction": "Hunter",
+        "ChallengeCompletionValue": 15000,
+        "type": "currency",
+        "challengeType": "ChallengeProgressionCounter"
+    },
+    {
+        "challenge_id": "E3F005244D6BE2A392382F8CA270474F",
+        "challengeBlueprint": "/Game/Challenges/Progression/Challenge_SpendAmmo_LMG_Hunter.Challenge_SpendAmmo_LMG_Hunter",
+        "faction": "Hunter",
+        "ChallengeCompletionValue": 300,
+        "type": "currency",
+        "challengeType": "ChallengeProgressionCounter"
+    },
+    {
+        "challenge_id": "4555B2C545C8B41867FB9299306D3108",
+        "challengeBlueprint": "/Game/Challenges/Progression/Challenge_Shoot_LMG_Hunter.Challenge_Shoot_LMG_Hunter",
+        "faction": "Hunter",
+        "ChallengeCompletionValue": 300,
+        "type": "currency",
+        "challengeType": "ChallengeProgressionCounter"
+    },
+    {
+        "challenge_id": "FB6DFDE94DAE90B29C20F7A65FD4D050",
+        "challengeBlueprint": "/Game/Challenges/Progression/General/Challenge_Damage_Hunter.Challenge_Damage_Hunter",
+        "faction": "Hunter",
+        "ChallengeCompletionValue": 12000,
+        "type": "currency",
+        "challengeType": "ChallengeProgressionCounter"
+    },
+    {
+        "challenge_id": "AC14BF3547AB708F0D50C58C5440CFEB",
+        "challengeBlueprint": "/Game/Challenges/Progression/Challenge_SpendAmmo_HuntingShotgun_Hunter.Challenge_SpendAmmo_HuntingShotgun_Hunter",
+        "faction": "Hunter",
+        "ChallengeCompletionValue": 50,
+        "type": "currency",
+        "challengeType": "ChallengeProgressionCounter"
+    },
+    {
+        "challenge_id": "72A784C644E05E2631AB88883C1A11B1",
+        "challengeBlueprint": "/Game/Challenges/Progression/Challenge_Shoot_HuntingShotgun_Hunter.Challenge_Shoot_HuntingShotgun_Hunter",
+        "faction": "Hunter",
+        "ChallengeCompletionValue": 110,
+        "type": "currency",
+        "challengeType": "ChallengeProgressionCounter"
+    },
+    {
+        "challenge_id": "D33B49BB4F79DE0F6E39BD94DA15FA23",
+        "challengeBlueprint": "/Game/Challenges/Progression/General/Challenge_Damage_Hunter.Challenge_Damage_Hunter",
+        "faction": "Hunter",
+        "ChallengeCompletionValue": 12000,
+        "type": "currency",
+        "challengeType": "ChallengeProgressionCounter"
+    },
+    {
+        "challenge_id": "FBA3C3F3458AAD1B6D8199AF1451FE45",
+        "challengeBlueprint": "/Game/Challenges/Progression/Challenge_SpendAmmo_Carbine_Hunter.Challenge_SpendAmmo_Carbine_Hunter",
+        "faction": "Hunter",
+        "ChallengeCompletionValue": 60,
+        "type": "currency",
+        "challengeType": "ChallengeProgressionCounter"
+    },
+    {
+        "challenge_id": "3E4613F84B59697E68DE42A3B0E5F4CB",
+        "challengeBlueprint": "/Game/Challenges/Progression/Challenge_Shoot_Carbine_Hunter.Challenge_Shoot_Carbine_Hunter",
+        "faction": "Hunter",
+        "ChallengeCompletionValue": 80,
+        "type": "currency",
+        "challengeType": "ChallengeProgressionCounter"
+    },
+    {
+        "challenge_id": "9953E63E44CB478CAD903D82263F72B8",
+        "challengeBlueprint": "/Game/Challenges/Progression/General/Challenge_Damage_Hunter.Challenge_Damage_Hunter",
+        "faction": "Hunter",
+        "ChallengeCompletionValue": 12000,
+        "type": "currency",
+        "challengeType": "ChallengeProgressionCounter"
     }
 ]
 
@@ -5985,6 +6553,111 @@ started_challenge = {
     "value": 50
 },
 
+time_based_challenge = {
+"lifetime": {
+    "creationTime": "create_time",
+    "expirationTime": "expiration_time"
+},
+"challengeType": "Daily",
+"challengeId": f"Challenge_Domination_Hunter:create_time",
+"challengeCompletionValue": 1,
+"faction": "Hunter",
+"challengeBlueprint": "/Game/Challenges/Daily/Challenge_Domination_Hunter.Challenge_Domination_Hunter",
+"rewards": [
+    {
+        "weight": 100,
+        "amount": 30,
+        "id": "CurrencyA",
+        "type": "currency",
+        "claimed": "hunter_challenge"
+    }
+]
+}
+weekly_challenges = [
+"Challenge_ARB_Damage_HunterWeekly",
+"Challenge_AssaultRifleWins_HunterWeekly",
+"Challenge_BleedOut_HunterWeekly",
+"Challenge_BleedOut_RunnerWeekly",
+"Challenge_Damage_HunterWeekly",
+"Challenge_Double_HunterWeekly",
+"Challenge_DroneActivation_HunterWeekly",
+"Challenge_Efficient_HunterWeekly",
+"Challenge_Emotional_HunterWeekly",
+"Challenge_Emotional_RunnerWeekly",
+"Challenge_Greed_HunterWeekly",
+"Challenge_Greed_RunnerWeekly",
+"Challenge_Headshot_HunterWeekly",
+"Challenge_HuntingShotgunWins_HunterWeekly",
+"Challenge_InDenial_HunterWeekly",
+"Challenge_LMGWins_HunterWeekly",
+"Challenge_Mines_HunterWeekly",
+"Challenge_Mines_RunnerWeekly",
+"Challenge_Reveals_hunterWeekly",
+"Challenge_RingOut_hunterWeekly",
+"Challenge_Shields_RunnerWeekly",
+"Challenge_ShotgunDowns_HunterWeekly",
+"Challenge_Speed_HunterWeekly",
+"Challenge_SpeedCapture_RunnerWeekly",
+"Challenge_Stuns_RunnerWeekly",
+"Challenge_Turrets_HunterWeekly",
+"Challenge_Turrets_RunnerWeekly",
+"Challenge_UPs_RunnerWeekly",
+"Challenge_Wasteful_HunterWeekly",
+"Challenge_Wasteful_RunnerWeekly",
+"Challenge_WUP_HunterWeekly",
+"Challenge_WUP_RunnerWeekly"
+]
+daily_challenges = [
+"Daily_Domination_Hunter",
+"Daily_Domination_Runner",
+]
+
+
+def looper(challenge, userid):
+    data = get_progression_batch(challenge, userid)
+    for base_challenge in challenge_data:
+        if base_challenge["challenge_id"] == challenge:
+            data["challengeBlueprint"] = base_challenge["challengeBlueprint"]
+            data["faction"] = base_challenge["faction"]
+            data["ChallengeCompletionValue"] = base_challenge["ChallengeCompletionValue"]
+    try:
+        data.pop("className")
+        data["rewards"][0]["weight"] = 100
+    except KeyError:
+        pass
+    if not "rewards" in data.keys():
+        if not "rewardsClaimed" in data.keys():
+            data["rewards"] = [
+                {
+                    "weight": 100,
+                    "amount": 30,
+                    "id": "CurrencyA",
+                    "type": "currency",
+                    "claimed": False
+                }
+            ]
+    data["schemaVersion"] = 1
+    return data
+
+
+def get_time_based_challenges(challenge_type, userid):
+    return_cal = []
+    if challenge_type == "daily":
+        for challenge in daily_challenges:
+            data = looper(challenge, userid)
+            data["challengeType"] = "Daily"
+            return_cal.append(data)
+
+    elif challenge_type == "weekly":
+        for challenge in weekly_challenges:
+            data = looper(challenge, userid)
+            data["challengeType"] = "Weekly"
+            return_cal.append(data)
+    else:
+        logger.graylog_logger(level="error", handler="get_time_based_challenges", message=f"Challenge type not found {challenge_type}")
+        return []
+    return return_cal
+
 
 def get_progression_batch(guid, userid):
     for item in challenge_data:
@@ -5996,11 +6669,17 @@ def get_progression_batch(guid, userid):
                         data = {"challengeId": challenge["challenge_id"],
                                 "completed": False}
                     else:
+                        if challenge["completed"]:
+                            reward_key = "rewards"
+                            # TEST should be rewardsClaimed
+                        else:
+                            reward_key = "rewards"
                         data = {
                             "challengeId": challenge["challenge_id"],
                             "className": "ChallengeProgressionCounter",
-                            "rewardsClaimed": [
+                            reward_key: [
                                 {
+                                    "weight": 100,
                                     "type": "currency",
                                     "amount": 30,
                                     "id": "CurrencyA"
@@ -6016,20 +6695,17 @@ def get_progression_batch(guid, userid):
                         create_time, expiration_time = get_lifetime("weekly")
                     else:
                         return data
-                    if create_time > challenge["expiration_time"]:
+                    if create_time > challenge["lifetime"]["expirationTime"]:
                         challenge["completed"] = False
                         challenge["completion_count"] = challenge["completion_count"] + 1
-                        challenge["start_time"] = create_time
-                        challenge["expiration_time"] = expiration_time
+                        challenge["lifetime"]["creationTime"] = create_time
+                        challenge["lifetime"]["expirationTime"] = expiration_time
                         mongo.write_data_with_list(login=userid, login_steam=False,
                                                    items_dict={"challenges": db_challenge})
-                        return {"challengeId": challenge["challenge_id"], "completed": False, "lifetime": {
-                            "creationTime": create_time,
-                            "expirationTime": expiration_time
-                        }}
+                        return data
                     else:
-                        start_data = challenge["start_time"]
-                        expiration_date = challenge["expiration_time"]
+                        start_data = challenge["lifetime"]["creationTime"]
+                        expiration_date = challenge["lifetime"]["expirationTime"]
                         data["lifetime"] = {
                             "creationTime": start_data,
                             "expirationTime": expiration_date
@@ -6040,6 +6716,26 @@ def get_progression_batch(guid, userid):
                     challenge_type = item["challengeType"]
                 except KeyError:
                     logger.graylog_logger(level="error", handler="get_progression_batch", message=f"Challenge KEY ERROR {guid}")
+                    challenge_type = "NONE"
+
+                if challenge_type == "Daily":
+                    create_time, expiration_time = get_lifetime("daily")
+                    _setup_challenges(guid, userid, challenge_type)
+                    return {"challengeId": guid, "completed": False, "className": "Weekly",
+                            "lifetime": {
+                                "creationTime": create_time,
+                                "expirationTime": expiration_time
+                            },
+                            "completion_count": 0}
+                if challenge_type == "Weekly":
+                    create_time, expiration_time = get_lifetime("weekly")
+                    _setup_challenges(guid, userid, challenge_type)
+                    return {"challengeId": guid, "completed": False, "className": "Weekly",
+                            "lifetime": {
+                                "creationTime": create_time,
+                                "expirationTime": expiration_time
+                            },
+                            "completion_count": 0}
                 _setup_challenges(guid, userid, challenge_type)
                 return {"challengeId": guid, "completed": False}
     logger.graylog_logger(level="debug", handler="get_progression_batch", message=f"Challenge not found {guid}")
@@ -6048,6 +6744,7 @@ def get_progression_batch(guid, userid):
             "className": "ChallengeProgressionCounter",
                             "rewardsClaimed": [
                                 {
+                                    "weight": 100,
                                     "type": "currency",
                                     "amount": 999,
                                     "id": "CurrencyA"
@@ -6071,6 +6768,14 @@ def update_progression_batch(guid, userid, value=0, complete=False):
                         elif base_challenge["challengeType"] == "Weekly":
                             challenge["completion_count"] = challenge["completion_count"] + 1
                     else:
+                        if base_challenge["ChallengeCompletionValue"] <= value:
+                            challenge["completed"] = True
+                            challenge["value"] = base_challenge["ChallengeCompletionValue"]
+                            if base_challenge["challengeType"] == "Daily":
+                                challenge["completion_count"] = challenge["completion_count"] + 1
+                            elif base_challenge["challengeType"] == "Weekly":
+                                challenge["completion_count"] = challenge["completion_count"] + 1
+
                         challenge["value"] = value
                     mongo.write_data_with_list(login=userid, login_steam=False, items_dict={"challenges": user_challenges})
                     return True
@@ -6081,9 +6786,18 @@ def _setup_challenges(guid, userid, challenge_type):
     user_challenges = mongo.get_data_with_list(login=userid, login_steam=False, items={"challenges"})["challenges"]
     if challenge_type == "ChallengeProgressionCounter":
         user_challenges.append({"challenge_id": guid, "value": 0, "completed": False})
+    elif challenge_type == "Weekly":
+        create_time, expiration_time = get_lifetime("weekly")
+        user_challenges.append(
+            {"challenge_id": guid, "value": 0, "completed": False, "completion_count": 0, "lifetime": {
+                                "creationTime": create_time,
+                                "expirationTime": expiration_time
+                            },})
     else:
         create_time, expiration_time = get_lifetime("daily")
         user_challenges.append(
-            {"challenge_id": guid, "value": 0, "completed": False, "completion_count": 0, "start_time": create_time,
-             "expiration_time": expiration_time})
+            {"challenge_id": guid, "value": 0, "completed": False, "completion_count": 0, "lifetime": {
+                                "creationTime": create_time,
+                                "expirationTime": expiration_time
+                            },})
     mongo.write_data_with_list(login=userid, login_steam=False, items_dict={"challenges": user_challenges})
