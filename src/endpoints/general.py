@@ -448,15 +448,108 @@ def purchase_set():
     data = request.get_json()
     itemid = data["data"]["itemId"]
     currencygroup = data["data"]["currencyGroup"]
+    # {
+    #       "id": "D89AA4884C54121C007FC3B613A8DDE8",
+    #       "displayName": "RN_FOG_SMOKE_Fullset_STR001_Winter01_Item_Hard_Winter",
+    #       "initialQuantity": 0,
+    #       "consumable": false,
+    #       "consumptionReward": [],
+    #       "defaultCost": [],
+    #       "eventCostList": [],
+    #       "metaData": {
+    #         "gameplayTags": [
+    #           "Customization.RN.FullSet",
+    #           "Runner.Smoke"
+    #         ],
+    #         "requiredChallengesToComplete": [],
+    #         "minPlayerLevel": 0,
+    #         "minCharacterLevel": 0,
+    #         "freeForUserCreatedAfter": 0,
+    #         "freeForUserCreatedBefore": 0,
+    #         "isUnbreakableFullset": false,
+    #         "origin": "None",
+    #         "quality": "Basic",
+    #         "groupType": "",
+    #         "followingItem": "",
+    #         "prerequisiteItem": "",
+    #         "autoUnlockItemIds": [],
+    #         "bundleItems": [
+    #           "248D60AC47F987E895AD65B722D8912B",
+    #           "4C0728944310CD3252C500B2B39BD34F",
+    #           "70A248D340C77F1E552282AB8D73EADA",
+    #           "ACE0A0304A74F795A6466192FCBC7CBC"
+    #         ],
+    #         "rewardBundleItems": [],
+    #         "itemAssignments": [],
+    #         "prestigeLevelRewards": [],
+    #         "bundlePartOf": "",
+    #         "bundleDiscountPercent": 0
+    #       },
+    #       "unique": false,
+    #       "nonSecure": false,
+    #       "purchasable": false
+    #     },
 
+    # {"data":{"itemId":"D89AA4884C54121C007FC3B613A8DDE8","currencyGroup":"SoftCurrencyGroup"}}
     try:
-        logger.graylog_logger(level="info", handler="logging_purchase_item", message=request.get_json())
-        #{"data":{"itemId":"D89AA4884C54121C007FC3B613A8DDE8","currencyGroup":"SoftCurrencyGroup"}}
+        data = mongo.get_data_with_list(login=userid, login_steam=False,
+                                        items={"inventory", "currency_blood_cells", "currency_iron",
+                                               "currency_ink_cells"})
+        inventory = data["inventory"]
+        CurrencyB = int(data["currency_blood_cells"])
+        CurrencyA = int(data["currency_iron"])
+        CurrencyC = int(data["currency_ink_cells"])
+
+        catalog = json.load(
+            open(os.path.join(app.root_path, "json", "catalog", "te-18f25613-36778-ue4-374f864b", "catalog.json"), "r"))
+        wallet = [
+            {"Id": "CurrencyA", "Balance": CurrencyA, "Debited": 0},
+            {"Id": "CurrencyB", "Balance": CurrencyB, "Debited": 0},
+            {"Id": "CurrencyC", "Balance": CurrencyC, "Debited": 0}
+        ]
+        bought_items = [itemid]
+        for item in catalog["result"]:
+            if item["id"] == itemid:
+                for sub_item in item["metaData"]["bundleItems"]:
+                    bought_items.append(sub_item)
+                    for new_catalog_query in catalog["result"]:
+                        if new_catalog_query["id"] == sub_item:
+                            for currency in new_catalog_query["defaultCost"]:
+                                if currency["currencyId"] == "CurrencyA":
+                                    wallet[0]["Debited"] += currency["price"]
+                                    CurrencyA -= currency["price"]
+                                elif currency["currencyId"] == "CurrencyB":
+                                    wallet[1]["Debited"] += currency["price"]
+                                    CurrencyB -= currency["price"]
+                                elif currency["currencyId"] == "CurrencyC":
+                                    wallet[2]["Debited"] += currency["price"]
+                                    CurrencyC -= currency["price"]
+                            break
+
+        if CurrencyA < 0 or CurrencyB < 0 or CurrencyC < 0:
+            return jsonify({"status": "error"}), 500
+        logger.graylog_logger(level="debug", handler="logging_purchase_item", message=f"bought_items: {bought_items}, user_inventory: {inventory}")
+        inventory.extend(bought_items)
+        mongo.write_data_with_list(login=userid, login_steam=False,
+                                   items_dict={"inventory": inventory, "currency_blood_cells": CurrencyB,
+                                               "currency_iron": CurrencyA, "currency_ink_cells": CurrencyC})
+
         return jsonify({
-            "Cost": {},
-            "NewBalance": {},
-            "PurchasedItems": [itemid],
-            "RewardItems": [],
+            "Cost": {"CurrencyId": "CurrencyB", "Price": CurrencyB},
+            "NewBalance": [
+                {"Currency": "CurrencyA", "Balance": CurrencyA,
+                 "CurrencyGroup": "SoftCurrencyGroup", "LastRefillTimeStamp": "1684862187"},
+                {"Currency": "CurrencyB", "Balance": CurrencyB,
+                 "CurrencyGroup": "SoftCurrencyGroup", "LastRefillTimeStamp": "1684862187"},
+                {"Currency": "CurrencyC", "Balance": CurrencyC,
+                 "CurrencyGroup": "SoftCurrencyGroup", "LastRefillTimeStamp": "1684862187"},
+                {"Currency": "HARD_CURRENCY", "Balance": 6969,
+                 "CurrencyGroup": "HardCurrencyGroup", "LastRefillTimeStamp": "1684862187"},
+                {"Currency": "PROGRESSION_CURRENCY", "Balance": 10000,
+                 "CurrencyGroup": "HardCurrencyGroup", "LastRefillTimeStamp": "1684862187"}
+            ],
+            "PurchasedItems": ["itemid"],
+            "RewardItems": bought_items,
         })
     except TimeoutError:
         return jsonify({"status": "error"})
@@ -478,7 +571,32 @@ def purchase_item():
 
     try:
         logger.graylog_logger(level="info", handler="logging_purchase_item", message=request.get_json())
-        # {"data":{"objectId":"99752C6E4F54F9D7A4FFF3AA9A50B3E6","oldQuantity":0,"wantedQuantity":1,"currencyGroup":"SoftCurrencyGroup"}}
+        data = mongo.get_data_with_list(login=userid, login_steam=False, items={"inventory", "currency_blood_cells", "currency_iron", "currency_ink_cells"})
+        inventory = data["inventory"]
+        CurrencyB = int(data["currency_blood_cells"])
+        CurrencyA = int(data["currency_iron"])
+        CurrencyC = int(data["currency_ink_cells"])
+
+        catalog = json.load(open(os.path.join(app.root_path, "json", "catalog", "te-18f25613-36778-ue4-374f864b", "catalog.json"), "r"))
+        wallet = []
+        for item in catalog["result"]:
+            if item["id"] == itemid:
+                for currency in item["defaultCost"]:
+                    if currency["currencyId"] == "CurrencyA":
+                        wallet.append({"Id": "CurrencyA", "Balance": CurrencyA, "Debited": currency["price"]})
+                        CurrencyA -= currency["price"]
+                    elif currency["currencyId"] == "CurrencyB":
+                        wallet.append({"Id": "CurrencyB", "Balance": CurrencyB, "Debited": currency["price"]})
+                        CurrencyB -= currency["price"]
+                    elif currency["currencyId"] == "CurrencyC":
+                        wallet.append({"Id": "CurrencyC", "Balance": CurrencyC, "Debited": currency["price"]})
+                        CurrencyC -= currency["price"]
+                break
+        if CurrencyA < 0 or CurrencyB < 0 or CurrencyC < 0:
+            return jsonify({"status": "error"}), 500
+        inventory.append(itemid)
+        mongo.write_data_with_list(login=userid, login_steam=False, items_dict={"inventory": inventory, "currency_blood_cells": CurrencyB, "currency_iron": CurrencyA, "currency_ink_cells": CurrencyC})
+
         return jsonify({
             "PlayerId": userid,
             "ObjectId": itemid,
@@ -486,17 +604,9 @@ def purchase_item():
             "RewardItems": [
                 itemid
             ],
-            "Wallet":
-            [
-                {
-                    "Id": "CurrencyA",
-                    "Balance": 1000000,
-                    "Debited": 100
-                }
-            ]
+            "Wallet": wallet
         })
     except TimeoutError:
         return jsonify({"status": "error"})
     except Exception as e:
         logger.graylog_logger(level="error", handler="logging_purchase_item", message=e)
-# {"data":{"objectId":"99752C6E4F54F9D7A4FFF3AA9A50B3E6","oldQuantity":0,"wantedQuantity":1,"currencyGroup":"SoftCurrencyGroup"}}
