@@ -94,7 +94,7 @@ def get_init_or_get_groups(userid, request_data):
         #                 'EquippedBonuses': [],
         #                 'pickedChallenges': []
 
-        data["ProgressionGroups"] = [
+        data["progressionGroups"] = [
             {
                 "version": 10,
                 "objectId": "HunterGroupA",
@@ -240,7 +240,7 @@ def get_init_or_get_groups(userid, request_data):
             }
         ]
     if not skip_metadata_groups:
-        data["MetadataGroups"] = []
+        data["metadataGroups"] = []
 
         last_played_faction = mongo.get_data_with_list(login=userid, login_steam=False, items={"last_played_faction"})
         tutorial_completed = mongo.get_data_with_list(login=userid, login_steam=False, items={"tutorial_completed"})
@@ -255,7 +255,7 @@ def get_init_or_get_groups(userid, request_data):
         Runner_List = ["RunnerGroupA", "RunnerGroupB", "RunnerGroupC", "RunnerGroupD", "RunnerGroupE", "RunnerGroupF"]
         Hunter_List = ["HunterGroupA", "HunterGroupB", "HunterGroupC", "HunterGroupD"]
 
-        data["MetadataGroups"] = [
+        data["metadataGroups"] = [
             {
                 "version": 342,
                 "objectId": "PlayerMetadata",
@@ -308,7 +308,7 @@ def get_init_or_get_groups(userid, request_data):
             characterId = group_data["characterId"]
             equippedConsumables = group_data["equippedConsumables"]
 
-            data["MetadataGroups"].append({
+            data["metadataGroups"].append({
                 "version": 3,
                 "objectId": group,
                 "data": {
@@ -485,90 +485,14 @@ def challenges_get_challenges():
         response = request.get_json()
         challenge_type = sanitize_input(response["data"]["challengeType"])
         if challenge_type == "Weekly":
-            response_array = []
-            weekly_data = mongo.get_data_with_list(login=userid, login_steam=False, items={"weekly_challenges"})
-            for item in weekly_data["weekly_challenges"]:
-                create_time, expiration_time = get_lifetime("weekly")
-                if item["challenge_id"] <= 11:
-                    faction = "Runner"
-                else:
-                    faction = "Hunter"
-                blueprint = item["challengeBlueprint"]
-                response_array.append({
-                    "lifetime": {
-                        "creationTime": create_time,
-                        "expirationTime": expiration_time
-                    },
-                    "challengeType": "Weekly",
-                    "challengeId": f"Challenge_{blueprint}:{create_time}",
-                    "challengeCompletionValue": item["ChallengeCompletionValue"],
-                    "faction": faction,
-                    "challengeBlueprint": f"/Game/Weekly/Challenges/{blueprint}.{blueprint}",
-                    "rewards": [
-                        {
-                            "weight": 100,
-                            "amount": 30,
-                            "id": "CurrencyA",
-                            "type": "currency",
-                            "claimed": item["claimed"]
-                        }
-                    ]
-                })
-            return jsonify({"challenges": response_array})
+            return_data = get_time_based_challenges(challenge_type="weekly", userid=userid)
         elif challenge_type == "Daily":
-            create_time, expiration_time = get_lifetime("daily")
-
-            daily_challenges = mongo.get_data_with_list(login=userid, login_steam=False, items={"daily_challenges"})
-            runner_challenge = daily_challenges["daily_challenges"][0]["claimed"]
-            hunter_challenge = daily_challenges["daily_challenges"][1]["claimed"]
-            return jsonify({
-                "challenges": [
-                    {
-                        "lifetime": {
-                            "creationTime": create_time,
-                            "expirationTime": expiration_time
-                        },
-                        "challengeType": "Daily",
-                        "challengeId": f"Challenge_Deliver_Runner:{create_time}",
-                        "challengeCompletionValue": 50,
-                        "faction": "Runner",
-                        "challengeBlueprint": "/Game/Challenges/Challenge_Deliver_Runner.Challenge_Deliver_Runner",
-                        "rewards": [
-                            {
-                                "weight": 100,
-                                "amount": 30,
-                                "id": "CurrencyA",
-                                "type": "currency",
-                                "claimed": runner_challenge
-                            }
-                        ]
-                    },
-                    {
-                        "lifetime": {
-                            "creationTime": create_time,
-                            "expirationTime": expiration_time
-                        },
-                        "challengeType": "Daily",
-                        "challengeId": f"Challenge_Domination_Hunter:{create_time}",
-                        "challengeCompletionValue": 1,
-                        "faction": "Hunter",
-                        "challengeBlueprint": "/Game/Challenges/Daily/Challenge_Domination_Hunter.Challenge_Domination_Hunter",
-                        "rewards": [
-                            {
-                                "weight": 100,
-                                "amount": 30,
-                                "id": "CurrencyA",
-                                "type": "currency",
-                                "claimed": hunter_challenge
-                            }
-                        ]
-                    }
-                ]
-            })
+            return_data = get_time_based_challenges(challenge_type="daily", userid=userid)
         else:
             logger.graylog_logger(level="error", handler="getChallenges",
                                   message=f"Unknown challenge type {challenge_type}")
             return jsonify({"status": "error"})
+        return jsonify({"challenges": return_data})
 
     except TimeoutError:
         return jsonify({"status": "error"})
@@ -640,6 +564,19 @@ def challenges_execute_challenge_progression_operation_batch():
             if operation_name == "complete":
                 ret = update_progression_batch(challenge_id, userId, complete=True)
                 if ret:
+                    wallet = mongo.get_data_with_list(login=userId, login_steam=False,
+                                                      items={"currency_blood_cells", "currency_iron",
+                                                             "currency_ink_cells"})
+                    currency_blood_cells = wallet["currency_blood_cells"]
+                    currency_iron = wallet["currency_iron"]
+                    currency_ink_cells = wallet["currency_ink_cells"]
+                    currency_iron = currency_iron + 340
+                    currency_ink_cells = currency_ink_cells + 340
+                    currency_blood_cells = currency_blood_cells + 340
+                    mongo.write_data_with_list(login=userId, login_steam=False,
+                                               items_dict={"currency_blood_cells": currency_blood_cells,
+                                                           "currency_iron": currency_iron,
+                                                           "currency_ink_cells": currency_ink_cells})
                     pass
                 else:
                     error_list.append(challenge_id)
@@ -1364,7 +1301,7 @@ def update_metadata_group():
                         "objectId": "PlayerMetadata",
                         "version": 343,
                         "schemaVersion": 1,
-                        "data": []})
+                        "data": data["data"]})
 
     except TimeoutError:
         return jsonify({"status": "error"})
