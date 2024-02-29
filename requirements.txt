@@ -5,5 +5,5 @@ requests~=2.31.0
 pymongo~=4.3.3
 waitress~=2.1.2
 colorlog~=6.7.0
-bleach~=6.0.0
+bleach~=6.1.0
 dnspython>=2.6.0rc1 # not directly required, pinned by Snyk to avoid a vulnerability
