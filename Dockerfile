@@ -1,4 +1,4 @@
-FROM python:3.13.0a4-alpine3.18
+FROM python:3.13.0a5-alpine3.18
 
 RUN apk upgrade && apk add curl && apk upgrade busybox # CVE-2022-48174
 
