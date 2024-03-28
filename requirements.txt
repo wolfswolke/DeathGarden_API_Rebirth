@@ -1,5 +1,5 @@
 flask~=3.0.2
-PyYaml~=6.0
+PyYaml==6.0.1
 graypy~=2.1.0
 requests~=2.31.0
 pymongo~=4.6.2
