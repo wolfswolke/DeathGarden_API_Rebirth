@@ -11,7 +11,14 @@ def gamenews():
     session_cookie = request.cookies.get("bhvrSession")
     userid = session_manager.get_user_id(session_cookie)
 
-    # /gamenews/messages?sortDesc=true&gameVersion=0&platform=PC&language=EN&messageType=InGameNews&faction=Runner&playerLevel=1
+    # /gamenews/messages?
+    # sortDesc=true
+    # gameVersion=0
+    # platform=PC
+    # language=EN
+    # messageType=InGameNews
+    # faction=Runner
+    # playerLevel=1
     # The game saves watched game news here: C:\Users\User\AppData\Local\TheExit\Saved\Config\WindowsNoEditor\GameUserSettings.ini
     # In this Format: GameNewsViews=(("1", 4),("2", 1),("3", 1),("4", 1))
     # The first number is the ID of the news, the second number is the amount of times the news window was opened
@@ -56,19 +63,22 @@ def content_version_latest(version):
     session_cookie = sanitize_input(request.cookies.get("bhvrSession"))
     userid = session_manager.get_user_id(session_cookie)
 
-    if version_san == "2.2":
+    if version_san == "0":
+        return jsonify({"LatestSupportedVersion": "dev030"}), 200
+        # This is DEV Placeholder in the Config
+    elif version_san == "2.0":
+        return jsonify({"LatestSupportedVersion": "dev020"}), 200
+    elif version_san == "2.2":
         return jsonify({"LatestSupportedVersion": "te-23ebf96c-27498-ue4-7172a3f5"}), 200
     elif version_san == "2.5":
         return jsonify({"LatestSupportedVersion": "te-40131b9e-33193-ue4-fbccc218"}), 200
-    elif version_san == "0":
-        return jsonify({"LatestSupportedVersion": "dev030"}), 200
-        # This is DEV Placeholder in the Config
-    elif version_san == "3.0":
-        return jsonify({"LatestSupportedVersion": "dev030"}), 200
     elif version_san == "2.11":
         return jsonify({"LatestSupportedVersion": "te-18f25613-36778-ue4-374f864b"}), 200
-    elif version_san == "2.0":
-        return jsonify({"LatestSupportedVersion": "dev020"}), 200
+    elif version_san == "2.12":
+        return jsonify({"LatestSupportedVersion": "balance111"}), 200
+    elif version_san == "3.0":
+        return jsonify({"LatestSupportedVersion": "dev030"}), 200
+
     try:
         print("Responded to content version api call GET")
         print(f"Version called by client: {version_san}")
@@ -111,7 +121,9 @@ def gameservers_live():
     check_for_game_client("strict")
 
     try:
+        data = message=request.get_json()
         # graylog_logger(request.get_json(), "warning")
+        logger.graylog_logger(level="info", handler="gameserver-live", message=data)
         return jsonify({"status": "success"})
     except TimeoutError:
         return jsonify({"status": "error"})
@@ -424,15 +436,114 @@ def get_quitter_state():
         logger.graylog_logger(level="error", handler="logging_getQuitterState", message=e)
 
 
-@app.route("//api/v1/feedback", methods=["POST"])
+@app.route("/api/v1/feedback", methods=["POST"])
 def feedback():
     check_for_game_client("strict")
     session_cookie = sanitize_input(request.cookies.get("bhvrSession"))
     userid = session_manager.get_user_id(session_cookie)
 
     try:
-        # {"type":"PlayerReport","entityId":"00658d11-2dfd-41e8-b6d2-2462e8f3aa47","platformId":"PC","reason":"GriefingToxicBehavior","details":"TEST MSG 01","gameSpecificData":{"matchId":"0e019267-b57c-4ca4-a429-78e851515027","playerInfoList":[{"playerId":"88d55eca-37b9-4ac1-8c93-5d7a395175b4","characterState":"InArena","faction":"Hunter","totalXpEarned":0,"playtimeInSec":231.60643005371094,"isReportedPlayer":false,"isReporterPlayer":false},{"playerId":"619d6f42-db87-4f3e-8dc9-3c9995613614","characterState":"InArena","faction":"Runner","totalXpEarned":0,"playtimeInSec":231.60643005371094,"isReportedPlayer":false,"isReporterPlayer":true},{"playerId":"6220aa12-7dc4-4850-80f7-dd1ce8054204","characterState":"InArena","faction":"Runner","totalXpEarned":25,"playtimeInSec":231.60643005371094,"isReportedPlayer":false,"isReporterPlayer":false},{"playerId":"00658d11-2dfd-41e8-b6d2-2462e8f3aa47","characterState":"InArena","faction":"Runner","totalXpEarned":45,"playtimeInSec":231.60643005371094,"isReportedPlayer":true,"isReporterPlayer":false},{"playerId":"cc4240ba-d7fd-4dd5-a3b7-ed42002e13cc","characterState":"InArena","faction":"Runner","totalXpEarned":15,"playtimeInSec":231.60643005371094,"isReportedPlayer":false,"isReporterPlayer":false},{"playerId":"0385496c-f0ae-44d3-a777-26092750f39c","characterState":"InArena","faction":"Runner","totalXpEarned":0,"playtimeInSec":231.60643005371094,"isReportedPlayer":false,"isReporterPlayer":false}]}}
+        # {
+        #    "type":"PlayerReport",
+        #    "entityId":"00658d11-2dfd-41e8-b6d2-2462e8f3aa47",
+        #    "platformId":"PC",
+        #    "reason":"GriefingToxicBehavior",
+        #    "details":"TEST MSG 01",
+        #    "gameSpecificData":{
+        #       "matchId":"0e019267-b57c-4ca4-a429-78e851515027",
+        #       "playerInfoList":[
+        #          {
+        #             "playerId":"88d55eca-37b9-4ac1-8c93-5d7a395175b4",
+        #             "characterState":"InArena",
+        #             "faction":"Hunter",
+        #             "totalXpEarned":0,
+        #             "playtimeInSec":231.60643005371094,
+        #             "isReportedPlayer":false,
+        #             "isReporterPlayer":false
+        #          },
+        #          {
+        #             "playerId":"619d6f42-db87-4f3e-8dc9-3c9995613614",
+        #             "characterState":"InArena",
+        #             "faction":"Runner",
+        #             "totalXpEarned":0,
+        #             "playtimeInSec":231.60643005371094,
+        #             "isReportedPlayer":false,
+        #             "isReporterPlayer":true
+        #          },
+        #          {
+        #             "playerId":"6220aa12-7dc4-4850-80f7-dd1ce8054204",
+        #             "characterState":"InArena",
+        #             "faction":"Runner",
+        #             "totalXpEarned":25,
+        #             "playtimeInSec":231.60643005371094,
+        #             "isReportedPlayer":false,
+        #             "isReporterPlayer":false
+        #          },
+        #          {
+        #             "playerId":"00658d11-2dfd-41e8-b6d2-2462e8f3aa47",
+        #             "characterState":"InArena",
+        #             "faction":"Runner",
+        #             "totalXpEarned":45,
+        #             "playtimeInSec":231.60643005371094,
+        #             "isReportedPlayer":true,
+        #             "isReporterPlayer":false
+        #          },
+        #          {
+        #             "playerId":"cc4240ba-d7fd-4dd5-a3b7-ed42002e13cc",
+        #             "characterState":"InArena",
+        #             "faction":"Runner",
+        #             "totalXpEarned":15,
+        #             "playtimeInSec":231.60643005371094,
+        #             "isReportedPlayer":false,
+        #             "isReporterPlayer":false
+        #          },
+        #          {
+        #             "playerId":"0385496c-f0ae-44d3-a777-26092750f39c",
+        #             "characterState":"InArena",
+        #             "faction":"Runner",
+        #             "totalXpEarned":0,
+        #             "playtimeInSec":231.60643005371094,
+        #             "isReportedPlayer":false,
+        #             "isReporterPlayer":false
+        #          }
+        #       ]
+        #    }
+        # }
+
         # logger.graylog_logger(level="info", handler="logging_feedback", message=request.get_json())
+        data = request.get_json()
+        report_type = data["type"]
+        entity_id = data["entityId"]
+        reporter_steam = mongo.get_data_with_list(login=entity_id, login_steam=False, items={"steamid"})["steamid"]
+        platform_id = data["platformId"]
+        reason = data["reason"]
+        details = data["details"]
+        game_specific_data = data["gameSpecificData"]
+        match_id = game_specific_data["matchId"]
+        playerInfoList = game_specific_data["playerInfoList"]
+        player_list = []
+        for player in playerInfoList:
+            steam_id = mongo.get_data_with_list(login=player["playerId"], login_steam=False, items={"steamid"})
+            if steam_id:
+                player_list.append(steam_id["steamid"])
+        resp = {
+                    "content": "",
+                    "embeds": [
+                        {
+                            "title": f"User {reporter_steam} reported.",
+                            "description": f"Reported for {reason} \nReport Type {report_type}\nDetails: {details} \nMatch ID: {match_id} \nReporter: {reporter_steam}\nPlayers in Lobby:\n"
+                                           f"{player_list[0]}\n"
+                                           f"{player_list[1]}\n"
+                                           f"{player_list[2]}\n"
+                                           f"{player_list[3]}\n"
+                                           f"{player_list[4]}\n"
+                                           f"{player_list[5]}\n",
+                            "color": 7932020
+                        }
+                    ],
+                    "attachments": []
+                }
+        discord_webhook(moderation_urls, resp)
         return jsonify({"status": "success"})
     except TimeoutError:
         return jsonify({"status": "error"})

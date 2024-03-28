@@ -17,3 +17,6 @@ webhooks:
       - https://discord.com/api/webhooks/A
       - https://discord.com/api/webhooks/A
     use_discord: false
+    moderation_urls:
+      - https://discord.com/api/webhooks/A
+      - https://discord.com/api/webhooks/A
