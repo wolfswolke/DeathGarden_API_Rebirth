@@ -40,6 +40,148 @@ def favicon():
         logger.graylog_logger(level="error", handler="general-favicon", message=e)
 
 
+@app.route('/apple-touch-icon.png')
+def apple_touch_icon():
+    check_for_game_client("soft")
+    try:
+        return send_from_directory(os.path.join(app.root_path, 'image'), 'apple-touch-icon.png',
+                                   mimetype='image/vnd.microsoft.icon')
+    except TimeoutError:
+        return jsonify({"status": "error"})
+    except Exception as e:
+        logger.graylog_logger(level="error", handler="general-apple_touch_icon", message=e)
+
+
+@app.route('/android-chrome-192x192.png')
+def android_chrome_192x192():
+    check_for_game_client("soft")
+    try:
+        return send_from_directory(os.path.join(app.root_path, 'image'), 'android-chrome-192x192.png',
+                                   mimetype='image/vnd.microsoft.icon')
+    except TimeoutError:
+        return jsonify({"status": "error"})
+    except Exception as e:
+        logger.graylog_logger(level="error", handler="general-android-chrome-192x192", message=e)
+
+
+@app.route('/android-chrome-256x256.png')
+def android_chrome_256x256():
+    check_for_game_client("soft")
+    try:
+        return send_from_directory(os.path.join(app.root_path, 'image'), 'android-chrome-256x256.png',
+                                   mimetype='image/vnd.microsoft.icon')
+    except TimeoutError:
+        return jsonify({"status": "error"})
+    except Exception as e:
+        logger.graylog_logger(level="error", handler="general-android-chrome-256x256", message=e)
+
+
+@app.route('/browserconfig.xml')
+def browserconfig():
+    check_for_game_client("soft")
+    try:
+        return send_from_directory(os.path.join(app.root_path, 'image'), 'browserconfig.xml')
+    except TimeoutError:
+        return jsonify({"status": "error"})
+    except Exception as e:
+        logger.graylog_logger(level="error", handler="general-browserconfig", message=e)
+
+
+@app.route('/favicon-16x16.png')
+def favicon_16x16():
+    check_for_game_client("soft")
+    try:
+        return send_from_directory(os.path.join(app.root_path, 'image'), 'favicon-16x16.png',
+                                   mimetype='image/vnd.microsoft.icon')
+    except TimeoutError:
+        return jsonify({"status": "error"})
+    except Exception as e:
+        logger.graylog_logger(level="error", handler="general-favicon-16x16", message=e)
+
+
+@app.route('/favicon-32x32.png')
+def favicon_32x32():
+    check_for_game_client("soft")
+    try:
+        return send_from_directory(os.path.join(app.root_path, 'image'), 'favicon-32x32.png',
+                                   mimetype='image/vnd.microsoft.icon')
+    except TimeoutError:
+        return jsonify({"status": "error"})
+    except Exception as e:
+        logger.graylog_logger(level="error", handler="general-favicon-32x32", message=e)
+
+
+@app.route('/favicon.png')
+def favicon_png():
+    check_for_game_client("soft")
+    try:
+        return send_from_directory(os.path.join(app.root_path, 'image'), 'favicon.png',
+                                   mimetype='image/vnd.microsoft.icon')
+    except TimeoutError:
+        return jsonify({"status": "error"})
+    except Exception as e:
+        logger.graylog_logger(level="error", handler="general-favicon", message=e)
+
+
+@app.route('/mstile-150x150.png')
+def mstile_150x150():
+    check_for_game_client("soft")
+    try:
+        return send_from_directory(os.path.join(app.root_path, 'image'), 'mstile-150x150.png',
+                                   mimetype='image/vnd.microsoft.icon')
+    except TimeoutError:
+        return jsonify({"status": "error"})
+    except Exception as e:
+        logger.graylog_logger(level="error", handler="general-mstile-150x150", message=e)
+
+
+@app.route('/safari-pinned-tab.svg')
+def safari_pinned_tab():
+    check_for_game_client("soft")
+    try:
+        return send_from_directory(os.path.join(app.root_path, 'image'), 'safari-pinned-tab.svg',
+                                   mimetype='image/svg+xml')
+    except TimeoutError:
+        return jsonify({"status": "error"})
+    except Exception as e:
+        logger.graylog_logger(level="error", handler="general-safari-pinned-tab", message=e)
+
+
+@app.route('/site.webmanifest')
+def site_webmanifest():
+    check_for_game_client("soft")
+    try:
+        return send_from_directory(os.path.join(app.root_path, 'image'), 'site.webmanifest')
+    except TimeoutError:
+        return jsonify({"status": "error"})
+    except Exception as e:
+        logger.graylog_logger(level="error", handler="general-site.webmanifest", message=e)
+
+
+@app.route('/apple-touch-icon-precomposed.png')
+def apple_touch_icon_precomposed():
+    check_for_game_client("soft")
+    try:
+        return send_from_directory(os.path.join(app.root_path, 'image'), 'favicon.png',
+                                   mimetype='image/vnd.microsoft.icon')
+    except TimeoutError:
+        return jsonify({"status": "error"})
+    except Exception as e:
+        logger.graylog_logger(level="error", handler="general-apple-touch-icon-precomposed", message=e)
+
+
+@app.route('/apple-touch-icon-120x120.png')
+def apple_touch_icon_120x120():
+    check_for_game_client("soft")
+    try:
+        return send_from_directory(os.path.join(app.root_path, 'image'), 'favicon.png',
+                                   mimetype='image/vnd.microsoft.icon')
+    except TimeoutError:
+        return jsonify({"status": "error"})
+    except Exception as e:
+        logger.graylog_logger(level="error", handler="general-apple-touch-icon-120x120", message=e)
+
+
 @app.route('/images/icons/fugue/tick-circle.png')
 def tick_circle():
     try:
@@ -311,10 +453,80 @@ def api_debug_matchmaking():
 @app.route("/api/sha", methods=["GET"])
 def api_sha():
     try:
-        # todo generate this on BOOT
-        # generate SHA256 of PAK and SIG on boot then save it to a file and return here
         hashes = hash_handler.get_hash()
         return jsonify({"pak": hashes[0], "sig": hashes[1]})
     except Exception as e:
         logger.graylog_logger(level="error", handler="web-api-sha", message=e)
         return jsonify({"status": "error"}), 500
+
+
+@app.route("/api/v1/upload", methods=["POST", "GET"])
+def upload():
+    check_for_game_client("soft")
+    try:
+        return jsonify({"status": "error", "message": "ENDPOINT WIP"}), 404
+        if request.method == "POST":
+            try:
+                api_token = sanitize_input(request.headers.get("api_token"))
+                if api_token is None:
+                    return jsonify({"status": "error", "message": "No api token found"}), 401
+                if api_token not in allowed_tokens:
+                    return jsonify({"status": "error", "message": "Invalid api token"}), 401
+                file = request.files['file']
+                user_id = sanitize_input("test")
+                if not user_id:
+                    return jsonify({"status": "error", "message": "No User ID found."}), 400
+                if not file:
+                    return jsonify({"status": "error", "message": "No file found."}), 400
+                file_id = file_handler.create_file(file, user_id)
+                return jsonify({"status": "success", "file_id": file_id}), 200
+            except TimeoutError:
+                return jsonify({"status": "error"})
+            except Exception as e:
+                logger.graylog_logger(level="error", handler="web-upload", message=e)
+        if request.method == "GET":
+            return render_template("debug/upload.html")
+    except Exception as e:
+        logger.graylog_logger(level="error", handler="web-upload", message=e)
+
+
+@app.route("/api/v1/download/<file_id>", methods=["GET"])
+def download(file_id):
+    check_for_game_client("soft")
+    try:
+        file = file_handler.get_file(file_id)
+        if file is None:
+            return jsonify({"status": "error", "message": "File not found."}), 404
+        return file
+    except TimeoutError:
+        return jsonify({"status": "error"})
+    except Exception as e:
+        logger.graylog_logger(level="error", handler="web-download", message=e)
+
+
+@app.route("/api/v1/metadata/<file_id>", methods=["GET"])
+def metadata(file_id):
+    check_for_game_client("soft")
+    try:
+        metadata = file_handler.get_metadata(file_id)
+        if metadata is None:
+            return jsonify({"status": "error", "message": "File not found."}), 404
+        return jsonify(metadata)
+    except TimeoutError:
+        return jsonify({"status": "error"})
+    except Exception as e:
+        logger.graylog_logger(level="error", handler="web-metadata", message=e)
+
+
+@app.route("/api/v1/sha256/<file_id>", methods=["GET"])
+def sha256(file_id):
+    check_for_game_client("soft")
+    try:
+        sha256 = file_handler.get_file_sha256(file_id)
+        if sha256 is None:
+            return jsonify({"status": "error", "message": "File not found."}), 404
+        return jsonify({"sha256": sha256})
+    except TimeoutError:
+        return jsonify({"status": "error"})
+    except Exception as e:
+        logger.graylog_logger(level="error", handler="web-sha256", message=e)
