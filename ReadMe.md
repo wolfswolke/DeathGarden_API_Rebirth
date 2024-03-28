@@ -1,30 +1,31 @@
 # DeathGarden Bloodharvest API Rebirth Project
 
-**This project is Work in Progress! We already got far but there is still much to do so don't rush us please.**
+**This project is Work in Progress! This means there are Bugs!**
 
-**Current Status: The Matchmaking is working, and you can play games. We have some known Bugs 
-which we are trying to fix ASAP**
+**In the Current state you can play and most features are implemented. For infos about missing Features check out the [ToDo page](https://github.com/users/wolfswolke/projects/2/views/1).**
+
+****
 
 **Current Progress:**
 - Logging (Stashboard, Metrics, gameDataAnalytics) See [Logging.md](https://github.com/wolfswolke/DeathGarden_API_Rebirth/blob/master/Doc/Logging.md) for details.
 - Steam Login
 - Load Lobby
-- Some items in the Shop
+- Shop
 - Messaging System
 - Currency System
 - Matchmaking via Steam P2P
 - Leaderboard doesn't crash anymore
-- GameNews
+- GameNews (Disabled atm because they mess InitOrGetGroup up)
 - InitOrGetGroup
 - and alot of other things and Endpoints. (Most of them keep the game from crashing)
 
 
 **To-Do List:**
-- Fixing the Catalog 
+- Create a new catalog parser
 - Dynamic Leaderboards
-- Challenges
-- Progression
-- Buying items
+- Challenges (Code is done already but needs rework)
+- Progression (Leveling, Currency End of match,)
+- Private Matches
 - End of Match Endpoints
 
 For more detailed information about our project's tasks, please visit the [ToDo page](https://github.com/users/wolfswolke/projects/2/views/1).
