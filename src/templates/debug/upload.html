@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Upload</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#000000">
+    <meta name="msapplication-TileColor" content="#000000">
+    <meta name="theme-color" content="#ffffff">
+</head>
+<body>
+    <h2>Upload File</h2>
+    <form action="/api/v1/upload" method="post" enctype="multipart/form-data">
+        <label for="api_token">API Token:</label><br>
+        <input type="text" id="api_token" name="api_token"><br><br>
+
+        <label for="file">Select file:</label><br>
+        <input type="file" id="file" name="file"><br><br>
+
+        <input type="submit" value="Upload">
+    </form>
+</body>
+</html>
