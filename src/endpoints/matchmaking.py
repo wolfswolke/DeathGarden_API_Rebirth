@@ -2,10 +2,9 @@ import json
 import os
 from datetime import datetime
 
-from logic.match_manager import match_manager
+from logic.time_handler import get_time
 from logic.queue_handler import matchmaking_queue
 from flask_definitions import *
-import uuid
 
 
 @app.route("/api/v1/config/MATCH_MAKING_REGIONS/raw", methods=["GET"])
@@ -267,24 +266,22 @@ def match_register(match_id_unsanitized):
                 elif match_configuration == "/Game/Configuration/MatchConfig/MatchConfig_RUI_All.MatchConfig_RUI_All":
                     match_configuration = "First Strike"
 
-                if dev_env == "true":
-                    match_id = f"DEV-{match_id}"
-
-                webhook_data = {
-                    "content": "",
-                    "embeds": [
-                        {
-                            "title": f"Match Registered",
-                            "description": f"MatchID: {match_id} \n GameMode: {game_mode} \n MatchConfiguration: {match_configuration}",
-                            "color": 7932020
-                        }
-                    ],
-                    "attachments": []
-                }
-                try:
-                    discord_webhook(url_list, webhook_data)
-                except Exception as e:
-                    logger.graylog_logger(level="error", handler="discord_webhook_message", message=e)
+                if dev_env == "false":
+                    webhook_data = {
+                        "content": "",
+                        "embeds": [
+                            {
+                                "title": f"Match Registered",
+                                "description": f"MatchID: {match_id} \n GameMode: {game_mode} \n MatchConfiguration: {match_configuration}",
+                                "color": 7932020
+                            }
+                        ],
+                        "attachments": []
+                    }
+                    try:
+                        discord_webhook(url_list, webhook_data)
+                    except Exception as e:
+                        logger.graylog_logger(level="error", handler="discord_webhook_message", message=e)
 
             return jsonify(response)
 
@@ -368,21 +365,70 @@ def match_create():
     userid = session_manager.get_user_id(session_cookie)
 
     category = sanitize_input(request.json.get("category"))
-    rank = sanitize_input(request.json.get("rank"))
+    region = sanitize_input(request.json.get("region"))
     players_a = request.json.get("playersA")
     players_b = request.json.get("playersB")
-    props = request.json.get("props")
+    props = request.json.get("props")["MatchConfiguration"]
 
-    matchid = matchmaking_queue.genMatchUUID()
     # match_send = matchmaking_queue.createQueueResponseMatched(userid, matchid, joinerId=players_a)
     epoch = datetime.now().timestamp()
-    player_list = [players_b, players_a]
+    player_list = []
+    for player in players_a:
+        player_list.append(player)
+    for player in players_b:
+        player_list.append(player)
+    matchid, Match_Config = matchmaking_queue.register_private_match(players_a=players_a, players_b=players_b, match_config=props)
+    # EPrivateMatchState:
+    # Disabled
+    # InGameSession
+    # NotCreated
+    # NotEnoughPlayers
+    # HunterNotSelected
+    # CanStart
 
-    data = {"MatchId": matchid, "Category": category, "Rank": rank,
+    # EMatchmakingState:
+    # None
+    # SearchingForMatch
+    # WaitingForPlayers
+    data = {"MatchId": matchid, "Category": category, "Rank": 1, "Region": region,
             "CreationDateTime": epoch, "ExcludeFriends": False,
-            "ExcludeClanMembers": False, "Status": "WaitingForPlayers", "Creator": userid,
+            "ExcludeClanMembers": False, "Status": "OPEN", "Reason": "FString", "Creator": userid,
             "Players": player_list, "SideA": players_a, "SideB": players_b, "CustomData": {}, "Props": props,
-            "Schema": 11122334455666}
+            "Schema": 1}
+    users = players_a.copy()
+    users.append(players_b)
+    current_time = get_time()[0]
+    countB = len(players_b)
+    data = {
+        "status": "PendingWarparty",
+        "QueueData": {
+            "Position": 1,
+            "ETA": 0,
+            "Stable": False,
+            "SizeA": 1,
+            "SizeB": countB
+        },
+        "matchData": {
+            "category": "Steam-te-18f25613-36778-ue4-374f864b",
+            "creationDateTime": current_time,
+            "creator": players_a,
+            "customData": {},
+            "matchId": matchid,
+            "props": {
+                "countA": 1,
+                "countB": countB,
+                "gameMode": Match_Config["gameMode"],
+                "MatchConfiguration": Match_Config["MatchConfiguration"],
+                "platform": "Windows",
+            },
+            "rank": 1,
+            "schema": 3,
+            "sideA": players_a,
+            "sideB": players_b,
+            "Players": users,
+            "status": "CREATED"
+        }
+    }
     return jsonify(data)
 
 
