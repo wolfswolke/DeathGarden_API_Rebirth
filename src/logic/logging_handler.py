@@ -3,6 +3,7 @@ import sys
 import graypy
 import json
 import traceback
+import os
 from colorlog import ColoredFormatter
 
 
@@ -13,7 +14,10 @@ class Logger:
 
     def setup_graylog(self, use_graylog, graylog_server):
         self.dynamic_use_graylog = use_graylog
-        self.my_logger.setLevel(logging.DEBUG)
+        if os.environ['DEV'] == "true":
+            self.my_logger.setLevel(logging.DEBUG)
+        else:
+            self.my_logger.setLevel(logging.INFO)
         if self.dynamic_use_graylog:
             handler = graypy.GELFUDPHandler(graylog_server, 12201)
             self.my_logger.addHandler(handler)
