@@ -2,7 +2,7 @@
 
 **This project is a work in progress! That means there are bugs!**
 
-**In its current state you can play, and most features are implemented. For info about missing features, check out the [to-do page](https://github.com/users/wolfswolke/projects/2/views/1).**
+**In its current state, you can play, and most features have been implemented. For info about missing features, check out the [to-do page](https://github.com/users/wolfswolke/projects/2/views/1).**
 
 ****
 
@@ -66,7 +66,7 @@ From what we know the game was based on WH40KEC (Warhammer 40k Eternal Crusade) 
 - The game server uses the Amazon GameLift SDK (we are now using P2P).
 - The steam_api.dll cannot be spoofed because Battleye checks the signature. (we have a Battleye emulator)
 - There is an API key that is currently not used by the game.
-- The authentication is done via the bhvrSession Cookie. See [bhvrSession.md](https://github.com/wolfswolke/DeathGarden_API_Rebirth/blob/master/Doc/bhvrSession.md) for details.
+- The authentication is done via the bhvrSession cookie. See [bhvrSession.md](https://github.com/wolfswolke/DeathGarden_API_Rebirth/blob/master/Doc/bhvrSession.md) for details.
 
 **Currently Known Endpoints and URLs:**
 - This information will be reworked into a wiki page for more detailed reference.
