@@ -2,3 +2,4 @@
 src/test/
 src/config/api_config.yaml
 important_stuff.txt
+*.pyc
