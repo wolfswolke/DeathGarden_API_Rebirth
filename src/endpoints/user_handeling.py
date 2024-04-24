@@ -485,9 +485,9 @@ def challenges_get_challenges():
         response = request.get_json()
         challenge_type = sanitize_input(response["data"]["challengeType"])
         if challenge_type == "Weekly":
-            return_data = get_time_based_challenges(challenge_type="weekly", userid=userid)
+            return_data = new_challenge_handler.get_time_based_challenges(challenge_type="weekly", userid=userid)
         elif challenge_type == "Daily":
-            return_data = get_time_based_challenges(challenge_type="daily", userid=userid)
+            return_data = new_challenge_handler.get_time_based_challenges(challenge_type="daily", userid=userid)
         else:
             logger.graylog_logger(level="error", handler="getChallenges",
                                   message=f"Unknown challenge type {challenge_type}")
@@ -1425,7 +1425,7 @@ def challenges_get_challenge_progression_batch():
         for challenge in challenge_ids:
             if ":" in challenge:
                 challenge = challenge.split(":")[0]
-            challenge_data = get_progression_batch(challenge, userid)
+            challenge_data = new_challenge_handler.get_progression_batch(challenge, userid)
             if challenge_data:
                 challenge_list.append(challenge_data)
             else:

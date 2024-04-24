@@ -143,7 +143,7 @@ def check_for_game_client(check_type="strict"):
 def sanitize_input(input_value):
     if input_value is None:
         return None
-    return bleach.clean(input_value)
+    return bleach.clean(str(input_value))
 
 
 class Session_Manager:
@@ -151,7 +151,7 @@ class Session_Manager:
         self.sessions = {}
         self.session_file = "sessions.json"
         # Relative Path /app/tmp/sessions.json
-        self.session_file_path = f"/app/tmp/{self.session_file}"
+        self.session_file_path = f"app/tmp/{self.session_file}"
 
     def setup(self):
         print("Setting up Session Manager")
