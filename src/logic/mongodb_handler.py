@@ -19,7 +19,7 @@ class Mongo:
             'ban_start': 2177449139,
             'ban_expire': 253392484149,
             'special_unlocks': [],
-            'challenges': [],
+            'challengeProgression': [],
             'unread_msg_ids': [],
             'unlocked_special_item_ids': [],
             'last_played_faction': 'Runner',
