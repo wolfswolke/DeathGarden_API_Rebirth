@@ -336,8 +336,11 @@ class ChallengeHandler:
             "challengeId": challenge_id,
             "completed": False,
             "value": 0,
-            "challengeType": challenge_type
-            #Seems like many functions rely on challengeType to exist
+            # Seems like many functions rely on challengeType to exist
+            "challengeType": challenge_type,
+            #Difference in challeneType and className???
+            "className": challenge_type,
+
         }
 
         if challenge_type == "Weekly" or challenge_type == "Daily":
@@ -409,7 +412,7 @@ class ChallengeHandler:
             #if not found in user db_challenge create challenge
             else:
                 challenge_type = \
-                    {**self.daily_challenges, **self.weekly_challenges,  **challenge_data}[challenge_id]["className"]
+                    {**self.daily_challenges, **self.weekly_challenges,  **challenge_data}[challenge_id]["challengeType"]
 
                 if challenge_type == "Daily":
                     create_time, expiration_time = get_lifetime("Daily")
