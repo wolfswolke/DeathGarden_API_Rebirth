@@ -9,7 +9,7 @@ from logic.webhook_handler import discord_webhook
 from logic.time_handler import get_lifetime
 # from logic.challenge_handler import get_progression_batch, update_progression_batch, get_time_based_challenges
 from logic.hash_handler import hash_handler
-from logic.challenge_handler_new import new_challenge_handler
+from logic.challenge_handler_new import new_challenge_handler, get_challenge_ids_from_inventory
 import json
 import os
 
