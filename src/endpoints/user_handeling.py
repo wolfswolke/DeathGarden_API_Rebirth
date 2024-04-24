@@ -1436,10 +1436,10 @@ def challenges_get_challenge_progression_batch():
             challenge_data = None
             if ":" in challenge:
                 challenge = challenge.split(":")[0]
-                challenge_data = new_challenge_handler.get_time_based_progression_batch(challenge,
+                challenge_data = new_challenge_handler.get_progression_batch(challenge,
                                                                                         userid, db_challenge_dict)
             else:
-                challenge_data = new_challenge_handler.get_time_based_progression_batch(challenge,
+                challenge_data = new_challenge_handler.get_progression_batch(challenge,
                                                                                         userid, db_challenge_dict)
 
             if challenge_data:

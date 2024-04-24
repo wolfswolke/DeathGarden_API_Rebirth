@@ -1,4 +1,6 @@
+import os
 from flask_definitions import *
+
 from src.util.challenge_data import *
 
 # Base pickedChallenges Item
@@ -105,6 +107,7 @@ class ChallengeHandler:
         # imported from challenge data daily_challenges
         self.daily_challenges = daily_challenges
         self.event_challenges = []
+        self.dev_logging = os.environ['DEV']
 
     def get_challenge_by_id(self, challenge_id, user_id):
         user_data = mongo.get_data_with_list(login=user_id, login_steam=False, items={"challengeProgression"})[
@@ -222,8 +225,9 @@ class ChallengeHandler:
             if challenge_id not in user_time_challenges:
                 current_challenge_data = self.add_challenge_to_user(userid, challenge_id, challenge_type)
             else:
-                logger.graylog_logger(level="info", handler="get_time_based_challenges",
-                                      message=f"Data {user_data[user_time_challenges.index(challenge_id)]})")
+                if self.dev_logging:
+                    logger.graylog_logger(level="info", handler="get_time_based_challenges",
+                                          message=f"Data {user_data[user_time_challenges.index(challenge_id)]})")
 
                 current_challenge_data = user_data[user_time_challenges.index(challenge_id)]
                 lifetime = get_lifetime(challenge_type)[0]
