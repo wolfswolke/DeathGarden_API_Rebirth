@@ -485,9 +485,9 @@ def challenges_get_challenges():
         response = request.get_json()
         challenge_type = sanitize_input(response["data"]["challengeType"])
         if challenge_type == "Weekly":
-            return_data = new_challenge_handler.get_time_based_challenges(challenge_type="weekly", userid=userid)
+            return_data = new_challenge_handler.get_time_based_challenges(challenge_type="Weekly", userid=userid)
         elif challenge_type == "Daily":
-            return_data = new_challenge_handler.get_time_based_challenges(challenge_type="daily", userid=userid)
+            return_data = new_challenge_handler.get_time_based_challenges(challenge_type="Daily", userid=userid)
         else:
             logger.graylog_logger(level="error", handler="getChallenges",
                                   message=f"Unknown challenge type {challenge_type}")
@@ -1422,10 +1422,26 @@ def challenges_get_challenge_progression_batch():
         challenge_ids = data["data"]["challengeIds"]
         challenge_list = []
         userid = data["data"]["userId"]
+
+        #moved this call to outside get_progression_batch to reduce the amount of database calls
+        #change array to dict for quicker element access
+        db_challenge = mongo.get_data_with_list(login=userid, login_steam=False, items={"challengeProgression"})[
+            "challengeProgression"]
+        db_challenge_dict = {}
+        for challenge in db_challenge:
+            #We do not want timestamp in our key otherwise duplicate weekly/daily challenges are created
+            db_challenge_dict[challenge["challengeId"].split(":")[0]] = challenge
+
         for challenge in challenge_ids:
+            challenge_data = None
             if ":" in challenge:
                 challenge = challenge.split(":")[0]
-            challenge_data = new_challenge_handler.get_progression_batch(challenge, userid)
+                challenge_data = new_challenge_handler.get_time_based_progression_batch(challenge,
+                                                                                        userid, db_challenge_dict)
+            else:
+                challenge_data = new_challenge_handler.get_time_based_progression_batch(challenge,
+                                                                                        userid, db_challenge_dict)
+
             if challenge_data:
                 challenge_list.append(challenge_data)
             else:
