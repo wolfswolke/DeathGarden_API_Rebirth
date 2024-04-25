@@ -99,9 +99,9 @@ def random_game_mode(match_config=None):
     MatchConfig_WA_Rivers_2Hunters = {'gameMode': 'feac811fdef1d1a2f2fc26b3c99205fd-Default',
                                       'MatchConfiguration': '/Game/Configuration/MatchConfig/MatchConfig_WA_Rivers_2Hunters.MatchConfig_WA_Rivers_2Hunters'}
 
-    high_probability = [MatchConfig_WA_Rivers, MatchConfig_WA_Cemetery, MatchConfig_DES_Oilfield] * 3
-    normal_probability = [MatchConfig_ARC_BlastFurnace, MatchConfig_DES_Mayan, MatchConfig_ARC_Expedition] * 2
-    low_probability = [MatchConfig_RUI_All, MatchConfig_ARC_Fortress]
+    high_probability = [MatchConfig_DES_GoldRush, MatchConfig_WA_Rivers, MatchConfig_ARC_BlastFurnace] * 3
+    normal_probability = [MatchConfig_WA_Cemetery, MatchConfig_ARC_Expedition, MatchConfig_JUN_Fortress] * 2
+    low_probability = [MatchConfig_DES_Fortress, MatchConfig_DES_Mayan]
     probability_list = high_probability + normal_probability + low_probability
     return random.choice(probability_list)
 
@@ -223,7 +223,7 @@ class MatchmakingQueue:
                     return {}
 
                 if os.environ['DEV'] == "true":
-                    max_players_b = 5
+                    max_players_b = 1
                 else:
                     max_players_b = 5
                 # TEMP
@@ -320,7 +320,8 @@ class MatchmakingQueue:
                                                       message="Lobby is private")
                                 if userId in openLobby.nonHosts or userId == openLobby.host:
                                     data = self.createQueueResponseMatched(openLobby.host, openLobby.id, userId,
-                                                                           matchConfig=openLobby.matchConfig, SessionSettings=openLobby.SessionSettings)
+                                                                           matchConfig=openLobby.matchConfig,
+                                                                           SessionSettings=openLobby.SessionSettings)
                                     self.queuedPlayers.pop(index)
                                     return data
                                 else:
@@ -331,7 +332,8 @@ class MatchmakingQueue:
 
                             if userId in openLobby.nonHosts:
                                 data = self.createQueueResponseMatched(openLobby.host, openLobby.id, userId,
-                                                                       matchConfig=openLobby.matchConfig, SessionSettings=openLobby.SessionSettings)
+                                                                       matchConfig=openLobby.matchConfig,
+                                                                       SessionSettings=openLobby.SessionSettings)
                                 self.queuedPlayers.pop(index)
                                 return data
                             if len(openLobby.nonHosts) < max_players_b:
@@ -374,7 +376,8 @@ class MatchmakingQueue:
                             if openLobby.is_private:
                                 if userId == openLobby.host:
                                     data = self.createQueueResponseMatched(openLobby.host, openLobby.id, userId,
-                                                                           matchConfig=openLobby.matchConfig, SessionSettings=openLobby.SessionSettings)
+                                                                           matchConfig=openLobby.matchConfig,
+                                                                           SessionSettings=openLobby.SessionSettings)
                                     self.queuedPlayers.pop(index)
                                     return data
                                 else:
@@ -482,7 +485,7 @@ class MatchmakingQueue:
         try:
             if os.environ['DEV'] == "true":
                 countA = 1
-                countB = 5
+                countB = 1
             else:
                 countA = 1
                 countB = 5
@@ -542,7 +545,7 @@ class MatchmakingQueue:
                     "gameMode": gameMode,
                     "MatchConfiguration": MatchConfiguration,
                     "platform": "",
-                    "EncryptionKey": "fZ6lAM3Y3XNNz5qH86cgUP6Q0Bh7\/Y72yQMfW\/9nh74=",
+                    "EncryptionKey": "fZ6lAM3Y3XNNz5qH86cgUP6Q0Bh7/Y72yQMfW/9nh74=",
                 },
                 "skill": [],
                 "reason": "",
@@ -560,11 +563,12 @@ class MatchmakingQueue:
         except Exception as e:
             logger.graylog_logger(level="error", handler="matchmaking_createMatchResponse", message=e)
 
-    def createQueueResponseMatched(self, creatorId, matchId, joinerId=None, region=None, matchConfig=None, SessionSettings=None):
+    def createQueueResponseMatched(self, creatorId, matchId, joinerId=None, region=None, matchConfig=None,
+                                   SessionSettings=None):
         try:
             if os.environ['DEV'] == "true":
                 countA = 1
-                countB = 5
+                countB = 1
             else:
                 countA = 1
                 countB = 5
@@ -593,7 +597,7 @@ class MatchmakingQueue:
                         "gameMode": gameMode,
                         "MatchConfiguration": MatchConfiguration,
                         "platform": "",
-                        "EncryptionKey": "fZ6lAM3Y3XNNz5qH86cgUP6Q0Bh7\/Y72yQMfW\/9nh74=",
+                        "EncryptionKey": "fZ6lAM3Y3XNNz5qH86cgUP6Q0Bh7/Y72yQMfW/9nh74=",
                     },
                     "rank": 1,
                     "schema": 3,
