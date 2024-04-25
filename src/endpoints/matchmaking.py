@@ -515,26 +515,37 @@ def progression_player_end_of_match():
     #
     check_for_game_client("strict")
     session_cookie = sanitize_input(request.cookies.get("bhvrSession"))
-    userid = session_manager.get_user_id(session_cookie)
+    # userid = session_manager.get_user_id(session_cookie)
     try:
         logger.graylog_logger(level="info", handler="matchmaking_playerEndOfMatch", message=request.get_json())
         data = request.get_json()["data"]
+        userid = data["playerId"]
         characterGroup = data["characterGroup"]
         experience = 0
         for event in data["experienceEvents"]:
             experience += event["amount"]
-        CurrencyA = 0
-        CurrencyB = 0
-        CurrencyC = 0
+        update_user_xp(userid, experience, characterGroup)
+        user_wallet = mongo.get_data_with_list(login=userid, login_steam=False, items={"currency_iron",
+                                                                                       "currency_blood_cells",
+                                                                                       "currency_ink_cells"})
+        CurrencyA = user_wallet["currency_iron"]
+        CurrencyB = user_wallet["currency_blood_cells"]
+        CurrencyC = user_wallet["currency_ink_cells"]
         wallet = []
 
         for currency in data["earnedCurrencies"]:
             if currency["currencyName"] == "CurrencyA":
                 wallet.append({"Currency": "CurrencyA", "Amount": currency["amount"]})
+                CurrencyA += currency["amount"]
             elif currency["currencyName"] == "CurrencyB":
                 wallet.append({"Currency": "CurrencyB", "Amount": currency["amount"]})
+                CurrencyB += currency["amount"]
             elif currency["currencyName"] == "CurrencyC":
                 wallet.append({"Currency": "CurrencyC", "Amount": currency["amount"]})
+                CurrencyC += currency["amount"]
+        mongo.write_data_with_list(login=userid, login_steam=False, items_dict={"currency_iron": CurrencyA,
+                                                                                "currency_blood_cells": CurrencyB,
+                                                                                "currency_ink_cells": CurrencyC})
         # return jsonify({
         #             "Player": {
         #                 "InitialExperienceProgressions": [
@@ -554,6 +565,10 @@ def progression_player_end_of_match():
         #                 ]
         #             }
         #         })
+
+        # MirrorsExtModelProgressionPlayerEndOfMatchResponse
+        # todo remove this test
+        return jsonify({"Player": {"Success": True}})
         return jsonify({
             "Player": {
                 "InitialExperienceProgressions": [
