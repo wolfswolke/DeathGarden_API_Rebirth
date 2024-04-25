@@ -36,6 +36,7 @@ def steam_login_function():
         # Read: Doc -> AUTH
         # You can copy and paste the JSON from the Auth Doc here. If you don't have a steam api key.
         # The Client does not validate this and just uses it.
+        get_challenge_ids_from_inventory(userid)
         return jsonify({"preferredLanguage": "en", "friendsFirstSync": {"steam": True}, "fixedMyFriendsUserPlatformId":
             {"steam": True}, "id": userid, "provider": {"providerId": steamid, "providerName": "steam", "userId":
             userid}, "providers": [{"providerName": "steam", "providerId": steamid}], "friends": [], "triggerResults":
@@ -436,6 +437,7 @@ def moderation_check_username():
 
 
 # Doesn't work
+# OG DG Endpoint
 @app.route("/api/v1/progression/experience", methods=["POST"])
 def progression_experience():
     check_for_game_client("strict")
@@ -562,7 +564,8 @@ def challenges_execute_challenge_progression_operation_batch():
             challenge_id = operation["challengeId"]
             operation_name = operation["operationName"]
             if operation_name == "complete":
-                ret = update_progression_batch(challenge_id, userId, complete=True)
+                ret = new_challenge_handler.update_challenge(userId, challenge_id, completed=True)
+                #ret = update_progression_batch(challenge_id, userId, complete=True)
                 if ret:
                     wallet = mongo.get_data_with_list(login=userId, login_steam=False,
                                                       items={"currency_blood_cells", "currency_iron",
@@ -583,11 +586,14 @@ def challenges_execute_challenge_progression_operation_batch():
             elif operation_name == "save":
                 operation_data = operation["operationData"]
                 value = operation_data["value"]
-                ret = update_progression_batch(challenge_id, userId, value=value)
+                ret = new_challenge_handler.update_challenge(userId, challenge_id, value=value)
+                # DEV NOTE: "/Engine/" is a placeholder if SAVE and if HARDCODED
                 if ret:
                     pass
                 else:
                     error_list.append(challenge_id)
+            else:
+                logger.graylog_logger(level="error", handler="executeChallengeProgressionOperationBatch",message=f"Unknown operation {operation_name}")
         if error_list:
             logger.graylog_logger(level="error", handler="executeChallengeProgressionOperationBatch", message=f"Error while saving challenges for {userId} with challenge_ids {error_list}")
         return "", 204
@@ -1066,19 +1072,17 @@ def messages_count():
     userid = session_manager.get_user_id(session_cookie)
 
     try:
+        flag = sanitize_input(request.args.get('flag'))
+        if flag == "NEW":
+            a = "a"
+        else:
+            logger.graylog_logger(level="debug", handler="messages_count", message=f"New message Count Flag {flag}")
         unread_message_ids = mongo.get_data_with_list(login=userid, login_steam=False, items={"unread_msg_ids"})
         if unread_message_ids["unread_msg_ids"] == "" or unread_message_ids is None:
             return jsonify({"Count": 0})
         else:
-            try:
-                if unread_message_ids["unread_msg_ids"] == "":
-                    return jsonify({"Count": 0})
-                id_len = unread_message_ids["unread_msg_ids"].split(",")
-                return jsonify({"Count": len(id_len)})
-            except TypeError:
-                return jsonify({"Count": unread_message_ids["unread_msg_ids"]})
-            except AttributeError:
-                return jsonify({"Count": 0})
+            length = len(unread_message_ids["unread_msg_ids"])
+            return jsonify({"Count": length})
     except TimeoutError:
         return jsonify({"status": "error"})
     except Exception as e:
@@ -1123,7 +1127,7 @@ def messages_list():
             return jsonify({"messages": messages_page, "NetPage": pages})
 
         elif request.method == "DELETE":
-            return jsonify("", 204)
+            return jsonify(""), 204
     except TimeoutError:
         return jsonify({"status": "error"})
     except Exception as e:
@@ -1142,6 +1146,9 @@ def messages_mark_as():
         message_list = data["messageList"]
         if not message_list:
             mongo.write_data_with_list(login=userid, login_steam=False, items_dict={"unread_msg_ids": ""})
+            return jsonify({"List": [{"Received": get_time(), "Success": True, "RecipientId": userid}]})
+        if message_list[0]["recipientId"] == "3":
+            # Moderation MSG -> Do not del (Request by miraak)
             return jsonify({"List": [{"Received": get_time(), "Success": True, "RecipientId": userid}]})
         message_id = message_list[0]["recipientId"]
         unread_messages = mongo.get_data_with_list(login=userid, login_steam=False, items={"unread_msg_ids"})
