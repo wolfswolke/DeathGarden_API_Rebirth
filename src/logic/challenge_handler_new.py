@@ -739,9 +739,13 @@ def get_challenge_ids_from_inventory(user_id):
         for runner_challenge in runner_group['pickedChallenges']:
             blueprint = runner_challenge["list"][0]["challengeAsset"]
             challenge_id = runner_challenge["list"][0]["challengeId"]
+            challenge_found = False
             for int_challenge in user_challenges:
                 if int_challenge["challengeId"] == challenge_id:
+                    challenge_found = True
                     int_challenge["blueprint"] = blueprint
+            if not challenge_found:
+                new_challenge_handler.get_challenge_by_id(challenge_id, user_id)
 
     for hunter_group in HunterGroups:
         if hunter_group is []:
@@ -749,9 +753,13 @@ def get_challenge_ids_from_inventory(user_id):
         for hunter_challenge in hunter_group['pickedChallenges']:
             blueprint = hunter_challenge["list"][0]["challengeAsset"]
             challenge_id = hunter_challenge["list"][0]["challengeId"]
+            challenge_found = False
             for int_challenge in user_challenges:
                 if int_challenge["challengeId"] == challenge_id:
+                    challenge_found = True
                     int_challenge["blueprint"] = blueprint
+            if not challenge_found:
+                new_challenge_handler.get_challenge_by_id(challenge_id, user_id)
     mongo.write_data_with_list(login=user_id, login_steam=False, items_dict={"challengeProgression": user_challenges})
 
 
