@@ -494,9 +494,10 @@ def upload():
 def download(file_id):
     check_for_game_client("soft")
     try:
-        file = file_handler.get_file(file_id)
+        #file = file_handler.get_file(file_id)
+        file = None
         if file is None:
-            return jsonify({"status": "error", "message": "File not found."}), 404
+           return jsonify({"status": "error", "message": "File not found."}), 404
         return file
     except TimeoutError:
         return jsonify({"status": "error"})
@@ -508,10 +509,11 @@ def download(file_id):
 def metadata(file_id):
     check_for_game_client("soft")
     try:
-        metadata = file_handler.get_metadata(file_id)
-        if metadata is None:
+        #metadata = file_handler.get_metadata(file_id)
+        metadata_data = None
+        if metadata_data is None:
             return jsonify({"status": "error", "message": "File not found."}), 404
-        return jsonify(metadata)
+        return jsonify(metadata_data)
     except TimeoutError:
         return jsonify({"status": "error"})
     except Exception as e:
@@ -522,10 +524,11 @@ def metadata(file_id):
 def sha256(file_id):
     check_for_game_client("soft")
     try:
-        sha256 = file_handler.get_file_sha256(file_id)
-        if sha256 is None:
+        #sha256 = file_handler.get_file_sha256(file_id)
+        sha256_data = None
+        if sha256_data is None:
             return jsonify({"status": "error", "message": "File not found."}), 404
-        return jsonify({"sha256": sha256})
+        return jsonify({"sha256": sha256_data})
     except TimeoutError:
         return jsonify({"status": "error"})
     except Exception as e:

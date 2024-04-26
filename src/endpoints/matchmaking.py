@@ -25,6 +25,16 @@ def queue_info():
         check_for_game_client("strict")
         session_cookie = sanitize_input(request.cookies.get("bhvrSession"))
         userid = session_manager.get_user_id(session_cookie)
+
+        # USER BAN CHECK
+        try:
+            u_data = mongo.get_data_with_list(login=userid, login_steam=False, items={"is_banned"})["is_banned"]
+            if u_data:
+                return jsonify({"message": "User is banned", "status": "error"}), 401
+        except Exception as e:
+            logger.graylog_logger(level="error", handler="extension_progression_init_or_get_groups", message=e)
+            return jsonify({"status": "error"})
+
         category = sanitize_input(request.args.get("category"))
         game_mode = sanitize_input(request.args.get("gameMode"))
         region = sanitize_input(request.args.get("region"))
@@ -55,6 +65,15 @@ def queue():
     check_for_game_client("strict")
     session_cookie = sanitize_input(request.cookies.get("bhvrSession"))
     userid = session_manager.get_user_id(session_cookie)
+
+    # USER BAN CHECK
+    try:
+        u_data = mongo.get_data_with_list(login=userid, login_steam=False, items={"is_banned"})["is_banned"]
+        if u_data:
+            return jsonify({"message": "User is banned", "status": "error"}), 401
+    except Exception as e:
+        logger.graylog_logger(level="error", handler="extension_progression_init_or_get_groups", message=e)
+        return jsonify({"status": "error"})
 
     category = sanitize_input(request.json.get("category"))
     rank = request.json.get("rank")
@@ -252,7 +271,7 @@ def match_register(match_id_unsanitized):
                 elif match_configuration == "/Game/Configuration/MatchConfig/MatchConfig_DES_City_2Hunters.MatchConfig_DES_City_2Hunters":
                     match_configuration = "Desert City 5 needles"
                 elif match_configuration == "/Game/Configuration/MatchConfig/MatchConfig_WA_Rivers.MatchConfig_WA_Rivers":
-                    match_configuration = "Creek"
+                    match_configuration = "Salt Creek"
                 elif match_configuration == "/Game/Configuration/MatchConfig/MatchConfig_WA_Cemetery.MatchConfig_WA_Cemetery":
                     match_configuration = "Tombstone"
                 elif match_configuration == "/Game/Configuration/MatchConfig/MatchConfig_DES_Oilfield.MatchConfig_DES_Oilfield":
@@ -262,9 +281,15 @@ def match_register(match_id_unsanitized):
                 elif match_configuration == "/Game/Configuration/MatchConfig/MatchConfig_DES_Mayan.MatchConfig_DES_Mayan":
                     match_configuration = "Dust & Blood"
                 elif match_configuration == "/Game/Configuration/MatchConfig/MatchConfig_ARC_Expedition.MatchConfig_ARC_Expedition":
-                    match_configuration = "Arctic Expedition"
+                    match_configuration = "Desperate Expedition"
                 elif match_configuration == "/Game/Configuration/MatchConfig/MatchConfig_RUI_All.MatchConfig_RUI_All":
                     match_configuration = "First Strike"
+                elif match_configuration == "/Game/Configuration/MatchConfig/MatchConfig_DES_GoldRush.MatchConfig_DES_GoldRush":
+                    match_configuration = "Gold Rush"
+                elif match_configuration == "/Game/Configuration/MatchConfig/MatchConfig_JUN_Fortress.MatchConfig_JUN_Fortress":
+                    match_configuration = "Forest Citadel"
+                elif match_configuration == "/Game/Configuration/MatchConfig/MatchConfig_DES_Fortress.MatchConfig_DES_Fortress":
+                    match_configuration = "Legions Rest"
 
                 if dev_env == "false":
                     webhook_data = {
@@ -515,26 +540,37 @@ def progression_player_end_of_match():
     #
     check_for_game_client("strict")
     session_cookie = sanitize_input(request.cookies.get("bhvrSession"))
-    userid = session_manager.get_user_id(session_cookie)
+    # userid = session_manager.get_user_id(session_cookie)
     try:
         logger.graylog_logger(level="info", handler="matchmaking_playerEndOfMatch", message=request.get_json())
         data = request.get_json()["data"]
+        userid = data["playerId"]
         characterGroup = data["characterGroup"]
         experience = 0
         for event in data["experienceEvents"]:
             experience += event["amount"]
-        CurrencyA = 0
-        CurrencyB = 0
-        CurrencyC = 0
+        update_user_xp(userid, experience, characterGroup)
+        user_wallet = mongo.get_data_with_list(login=userid, login_steam=False, items={"currency_iron",
+                                                                                       "currency_blood_cells",
+                                                                                       "currency_ink_cells"})
+        CurrencyA = user_wallet["currency_iron"]
+        CurrencyB = user_wallet["currency_blood_cells"]
+        CurrencyC = user_wallet["currency_ink_cells"]
         wallet = []
 
         for currency in data["earnedCurrencies"]:
             if currency["currencyName"] == "CurrencyA":
                 wallet.append({"Currency": "CurrencyA", "Amount": currency["amount"]})
+                CurrencyA += currency["amount"]
             elif currency["currencyName"] == "CurrencyB":
                 wallet.append({"Currency": "CurrencyB", "Amount": currency["amount"]})
+                CurrencyB += currency["amount"]
             elif currency["currencyName"] == "CurrencyC":
                 wallet.append({"Currency": "CurrencyC", "Amount": currency["amount"]})
+                CurrencyC += currency["amount"]
+        mongo.write_data_with_list(login=userid, login_steam=False, items_dict={"currency_iron": CurrencyA,
+                                                                                "currency_blood_cells": CurrencyB,
+                                                                                "currency_ink_cells": CurrencyC})
         # return jsonify({
         #             "Player": {
         #                 "InitialExperienceProgressions": [
@@ -554,6 +590,10 @@ def progression_player_end_of_match():
         #                 ]
         #             }
         #         })
+
+        # MirrorsExtModelProgressionPlayerEndOfMatchResponse
+        # todo remove this test
+        return jsonify({"Player": {"Success": True}})
         return jsonify({
             "Player": {
                 "InitialExperienceProgressions": [

@@ -10,16 +10,16 @@ class Mongo:
         self.dyn_collection = ""
         self.default_user_schema = {
             'eula': False,
-            'currency_blood_cells': 1000,
+            'currency_blood_cells': 500,
             'currency_iron': 1000,
-            'currency_ink_cells': 1000,
+            'currency_ink_cells': 500,
             'inventory': [],
             'is_banned': False,
             'ban_reason': "NoReasonGiven",
             'ban_start': 2177449139,
             'ban_expire': 253392484149,
             'special_unlocks': [],
-            'challenges': [],
+            'challengeProgression': [],
             'unread_msg_ids': [],
             'unlocked_special_item_ids': [],
             'last_played_faction': 'Runner',
@@ -31,7 +31,7 @@ class Mongo:
                 'prestige': 0,
                 'experience': {
                     'level': 1,
-                    'experienceToReach': 5403,
+                    'experienceToReach': 6000,
                     'currentExperience': 0
                 },
                 'Equipment': [],
@@ -47,7 +47,7 @@ class Mongo:
                 'prestige': 0,
                 'experience': {
                     'level': 1,
-                    'experienceToReach': 5403,
+                    'experienceToReach': 6000,
                     'currentExperience': 0
                 },
                 'Equipment': [],
@@ -63,7 +63,7 @@ class Mongo:
                 'prestige': 0,
                 'experience': {
                     'level': 1,
-                    'experienceToReach': 5403,
+                    'experienceToReach': 6000,
                     'currentExperience': 0
                 },
                 'Equipment': [],
@@ -79,7 +79,7 @@ class Mongo:
                 'prestige': 0,
                 'experience': {
                     'level': 1,
-                    'experienceToReach': 5403,
+                    'experienceToReach': 6000,
                     'currentExperience': 0
                 },
                 'Equipment': [],
@@ -95,7 +95,7 @@ class Mongo:
                 'prestige': 0,
                 'experience': {
                     'level': 1,
-                    'experienceToReach': 5403,
+                    'experienceToReach': 6000,
                     'currentExperience': 0
                 },
                 'Equipment': [],
@@ -111,7 +111,7 @@ class Mongo:
                 'prestige': 0,
                 'experience': {
                     'level': 1,
-                    'experienceToReach': 5403,
+                    'experienceToReach': 6000,
                     'currentExperience': 0
                 },
                 'Equipment': [],
@@ -127,7 +127,7 @@ class Mongo:
                 'prestige': 0,
                 'experience': {
                     'level': 1,
-                    'experienceToReach': 5403,
+                    'experienceToReach': 6000,
                     'currentExperience': 0
                 },
                 'Equipment': [],
@@ -143,7 +143,7 @@ class Mongo:
                 'prestige': 0,
                 'experience': {
                     'level': 1,
-                    'experienceToReach': 5403,
+                    'experienceToReach': 6000,
                     'currentExperience': 0
                 },
                 'Equipment': [],
@@ -159,7 +159,7 @@ class Mongo:
                 'prestige': 0,
                 'experience': {
                     'level': 1,
-                    'experienceToReach': 5403,
+                    'experienceToReach': 6000,
                     'currentExperience': 0
                 },
                 'Equipment': [],
@@ -175,7 +175,7 @@ class Mongo:
                 'prestige': 0,
                 'experience': {
                     'level': 1,
-                    'experienceToReach': 5403,
+                    'experienceToReach': 6000,
                     'currentExperience': 0
                 },
                 'Equipment': [],
@@ -191,21 +191,21 @@ class Mongo:
                 "experience": {
                     "level": 1,
                     "experienceToReach": 5,
-                    "currentExperience": 3
+                    "currentExperience": 0
                 }
             },
             'HunterProgression': {
                 "experience": {
                     "level": 1,
                     "experienceToReach": 5,
-                    "currentExperience": 3
+                    "currentExperience": 0
                 }
             },
             'PlayerProgression': {
                 "experience": {
                     "level": 1,
                     "experienceToReach": 5,
-                    "currentExperience": 3
+                    "currentExperience": 0
                 }
             },
             'ProfileMetaData': {

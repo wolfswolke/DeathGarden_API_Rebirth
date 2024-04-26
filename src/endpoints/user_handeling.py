@@ -36,6 +36,26 @@ def steam_login_function():
         # Read: Doc -> AUTH
         # You can copy and paste the JSON from the Auth Doc here. If you don't have a steam api key.
         # The Client does not validate this and just uses it.
+
+        # if acc younger than cur + 1209600 ban
+        user_data_response = requests.get(f"https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key={steam_api_key}&steamids={steamid}")
+        # {"response": {"players": [{"steamid": "76561199124885528", "communityvisibilitystate": 1, "profilestate": 1, "personaname": "FocusriteLP", "commentpermission": 2, "profileurl": "https://steamcommunity.com/profiles/76561199124885528/", "avatar": "https://avatars.steamstatic.com/267a6647071c7c5ff28744edbd852894b0e89d64.jpg", "avatarmedium": "https://avatars.steamstatic.com/267a6647071c7c5ff28744edbd852894b0e89d64_medium.jpg", "avatarfull": "https://avatars.steamstatic.com/267a6647071c7c5ff28744edbd852894b0e89d64_full.jpg", "avatarhash": "267a6647071c7c5ff28744edbd852894b0e89d64", "personastate": 0}]}}}
+        user_data = user_data_response.json()["response"]["players"][0]
+        logger.graylog_logger(level="info", handler="steam_login", message=user_data)
+        if user_data["communityvisibilitystate"] == 3:
+            timecreated = user_data["timecreated"]
+            if timecreated > current_time + 1209600:
+                logger.graylog_logger(level="info",
+                                      handler="steam_login",
+                                      message=f"User {steamid} got banned for ban evasion.")
+                mongo.write_data_with_list(login=userid,
+                                           login_steam=False,
+                                           items_dict={"is_banned": True,
+                                                       "ban_reason": "Ban evasion detected.",
+                                                       "ban_start": current_time,
+                                                       "ban_expire": 1893459600})
+
+        # get_challenge_ids_from_inventory(userid)
         return jsonify({"preferredLanguage": "en", "friendsFirstSync": {"steam": True}, "fixedMyFriendsUserPlatformId":
             {"steam": True}, "id": userid, "provider": {"providerId": steamid, "providerName": "steam", "userId":
             userid}, "providers": [{"providerName": "steam", "providerId": steamid}], "friends": [], "triggerResults":
@@ -304,7 +324,7 @@ def get_init_or_get_groups(userid, request_data):
             equippedBonuses = group_data["EquippedBonuses"]
             equippedPowers = group_data["EquippedPowers"]
             prestige = group_data["prestige"]
-            pickedChallenges = group_data["pickedChallenges"]
+            pickedChallenges = group_data["pickedChallenges"] # Removed because Challenges are still broken.
             characterId = group_data["characterId"]
             equippedConsumables = group_data["equippedConsumables"]
 
@@ -316,7 +336,7 @@ def get_init_or_get_groups(userid, request_data):
                     "equippedWeapons": equippedWeapons,
                     "equipment": equipment,
                     "equippedBonuses": equippedBonuses,
-                    "pickedChallenges": pickedChallenges,
+                    "pickedChallenges": [],
                     "equippedConsumables": equippedConsumables,
                     "characterId": characterId,
                     "equippedPowers": equippedPowers,
@@ -405,6 +425,36 @@ def modifiers_userid(userid):
     steamid, token = mongo.get_data_with_list(login=userid, login_steam=False,
                                               items={"token", "steamid"})
     try:
+        # todo TEMP REMOVE
+        users_with_dg1 = [
+            "76561198129051713",
+            "76561198076387733",
+            "76561197960308924",
+            "76561198838605143",
+            "76561198375755382",
+            "76561198190942526",
+            "76561198085931811",
+            "76561198804479305",
+            "76561197987790181",
+            "76561198051757391",
+            "76561197987310750",
+            "76561198811124309",
+            "76561198275831683",
+            "76561198331700778",
+            "76561198064369535",
+            "76561198069250881",
+            "76561198059448904",
+            "76561198143207619",
+            "76561198069014976",
+            "76561198140796510",
+            "76561199169781285",
+            "76561198124949660"
+        ]
+        data = mongo.get_data_with_list(login=userid, login_steam=False, items={"steamid", "hasPlayedDeathGarden1"})
+        if not data["hasPlayedDeathGarden1"]:
+            if data["steamid"] in users_with_dg1:
+                mongo.write_data_with_list(login=userid, login_steam=False,
+                                           items_dict={"hasPlayedDeathGarden1": True})
         return jsonify({"Modifiers": []})
     except TimeoutError:
         return jsonify({"status": "error"})
@@ -436,6 +486,7 @@ def moderation_check_username():
 
 
 # Doesn't work
+# OG DG Endpoint
 @app.route("/api/v1/progression/experience", methods=["POST"])
 def progression_experience():
     check_for_game_client("strict")
@@ -481,13 +532,16 @@ def challenges_get_challenges():
     session_cookie = sanitize_input(request.cookies.get("bhvrSession"))
     userid = session_manager.get_user_id(session_cookie)
 
+    # Removed because Challenges are still broken.
+    return jsonify({"status": "error"})
+
     try:
         response = request.get_json()
         challenge_type = sanitize_input(response["data"]["challengeType"])
         if challenge_type == "Weekly":
-            return_data = get_time_based_challenges(challenge_type="weekly", userid=userid)
+            return_data = new_challenge_handler.get_time_based_challenges(challenge_type="Weekly", userid=userid)
         elif challenge_type == "Daily":
-            return_data = get_time_based_challenges(challenge_type="daily", userid=userid)
+            return_data = new_challenge_handler.get_time_based_challenges(challenge_type="Daily", userid=userid)
         else:
             logger.graylog_logger(level="error", handler="getChallenges",
                                   message=f"Unknown challenge type {challenge_type}")
@@ -562,7 +616,8 @@ def challenges_execute_challenge_progression_operation_batch():
             challenge_id = operation["challengeId"]
             operation_name = operation["operationName"]
             if operation_name == "complete":
-                ret = update_progression_batch(challenge_id, userId, complete=True)
+                ret = new_challenge_handler.update_challenge(userId, challenge_id, completed=True)
+                #ret = update_progression_batch(challenge_id, userId, complete=True)
                 if ret:
                     wallet = mongo.get_data_with_list(login=userId, login_steam=False,
                                                       items={"currency_blood_cells", "currency_iron",
@@ -583,11 +638,14 @@ def challenges_execute_challenge_progression_operation_batch():
             elif operation_name == "save":
                 operation_data = operation["operationData"]
                 value = operation_data["value"]
-                ret = update_progression_batch(challenge_id, userId, value=value)
+                ret = new_challenge_handler.update_challenge(userId, challenge_id, value=value)
+                # DEV NOTE: "/Engine/" is a placeholder if SAVE and if HARDCODED
                 if ret:
                     pass
                 else:
                     error_list.append(challenge_id)
+            else:
+                logger.graylog_logger(level="error", handler="executeChallengeProgressionOperationBatch",message=f"Unknown operation {operation_name}")
         if error_list:
             logger.graylog_logger(level="error", handler="executeChallengeProgressionOperationBatch", message=f"Error while saving challenges for {userId} with challenge_ids {error_list}")
         return "", 204
@@ -605,198 +663,12 @@ def inventories():
     userid = session_manager.get_user_id(session_cookie)
 
     base_inventory = [
-        {'quantity': 1, 'objectId': '69055D534DF27180C4B36CAB4B651054', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '5A2DD3F6433AB83A725513B868D240CF', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '5D230967452FEEE13F1CA780F580E889', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': 'F42C5B4148F22D29DA976BA8667964F4', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '51E112D1407DC2F33CD6C98B31E1F1BD', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': 'C9C6D40A4D6A6A5748D5C0A17763C9C1', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '5DA9F0DE40A95322DC5453A4F85B7B2B', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '38E5F7F241E2BA1177419BB312FC1ACE', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '1A09DB19434DA733AAD3D9B5B1929CD4', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '320652184E1A719DEF1D3C9395EE7344', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '9FCAAC9143A827E79DC179B762B1E520', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '274EB0B34AB39E468BFA878F7E87465B', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '04FC953E40A601200FA1C181A0D3C913', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': 'D495BCB543F2D005B559C888E4BF2B3B', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': 'F05493F04CF30636487243B5776882D6', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': 'CAA84E294F02ECF88B08FB96E481194D', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '1258297B4BCBFB39628E22A58C77EA87', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': 'A858CAF640A824508A028D89AFC44366', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '78C4B6734B7C9DD1D2488EBA8EB5A7E4', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '6340FA564B0C4E692AD174BB743607F5', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '75A9B5A34CD7815B6D77248506897122', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '5681640F41DF9BEF0659C3A951BFC01B', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '25BF0927456349471A1C77A852342246', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '60542B19472C7AACEABFAA83D8112ACA', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '105AE7CE41DBBBE92EEBFBB32FDFEC20', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': 'FD1F569B450C253D3EC750A68A9A177A', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': 'E30FA007473CD2472AE5798B679DA419', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '5889E8B1404109B1D4623B9DD2057608', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '2F3693A4473188D2787CC899A70DC563', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '9B34059A4199ACBEE46BB4B0472E7CC3', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '4886DDC446B96FEE1255D6A2AB114B0D', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '7037D4804CB9931A4DDF23A35E321775', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': 'C215B81F4E42196103ECE98949892499', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '0C6D2A4648B95C2264312783F977F211', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '0FA5CBDA402FB9FCC8B56CAE69202061', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '08E1B04246C86826FA5FBE9B8030EB01', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': 'B7287C204907B7DDFC7D0EA0B8252E60', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '9281A7AB4EE28B4FB6341886DFD50391', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '9281A7AB4EE28B4FB6341886DFD50391', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '47FCA62C449C01963D2293A422A41CF3', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '3D3C4F024308BA7C67306783902EECAB', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '7899428947342326CE6B3B83021529E8', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': 'BFC78D3E4DEFDB5C6369A7B0EF5260C9', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '00CE22624386379A86512A9500B41ABC', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '97D7970A47CDE0451384D098E7E4A681', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '2046082F4049FFABD5A933A4559B3AE0', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': 'DE624DB646B9EEAA7CBDFF9A62D96293', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '48072EAA49C83C6F387236955B3C7B6E', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '1B51D59C47F565A20E743BA187B83642', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '2732AE1E44D10CF38EE2BE9A5927AA6F', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': 'B83A141A45FB8D96D48A5185CD607AA3', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': 'F7B0756043C628036D038BBED754E89A', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '759E44DD469C284175C2D6A1AB0B0FA7', 'lastUpdateAt': 1574612664},
         {'quantity': 1, 'objectId': '56B7B6F6473712D0B7A2F992BB2C16CD', 'lastUpdateAt': 1574612664},
         {'quantity': 1, 'objectId': '234FFD464C55514B6C1E738645993CAA', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': 'C300E3A84E571D549E014B9051A18BE8', 'lastUpdateAt': 1574612664},
         {'quantity': 1, 'objectId': '755D4DFE40DA1512B01E3D8CFF3C8D4D', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '38A4EF8140822E498B2FD196B757F7AD', 'lastUpdateAt': 1574612664},
         {'quantity': 1, 'objectId': 'CCA2272D408ED95387F017BED437FF9A', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': 'C50FFFBF4686613182F45890651797CE', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': 'EF96A20249884D437B87A6A4BDE81B7F', 'lastUpdateAt': 1574612664},
         {'quantity': 1, 'objectId': '606129DC45AB9D16B69E2FA5C99A9835', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '0398A38946C5FD3871B10A9E6B4B2BEC', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': 'B83713F044EED4FB220F2F9337AD14A2', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '4F563EB64882529F0CC42397CCCCB4A4', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '9373067D4895DE2C33EFBA8711F6E1D6', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': 'D91835664F2FAD7765BCF78B18CA9082', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': 'AA25DA8543EDF88C233713B438B43365', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': 'EB90A75F44EA4D821B385EA00B45E1BE', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '305F597C424FDD0A0A6B2BB6CF5CC542', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': 'D14477DA4ED69E001DC36ABCEA0B42BC', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '08DC38B6470A7A5B0BA025B96279DAA8', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '5159591743CBF0B57EC6FEB3341960D6', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '89A14A794CD70E50ADFEB497B89E4381', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '738CFAEB44A48BF6DA5F109C50068BE3', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '6BE28177483A89CF00B2FD839726ACE1', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '4431395744543533907B099952F81510', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '1069E6DF40AB4CAEF2AF03B4FD60BB22', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '5B6E31EA4E175EB002243D8942832223', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '334A7F0D417F3922E34BBDA4A66A5334', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': 'CC59BE294499B62827A639949AB3C2A3', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '3BB3C4774D87712BF8F6388F14E48FB2', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': 'B95774E641C37130DAE2F0A6C5E82C38', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '667EF1B74448A67A2E1B5EB74B2DBA66', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '7CE5AFBF459102E5728DCDAA6F88C0F1', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '2DBF9B114B82A63940936396CBA68BCD', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '10A8C667458016646E2EFA9452E3141A', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '08DC38B6470A7A5B0BA025B96279DAA8', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '5159591743CBF0B57EC6FEB3341960D6', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '364665404243311408F6A0BD4DCE05BD', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '307A0B13417737DED675309F8B978AB8', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '791F12E047DA9E26E246E3859C3F587E', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '8A5BF2274640C2F23EF3C996A6F6404D', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '1069E6DF40AB4CAEF2AF03B4FD60BB22', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '5CBD38644EA136989CB0E3BBF4A8E54B', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '321B9FA34B4497CA94F1CDB007735A57', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '525F6BE644576B3832ED77A10193F8A3', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': 'F01A992E429392A4F839FD93C25B34DB', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '9109796A49930831B017B3994A9F22EA', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': 'C814E8904A7C9D9A2F2594A3153E77A0', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '3C9D2E0A44ED015979667DBA4F080B49', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': 'AA00BB584A47234168A63D9F14C4C4E8', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '7A541DCB4F04DAB2E10FAB84395BB967', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '08DC38B6470A7A5B0BA025B96279DAA8', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '0703E3634B0E4409623E2D8C06B14C79', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '6562B26B48C9C791C82A3EAE344EBEE1', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '0606F8464D4C7EB70601CC84C50BCAC6', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '172080544A05F838E2473790FDF4873A', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '3D377249421D35F0F750578919A7E210', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '1069E6DF40AB4CAEF2AF03B4FD60BB22', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '0C06E9B5426B42D8C09C6B926938329D', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '44DD11E54FF689A553D297AB4FC1A7B2', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': 'E6448020488885E9F3D1FDBA8A70EBBF', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': 'AD900FC94C6608A4F88E8B8A87402F0F', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': 'BE1C0D4C4CE0861122BE22B2736D9091', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': 'F2768C4541C8262EFF4922B372AB7306', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': 'C8AF3D534973F82FADBB40BDA96F9DCD', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '4E171BD14FF98ED43A7AFAB57FE55578', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '109BC5904DC1272D70822EBA79CC85B1', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '54B3EF794FCB0643C4644FA15BEF31D5', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '487DEBE247818A01797AF5B3FD04C2B2', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': 'BA470A974C8EEC39D7248F91F3ABFACD', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '6A45DC544903218CEC18D4B7A27CEE51', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '1EBB7B3043BED679F382B087C0D6DE56', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '92CC1AC04868D1F9A99E6EA35BCDAD56', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '97501DEF493625107AEDCAAB2ADEDF4B', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '2BD43A50459BD9094DADC49A0F5F2551', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': 'C8AF3D534973F82FADBB40BDA96F9DCD', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '272369C042147225E364CFA42947859F', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': 'E13EA0CF46EE94F27F75BFAAD48D29D1', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': 'CEE62C37472E49AF36BC2A9809EEF2AD', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '487DEBE247818A01797AF5B3FD04C2B2', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '733A624F49F34D4659C084A4325D3202', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': 'B782F75E4A250FBD58BED0AAA2F9B4B0', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '2F282A504F9D04B0E3E8089CDAAC31FC', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '540DB1914938D04F524DC9850A325B21', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '48C47A4341B0E3E001F3D18537658D40', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '366DFB0841631FE3A1F4FE9BF814CF2C', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': 'C8AF3D534973F82FADBB40BDA96F9DCD', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '62AF95414827D3B29B9DFD97D54F1E95', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '261144CC43A9F74A60506AB0335B23B2', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '92B767F442A89C87CC3C9CB5D279D6EA', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '487DEBE247818A01797AF5B3FD04C2B2', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': 'F201BA114D675F8B62879199B3E5BEC9', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '81688A484ADDF511C219C89DF3B2CE4F', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '5DD486354855AEA9825B79AE6E306C82', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': 'C619BC1049C2C0FAC3907A914FD26469', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '350B26074604529237BF0CB22B60A9B8', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '04650B23493C386FA87E48947D26D79F', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': 'C8AF3D534973F82FADBB40BDA96F9DCD', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '23744B06493AE1220576529C4DB530B1', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': 'CE235B2C497B4381DA1742BA22999128', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': 'F91593E346415A85CFD0ED9CEBFBBDEA', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '487DEBE247818A01797AF5B3FD04C2B2', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '6B1B9949479BFD2B75E137AFFF3DBBD4', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '54526C4A4FF83835E02711B308AA80F5', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '5C4F9FC84B0CAE9CF00423A6768AEA23', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '24D5F6164191358D93B8E5BDFFE763F1', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '3B3BC3704395FAF545A97CBF8F601901', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '611F4DCB4A5C38EC4E423DB512CD9DC6', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': 'F055513D48AACBAC280B2AA00A984180', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '5998C1C548AB7BDA80C87295F2764C5D', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '7902D836470BBB49DE9B9D97F17C9DB5', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '08DC38B6470A7A5B0BA025B96279DAA8', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '5159591743CBF0B57EC6FEB3341960D6', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '50D3005B437066E4C4D99F9397CF1B0B', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '973C9176404A29F926D13BACB76A2425', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '1098BEE241B1515B44013A87EDB16BDC', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': 'EDB6D6B742023AE61AD8718CAC073C0E', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '1069E6DF40AB4CAEF2AF03B4FD60BB22', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '84DBF7B141246372690AFBA436B51C30', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '642E3BFA4F89698DD59E64AC133E266B', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '74C21FF949E644AF2231CDB796E9386E', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '0743E9B44190283D81A76480701EB07E', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '20FF1865462FD26B0253A08F18EFAA10', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': 'E4892E8A495FFB38F90729A1C97F3AC9', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': 'C8AF3D534973F82FADBB40BDA96F9DCD', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '492232504161420C872A0F82FC16ACDB', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '1E08AFFA485E92BAFF2C1BB85CEFB81E', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '1F5CD9004224C56746D81991AA40448A', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '487DEBE247818A01797AF5B3FD04C2B2', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': 'F6C3C02843F4DBA84109A0BF2D607DC2', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '97F3953347EE8BE10A29D39E3C4F0D1E', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': 'B3F3E6D84078F1DAE3C95AB5BFDEE945', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': 'BE23A8F14E783C51E662DCADD9AA76FF', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '6A8FA1C845AE1D7576BD87A53F7ED4A4', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': 'C7A898A44F208F9F85CE75969A98242D', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': 'C8AF3D534973F82FADBB40BDA96F9DCD', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '0E262D7A47567BE03A49ABA756FC1482', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '8EFCD5CC464EBFE1B7B03A984563710A', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '336D01F84D412B0D0D38F39311CA8D64', 'lastUpdateAt': 1574612664},
-        {'quantity': 1, 'objectId': '487DEBE247818A01797AF5B3FD04C2B2', 'lastUpdateAt': 1574612664}
+
     ]
     deathgarden_1_inventory = [
         {'quantity': 1, 'objectId': 'FD93572C4CF2DFD134E6D9A90252F665', 'lastUpdateAt': 1574612664},
@@ -1066,19 +938,17 @@ def messages_count():
     userid = session_manager.get_user_id(session_cookie)
 
     try:
+        flag = sanitize_input(request.args.get('flag'))
+        if flag == "NEW":
+            a = "a"
+        else:
+            logger.graylog_logger(level="debug", handler="messages_count", message=f"New message Count Flag {flag}")
         unread_message_ids = mongo.get_data_with_list(login=userid, login_steam=False, items={"unread_msg_ids"})
         if unread_message_ids["unread_msg_ids"] == "" or unread_message_ids is None:
             return jsonify({"Count": 0})
         else:
-            try:
-                if unread_message_ids["unread_msg_ids"] == "":
-                    return jsonify({"Count": 0})
-                id_len = unread_message_ids["unread_msg_ids"].split(",")
-                return jsonify({"Count": len(id_len)})
-            except TypeError:
-                return jsonify({"Count": unread_message_ids["unread_msg_ids"]})
-            except AttributeError:
-                return jsonify({"Count": 0})
+            length = len(unread_message_ids["unread_msg_ids"])
+            return jsonify({"Count": length})
     except TimeoutError:
         return jsonify({"status": "error"})
     except Exception as e:
@@ -1123,7 +993,7 @@ def messages_list():
             return jsonify({"messages": messages_page, "NetPage": pages})
 
         elif request.method == "DELETE":
-            return jsonify("", 204)
+            return jsonify(""), 204
     except TimeoutError:
         return jsonify({"status": "error"})
     except Exception as e:
@@ -1142,6 +1012,9 @@ def messages_mark_as():
         message_list = data["messageList"]
         if not message_list:
             mongo.write_data_with_list(login=userid, login_steam=False, items_dict={"unread_msg_ids": ""})
+            return jsonify({"List": [{"Received": get_time(), "Success": True, "RecipientId": userid}]})
+        if message_list[0]["recipientId"] == "3":
+            # Moderation MSG -> Do not del (Request by miraak)
             return jsonify({"List": [{"Received": get_time(), "Success": True, "RecipientId": userid}]})
         message_id = message_list[0]["recipientId"]
         unread_messages = mongo.get_data_with_list(login=userid, login_steam=False, items={"unread_msg_ids"})
@@ -1184,6 +1057,15 @@ def extension_progression_init_or_get_groups():
     session_cookie = sanitize_input(request.cookies.get("bhvrSession"))
     userid = session_manager.get_user_id(session_cookie)
 
+    # USER BAN CHECK
+    #try:
+    #    u_data = mongo.get_data_with_list(login=userid, login_steam=False, items={"is_banned"})["is_banned"]
+    #    if u_data:
+    #        return jsonify({"message": "User is banned", "status": "error"}), 401
+    #except Exception as e:
+    #    logger.graylog_logger(level="error", handler="extension_progression_init_or_get_groups", message=e)
+    #    return jsonify({"status": "error"})
+
     try:
         request_data = request.get_json()
         data = get_init_or_get_groups(userid, request_data)
@@ -1205,6 +1087,10 @@ def update_metadata_group():
         object_id = data["data"]["objectId"]
         version = data["data"]["version"]
         metadata = data["data"]["metadata"]
+        try:
+            metadata["pickedChallenges"] = []
+        except KeyError:
+            pass
         try:
             reason = data["data"]["reason"]
         except KeyError:
@@ -1269,6 +1155,11 @@ def update_metadata_group():
             mongo.write_data_with_list(login=userid, login_steam=False, items_dict=database_dict)
 
         elif reason == "OnRequestCharacterOverrideEvent":
+            try:
+                new_challenge_handler.get_challenge_by_id()
+                get_challenge_ids_from_inventory(userid)
+            except Exception as e:
+                logger.graylog_logger(level="error", handler="updateMetadataGroup", message=e)
             character_id = metadata["characterId"]
             prestige_level = metadata["prestigeLevel"]
             equipment = metadata["equipment"]
@@ -1417,15 +1308,31 @@ def challenges_get_challenge_progression_batch():
     session_cookie = sanitize_input(request.cookies.get("bhvrSession"))
     user_id = session_manager.get_user_id(session_cookie)
 
+    # Disabled because challenges still dont work and the new backend has it fixed already.
+    return jsonify({"status": "error"})
+
     try:
         data = request.get_json()
         challenge_ids = data["data"]["challengeIds"]
         challenge_list = []
         userid = data["data"]["userId"]
+
+        #moved this call to outside get_progression_batch to reduce the amount of database calls
+        #change array to dict for quicker element access
+        db_challenge = mongo.get_data_with_list(login=userid, login_steam=False, items={"challengeProgression"})[
+            "challengeProgression"]
+        db_challenge_dict = {}
+        for challenge in db_challenge:
+            #We do not want timestamp in our key otherwise duplicate weekly/daily challenges are created
+            db_challenge_dict[challenge["challengeId"].split(":")[0]] = challenge
+
         for challenge in challenge_ids:
+            challenge_data = None
             if ":" in challenge:
                 challenge = challenge.split(":")[0]
-            challenge_data = get_progression_batch(challenge, userid)
+            challenge_data = new_challenge_handler.get_progression_batch(challenge, userid, db_challenge_dict)
+
+
             if challenge_data:
                 challenge_list.append(challenge_data)
             else:

@@ -23,7 +23,7 @@ class Logger:
             self.my_logger.addHandler(handler)
         else:
             print("Graylog disabled. Not sending any Logs.")
-        self.graylog_logger(level="info", handler="logging_server_Event", message={"event": "api started"})
+        self.graylog_logger(level="info", handler="logging_server_Event", message={"event": "Logging Service Started."})
 
     def graylog_logger(self, level, handler, message):
         use_graylog = True
@@ -61,6 +61,7 @@ class Logger:
                 log_method(message)
             else:
                 print("ERROR: No valid log level specified.")
+                return None
             self.my_logger.removeHandler(console_handler)
         else:
             print("Graylog disabled. Not sending any Logs.")

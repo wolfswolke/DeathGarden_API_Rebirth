@@ -1,2 +1,4 @@
 User-Agent: *
 Disallow: /
+User-agent: serpstatbot
+Disallow: /

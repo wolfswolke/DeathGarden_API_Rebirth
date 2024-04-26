@@ -33,12 +33,12 @@ def get_lifetime(challenge_type):
         #             "creationTime":"2019-11-25T02:17:22.484Z",
         #           "expirationTime":"2019-11-25T17:59:59.000Z"
         #          }
-        if challenge_type == "daily":
-            creation_time = datetime.datetime.now().isoformat(timespec='milliseconds')
-            expiration_time = (datetime.datetime.now() + datetime.timedelta(days=1)).replace(hour=23, minute=59, second=59, microsecond=0).isoformat(timespec='milliseconds')
-        elif challenge_type == "weekly":
-            creation_time = datetime.datetime.now().isoformat(timespec='milliseconds')
-            expiration_time = (datetime.datetime.now() + datetime.timedelta(days=7)).replace(hour=23, minute=59, second=59, microsecond=0).isoformat(timespec='milliseconds')
+        if challenge_type == "Daily":
+            creation_time = datetime.datetime.now(datetime.timezone.utc).isoformat(timespec='milliseconds')
+            expiration_time = (datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(days=1)).replace(hour=23, minute=59, second=59, microsecond=0).isoformat(timespec='milliseconds')
+        elif challenge_type == "Weekly":
+            creation_time = datetime.datetime.now(datetime.timezone.utc).isoformat(timespec='milliseconds')
+            expiration_time = (datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(days=7)).replace(hour=23, minute=59, second=59, microsecond=0).isoformat(timespec='milliseconds')
         else:
             return None
         return creation_time, expiration_time

@@ -78,7 +78,7 @@ def _get_remote_ip(check_type="strict"):
     if check_type == "strict":
         if request.environ.get('HTTP_CF_CONNECTING_IP'):
             ip_addr = request.environ['HTTP_CF_CONNECTING_IP']
-            if ip_addr == "192.168.1.111" or ip_addr == "192.168.1.130":
+            if ip_addr == "192.168.1.111" or ip_addr == "192.168.1.130" or ip_addr == local_ip:
                 return None
             logger.graylog_logger(level="info", handler="ip_handler", message=f"New Connection from: {ip_addr}")
             bogon_check = check_bogon_ip(ip_addr)
@@ -88,7 +88,7 @@ def _get_remote_ip(check_type="strict"):
             return ip_addr
         elif request.environ.get('HTTP_X_FORWARDED_FOR'):
             ip_addr = request.environ['HTTP_X_FORWARDED_FOR']
-            if ip_addr == "127.0.0.1":
+            if ip_addr == "127.0.0.1" or ip_addr == local_ip:
                 return None
             else:
                 bogon_check = check_bogon_ip(ip_addr)
@@ -99,7 +99,7 @@ def _get_remote_ip(check_type="strict"):
                 return ip_addr
         else:
             ip_addr = request.remote_addr
-            if ip_addr == "127.0.0.1":
+            if ip_addr == "127.0.0.1" or ip_addr == local_ip:
                 return None
             else:
                 bogon_check = check_bogon_ip(ip_addr)
@@ -109,7 +109,7 @@ def _get_remote_ip(check_type="strict"):
                 logger.graylog_logger(level="info", handler="ip_handler", message=f"New Connection from: {ip_addr}")
                 return ip_addr
     else:
-        return "127.0.0.1"
+        return "ip_not_checked"
 
 
 def check_for_game_client(check_type="strict"):
@@ -143,7 +143,7 @@ def check_for_game_client(check_type="strict"):
 def sanitize_input(input_value):
     if input_value is None:
         return None
-    return bleach.clean(input_value)
+    return bleach.clean(str(input_value))
 
 
 class Session_Manager:
@@ -160,10 +160,12 @@ class Session_Manager:
             print("Session File not found, creating new one.")
             with open(self.session_file_path, "w") as session_file:
                 session_file.write("{}")
+                print("Session File Created")
         with open(self.session_file_path, "r") as session_file:
             print("Loading Sessions")
             self.sessions = json.load(session_file)
-            print(f"DEBUG Sessions: {self.sessions}")
+            # print(f"DEBUG Sessions: {self.sessions}")
+            print("Sessions Loaded")
 
     def create_session(self, user_id):
         session_id = str(uuid.uuid4())

@@ -15,7 +15,7 @@ class HashHandler:
     def get_256_sum(self, filename):
         h = hashlib.sha256()
         with open(filename, 'rb') as f:
-            with mmap.mmap(f.fileno(), 0, prot=mmap.PROT_READ) as mm:
+            with mmap.mmap(f.fileno(), 0, access=mmap.ACCESS_READ) as mm:
                 h.update(mm)
         return h.hexdigest()
 
