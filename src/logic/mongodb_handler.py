@@ -10,9 +10,9 @@ class Mongo:
         self.dyn_collection = ""
         self.default_user_schema = {
             'eula': False,
-            'currency_blood_cells': 0,
-            'currency_iron': 0,
-            'currency_ink_cells': 0,
+            'currency_blood_cells': 500,
+            'currency_iron': 1000,
+            'currency_ink_cells': 500,
             'inventory': [],
             'is_banned': False,
             'ban_reason': "NoReasonGiven",
