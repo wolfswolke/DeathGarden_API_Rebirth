@@ -388,6 +388,7 @@ def leaderboard_get_scores():
         logger.graylog_logger(level="info", handler="general-leaderboard-get-scores",
                               message=f"Leaderboard getScores: {request.get_json()}")
         data = json.load(open(os.path.join(app.root_path, "json", "placeholders", "leaderboard.json"), "r"))
+        #data = json.load(open(os.path.join(app.root_path, "json", "placeholders", "WIP_LeaderBoard.json"), "r"))
         return jsonify(data)
     else:
         try:
