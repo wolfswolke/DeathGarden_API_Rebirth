@@ -25,6 +25,8 @@ Project Chronos started to work on their own backend in PHP.**
 - Shop
 - Messaging system
 - Currency system
+- Leveling at the end of the match
+- Getting Currency at the end of the match
 - Matchmaking via Steam P2P
 - Leaderboard doesn't crash anymore
 - GameNews (disabled atm because they mess InitOrGetGroup up)
@@ -36,9 +38,8 @@ Project Chronos started to work on their own backend in PHP.**
 - Create a new catalog parser
 - Dynamic leaderboards
 - Challenges (code is done already but needs rework)
-- Progression (leveling, currency, end of match, etc.)
 - Private matches (Requires Dedicated Servers sadly)
-- End-of-match endpoints
+- End-of-match endpoints (Show what you got at the end of the match)
 
 For more detailed information about our project's tasks, please visit the [to-do page](https://github.com/users/wolfswolke/projects/2/views/1).
 
@@ -49,13 +50,17 @@ The goal of this project is to revive the Deathgarden backend and servers.
 - Discord: sunywolf
 
 ## Usage
-
+ To find your Game folder right-click on Deathgarden in your Steam Library, hover over Manage and click on Browse Local Files.
 0. If you do not already own Deathgarden, you can get it with this command: 
 `steam://run/555440`
 
 1. Download the [TheExit-Rebirth-Updater.bat](https://github.com/wolfswolke/DeathGarden_API_Rebirth/blob/master/src/files/TheExit-Rebirth-Updater.bat) file and place it in the following directory: "\steamapps\common\DEATHGARDEN\"
 
 2. Run the script and wait for it to finish. (RED TEXT means something went wrong!)
+
+3. If you are on Windows 11 delete the BattlEye folder. (Windows 11 doesn't support this old BattlEye Version)
+   (Location: "steamapps\common\DEATHGARDEN\TheExit\Binaries\Win64\BattlEye")
+
 
 **Self Hosting/Development Requirements:**
 - Steam API Key (see [Steam_Login.md](https://github.com/wolfswolke/DeathGarden_API_Rebirth/blob/master/Doc/Steam_Login.md) for details).
