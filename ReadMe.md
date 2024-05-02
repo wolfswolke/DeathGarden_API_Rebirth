@@ -61,6 +61,8 @@ The goal of this project is to revive the Deathgarden backend and servers.
 3. If you are on Windows 11 delete the BattlEye folder. (Windows 11 doesn't support this old BattlEye Version)
    (Location: "steamapps\common\DEATHGARDEN\TheExit\Binaries\Win64\BattlEye")
 
+4. In steam right click Deathgarden, open Properties and under Launch Arguments add -Battleye.
+
 
 **Self Hosting/Development Requirements:**
 - Steam API Key (see [Steam_Login.md](https://github.com/wolfswolke/DeathGarden_API_Rebirth/blob/master/Doc/Steam_Login.md) for details).
