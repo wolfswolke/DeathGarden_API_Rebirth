@@ -359,7 +359,7 @@ def updater_root():
 @app.route("/updater/versions", methods=["GET"])
 def updater_version():
     return jsonify({
-        "script_version": 1,
+        "script_version": 2,
         "pak_version": 1,
         "sig_version": 1
     })

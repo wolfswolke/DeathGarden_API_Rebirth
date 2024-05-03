@@ -8,7 +8,8 @@ set download_url=https://api.zkwolf.com/updater/files/
 set "path_value=%~dp0\"
 set "pak_folder=%path_value%TheExit\Content\Paks\"
 set "updater_versions_folder=%path_value%updater_versions\"
-set "updater_version=1"
+set "binaries_folder=%path_value%TheExit\Binaries\Win64\"
+set "updater_version=2"
 set "pak_Version=0"
 set "sig_version=0"
 set "power=%SYSTEMROOT%\System32\WindowsPowerShell\v1.0\powershell.exe -Command"
@@ -43,5 +44,43 @@ REM Check Pak Version and Download if newer
 REM Check SIG Version and Download if newer
 %power% "& {[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; $webRequest = Invoke-WebRequest https://api.zkwolf.com/updater/versions -UseBasicParsing; $Data = ConvertFrom-Json $webRequest.Content; $sig_version = '%sig_version%' -replace '\D', ''; if ( $Data.sig_version -gt $sig_version ) { 'A new Version of the SIG File is available. Downloading it now: ' + 'V-' + $Data.sig_version + '.'; Invoke-WebRequest '%download_url%sig/' -OutFile '%pak_folder%TheExitRebirthBackendAPI-WindowsNoEditor_P.sig'; } echo $Data.sig_version > '%updater_versions_folder%sig_version.txt'; ' '}"
 
-echo Finished Update. You can now exit this Updater.
+echo Finished Update.
+
+echo Do you want to run the First time setup? (y/n)
+set /p choice=
+if %choice%==Y goto FirstTimeSetup
+if %choice%==y goto FirstTimeSetup
+if %choice%==Z goto FirstTimeSetup
+if %choice%==z goto FirstTimeSetup
+if %choice%==N goto end
+if %choice%==n goto end
+
+cls
+:FirstTimeSetup
+cls
+echo Running First Time Setup...
+if exist "%binaries_folder%\BattlEye\" (
+    rmdir /s /q "%binaries_folder%\BattlEye\"
+    echo BattlEye folder deleted.
+) else (
+    echo BattlEye folder not found.
+)
+if exist "%binaries_folder%\TheExit.exe" (
+    if exist "%binaries_folder%\TheExit_BE.exe" (
+        del "%binaries_folder%\TheExit_BE.exe"
+        echo TheExit_BE.exe deleted.
+    )
+    ren "%binaries_folder%\TheExit.exe" TheExit_BE.exe
+    echo TheExit.exe renamed to TheExit_BE.exe.
+) else (
+    echo TheExit.exe not found.
+)
+echo First Time Setup finished.
+echo ---------------------------------------------------------------------
+echo IMPORTANT in steam under properties, Launch Options add: -BattlEye
+echo ---------------------------------------------------------------------
 pause
+
+:end
+echo Exiting...
+exit
