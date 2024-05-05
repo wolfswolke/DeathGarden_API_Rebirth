@@ -51,6 +51,7 @@ The goal of this project is to revive the Deathgarden backend and servers.
 
 ## Usage
  To find your Game folder right-click on Deathgarden in your Steam Library, hover over Manage and click on Browse Local Files.
+
 0. If you do not already own Deathgarden, you can get it with this command: 
 `steam://run/555440`
 
@@ -59,6 +60,8 @@ The goal of this project is to revive the Deathgarden backend and servers.
 2. Run the script and wait for it to finish. (RED TEXT means something went wrong!)
 
 3. Follow the on-screen instructions.
+
+4. IF your game does NOT start and you have a Intel CPU use this Launch Argument in steam: `cmd /c "set OPENSSL_ia32cap=:~0x20000000 && %command%" , -battleye`
 
 **Self Hosting/Development Requirements:**
 - Steam API Key (see [Steam_Login.md](https://github.com/wolfswolke/DeathGarden_API_Rebirth/blob/master/Doc/Steam_Login.md) for details).
