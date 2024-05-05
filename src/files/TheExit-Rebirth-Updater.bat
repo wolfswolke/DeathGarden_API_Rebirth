@@ -9,7 +9,7 @@ set "path_value=%~dp0\"
 set "pak_folder=%path_value%TheExit\Content\Paks\"
 set "updater_versions_folder=%path_value%updater_versions\"
 set "binaries_folder=%path_value%TheExit\Binaries\Win64\"
-set "updater_version=2"
+set "updater_version=3"
 set "pak_Version=0"
 set "sig_version=0"
 set "power=%SYSTEMROOT%\System32\WindowsPowerShell\v1.0\powershell.exe -Command"
@@ -78,6 +78,9 @@ if exist "%binaries_folder%\TheExit.exe" (
 echo First Time Setup finished.
 echo ---------------------------------------------------------------------
 echo IMPORTANT in steam under properties, Launch Options add: -BattlEye
+echo.
+echo If you have a Intel CPU and your game does NOT start use this parameter instead:
+echo cmd /c "set OPENSSL_ia32cap=:~0x20000000 && %command%" , -battleye
 echo ---------------------------------------------------------------------
 pause
 
