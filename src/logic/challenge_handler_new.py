@@ -731,6 +731,8 @@ def get_challenge_ids_from_inventory(user_id):
                     Progression_HunterGroupD]
     RunnerGroups = [Progression_RunnerGroupA, Progression_RunnerGroupB, Progression_RunnerGroupC,
                     Progression_RunnerGroupD, Progression_RunnerGroupE, Progression_RunnerGroupF]
+    hardcoded_challenges = new_challenge_handler.hard_code_challenges
+    steam_achievements = new_challenge_handler.steam_achievements
     user_challenges = mongo.get_data_with_list(login=user_id, login_steam=False, items={"challengeProgression"})[
         "challengeProgression"]
     for runner_group in RunnerGroups:
@@ -745,7 +747,7 @@ def get_challenge_ids_from_inventory(user_id):
                     challenge_found = True
                     int_challenge["blueprint"] = blueprint
             if not challenge_found:
-                new_challenge_handler.get_challenge_by_id(challenge_id, user_id)
+                new_challenge_handler.add_challenge_to_user(user_id, challenge_id, challenge_type="progression", blueprint=blueprint)
 
     for hunter_group in HunterGroups:
         if hunter_group is []:
@@ -759,8 +761,22 @@ def get_challenge_ids_from_inventory(user_id):
                     challenge_found = True
                     int_challenge["blueprint"] = blueprint
             if not challenge_found:
-                new_challenge_handler.get_challenge_by_id(challenge_id, user_id)
-    mongo.write_data_with_list(login=user_id, login_steam=False, items_dict={"challengeProgression": user_challenges})
+                new_challenge_handler.add_challenge_to_user(user_id, challenge_id)
+
+    for challenge in hardcoded_challenges:
+        challenge_found = False
+        for int_challenge in user_challenges:
+            if int_challenge["challengeId"] == challenge:
+                challenge_found = True
+        if not challenge_found:
+            new_challenge_handler.add_challenge_to_user(user_id, challenge)
+    for challenge in steam_achievements:
+        challenge_found = False
+        for int_challenge in user_challenges:
+            if int_challenge["challengeId"] == challenge:
+                challenge_found = True
+        if not challenge_found:
+            new_challenge_handler.add_challenge_to_user(user_id, challenge)
 
 
 class ChallengeHandler:
@@ -770,6 +786,9 @@ class ChallengeHandler:
         # imported from challenge data daily_challenges
         self.daily_challenges = daily_challenges
         self.event_challenges = []
+        self.steam_achievements = ["BA2D4A5445CB70276A8F5D9E1AFCE080","AAD05B9D46471DC811BBE0BA91916AB7",
+                                   "E51981B946BEE3D45C5C41B2FCFF310B","2CAEBB354D506D7C43B941BC1DA775A0",
+                                   "EFAB89E6465D1163D62A07B11048F2B6"]
         self.hard_code_challenges = ['400AE859456112F4EB7516A42821AEF3', '8DAE5C0943DA33C28E82FC92B9644702',
                                      '6DFAA85548F1C349CE1E6A9F29188FCF', 'A1047B3B49BFBF12313991A8FBB3E215',
                                      '6AFBAEC144C206BDBFD4F0B2216148B6', 'AB4B4E524F00B197156256AFACE501EF',
@@ -1128,7 +1147,7 @@ class ChallengeHandler:
     #                        "lifetime": {"creationTime": "2019-11-25T02:17:22.484Z",
     #                                     "expirationTime": "2020-11-25T02:17:22.484Z"}})
 
-    def add_challenge_to_user(self, user_id, challenge_id, challenge_type="progression"):
+    def add_challenge_to_user(self, user_id, challenge_id, challenge_type="progression", blueprint=None):
         user_challenge_data = \
             mongo.get_data_with_list(login=user_id, login_steam=False, items={"challengeProgression"})[
                 "challengeProgression"]
@@ -1144,7 +1163,7 @@ class ChallengeHandler:
             "challengeType": challenge_type,
             #Difference in challeneType and className???
             "className": challenge_type,
-
+            "blueprint": blueprint,
         }
 
         if challenge_type == "Weekly" or challenge_type == "Daily":
@@ -1161,7 +1180,7 @@ class ChallengeHandler:
                                    items_dict={"challengeProgression": user_challenge_data})
         return data
 
-    def get_progression_batch(self, challenge_id, userid, db_challenge):
+    def get_progression_batch(self, challenge_id, userid):
         #combine challenge dicts and see if ID is in them
         #Should not alter anything if challenge_id is not a recognized challenge
         if challenge_id in self.daily_challenges or challenge_id in self.weekly_challenges:
@@ -1169,81 +1188,74 @@ class ChallengeHandler:
                 "challengeProgression"]
             for challenge in user_data:
                 if challenge["challengeId"] == challenge_id:
-                    if challenge_id in db_challenge:
-                        challenge = db_challenge[challenge_id]
-                        if challenge["value"] == 0:
-                            data = {"challengeId": challenge["challengeId"],
-                                    "completed": False}
+                    if challenge["value"] == 0:
+                        data = {"challengeId": challenge["challengeId"],
+                                "completed": False}
+                    else:
+                        if challenge["completed"]:
+                            reward_key = "rewardsClaimed"
+                            # TEST should be rewardsClaimed
                         else:
-                            if challenge["completed"]:
-                                reward_key = "rewardsClaimed"
-                                # TEST should be rewardsClaimed
-                            else:
-                                reward_key = "rewards"
-                            # todo add rewards func
-                            data = {
-                                "challengeId": challenge["challengeId"],
-                                "className": "ChallengeProgressionCounter",
-                                reward_key: [
-                                    {
-                                        "weight": 100,
-                                        "type": "currency",
-                                        "amount": 30,
-                                        "id": "CurrencyA"
-                                    }
-                                ],
-                                "completed": challenge["completed"],
-                                "schemaVersion": 1,
-                                "value": challenge["value"]
-                            }
-                        if challenge["challengeType"] == "Daily":
-                            create_time, expiration_time = get_lifetime("Daily")
-                        elif challenge["challengeType"] == "Weekly":
-                            create_time, expiration_time = get_lifetime("Weekly")
-                        else:
-                            return data
-                        if create_time > challenge["lifetime"]["expirationTime"]:
-                            challenge["completed"] = False
-                            challenge["completion_count"] = challenge["completion_count"] + 1
-                            challenge["lifetime"]["creationTime"] = create_time
-                            challenge["lifetime"]["expirationTime"] = expiration_time
-                            mongo.write_data_with_list(login=userid, login_steam=False,
-                                                       items_dict={"challengeProgression": db_challenge})
-                            return data
-                        else:
-                            start_data = challenge["lifetime"]["creationTime"]
-                            expiration_date = challenge["lifetime"]["expirationTime"]
-                            data["lifetime"] = {
-                                "creationTime": start_data,
-                                "expirationTime": expiration_date
-                            }
+                            reward_key = "rewards"
+                        reward = get_reward(challenge["blueprint"])
+                        data = {
+                            "challengeId": challenge["challengeId"],
+                            "className": "ChallengeProgressionCounter",
+                            reward_key: [
+                                reward
+                            ],
+                            "completed": challenge["completed"],
+                            "schemaVersion": 1,
+                            "value": challenge["value"]
+                        }
+                    if challenge["challengeType"] == "Daily":
+                        create_time, expiration_time = get_lifetime("Daily")
+                    elif challenge["challengeType"] == "Weekly":
+                        create_time, expiration_time = get_lifetime("Weekly")
+                    else:
                         return data
+                    if create_time > challenge["lifetime"]["expirationTime"]:
+                        challenge["completed"] = False
+                        challenge["completion_count"] = challenge["completion_count"] + 1
+                        challenge["lifetime"]["creationTime"] = create_time
+                        challenge["lifetime"]["expirationTime"] = expiration_time
+                        mongo.write_data_with_list(login=userid, login_steam=False,
+                                                   items_dict={"challengeProgression": user_data})
+                        return data
+                    else:
+                        start_data = challenge["lifetime"]["creationTime"]
+                        expiration_date = challenge["lifetime"]["expirationTime"]
+                        data["lifetime"] = {
+                            "creationTime": start_data,
+                            "expirationTime": expiration_date
+                        }
+                    return data
 
                     #if not found in user db_challenge create challenge
-                    else:
-                        challenge_type = \
-                            {**self.daily_challenges, **self.weekly_challenges, **challenge_data}[challenge_id]["challengeType"]
+                else:
+                    challenge_type = \
+                        {**self.daily_challenges, **self.weekly_challenges, **challenge_data}[challenge_id]["challengeType"]
 
-                        if challenge_type == "Daily":
-                            create_time, expiration_time = get_lifetime("Daily")
-                            self.add_challenge_to_user(userid, challenge_id, challenge_type)
-                            return {"challengeId": challenge_id, "completed": False, "className": "Weekly",
-                                    "lifetime": {
-                                        "creationTime": create_time,
-                                        "expirationTime": expiration_time
-                                    },
-                                    "completion_count": 0}
-                        if challenge_type == "Weekly":
-                            create_time, expiration_time = get_lifetime("Weekly")
-                            self.add_challenge_to_user(userid, challenge_id, challenge_type)
-                            return {"challengeId": challenge_id, "completed": False, "className": "Weekly",
-                                    "lifetime": {
-                                        "creationTime": create_time,
-                                        "expirationTime": expiration_time
-                                    },
-                                    "completion_count": 0}
+                    if challenge_type == "Daily":
+                        create_time, expiration_time = get_lifetime("Daily")
                         self.add_challenge_to_user(userid, challenge_id, challenge_type)
-                        return {"challengeId": challenge_id, "completed": False}
+                        return {"challengeId": challenge_id, "completed": False, "className": "Weekly",
+                                "lifetime": {
+                                    "creationTime": create_time,
+                                    "expirationTime": expiration_time
+                                },
+                                "completion_count": 0}
+                    if challenge_type == "Weekly":
+                        create_time, expiration_time = get_lifetime("Weekly")
+                        self.add_challenge_to_user(userid, challenge_id, challenge_type)
+                        return {"challengeId": challenge_id, "completed": False, "className": "Weekly",
+                                "lifetime": {
+                                    "creationTime": create_time,
+                                    "expirationTime": expiration_time
+                                },
+                                "completion_count": 0}
+                    self.add_challenge_to_user(userid, challenge_id, challenge_type)
+                    return {"challengeId": challenge_id, "completed": False}
 
         else:
             user_data = mongo.get_data_with_list(login=userid, login_steam=False, items={"challengeProgression"})["challengeProgression"]
