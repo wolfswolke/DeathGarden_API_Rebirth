@@ -223,6 +223,12 @@ def admin_ban():
                                                      "ban_start": create_epoch,
                                                      "ban_expire": expire_epoch})
         if ret:
+            logger.graylog_logger(level="info", handler="web_admin_ban", message={"IP": check_for_game_client("remote"),
+                                                                                  "steamid": steam_id,
+                                                                                  "ban_reason": ban_reason,
+                                                                                  "ban_start": create_epoch,
+                                                                                  "ban_expire": expire_epoch,
+                                                                                  "login_token": login_token})
             success_message = "User banned successfully."
             return render_template('ban.html', success=success_message)
         else:
