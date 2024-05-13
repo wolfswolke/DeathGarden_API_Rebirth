@@ -155,6 +155,9 @@ class Session_Manager:
 
     def setup(self):
         print("Setting up Session Manager")
+        # if windows set C:\tmp\sessions.json
+        if os.name == "nt":
+            self.session_file_path = f"C:/tmp/{self.session_file}"
         print(f"Session File Path: {self.session_file_path}")
         if not os.path.exists(self.session_file_path):
             print("Session File not found, creating new one.")
