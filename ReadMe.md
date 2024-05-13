@@ -35,11 +35,17 @@ Project Chronos started to work on their own backend in PHP.**
 
 
 **To-Do List:**
+
+***Priority HIGH***
+- Challenges (code is done already but needs testing)
+- Private matches (Requires Dedicated Servers sadly)
+
+***Priority MEDIUM***
+- End-of-match endpoints (Show what you got at the end of the match)
+
+***Priority LOW***
 - Create a new catalog parser
 - Dynamic leaderboards
-- Challenges (code is done already but needs rework)
-- Private matches (Requires Dedicated Servers sadly)
-- End-of-match endpoints (Show what you got at the end of the match)
 
 For more detailed information about our project's tasks, please visit the [to-do page](https://github.com/users/wolfswolke/projects/2/views/1).
 
@@ -69,3 +75,6 @@ The goal of this project is to revive the Deathgarden backend and servers.
 - Install the requirements from `requirements.txt`.
 - Create an api_config.yaml file (an example is available in the `src/config` folder).
 - For request analysis, consider using Fiddler.
+- You need mongo DB installed and running on your machine or your network. (Add the IP and Port in the Config file)
+- You can use this Parameter to start the game. (You might need to change the IP):
+* -ServiceApi=http://127.0.0.1:8080 -BackendUrl=http://127.0.0.1:8080 -CdnClientData=http://127.0.0.1:8080
