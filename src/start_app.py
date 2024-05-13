@@ -23,7 +23,7 @@ import endpoints.matchmaking
 
 
 def run():
-    serve(app, host='0.0.0.0', port=8080)
+    serve(app, host='0.0.0.0', port=8080, threads=8, connection_limit=1000, cleanup_interval=30, channel_timeout=120,)
 
 
 def keep_alive():
@@ -54,4 +54,5 @@ logger.setup_graylog(use_graylog, graylog_server)
 mongo.setup(mongo_host, mongo_db, mongo_collection)
 session_manager.setup()
 hash_handler.setup()
+webhook_handler.setup(steam_api_key, 555440)
 keep_alive()
