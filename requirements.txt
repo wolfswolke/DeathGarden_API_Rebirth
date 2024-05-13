@@ -2,7 +2,7 @@ flask~=3.0.3
 PyYaml==6.0.1
 graypy~=2.1.0
 requests~=2.31.0
-pymongo~=4.7.1
+pymongo~=4.7.2
 waitress~=3.0.0
 colorlog~=6.8.2
 bleach~=6.1.0
