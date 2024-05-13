@@ -193,6 +193,48 @@ def tick_circle():
         logger.graylog_logger(level="error", handler="general-tick-circle-png", message=e)
 
 
+@app.route("/admin/ban", methods=["POST", "GET"])
+def admin_ban():
+    if request.method == "POST":
+        login_token = sanitize_input(request.form.get("login_token"))
+        if login_token is None:
+            return jsonify({"status": "error", "message": "No api token found"}), 401
+        if login_token not in allowed_tokens:
+            ip = check_for_game_client("remote")
+            logger.graylog_logger(level="error", handler="web_admin_ban", message={"IP": ip, "message": "Invalid api token"})
+            error_message = "Invalid api token"
+            return render_template('ban.html', error=error_message)
+        chosen_date = sanitize_input(request.form.get("datetime"))
+        ban_reason = sanitize_input(request.form.get("ban_reason"))
+        steam_id = sanitize_input(request.form.get("steam_id"))
+        if not chosen_date or not ban_reason or not steam_id:
+            error_message = "Please fill out all fields."
+            return render_template('ban.html', error=error_message)
+        try:
+            create_epoch, expire_epoch = create_ban_time(chosen_date)
+        except Exception as e:
+            logger.graylog_logger(level="error", handler="web_admin_ban", message=e)
+            error_message = "An Error occurred. Are you sure the date is correct?"
+            return render_template('ban.html', error=error_message)
+        ret = mongo.write_data_with_list(login=steam_id,
+                                         login_steam=True,
+                                         items_dict={"is_banned": True,
+                                                     "ban_reason": ban_reason,
+                                                     "ban_start": create_epoch,
+                                                     "ban_expire": expire_epoch})
+        if ret:
+            success_message = "User banned successfully."
+            return render_template('ban.html', success=success_message)
+        else:
+            error_message = "An Error occurred. Are you sure the SteamID is correct?"
+            return render_template('ban.html', error=error_message)
+
+    elif request.method == "GET":
+        return render_template('ban.html')
+    else:
+        return abort(405)
+
+
 @app.route("/debug", methods=["Get"])
 def debug_root():
     check_for_game_client("soft")
@@ -263,7 +305,8 @@ def debug_mirrors_write():
                     return jsonify({"status": "error", "message": "No Steamid found."}), 400
 
                 logger.graylog_logger(level="info", handler="logging_debug_mirror_write",
-                                      message={"IP": check_for_game_client("remote"), "steamid": steam_user_id, "data": data_b})
+                                      message={"IP": check_for_game_client("remote"), "steamid": steam_user_id,
+                                               "data": data_b})
 
                 return_val = mongo.write_data_with_list(login=steam_user_id, login_steam=True, items_dict=data_b)
 
@@ -373,7 +416,8 @@ def updater_files():
 @app.route("/updater/files/pak/", methods=["GET"])
 def updater_pak():
     try:
-        return send_from_directory(os.path.join(app.root_path, 'files'), 'TheExitRebirthBackendAPI-WindowsNoEditor_P.pak')
+        return send_from_directory(os.path.join(app.root_path, 'files'),
+                                   'TheExitRebirthBackendAPI-WindowsNoEditor_P.pak')
     except TimeoutError:
         return jsonify({"status": "error"})
     except Exception as e:
@@ -383,7 +427,8 @@ def updater_pak():
 @app.route("/updater/files/sig/", methods=["GET"])
 def updater_sig():
     try:
-        return send_from_directory(os.path.join(app.root_path, 'files'), 'TheExitRebirthBackendAPI-WindowsNoEditor_P.sig')
+        return send_from_directory(os.path.join(app.root_path, 'files'),
+                                   'TheExitRebirthBackendAPI-WindowsNoEditor_P.sig')
     except TimeoutError:
         return jsonify({"status": "error"})
     except Exception as e:
@@ -497,7 +542,7 @@ def download(file_id):
         #file = file_handler.get_file(file_id)
         file = None
         if file is None:
-           return jsonify({"status": "error", "message": "File not found."}), 404
+            return jsonify({"status": "error", "message": "File not found."}), 404
         return file
     except TimeoutError:
         return jsonify({"status": "error"})

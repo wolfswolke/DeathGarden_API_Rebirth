@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Ban Tool</title>
+    <style>
+        body {
+            background-color: #333;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+
+        form {
+            width: 50%;
+            margin: 0 auto;
+            background-color: #444;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"],
+        input[type="datetime-local"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #666;
+            background-color: #555;
+            color: white;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        .success {
+            background-color: #28a745;
+            color: white;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+        }
+
+        .error {
+            background-color: #dc3545;
+            color: white;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    {% if success %}
+    <div class="success">
+        {{ success }}
+    </div>
+    {% endif %}
+
+    {% if error %}
+    <div class="error">
+        {{ error }}
+    </div>
+    {% endif %}
+
+    <h2 style="text-align: center;">Administration Tool: Ban User</h2>
+    <form method="POST">
+        <label for="datetime">Ban end:</label>
+        <input type="datetime-local" id="datetime" name="datetime" required><br><br>
+
+        <label for="ban_reason">Ban Reason:</label>
+        <input type="text" id="ban_reason" name="ban_reason" required><br><br>
+
+        <label for="login_token">API Token:</label>
+        <input type="text" id="login_token" name="login_token" required><br><br>
+
+        <label for="steam_id">Steam ID:</label>
+        <input type="text" id="steam_id" name="steam_id" required><br><br>
+
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>

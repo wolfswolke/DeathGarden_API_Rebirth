@@ -45,3 +45,12 @@ def get_lifetime(challenge_type):
     except Exception as e:
         logger.error("Error in time_handler -> " + str(e))
         return None
+
+
+def create_ban_time(date):
+    date_string = date.replace('%3A', ':')
+    date_object = datetime.datetime.strptime(date_string, "%Y-%m-%dT%H:%M")
+    epoch_time = int(date_object.timestamp())
+
+    current_epoch_time = int(datetime.datetime.now().timestamp())
+    return current_epoch_time, epoch_time
