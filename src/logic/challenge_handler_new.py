@@ -3,6 +3,7 @@ from flask_definitions import *
 import random
 
 from util.challenge_data import *
+from logic.webhook_handler import webhook_handler
 
 
 # Base pickedChallenges Item
@@ -705,6 +706,50 @@ def get_reward(blueprint):
                 }
 
 
+def update_achievement_challenges(user_id):
+    steam_id = mongo.get_data_with_list(login=user_id, login_steam=False, items={"steamid"})["steamid"]
+    data = webhook_handler.steam_check_achievments(steam_id)
+    if data["playerstats"]["success"]:
+        achieved_achievement = []
+        for achievement in data["playerstats"]["achievements"]:
+            if achievement["achieved"] == 1:
+                challenge_id = achievement["apiname"]
+                if challenge_id == "EFAB89E6465D1163D62A07B11048F2B6":
+                    print(f"Completed challenge {challenge_id}, NotAQuitter")
+                    achieved_achievement.append({"challengeId": challenge_id, "value": 50})
+                elif challenge_id == "2CAEBB354D506D7C43B941BC1DA775A0":
+                    print(f"Completed challenge {challenge_id}, Escapist")
+                    achieved_achievement.append({"challengeId": challenge_id, "value": 10})
+                elif challenge_id == "E51981B946BEE3D45C5C41B2FCFF310B":
+                    print(f"Completed challenge {challenge_id}, SpecialDelivery")
+                    achieved_achievement.append({"challengeId": challenge_id, "value": 500})
+                elif challenge_id == "AAD05B9D46471DC811BBE0BA91916AB7":
+                    print(f"Completed challenge {challenge_id}, DontBeADowner")
+                    achieved_achievement.append({"challengeId": challenge_id, "value": 50})
+                elif challenge_id == "BA2D4A5445CB70276A8F5D9E1AFCE080":
+                    print(f"Completed challenge {challenge_id}, DroneZone")
+                    achieved_achievement.append({"challengeId": challenge_id, "value": 100})
+                else:
+                    logger.graylog_logger(level="error", handler="update_achievement_challenges",
+                                          message=f"Achievement Challenge {challenge_id} not found")
+        if len(achieved_achievement) > 0:
+            user_challenges = mongo.get_data_with_list(login=steam_id, login_steam=True, items={"challengeProgression"})["challengeProgression"]
+            for achievement in achieved_achievement:
+                challenge_id = achievement["challengeId"]
+                value = achievement["value"]
+                for challenge in user_challenges:
+                    if challenge["challengeId"] == challenge_id:
+                        challenge["completed"] = True
+                        challenge["value"] = value
+                        break
+            mongo.write_data_with_list(login=steam_id, login_steam=True,
+                                       items_dict={"challengeProgression": user_challenges})
+    else:
+        logger.graylog_logger(level="error", handler="update_achievement_challenges",
+                              message=f"Failed to get achievements for steam_id {steam_id}reason {data['playerstats']['error']}")
+
+
+
 def get_challenge_ids_from_inventory(user_id):
     Progression_HunterGroupA = mongo.get_data_with_list(login=user_id, login_steam=False,
                                                         items={"HunterGroupA"})["HunterGroupA"]
@@ -777,6 +822,7 @@ def get_challenge_ids_from_inventory(user_id):
                 challenge_found = True
         if not challenge_found:
             new_challenge_handler.add_challenge_to_user(user_id, challenge)
+    update_achievement_challenges(user_id)
 
 
 class ChallengeHandler:

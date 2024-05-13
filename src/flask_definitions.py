@@ -11,6 +11,7 @@ from logic.time_handler import get_lifetime
 from logic.hash_handler import hash_handler
 from logic.challenge_handler_new import new_challenge_handler, get_challenge_ids_from_inventory
 from logic.level_handler import update_user_xp
+from logic.webhook_handler import webhook_handler
 import json
 import os
 
