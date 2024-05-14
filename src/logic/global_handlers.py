@@ -143,6 +143,16 @@ def check_for_game_client(check_type="strict"):
 def sanitize_input(input_value):
     if input_value is None:
         return None
+    if isinstance(input_value, int):
+        return input_value
+    if isinstance(input_value, float):
+        return input_value
+    if isinstance(input_value, bool):
+        return input_value
+    if isinstance(input_value, dict):
+        for key in input_value:
+            input_value[key] = bleach.clean(str(input_value[key]))
+        return input_value
     return bleach.clean(str(input_value))
 
 
