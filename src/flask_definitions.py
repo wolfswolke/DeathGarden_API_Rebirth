@@ -30,3 +30,7 @@ use_discord = config['webhooks']['discord']['use_discord']
 moderation_urls = config['webhooks']['discord']['moderation_urls']
 dev_env = os.environ['DEV']
 local_ip = config['general']['local_ip']
+
+if isinstance(allowed_tokens, str):
+    print("The element 'allowed_tokens' should not be a string! Please Update your config!")
+    exit(1)
