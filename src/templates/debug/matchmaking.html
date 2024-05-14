@@ -5,17 +5,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Matchmaking Debug</title>
     <style>
+        body {
+            background-color: #333;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        h1, h2 {
+            color: #f2f2f2;
+        }
         table {
             border-collapse: collapse;
             width: 100%;
+            margin-top: 20px;
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: #444;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
         }
         th, td {
-            border: 1px solid #dddddd;
+            border: 1px solid #555;
             text-align: left;
-            padding: 8px;
+            padding: 12px;
         }
         th {
-            background-color: #f2f2f2;
+            background-color: #333;
+        }
+        tr:nth-child(even) {
+            background-color: #555;
+        }
+        tr:hover {
+            background-color: #777;
+        }
+        ul {
+            padding: 0;
+            margin: 0;
+        }
+        li {
+            list-style-type: none;
         }
     </style>
     <meta http-equiv="refresh" content="4">
@@ -46,7 +74,7 @@
         {% for lobby in lobby_data %}
         <tr>
             <td>{{ lobby.id }}</td>
-            <td>1</td>
+            <td>{{ lobby.host }}</td>
             <td>
                 <ul>
                     {% for runner in lobby.nonHosts  %}
