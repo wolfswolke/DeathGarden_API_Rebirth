@@ -1336,7 +1336,8 @@ class ChallengeHandler:
                             "value": challenge["value"]
                         }
                     return data
-            logger.graylog_logger(level="info", handler="get_progression_batch", message=f"Challenge {challenge_id} not found in user data")
+            # disabled because the API takes a long time to print but is very fast to run
+            #logger.graylog_logger(level="info", handler="get_progression_batch", message=f"Challenge {challenge_id} not found in user data")
             #A lot of challenges are sent that are not in challenge_data
             #Add them anyways
             # if challenge_id not in db_challenge:
