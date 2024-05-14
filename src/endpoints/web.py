@@ -461,8 +461,15 @@ def debug_matchmaking():
     len_open_lobbies = matchmaking_queue.get_len_of_open_lobbies()
 
     lobby_data = matchmaking_queue.get_lobby_data()
-
-    return render_template('debug/matchmaking.html',
+    if dev_env == "true":
+        return render_template('debug/matchmaking.html',
+                               len_queue=len_queue,
+                               len_killed_lobbies=len_killed_lobbies,
+                               len_queued_runners=len_queued_runners,
+                               len_queued_hunters=len_queued_hunters,
+                               len_open_lobbies=len_open_lobbies,
+                               lobby_data=lobby_data)
+    return render_template('debug/anon_matchmaking.html',
                            len_queue=len_queue,
                            len_killed_lobbies=len_killed_lobbies,
                            len_queued_runners=len_queued_runners,
