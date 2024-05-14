@@ -1070,6 +1070,38 @@ def inventories():
         {'quantity': 1, 'objectId': 'C50FFFBF4686613182F45890651797CE', 'lastUpdateAt': 1715019493},
         {'quantity': 1, 'objectId': '606129DC45AB9D16B69E2FA5C99A9835', 'lastUpdateAt': 1715019493}
     ]
+    if dev_env == "true":
+        base_inventory = [
+            {'quantity': 1, 'objectId': '56B7B6F6473712D0B7A2F992BB2C16CD', 'lastUpdateAt': 1715689809},
+            {'quantity': 1, 'objectId': 'EF96A20249884D437B87A6A4BDE81B7F', 'lastUpdateAt': 1715689809},
+            {'quantity': 1, 'objectId': '84DBF7B141246372690AFBA436B51C30', 'lastUpdateAt': 1715689809},
+            {'quantity': 1, 'objectId': '642E3BFA4F89698DD59E64AC133E266B', 'lastUpdateAt': 1715689809},
+            {'quantity': 1, 'objectId': '74C21FF949E644AF2231CDB796E9386E', 'lastUpdateAt': 1715689809},
+            {'quantity': 1, 'objectId': '0743E9B44190283D81A76480701EB07E', 'lastUpdateAt': 1715689809},
+            {'quantity': 1, 'objectId': '20FF1865462FD26B0253A08F18EFAA10', 'lastUpdateAt': 1715689809},
+            {'quantity': 1, 'objectId': 'E4892E8A495FFB38F90729A1C97F3AC9', 'lastUpdateAt': 1715689809},
+            {'quantity': 1, 'objectId': '487DEBE247818A01797AF5B3FD04C2B2', 'lastUpdateAt': 1715689809},
+            {'quantity': 1, 'objectId': '1E08AFFA485E92BAFF2C1BB85CEFB81E', 'lastUpdateAt': 1715689809},
+            {'quantity': 1, 'objectId': '1F5CD9004224C56746D81991AA40448A', 'lastUpdateAt': 1715689809},
+            {'quantity': 1, 'objectId': '492232504161420C872A0F82FC16ACDB', 'lastUpdateAt': 1715689809},
+            {'quantity': 1, 'objectId': 'C8AF3D534973F82FADBB40BDA96F9DCD', 'lastUpdateAt': 1715689809},
+            {'quantity': 1, 'objectId': '1069E6DF40AB4CAEF2AF03B4FD60BB22', 'lastUpdateAt': 1715689809},
+            {'quantity': 1, 'objectId': '4431395744543533907B099952F81510', 'lastUpdateAt': 1715689809},
+            {'quantity': 1, 'objectId': '6BE28177483A89CF00B2FD839726ACE1', 'lastUpdateAt': 1715689809},
+            {'quantity': 1, 'objectId': '738CFAEB44A48BF6DA5F109C50068BE3', 'lastUpdateAt': 1715689809},
+            {'quantity': 1, 'objectId': '89A14A794CD70E50ADFEB497B89E4381', 'lastUpdateAt': 1715689809},
+            {'quantity': 1, 'objectId': '5159591743CBF0B57EC6FEB3341960D6', 'lastUpdateAt': 1715689809},
+            {'quantity': 1, 'objectId': '08DC38B6470A7A5B0BA025B96279DAA8', 'lastUpdateAt': 1715689809},
+            {'quantity': 1, 'objectId': 'D14477DA4ED69E001DC36ABCEA0B42BC', 'lastUpdateAt': 1715689809},
+            {'quantity': 1, 'objectId': '305F597C424FDD0A0A6B2BB6CF5CC542', 'lastUpdateAt': 1715689809},
+            {'quantity': 1, 'objectId': 'EB90A75F44EA4D821B385EA00B45E1BE', 'lastUpdateAt': 1715689809},
+            {'quantity': 1, 'objectId': 'AA25DA8543EDF88C233713B438B43365', 'lastUpdateAt': 1715689809},
+            {'quantity': 1, 'objectId': 'D91835664F2FAD7765BCF78B18CA9082', 'lastUpdateAt': 1715689809},
+            {'quantity': 1, 'objectId': '9373067D4895DE2C33EFBA8711F6E1D6', 'lastUpdateAt': 1715689809},
+            {'quantity': 1, 'objectId': '4F563EB64882529F0CC42397CCCCB4A4', 'lastUpdateAt': 1715689809},
+            {'quantity': 1, 'objectId': 'B83713F044EED4FB220F2F9337AD14A2', 'lastUpdateAt': 1715689809},
+            {'quantity': 1, 'objectId': '0398A38946C5FD3871B10A9E6B4B2BEC', 'lastUpdateAt': 1715689809}
+        ]
     deathgarden_1_inventory = [
         {'quantity': 1, 'objectId': 'FD93572C4CF2DFD134E6D9A90252F665', 'lastUpdateAt': 1714521600},
         {'quantity': 1, 'objectId': 'C645C7AC405B3D8AF8E73B946875F0AE', 'lastUpdateAt': 1714521600},
