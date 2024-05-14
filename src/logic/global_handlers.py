@@ -117,8 +117,6 @@ def check_for_game_client(check_type="strict"):
         user_agent = sanitize_input(request.headers.get('User-Agent'))
         if user_agent.startswith("TheExit/++UE4+Release-4.21-CL-0"):
             _get_remote_ip("strict")
-        # elif user_agent.startswith("game=TheExit, engine=UE4, version="):
-        #    _get_remote_ip("strict")
         elif user_agent.startswith("CrashReportClient/++UE4+Release-4.21"):
             _get_remote_ip("strict")
         elif user_agent.startswith("TheExit/++UE4+Release-4.20-CL-0"):
@@ -160,12 +158,10 @@ class Session_Manager:
     def __init__(self):
         self.sessions = {}
         self.session_file = "sessions.json"
-        # Relative Path /app/tmp/sessions.json
         self.session_file_path = f"/app/tmp/{self.session_file}"
 
     def setup(self):
         print("Setting up Session Manager")
-        # if windows set C:\tmp\sessions.json
         if os.name == "nt":
             self.session_file_path = f"C:/tmp/{self.session_file}"
         print(f"Session File Path: {self.session_file_path}")
@@ -177,7 +173,6 @@ class Session_Manager:
         with open(self.session_file_path, "r") as session_file:
             print("Loading Sessions")
             self.sessions = json.load(session_file)
-            # print(f"DEBUG Sessions: {self.sessions}")
             print("Sessions Loaded")
 
     def create_session(self, user_id):
