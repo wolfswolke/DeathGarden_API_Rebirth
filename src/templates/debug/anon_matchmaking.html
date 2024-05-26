@@ -5,37 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Matchmaking Debug</title>
     <style>
-        :root {
-            --stat-cell-size: 200px;
-            --queue-len-color: white;
-            --open-lobbies-color: white;
-            --killed-lobbies-color: white;
-            --queued-hunters-color: white;
-            --queued-runners-color: white;
-        }
         body {
             background-color: #333;
             color: #fff;
             font-family: Arial, sans-serif;
-            padding: 0;
             margin: 0;
-        }
-        .container {
-            max-width: 1264px;
-            width: 100%;
-            margin: 0 auto;
-            padding-block: 50px 25px;
+            padding: 0;
         }
         h1, h2 {
             color: #f2f2f2;
-            text-align: center;
-        }
-        .statistics p {
-            text-align: center;
-        }
-        .statistics p strong {
-            display: inline-block;
-            margin-bottom: 12px;
         }
         table {
             border-collapse: collapse;
@@ -67,32 +45,6 @@
         li {
             list-style-type: none;
         }
-        .statistics {
-            padding-top: 20px;
-        }
-        .statistics > .row {
-            display: grid;
-            justify-content: center;
-            align-content: center;
-            gap: 40px;
-        }
-        .row-1 {
-            grid-template-columns: repeat(3, var(--stat-cell-size));
-        }
-        .row-2 {
-            grid-template-columns: repeat(2, var(--stat-cell-size));
-        }
-        .data-tbl-container {
-            display: block;
-            width: 100%;
-            padding-top: 20px;
-        }
-        .queue-len {
-            color: white;}
-            .open-lobbies{color: var(--open-lobbies-color);}
-            .killed-lobbies{color: var(--killed-lobbies-color);}
-            .queued-hunters{color: var(--queued-hunters-color);}
-            .queued-runners{color: var(--queued-runners-color);}
     </style>
     <meta http-equiv="refresh" content="4">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -104,47 +56,35 @@
     <meta name="theme-color" content="#ffffff">
 </head>
 <body>
-<div class="container">
-<h1>Matchmaking Debug Information</h1>
+    <h1>Matchmaking Debug Information</h1>
+    <p><strong>Length of Queue:</strong> {{ len_queue }}</p>
+    <p><strong>Killed Lobbies:</strong> {{ len_killed_lobbies }}</p>
+    <p><strong>Queued Runners:</strong> {{ len_queued_runners }}</p>
+    <p><strong>Queued Hunters:</strong> {{ len_queued_hunters }}</p>
+    <p><strong>Open Lobbies:</strong> {{ len_open_lobbies }}</p>
 
-<div class="statistics">
-    <div class="row row-1">
-    <p class="queue-len"><strong>Length of Queue</strong> <br> {{ len_queue }}</p>
-    <p class="open-lobbies"><strong>Open Lobbies</strong> <br>{{ len_open_lobbies }}</p>
-    <p class="killed-lobbies"><strong>Killed Lobbies</strong> <br> {{ len_killed_lobbies }}</p>
-    </div>
-    <div class="row row-2">
-    <p class="queued-hunters"><strong>Queued Hunters</strong> <br> {{ len_queued_hunters }}</p>
-        <p class="queued-runners"><strong>Queued Runners</strong> <br> {{ len_queued_runners }}</p>
-</div>
-</div>
-</div>
-<div class="container">
-<h2>Lobby Data</h2>
-    <div class="data-tbl-container">
-<table>
-    <tr>
-        <th>Lobby ID</th>
-        <th>Hunters</th>
-        <th>Runners</th>
-        <th>Status</th>
-    </tr>
-    {% for lobby in lobby_data %}
-    <tr>
-        <td>{{ lobby.id }}</td>
-        <td>1</td>
-        <td>
-            <ul>
-                {% for runner in lobby.nonHosts  %}
-                <li>{{ runner.userId }}</li>
-                {% endfor %}
-            </ul>
-        </td>
-        <td>{{ lobby.status }}</td>
-    </tr>
-    {% endfor %}
-</table>
-</div>
-</div>
+    <h2>Lobby Data</h2>
+    <table>
+        <tr>
+            <th>Lobby ID</th>
+            <th>Hunters</th>
+            <th>Runners</th>
+            <th>Status</th>
+        </tr>
+        {% for lobby in lobby_data %}
+        <tr>
+            <td>{{ lobby.id }}</td>
+            <td>1</td>
+            <td>
+                <ul>
+                    {% for runner in lobby.nonHosts  %}
+                    <li>{{ runner.userId }}</li>
+                    {% endfor %}
+                </ul>
+            </td>
+            <td>{{ lobby.status }}</td>
+        </tr>
+        {% endfor %}
+    </table>
 </body>
 </html>
