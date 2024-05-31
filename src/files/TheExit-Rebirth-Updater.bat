@@ -77,10 +77,13 @@ if exist "%binaries_folder%\TheExit.exe" (
 )
 echo First Time Setup finished.
 echo ---------------------------------------------------------------------
-echo IMPORTANT in steam under properties, Launch Options add: -BattlEye
+echo.
+echo IMPORTANT in steam under properties, Launch Options add:
+echo -ServiceApi=https://api.zkwolf.com/ -BackendUrl=https://api.zkwolf.com/ -CdnClientData=https://api.zkwolf.com/ -battleye
 echo.
 echo If you have a Intel CPU and your game does NOT start use this parameter instead:
-echo cmd /c "set OPENSSL_ia32cap=:~0x20000000 && %command%" , -battleye
+echo cmd /c "set OPENSSL_ia32cap=:~0x20000000 && %command%" , -ServiceApi=https://api.zkwolf.com/ -BackendUrl=https://api.zkwolf.com/ -CdnClientData=https://api.zkwolf.com/ -battleye
+echo.
 echo ---------------------------------------------------------------------
 pause
 
