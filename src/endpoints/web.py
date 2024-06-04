@@ -454,6 +454,7 @@ def updater_script():
 @app.route("/debug/matchmaking", methods=["GET"])
 @app.route("/debug/MatchMaking", methods=["GET"])
 def debug_matchmaking():
+    matchmaking_queue.cleanup_queue_players()
     len_queue = matchmaking_queue.get_len_of_queue()
     len_killed_lobbies = matchmaking_queue.get_len_of_killed_lobbies()
     len_queued_runners = matchmaking_queue.get_len_of_queued_runners()
@@ -480,6 +481,7 @@ def debug_matchmaking():
 
 @app.route("/api/debug/MatchMaking", methods=["GET"])
 def api_debug_matchmaking():
+    matchmaking_queue.cleanup_queue_players()
     len_queue = matchmaking_queue.get_len_of_queue()
     len_killed_lobbies = matchmaking_queue.get_len_of_killed_lobbies()
     len_queued_runners = matchmaking_queue.get_len_of_queued_runners()
@@ -506,6 +508,74 @@ def api_debug_matchmaking():
         "len_open_lobbies": len_open_lobbies,
         "lobby_data": lobby_return_data
     })
+
+
+@app.route("/api/matchmaking/json", methods=["GET"])
+def api_matchmaking_json():
+    matchmaking_queue.cleanup_queue_players()
+    len_queue = matchmaking_queue.get_len_of_queue()
+    len_killed_lobbies = matchmaking_queue.get_len_of_killed_lobbies()
+    len_queued_runners = matchmaking_queue.get_len_of_queued_runners()
+    len_queued_hunters = matchmaking_queue.get_len_of_queued_hunters()
+    len_open_lobbies = matchmaking_queue.get_len_of_open_lobbies()
+
+    lobby_data = matchmaking_queue.get_lobby_data()
+    lobby_return_data = []
+    for item in lobby_data:
+        # Hunters needs to be changed from STRING to LIST some day
+        lobby_info = {
+            "id": item.id,
+            "Hunters": 1,
+            "Runners": item.nonHosts,
+            "status": item.status
+        }
+        lobby_return_data.append(lobby_info)
+
+    return jsonify({
+        "len_queue": len_queue,
+        "len_killed_lobbies": len_killed_lobbies,
+        "len_queued_runners": len_queued_runners,
+        "len_queued_hunters": len_queued_hunters,
+        "len_open_lobbies": len_open_lobbies,
+        "lobby_data": lobby_return_data
+    })
+
+
+@app.route("/en/eula", methods=["GET"])
+def eula():
+    check_for_game_client("soft")
+    try:
+        return render_template("dg_eula.html")
+    except TimeoutError:
+        return jsonify({"status": "error"})
+    except Exception as e:
+        logger.graylog_logger(level="error", handler="web-eula", message=e)
+
+
+@app.route("/js/manifest.js", methods=["GET"])
+def manifest():
+    check_for_game_client("soft")
+    try:
+        return send_from_directory(os.path.join(app.root_path, 'static', 'dg'), 'manifest.js')
+    except TimeoutError:
+        return jsonify({"status": "error"})
+    except Exception as e:
+        logger.graylog_logger(level="error", handler="web-manifest", message=e)
+
+
+@app.route("/js/vendor.js", methods=["GET"])
+def vendor():
+    return jsonify({"message": "This file has sadly been lost to time..."}), 404
+
+
+@app.route("/js/app.js", methods=["GET"])
+def app_js():
+    return jsonify({"message": "This file has sadly been lost to time..."}), 404
+
+
+@app.route("/css/app.css", methods=["GET"])
+def app_css():
+    return jsonify({"message": "This file has sadly been lost to time..."}), 404
 
 
 @app.route("/api/sha", methods=["GET"])
