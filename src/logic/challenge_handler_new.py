@@ -21,8 +21,9 @@ from logic.webhook_handler import webhook_handler
 
 def update_challenge_time(current_challenge_data, challenge_type):
     if challenge_type == "Weekly" or challenge_type == "Daily":
-        current_challenge_data["lifetime"]["creationTime"] = get_lifetime(challenge_type)[0]
-        current_challenge_data["lifetime"]["expirationTime"] = get_lifetime(challenge_type)[1]
+        creation_time, expiration_time = get_lifetime(challenge_type)
+        current_challenge_data["lifetime"]["creationTime"] = creation_time
+        current_challenge_data["lifetime"]["expirationTime"] = expiration_time
     else:
         logger.graylog_logger(level="Error", handler="update_challenge_time", message="Invalid challenge type")
         return None
@@ -32,43 +33,43 @@ def update_challenge_time(current_challenge_data, challenge_type):
 
 def get_reward(blueprint):
     # todo add all static challenges here (SRC challenge_handler.py)
-    data = {'/Game/Challenges/Challenge_Deliver_Runner.Challenge_Deliver_Runner': {'weight': 100, 'amount': 200,
+    data = {'/Game/Challenges/Challenge_Deliver_Runner.Challenge_Deliver_Runner': { 'amount': 200,
                                                                                    'id': 'CurrencyB',
                                                                                    'type': 'currency',
                                                                                    'claimed': False},
-            '/Game/Challenges/Challenge_Down_Hunter.Challenge_Down_Hunter': {'weight': 100, 'amount': 132,
+            '/Game/Challenges/Challenge_Down_Hunter.Challenge_Down_Hunter': { 'amount': 132,
                                                                              'id': 'CurrencyB', 'type': 'currency',
                                                                              'claimed': False},
-            '/Game/Challenges/Challenge_DroneCharger_Hunter.Challenge_DroneCharger_Hunter': {'weight': 100,
+            '/Game/Challenges/Challenge_DroneCharger_Hunter.Challenge_DroneCharger_Hunter': {
                                                                                              'amount': 268,
                                                                                              'id': 'CurrencyA',
                                                                                              'type': 'currency',
                                                                                              'claimed': False},
-            '/Game/Challenges/Challenge_JustPlay.Challenge_JustPlay': {'weight': 100, 'amount': 52, 'id': 'CurrencyA',
+            '/Game/Challenges/Challenge_JustPlay.Challenge_JustPlay': { 'amount': 52, 'id': 'CurrencyA',
                                                                        'type': 'currency', 'claimed': False},
-            '/Game/Challenges/Daily/Challenge_Domination_Hunter.Challenge_Domination_Hunter': {'weight': 100,
+            '/Game/Challenges/Daily/Challenge_Domination_Hunter.Challenge_Domination_Hunter': {
                                                                                                'amount': 275,
                                                                                                'id': 'CurrencyB',
                                                                                                'type': 'currency',
                                                                                                'claimed': False},
-            '/Game/Challenges/Daily/Challenge_Domination_Runner.Challenge_Domination_Runner': {'weight': 100,
+            '/Game/Challenges/Daily/Challenge_Domination_Runner.Challenge_Domination_Runner': {
                                                                                                'amount': 85,
                                                                                                'id': 'CurrencyA',
                                                                                                'type': 'currency',
                                                                                                'claimed': False},
-            '/Game/Challenges/Events/Challenge_Darkness_Hunter.Challenge_Darkness_Hunter': {'weight': 100,
+            '/Game/Challenges/Events/Challenge_Darkness_Hunter.Challenge_Darkness_Hunter': {
                                                                                             'amount': 257,
                                                                                             'id': 'CurrencyB',
                                                                                             'type': 'currency',
                                                                                             'claimed': False},
-            '/Game/Challenges/Events/Challenge_Darkness_Runner.Challenge_Darkness_Runner': {'weight': 100,
+            '/Game/Challenges/Events/Challenge_Darkness_Runner.Challenge_Darkness_Runner': {
                                                                                             'amount': 228,
                                                                                             'id': 'CurrencyB',
                                                                                             'type': 'currency',
                                                                                             'claimed': False},
             '/Game/Challenges/Progression/Challenge_AmmoOpportunist_Runner.Challenge_AmmoOpportunist_Runner': {
                 'weight': 100, 'amount': 159, 'id': 'CurrencyB', 'type': 'currency', 'claimed': False},
-            '/Game/Challenges/Progression/Challenge_Autocollect_Hunter.Challenge_Autocollect_Hunter': {'weight': 100,
+            '/Game/Challenges/Progression/Challenge_Autocollect_Hunter.Challenge_Autocollect_Hunter': {
                                                                                                        'amount': 76,
                                                                                                        'id': 'CurrencyA',
                                                                                                        'type': 'currency',
@@ -81,12 +82,12 @@ def get_reward(blueprint):
                 'weight': 100, 'amount': 286, 'id': 'CurrencyB', 'type': 'currency', 'claimed': False},
             '/Game/Challenges/Progression/Challenge_BiggerClipper_Hunter.Challenge_BiggerClipper_Hunter': {
                 'weight': 100, 'amount': 92, 'id': 'CurrencyB', 'type': 'currency', 'claimed': False},
-            '/Game/Challenges/Progression/Challenge_BubbleBuster_Hunter.Challenge_BubbleBuster_Hunter': {'weight': 100,
+            '/Game/Challenges/Progression/Challenge_BubbleBuster_Hunter.Challenge_BubbleBuster_Hunter': {
                                                                                                          'amount': 234,
                                                                                                          'id': 'CurrencyA',
                                                                                                          'type': 'currency',
                                                                                                          'claimed': False},
-            '/Game/Challenges/Progression/Challenge_Cardio_Runner.Challenge_Cardio_Runner': {'weight': 100,
+            '/Game/Challenges/Progression/Challenge_Cardio_Runner.Challenge_Cardio_Runner': {
                                                                                              'amount': 192,
                                                                                              'id': 'CurrencyA',
                                                                                              'type': 'currency',
@@ -95,16 +96,16 @@ def get_reward(blueprint):
                 'weight': 100, 'amount': 241, 'id': 'CurrencyA', 'type': 'currency', 'claimed': False},
             '/Game/Challenges/Progression/Challenge_ChanceToNotSpendAmmo_Runner.Challenge_ChanceToNotSpendAmmo_Runner': {
                 'weight': 100, 'amount': 229, 'id': 'CurrencyB', 'type': 'currency', 'claimed': False},
-            '/Game/Challenges/Progression/Challenge_ClingWrap_Runner.Challenge_ClingWrap_Runner': {'weight': 100,
+            '/Game/Challenges/Progression/Challenge_ClingWrap_Runner.Challenge_ClingWrap_Runner': {
                                                                                                    'amount': 171,
                                                                                                    'id': 'CurrencyB',
                                                                                                    'type': 'currency',
                                                                                                    'claimed': False},
-            '/Game/Challenges/Progression/Challenge_Clone_Runner.Challenge_Clone_Runner': {'weight': 100, 'amount': 111,
+            '/Game/Challenges/Progression/Challenge_Clone_Runner.Challenge_Clone_Runner': { 'amount': 111,
                                                                                            'id': 'CurrencyA',
                                                                                            'type': 'currency',
                                                                                            'claimed': False},
-            '/Game/Challenges/Progression/Challenge_DamageDodger_Runner.Challenge_DamageDodger_Runner': {'weight': 100,
+            '/Game/Challenges/Progression/Challenge_DamageDodger_Runner.Challenge_DamageDodger_Runner': {
                                                                                                          'amount': 36,
                                                                                                          'id': 'CurrencyA',
                                                                                                          'type': 'currency',
@@ -113,17 +114,17 @@ def get_reward(blueprint):
                 'weight': 100, 'amount': 249, 'id': 'CurrencyB', 'type': 'currency', 'claimed': False},
             '/Game/Challenges/Progression/Challenge_DroneReactivationTime_Hunter.Challenge_DroneReactivationTime_Hunter': {
                 'weight': 100, 'amount': 33, 'id': 'CurrencyB', 'type': 'currency', 'claimed': False},
-            '/Game/Challenges/Progression/Challenge_DroneShield_Hunter.Challenge_DroneShield_Hunter': {'weight': 100,
+            '/Game/Challenges/Progression/Challenge_DroneShield_Hunter.Challenge_DroneShield_Hunter': {
                                                                                                        'amount': 198,
                                                                                                        'id': 'CurrencyB',
                                                                                                        'type': 'currency',
                                                                                                        'claimed': False},
-            '/Game/Challenges/Progression/Challenge_Emboldened_Runner.Challenge_Emboldened_Runner': {'weight': 100,
+            '/Game/Challenges/Progression/Challenge_Emboldened_Runner.Challenge_Emboldened_Runner': {
                                                                                                      'amount': 254,
                                                                                                      'id': 'CurrencyA',
                                                                                                      'type': 'currency',
                                                                                                      'claimed': False},
-            '/Game/Challenges/Progression/Challenge_EvadeMaster_Runner.Challenge_EvadeMaster_Runner': {'weight': 100,
+            '/Game/Challenges/Progression/Challenge_EvadeMaster_Runner.Challenge_EvadeMaster_Runner': {
                                                                                                        'amount': 299,
                                                                                                        'id': 'CurrencyB',
                                                                                                        'type': 'currency',
@@ -132,42 +133,42 @@ def get_reward(blueprint):
                 'weight': 100, 'amount': 140, 'id': 'CurrencyB', 'type': 'currency', 'claimed': False},
             '/Game/Challenges/Progression/Challenge_ExtraToppings_Hunter.Challenge_ExtraToppings_Hunter': {
                 'weight': 100, 'amount': 131, 'id': 'CurrencyB', 'type': 'currency', 'claimed': False},
-            '/Game/Challenges/Progression/Challenge_Fade_Hunter.Challenge_Fade_Hunter': {'weight': 100, 'amount': 283,
+            '/Game/Challenges/Progression/Challenge_Fade_Hunter.Challenge_Fade_Hunter': { 'amount': 283,
                                                                                          'id': 'CurrencyB',
                                                                                          'type': 'currency',
                                                                                          'claimed': False},
             '/Game/Challenges/Progression/Challenge_FasterBloodDeliver_Runner.Challenge_FasterBloodDeliver_Runner': {
                 'weight': 100, 'amount': 83, 'id': 'CurrencyA', 'type': 'currency', 'claimed': False},
-            '/Game/Challenges/Progression/Challenge_Firmware_Runner.Challenge_Firmware_Runner': {'weight': 100,
+            '/Game/Challenges/Progression/Challenge_Firmware_Runner.Challenge_Firmware_Runner': {
                                                                                                  'amount': 89,
                                                                                                  'id': 'CurrencyB',
                                                                                                  'type': 'currency',
                                                                                                  'claimed': False},
-            '/Game/Challenges/Progression/Challenge_FleetFeet_Runner.Challenge_FleetFeet_Runner': {'weight': 100,
+            '/Game/Challenges/Progression/Challenge_FleetFeet_Runner.Challenge_FleetFeet_Runner': {
                                                                                                    'amount': 84,
                                                                                                    'id': 'CurrencyA',
                                                                                                    'type': 'currency',
                                                                                                    'claimed': False},
             '/Game/Challenges/Progression/Challenge_FriendsForLife_Runner.Challenge_FriendsForLife_Runner': {
                 'weight': 100, 'amount': 75, 'id': 'CurrencyB', 'type': 'currency', 'claimed': False},
-            '/Game/Challenges/Progression/Challenge_GreatShape_Hunter.Challenge_GreatShape_Hunter': {'weight': 100,
+            '/Game/Challenges/Progression/Challenge_GreatShape_Hunter.Challenge_GreatShape_Hunter': {
                                                                                                      'amount': 195,
                                                                                                      'id': 'CurrencyB',
                                                                                                      'type': 'currency',
                                                                                                      'claimed': False},
             '/Game/Challenges/Progression/Challenge_HackedCratesExplode_Hunter.Challenge_HackedCratesExplode_Hunter': {
                 'weight': 100, 'amount': 193, 'id': 'CurrencyB', 'type': 'currency', 'claimed': False},
-            '/Game/Challenges/Progression/Challenge_Hacker_Hunter.Challenge_Hacker_Hunter': {'weight': 100,
+            '/Game/Challenges/Progression/Challenge_Hacker_Hunter.Challenge_Hacker_Hunter': {
                                                                                              'amount': 207,
                                                                                              'id': 'CurrencyB',
                                                                                              'type': 'currency',
                                                                                              'claimed': False},
-            '/Game/Challenges/Progression/Challenge_HealFaster_Runner.Challenge_HealFaster_Runner': {'weight': 100,
+            '/Game/Challenges/Progression/Challenge_HealFaster_Runner.Challenge_HealFaster_Runner': {
                                                                                                      'amount': 71,
                                                                                                      'id': 'CurrencyA',
                                                                                                      'type': 'currency',
                                                                                                      'claimed': False},
-            '/Game/Challenges/Progression/Challenge_Heal_Runner.Challenge_Heal_Runner': {'weight': 100, 'amount': 184,
+            '/Game/Challenges/Progression/Challenge_Heal_Runner.Challenge_Heal_Runner': { 'amount': 184,
                                                                                          'id': 'CurrencyA',
                                                                                          'type': 'currency',
                                                                                          'claimed': False},
@@ -175,14 +176,14 @@ def get_reward(blueprint):
                 'weight': 100, 'amount': 107, 'id': 'CurrencyB', 'type': 'currency', 'claimed': False},
             '/Game/Challenges/Progression/Challenge_HerdMentality_Runner.Challenge_HerdMentality_Runner': {
                 'weight': 100, 'amount': 141, 'id': 'CurrencyA', 'type': 'currency', 'claimed': False},
-            '/Game/Challenges/Progression/Challenge_HeyDownThere_Hunter.Challenge_HeyDownThere_Hunter': {'weight': 100,
+            '/Game/Challenges/Progression/Challenge_HeyDownThere_Hunter.Challenge_HeyDownThere_Hunter': {
                                                                                                          'amount': 44,
                                                                                                          'id': 'CurrencyB',
                                                                                                          'type': 'currency',
                                                                                                          'claimed': False},
             '/Game/Challenges/Progression/Challenge_InteractSpeedImprovement_Runner.Challenge_InteractSpeedImprovement_Runner': {
                 'weight': 100, 'amount': 100, 'id': 'CurrencyA', 'type': 'currency', 'claimed': False},
-            '/Game/Challenges/Progression/Challenge_Invisibility_Runner.Challenge_Invisibility_Runner': {'weight': 100,
+            '/Game/Challenges/Progression/Challenge_Invisibility_Runner.Challenge_Invisibility_Runner': {
                                                                                                          'amount': 192,
                                                                                                          'id': 'CurrencyA',
                                                                                                          'type': 'currency',
@@ -191,17 +192,17 @@ def get_reward(blueprint):
                 'weight': 100, 'amount': 256, 'id': 'CurrencyA', 'type': 'currency', 'claimed': False},
             '/Game/Challenges/Progression/Challenge_LMGCompensator_Hunter.Challenge_LMGCompensator_Hunter': {
                 'weight': 100, 'amount': 215, 'id': 'CurrencyB', 'type': 'currency', 'claimed': False},
-            '/Game/Challenges/Progression/Challenge_LuckyCharm_Hunter.Challenge_LuckyCharm_Hunter': {'weight': 100,
+            '/Game/Challenges/Progression/Challenge_LuckyCharm_Hunter.Challenge_LuckyCharm_Hunter': {
                                                                                                      'amount': 127,
                                                                                                      'id': 'CurrencyA',
                                                                                                      'type': 'currency',
                                                                                                      'claimed': False},
-            '/Game/Challenges/Progression/Challenge_LuckyCharm_Runner.Challenge_LuckyCharm_Runner': {'weight': 100,
+            '/Game/Challenges/Progression/Challenge_LuckyCharm_Runner.Challenge_LuckyCharm_Runner': {
                                                                                                      'amount': 147,
                                                                                                      'id': 'CurrencyB',
                                                                                                      'type': 'currency',
                                                                                                      'claimed': False},
-            '/Game/Challenges/Progression/Challenge_Mines_Hunter.Challenge_Mines_Hunter': {'weight': 100, 'amount': 277,
+            '/Game/Challenges/Progression/Challenge_Mines_Hunter.Challenge_Mines_Hunter': { 'amount': 277,
                                                                                            'id': 'CurrencyA',
                                                                                            'type': 'currency',
                                                                                            'claimed': False},
@@ -211,7 +212,7 @@ def get_reward(blueprint):
                 'weight': 100, 'amount': 93, 'id': 'CurrencyA', 'type': 'currency', 'claimed': False},
             '/Game/Challenges/Progression/Challenge_OrbitalStrike_Hunter.Challenge_OrbitalStrike_Hunter': {
                 'weight': 100, 'amount': 187, 'id': 'CurrencyA', 'type': 'currency', 'claimed': False},
-            '/Game/Challenges/Progression/Challenge_OverTheEdge_Hunter.Challenge_OverTheEdge_Hunter': {'weight': 100,
+            '/Game/Challenges/Progression/Challenge_OverTheEdge_Hunter.Challenge_OverTheEdge_Hunter': {
                                                                                                        'amount': 51,
                                                                                                        'id': 'CurrencyB',
                                                                                                        'type': 'currency',
@@ -224,12 +225,12 @@ def get_reward(blueprint):
                 'weight': 100, 'amount': 169, 'id': 'CurrencyA', 'type': 'currency', 'claimed': False},
             '/Game/Challenges/Progression/Challenge_PowerBoosterTurret_Hunter.Challenge_PowerBoosterTurret_Hunter': {
                 'weight': 100, 'amount': 224, 'id': 'CurrencyB', 'type': 'currency', 'claimed': False},
-            '/Game/Challenges/Progression/Challenge_PowerStomp_Hunter.Challenge_PowerStomp_Hunter': {'weight': 100,
+            '/Game/Challenges/Progression/Challenge_PowerStomp_Hunter.Challenge_PowerStomp_Hunter': {
                                                                                                      'amount': 182,
                                                                                                      'id': 'CurrencyA',
                                                                                                      'type': 'currency',
                                                                                                      'claimed': False},
-            '/Game/Challenges/Progression/Challenge_Resting_Runner.Challenge_Resting_Runner': {'weight': 100,
+            '/Game/Challenges/Progression/Challenge_Resting_Runner.Challenge_Resting_Runner': {
                                                                                                'amount': 280,
                                                                                                'id': 'CurrencyA',
                                                                                                'type': 'currency',
@@ -240,17 +241,17 @@ def get_reward(blueprint):
                 'weight': 100, 'amount': 212, 'id': 'CurrencyA', 'type': 'currency', 'claimed': False},
             '/Game/Challenges/Progression/Challenge_SharingIsCaring_Runner.Challenge_SharingIsCaring_Runner': {
                 'weight': 100, 'amount': 286, 'id': 'CurrencyA', 'type': 'currency', 'claimed': False},
-            '/Game/Challenges/Progression/Challenge_Shield_Runner.Challenge_Shield_Runner': {'weight': 100,
+            '/Game/Challenges/Progression/Challenge_Shield_Runner.Challenge_Shield_Runner': {
                                                                                              'amount': 236,
                                                                                              'id': 'CurrencyA',
                                                                                              'type': 'currency',
                                                                                              'claimed': False},
-            '/Game/Challenges/Progression/Challenge_Shimmy_Runner.Challenge_Shimmy_Runner': {'weight': 100,
+            '/Game/Challenges/Progression/Challenge_Shimmy_Runner.Challenge_Shimmy_Runner': {
                                                                                              'amount': 100,
                                                                                              'id': 'CurrencyB',
                                                                                              'type': 'currency',
                                                                                              'claimed': False},
-            '/Game/Challenges/Progression/Challenge_ShockRange_Hunter.Challenge_ShockRange_Hunter': {'weight': 100,
+            '/Game/Challenges/Progression/Challenge_ShockRange_Hunter.Challenge_ShockRange_Hunter': {
                                                                                                      'amount': 200,
                                                                                                      'id': 'CurrencyA',
                                                                                                      'type': 'currency',
@@ -275,37 +276,37 @@ def get_reward(blueprint):
                 'weight': 100, 'amount': 114, 'id': 'CurrencyB', 'type': 'currency', 'claimed': False},
             '/Game/Challenges/Progression/Challenge_Shoot_HuntingShotgin_Hunter.Challenge_Shoot_HuntingShotgin_Hunter': {
                 'weight': 100, 'amount': 298, 'id': 'CurrencyB', 'type': 'currency', 'claimed': False},
-            '/Game/Challenges/Progression/Challenge_Shoot_LMG_Hunter.Challenge_Shoot_LMG_Hunter': {'weight': 100,
+            '/Game/Challenges/Progression/Challenge_Shoot_LMG_Hunter.Challenge_Shoot_LMG_Hunter': {
                                                                                                    'amount': 99,
                                                                                                    'id': 'CurrencyA',
                                                                                                    'type': 'currency',
                                                                                                    'claimed': False},
-            '/Game/Challenges/Progression/Challenge_SizeMatters_Runner.Challenge_SizeMatters_Runner': {'weight': 100,
+            '/Game/Challenges/Progression/Challenge_SizeMatters_Runner.Challenge_SizeMatters_Runner': {
                                                                                                        'amount': 100,
                                                                                                        'id': 'CurrencyB',
                                                                                                        'type': 'currency',
                                                                                                        'claimed': False},
-            '/Game/Challenges/Progression/Challenge_SmokeScreen_Runner.Challenge_SmokeScreen_Runner': {'weight': 100,
+            '/Game/Challenges/Progression/Challenge_SmokeScreen_Runner.Challenge_SmokeScreen_Runner': {
                                                                                                        'amount': 139,
                                                                                                        'id': 'CurrencyA',
                                                                                                        'type': 'currency',
                                                                                                        'claimed': False},
-            '/Game/Challenges/Progression/Challenge_Sniper_Runner.Challenge_Sniper_Runner': {'weight': 100,
+            '/Game/Challenges/Progression/Challenge_Sniper_Runner.Challenge_Sniper_Runner': {
                                                                                              'amount': 30,
                                                                                              'id': 'CurrencyB',
                                                                                              'type': 'currency',
                                                                                              'claimed': False},
-            '/Game/Challenges/Progression/Challenge_SoClose_Hunter.Challenge_SoClose_Hunter': {'weight': 100,
+            '/Game/Challenges/Progression/Challenge_SoClose_Hunter.Challenge_SoClose_Hunter': {
                                                                                                'amount': 222,
                                                                                                'id': 'CurrencyB',
                                                                                                'type': 'currency',
                                                                                                'claimed': False},
-            '/Game/Challenges/Progression/Challenge_SpeedArrow_Runner.Challenge_SpeedArrow_Runner': {'weight': 100,
+            '/Game/Challenges/Progression/Challenge_SpeedArrow_Runner.Challenge_SpeedArrow_Runner': {
                                                                                                      'amount': 56,
                                                                                                      'id': 'CurrencyB',
                                                                                                      'type': 'currency',
                                                                                                      'claimed': False},
-            '/Game/Challenges/Progression/Challenge_SpeedDemon_Hunter.Challenge_SpeedDemon_Hunter': {'weight': 100,
+            '/Game/Challenges/Progression/Challenge_SpeedDemon_Hunter.Challenge_SpeedDemon_Hunter': {
                                                                                                      'amount': 121,
                                                                                                      'id': 'CurrencyA',
                                                                                                      'type': 'currency',
@@ -334,12 +335,12 @@ def get_reward(blueprint):
                 'weight': 100, 'amount': 60, 'id': 'CurrencyA', 'type': 'currency', 'claimed': False},
             '/Game/Challenges/Progression/Challenge_SpendAmmo_LMG_Hunter.Challenge_SpendAmmo_LMG_Hunter': {
                 'weight': 100, 'amount': 177, 'id': 'CurrencyA', 'type': 'currency', 'claimed': False},
-            '/Game/Challenges/Progression/Challenge_Splash_Runner.Challenge_Splash_Runner': {'weight': 100,
+            '/Game/Challenges/Progression/Challenge_Splash_Runner.Challenge_Splash_Runner': {
                                                                                              'amount': 115,
                                                                                              'id': 'CurrencyB',
                                                                                              'type': 'currency',
                                                                                              'claimed': False},
-            '/Game/Challenges/Progression/Challenge_StaminaFreak_Hunter.Challenge_StaminaFreak_Hunter': {'weight': 100,
+            '/Game/Challenges/Progression/Challenge_StaminaFreak_Hunter.Challenge_StaminaFreak_Hunter': {
                                                                                                          'amount': 210,
                                                                                                          'id': 'CurrencyB',
                                                                                                          'type': 'currency',
@@ -348,46 +349,46 @@ def get_reward(blueprint):
                 'weight': 100, 'amount': 94, 'id': 'CurrencyA', 'type': 'currency', 'claimed': False},
             '/Game/Challenges/Progression/Challenge_StaminaRegenReveal_Runner.Challenge_StaminaRegenReveal_Runner': {
                 'weight': 100, 'amount': 188, 'id': 'CurrencyA', 'type': 'currency', 'claimed': False},
-            '/Game/Challenges/Progression/Challenge_StayingAlive_Runner.Challenge_StayingAlive_Runner': {'weight': 100,
+            '/Game/Challenges/Progression/Challenge_StayingAlive_Runner.Challenge_StayingAlive_Runner': {
                                                                                                          'amount': 182,
                                                                                                          'id': 'CurrencyB',
                                                                                                          'type': 'currency',
                                                                                                          'claimed': False},
-            '/Game/Challenges/Progression/Challenge_Stealer_Hunter.Challenge_Stealer_Hunter': {'weight': 100,
+            '/Game/Challenges/Progression/Challenge_Stealer_Hunter.Challenge_Stealer_Hunter': {
                                                                                                'amount': 288,
                                                                                                'id': 'CurrencyA',
                                                                                                'type': 'currency',
                                                                                                'claimed': False},
-            '/Game/Challenges/Progression/Challenge_Stunning_Hunter.Challenge_Stunning_Hunter': {'weight': 100,
+            '/Game/Challenges/Progression/Challenge_Stunning_Hunter.Challenge_Stunning_Hunter': {
                                                                                                  'amount': 268,
                                                                                                  'id': 'CurrencyA',
                                                                                                  'type': 'currency',
                                                                                                  'claimed': False},
             '/Game/Challenges/Progression/Challenge_SuddenInsight_Runner.Challenge_SuddenInsight_Runner': {
                 'weight': 100, 'amount': 245, 'id': 'CurrencyB', 'type': 'currency', 'claimed': False},
-            '/Game/Challenges/Progression/Challenge_ToilTogether_Runner.Challenge_ToilTogether_Runner': {'weight': 100,
+            '/Game/Challenges/Progression/Challenge_ToilTogether_Runner.Challenge_ToilTogether_Runner': {
                                                                                                          'amount': 294,
                                                                                                          'id': 'CurrencyA',
                                                                                                          'type': 'currency',
                                                                                                          'claimed': False},
             '/Game/Challenges/Progression/Challenge_TreasureHunter_Runner.Challenge_TreasureHunter_Runner': {
                 'weight': 100, 'amount': 132, 'id': 'CurrencyA', 'type': 'currency', 'claimed': False},
-            '/Game/Challenges/Progression/Challenge_Turrets_Hunter.Challenge_Turrets_Hunter': {'weight': 100,
+            '/Game/Challenges/Progression/Challenge_Turrets_Hunter.Challenge_Turrets_Hunter': {
                                                                                                'amount': 216,
                                                                                                'id': 'CurrencyA',
                                                                                                'type': 'currency',
                                                                                                'claimed': False},
-            '/Game/Challenges/Progression/Challenge_UnderFoot_Runner.Challenge_UnderFoot_Runner': {'weight': 100,
+            '/Game/Challenges/Progression/Challenge_UnderFoot_Runner.Challenge_UnderFoot_Runner': {
                                                                                                    'amount': 161,
                                                                                                    'id': 'CurrencyB',
                                                                                                    'type': 'currency',
                                                                                                    'claimed': False},
-            '/Game/Challenges/Progression/Challenge_ZeroCool_Runner.Challenge_ZeroCool_Runner': {'weight': 100,
+            '/Game/Challenges/Progression/Challenge_ZeroCool_Runner.Challenge_ZeroCool_Runner': {
                                                                                                  'amount': 285,
                                                                                                  'id': 'CurrencyB',
                                                                                                  'type': 'currency',
                                                                                                  'claimed': False},
-            '/Game/Challenges/Progression/General/Challenge_Aim_Hunter.Challenge_Aim_Hunter': {'weight': 100,
+            '/Game/Challenges/Progression/General/Challenge_Aim_Hunter.Challenge_Aim_Hunter': {
                                                                                                'amount': 282,
                                                                                                'id': 'CurrencyA',
                                                                                                'type': 'currency',
@@ -396,12 +397,12 @@ def get_reward(blueprint):
                 'weight': 100, 'amount': 101, 'id': 'CurrencyA', 'type': 'currency', 'claimed': False},
             '/Game/Challenges/Progression/General/Challenge_BloodMode_Runner.Challenge_BloodMode_Runner': {
                 'weight': 100, 'amount': 273, 'id': 'CurrencyB', 'type': 'currency', 'claimed': False},
-            '/Game/Challenges/Progression/General/Challenge_Climb_Runner.Challenge_Climb_Runner': {'weight': 100,
+            '/Game/Challenges/Progression/General/Challenge_Climb_Runner.Challenge_Climb_Runner': {
                                                                                                    'amount': 252,
                                                                                                    'id': 'CurrencyA',
                                                                                                    'type': 'currency',
                                                                                                    'claimed': False},
-            '/Game/Challenges/Progression/General/Challenge_CollectAmmo.Challenge_CollectAmmo': {'weight': 100,
+            '/Game/Challenges/Progression/General/Challenge_CollectAmmo.Challenge_CollectAmmo': {
                                                                                                  'amount': 196,
                                                                                                  'id': 'CurrencyA',
                                                                                                  'type': 'currency',
@@ -412,12 +413,12 @@ def get_reward(blueprint):
                 'weight': 100, 'amount': 261, 'id': 'CurrencyA', 'type': 'currency', 'claimed': False},
             '/Game/Challenges/Progression/General/Challenge_ConstructDefeats_Runner.Challenge_ConstructDefeats_Runner': {
                 'weight': 100, 'amount': 190, 'id': 'CurrencyB', 'type': 'currency', 'claimed': False},
-            '/Game/Challenges/Progression/General/Challenge_Crouch_Runner.Challenge_Crouch_Runner': {'weight': 100,
+            '/Game/Challenges/Progression/General/Challenge_Crouch_Runner.Challenge_Crouch_Runner': {
                                                                                                      'amount': 298,
                                                                                                      'id': 'CurrencyA',
                                                                                                      'type': 'currency',
                                                                                                      'claimed': False},
-            '/Game/Challenges/Progression/General/Challenge_Damage_Hunter.Challenge_Damage_Hunter': {'weight': 100,
+            '/Game/Challenges/Progression/General/Challenge_Damage_Hunter.Challenge_Damage_Hunter': {
                                                                                                      'amount': 200,
                                                                                                      'id': 'CurrencyB',
                                                                                                      'type': 'currency',
@@ -428,60 +429,60 @@ def get_reward(blueprint):
                 'weight': 100, 'amount': 294, 'id': 'CurrencyA', 'type': 'currency', 'claimed': False},
             '/Game/Challenges/Progression/General/Challenge_DisableDrones_Runner.Challenge_DisableDrones_Runner': {
                 'weight': 100, 'amount': 116, 'id': 'CurrencyA', 'type': 'currency', 'claimed': False},
-            '/Game/Challenges/Progression/General/Challenge_Downing_Hunter.Challenge_Downing_Hunter': {'weight': 100,
+            '/Game/Challenges/Progression/General/Challenge_Downing_Hunter.Challenge_Downing_Hunter': {
                                                                                                        'amount': 190,
                                                                                                        'id': 'CurrencyA',
                                                                                                        'type': 'currency',
                                                                                                        'claimed': False},
-            '/Game/Challenges/Progression/General/Challenge_Drones_Hunter.Challenge_Drones_Hunter': {'weight': 100,
+            '/Game/Challenges/Progression/General/Challenge_Drones_Hunter.Challenge_Drones_Hunter': {
                                                                                                      'amount': 183,
                                                                                                      'id': 'CurrencyB',
                                                                                                      'type': 'currency',
                                                                                                      'claimed': False},
-            '/Game/Challenges/Progression/General/Challenge_Evade_Runner.Challenge_Evade_Runner': {'weight': 100,
+            '/Game/Challenges/Progression/General/Challenge_Evade_Runner.Challenge_Evade_Runner': {
                                                                                                    'amount': 111,
                                                                                                    'id': 'CurrencyB',
                                                                                                    'type': 'currency',
                                                                                                    'claimed': False},
             '/Game/Challenges/Progression/General/Challenge_Execution_Hunter.Challenge_Execution_Hunter': {
                 'weight': 100, 'amount': 57, 'id': 'CurrencyA', 'type': 'currency', 'claimed': False},
-            '/Game/Challenges/Progression/General/Challenge_Exit_Runner.Challenge_Exit_Runner': {'weight': 100,
+            '/Game/Challenges/Progression/General/Challenge_Exit_Runner.Challenge_Exit_Runner': {
                                                                                                  'amount': 270,
                                                                                                  'id': 'CurrencyA',
                                                                                                  'type': 'currency',
                                                                                                  'claimed': False},
-            '/Game/Challenges/Progression/General/Challenge_Fall_Runner.Challenge_Fall_Runner': {'weight': 100,
+            '/Game/Challenges/Progression/General/Challenge_Fall_Runner.Challenge_Fall_Runner': {
                                                                                                  'amount': 212,
                                                                                                  'id': 'CurrencyA',
                                                                                                  'type': 'currency',
                                                                                                  'claimed': False},
             '/Game/Challenges/Progression/General/Challenge_HackCrates_Hunter.Challenge_HackCrates_Hunter': {
                 'weight': 100, 'amount': 32, 'id': 'CurrencyA', 'type': 'currency', 'claimed': False},
-            '/Game/Challenges/Progression/General/Challenge_Hacking_Hunter.Challenge_Hacking_Hunter': {'weight': 100,
+            '/Game/Challenges/Progression/General/Challenge_Hacking_Hunter.Challenge_Hacking_Hunter': {
                                                                                                        'amount': 288,
                                                                                                        'id': 'CurrencyA',
                                                                                                        'type': 'currency',
                                                                                                        'claimed': False},
-            '/Game/Challenges/Progression/General/Challenge_Hang_Runner.Challenge_Hang_Runner': {'weight': 100,
+            '/Game/Challenges/Progression/General/Challenge_Hang_Runner.Challenge_Hang_Runner': {
                                                                                                  'amount': 203,
                                                                                                  'id': 'CurrencyB',
                                                                                                  'type': 'currency',
                                                                                                  'claimed': False},
-            '/Game/Challenges/Progression/General/Challenge_Heal_Runner.Challenge_Heal_Runner': {'weight': 100,
+            '/Game/Challenges/Progression/General/Challenge_Heal_Runner.Challenge_Heal_Runner': {
                                                                                                  'amount': 195,
                                                                                                  'id': 'CurrencyB',
                                                                                                  'type': 'currency',
                                                                                                  'claimed': False},
             '/Game/Challenges/Progression/General/Challenge_HunterClose_Runner.Challenge_HunterClose_Runner': {
                 'weight': 100, 'amount': 149, 'id': 'CurrencyA', 'type': 'currency', 'claimed': False},
-            '/Game/Challenges/Progression/General/Challenge_Jump_Runner.Challenge_Jump_Runner': {'weight': 100,
+            '/Game/Challenges/Progression/General/Challenge_Jump_Runner.Challenge_Jump_Runner': {
                                                                                                  'amount': 176,
                                                                                                  'id': 'CurrencyB',
                                                                                                  'type': 'currency',
                                                                                                  'claimed': False},
             '/Game/Challenges/Progression/General/Challenge_LastMAnStanding_Hunter.Challenge_LastMAnStanding_Hunter': {
                 'weight': 100, 'amount': 185, 'id': 'CurrencyA', 'type': 'currency', 'claimed': False},
-            '/Game/Challenges/Progression/General/Challenge_MarkAmmo_Runner.Challenge_MarkAmmo_Runner': {'weight': 100,
+            '/Game/Challenges/Progression/General/Challenge_MarkAmmo_Runner.Challenge_MarkAmmo_Runner': {
                                                                                                          'amount': 201,
                                                                                                          'id': 'CurrencyA',
                                                                                                          'type': 'currency',
@@ -492,44 +493,44 @@ def get_reward(blueprint):
                 'weight': 100, 'amount': 223, 'id': 'CurrencyB', 'type': 'currency', 'claimed': False},
             '/Game/Challenges/Progression/General/Challenge_MarkHealth_Runner.Challenge_MarkHealth_Runner': {
                 'weight': 100, 'amount': 179, 'id': 'CurrencyB', 'type': 'currency', 'claimed': False},
-            '/Game/Challenges/Progression/General/Challenge_MarkNPI_Runner.Challenge_MarkNPI_Runner': {'weight': 100,
+            '/Game/Challenges/Progression/General/Challenge_MarkNPI_Runner.Challenge_MarkNPI_Runner': {
                                                                                                        'amount': 119,
                                                                                                        'id': 'CurrencyB',
                                                                                                        'type': 'currency',
                                                                                                        'claimed': False},
-            '/Game/Challenges/Progression/General/Challenge_Mark_Runner.Challenge_Mark_Runner': {'weight': 100,
+            '/Game/Challenges/Progression/General/Challenge_Mark_Runner.Challenge_Mark_Runner': {
                                                                                                  'amount': 237,
                                                                                                  'id': 'CurrencyB',
                                                                                                  'type': 'currency',
                                                                                                  'claimed': False},
-            '/Game/Challenges/Progression/General/Challenge_Powers_Hunter.Challenge_Powers_Hunter': {'weight': 100,
+            '/Game/Challenges/Progression/General/Challenge_Powers_Hunter.Challenge_Powers_Hunter': {
                                                                                                      'amount': 213,
                                                                                                      'id': 'CurrencyB',
                                                                                                      'type': 'currency',
                                                                                                      'claimed': False},
             '/Game/Challenges/Progression/General/Challenge_Ressources_Runner.Challenge_Ressources_Runner': {
                 'weight': 100, 'amount': 30, 'id': 'CurrencyA', 'type': 'currency', 'claimed': False},
-            '/Game/Challenges/Progression/General/Challenge_Reveal_Hunter.Challenge_Reveal_Hunter': {'weight': 100,
+            '/Game/Challenges/Progression/General/Challenge_Reveal_Hunter.Challenge_Reveal_Hunter': {
                                                                                                      'amount': 166,
                                                                                                      'id': 'CurrencyB',
                                                                                                      'type': 'currency',
                                                                                                      'claimed': False},
-            '/Game/Challenges/Progression/General/Challenge_Revive_Runner.Challenge_Revive_Runner': {'weight': 100,
+            '/Game/Challenges/Progression/General/Challenge_Revive_Runner.Challenge_Revive_Runner': {
                                                                                                      'amount': 174,
                                                                                                      'id': 'CurrencyA',
                                                                                                      'type': 'currency',
                                                                                                      'claimed': False},
-            '/Game/Challenges/Progression/General/Challenge_RingOut_Hunter.Challenge_RingOut_Hunter': {'weight': 100,
+            '/Game/Challenges/Progression/General/Challenge_RingOut_Hunter.Challenge_RingOut_Hunter': {
                                                                                                        'amount': 78,
                                                                                                        'id': 'CurrencyB',
                                                                                                        'type': 'currency',
                                                                                                        'claimed': False},
-            '/Game/Challenges/Progression/General/Challenge_SpendNPI_Runner.Challenge_SpendNPI_Runner': {'weight': 100,
+            '/Game/Challenges/Progression/General/Challenge_SpendNPI_Runner.Challenge_SpendNPI_Runner': {
                                                                                                          'amount': 133,
                                                                                                          'id': 'CurrencyB',
                                                                                                          'type': 'currency',
                                                                                                          'claimed': False},
-            '/Game/Challenges/Progression/General/Challenge_Stomp_Hunter.Challenge_Stomp_Hunter': {'weight': 100,
+            '/Game/Challenges/Progression/General/Challenge_Stomp_Hunter.Challenge_Stomp_Hunter': {
                                                                                                    'amount': 120,
                                                                                                    'id': 'CurrencyA',
                                                                                                    'type': 'currency',
@@ -542,12 +543,12 @@ def get_reward(blueprint):
                 'weight': 100, 'amount': 172, 'id': 'CurrencyB', 'type': 'currency', 'claimed': False},
             '/Game/Challenges/Progression/General/Challenge_TeamActions_Runner.Challenge_TeamActions_Runner': {
                 'weight': 100, 'amount': 225, 'id': 'CurrencyB', 'type': 'currency', 'claimed': False},
-            '/Game/Challenges/Progression/General/Challenge_Travel_Hunter.Challenge_Travel_Hunter': {'weight': 100,
+            '/Game/Challenges/Progression/General/Challenge_Travel_Hunter.Challenge_Travel_Hunter': {
                                                                                                      'amount': 283,
                                                                                                      'id': 'CurrencyA',
                                                                                                      'type': 'currency',
                                                                                                      'claimed': False},
-            '/Game/Challenges/Progression/General/Challenge_Travel_Runner.Challenge_Travel_Runner': {'weight': 100,
+            '/Game/Challenges/Progression/General/Challenge_Travel_Runner.Challenge_Travel_Runner': {
                                                                                                      'amount': 148,
                                                                                                      'id': 'CurrencyA',
                                                                                                      'type': 'currency',
@@ -556,91 +557,91 @@ def get_reward(blueprint):
                 'weight': 100, 'amount': 263, 'id': 'CurrencyA', 'type': 'currency', 'claimed': False},
             '/Game/Challenges/Weekly/Challenge_AssaultRifleWins_HunterWeekly.Challenge_AssaultRifleWins_HunterWeekly': {
                 'weight': 100, 'amount': 138, 'id': 'CurrencyB', 'type': 'currency', 'claimed': False},
-            '/Game/Challenges/Weekly/Challenge_BleedOut_HunterWeekly.Challenge_BleedOut_HunterWeekly': {'weight': 100,
+            '/Game/Challenges/Weekly/Challenge_BleedOut_HunterWeekly.Challenge_BleedOut_HunterWeekly': {
                                                                                                         'amount': 259,
                                                                                                         'id': 'CurrencyB',
                                                                                                         'type': 'currency',
                                                                                                         'claimed': False},
-            '/Game/Challenges/Weekly/Challenge_BleedOut_RunnerWeekly.Challenge_BleedOut_RunnerWeekly': {'weight': 100,
+            '/Game/Challenges/Weekly/Challenge_BleedOut_RunnerWeekly.Challenge_BleedOut_RunnerWeekly': {
                                                                                                         'amount': 115,
                                                                                                         'id': 'CurrencyB',
                                                                                                         'type': 'currency',
                                                                                                         'claimed': False},
-            '/Game/Challenges/Weekly/Challenge_Damage_HunterWeekly.Challenge_Damage_HunterWeekly': {'weight': 100,
+            '/Game/Challenges/Weekly/Challenge_Damage_HunterWeekly.Challenge_Damage_HunterWeekly': {
                                                                                                     'amount': 267,
                                                                                                     'id': 'CurrencyA',
                                                                                                     'type': 'currency',
                                                                                                     'claimed': False},
-            '/Game/Challenges/Weekly/Challenge_Double_HunterWeekly.Challenge_Double_HunterWeekly': {'weight': 100,
+            '/Game/Challenges/Weekly/Challenge_Double_HunterWeekly.Challenge_Double_HunterWeekly': {
                                                                                                     'amount': 202,
                                                                                                     'id': 'CurrencyA',
                                                                                                     'type': 'currency',
                                                                                                     'claimed': False},
             '/Game/Challenges/Weekly/Challenge_DroneActivation_HunterWeekly.Challenge_DroneActivation_HunterWeekly': {
                 'weight': 100, 'amount': 56, 'id': 'CurrencyA', 'type': 'currency', 'claimed': False},
-            '/Game/Challenges/Weekly/Challenge_Efficient_HunterWeekly.Challenge_Efficient_HunterWeekly': {'weight': 100,
+            '/Game/Challenges/Weekly/Challenge_Efficient_HunterWeekly.Challenge_Efficient_HunterWeekly': {
                                                                                                           'amount': 38,
                                                                                                           'id': 'CurrencyA',
                                                                                                           'type': 'currency',
                                                                                                           'claimed': False},
-            '/Game/Challenges/Weekly/Challenge_Emotional_HunterWeekly.Challenge_Emotional_HunterWeekly': {'weight': 100,
+            '/Game/Challenges/Weekly/Challenge_Emotional_HunterWeekly.Challenge_Emotional_HunterWeekly': {
                                                                                                           'amount': 205,
                                                                                                           'id': 'CurrencyA',
                                                                                                           'type': 'currency',
                                                                                                           'claimed': False},
-            '/Game/Challenges/Weekly/Challenge_Emotional_RunnerWeekly.Challenge_Emotional_RunnerWeekly': {'weight': 100,
+            '/Game/Challenges/Weekly/Challenge_Emotional_RunnerWeekly.Challenge_Emotional_RunnerWeekly': {
                                                                                                           'amount': 201,
                                                                                                           'id': 'CurrencyA',
                                                                                                           'type': 'currency',
                                                                                                           'claimed': False},
-            '/Game/Challenges/Weekly/Challenge_Greed_HunterWeekly.Challenge_Greed_HunterWeekly': {'weight': 100,
+            '/Game/Challenges/Weekly/Challenge_Greed_HunterWeekly.Challenge_Greed_HunterWeekly': {
                                                                                                   'amount': 70,
                                                                                                   'id': 'CurrencyA',
                                                                                                   'type': 'currency',
                                                                                                   'claimed': False},
-            '/Game/Challenges/Weekly/Challenge_Greed_RunnerWeekly.Challenge_Greed_RunnerWeekly': {'weight': 100,
+            '/Game/Challenges/Weekly/Challenge_Greed_RunnerWeekly.Challenge_Greed_RunnerWeekly': {
                                                                                                   'amount': 48,
                                                                                                   'id': 'CurrencyB',
                                                                                                   'type': 'currency',
                                                                                                   'claimed': False},
-            '/Game/Challenges/Weekly/Challenge_Headshot_HunterWeekly.Challenge_Headshot_HunterWeekly': {'weight': 100,
+            '/Game/Challenges/Weekly/Challenge_Headshot_HunterWeekly.Challenge_Headshot_HunterWeekly': {
                                                                                                         'amount': 225,
                                                                                                         'id': 'CurrencyA',
                                                                                                         'type': 'currency',
                                                                                                         'claimed': False},
             '/Game/Challenges/Weekly/Challenge_HuntingShotgunWins_HunterWeekly.Challenge_HuntingShotgunWins_HunterWeekly': {
                 'weight': 100, 'amount': 118, 'id': 'CurrencyB', 'type': 'currency', 'claimed': False},
-            '/Game/Challenges/Weekly/Challenge_InDenial_HunterWeekly.Challenge_InDenial_HunterWeekly': {'weight': 100,
+            '/Game/Challenges/Weekly/Challenge_InDenial_HunterWeekly.Challenge_InDenial_HunterWeekly': {
                                                                                                         'amount': 162,
                                                                                                         'id': 'CurrencyB',
                                                                                                         'type': 'currency',
                                                                                                         'claimed': False},
-            '/Game/Challenges/Weekly/Challenge_LMGWins_HunterWeekly.Challenge_LMGWins_HunterWeekly': {'weight': 100,
+            '/Game/Challenges/Weekly/Challenge_LMGWins_HunterWeekly.Challenge_LMGWins_HunterWeekly': {
                                                                                                       'amount': 160,
                                                                                                       'id': 'CurrencyA',
                                                                                                       'type': 'currency',
                                                                                                       'claimed': False},
-            '/Game/Challenges/Weekly/Challenge_Mines_HunterWeekly.Challenge_Mines_HunterWeekly': {'weight': 100,
+            '/Game/Challenges/Weekly/Challenge_Mines_HunterWeekly.Challenge_Mines_HunterWeekly': {
                                                                                                   'amount': 162,
                                                                                                   'id': 'CurrencyA',
                                                                                                   'type': 'currency',
                                                                                                   'claimed': False},
-            '/Game/Challenges/Weekly/Challenge_Mines_RunnerWeekly.Challenge_Mines_RunnerWeekly': {'weight': 100,
+            '/Game/Challenges/Weekly/Challenge_Mines_RunnerWeekly.Challenge_Mines_RunnerWeekly': {
                                                                                                   'amount': 263,
                                                                                                   'id': 'CurrencyA',
                                                                                                   'type': 'currency',
                                                                                                   'claimed': False},
-            '/Game/Challenges/Weekly/Challenge_Reveals_hunterWeekly.Challenge_Reveals_hunterWeekly': {'weight': 100,
+            '/Game/Challenges/Weekly/Challenge_Reveals_hunterWeekly.Challenge_Reveals_hunterWeekly': {
                                                                                                       'amount': 181,
                                                                                                       'id': 'CurrencyA',
                                                                                                       'type': 'currency',
                                                                                                       'claimed': False},
-            '/Game/Challenges/Weekly/Challenge_RingOut_hunterWeekly.Challenge_RingOut_hunterWeekly': {'weight': 100,
+            '/Game/Challenges/Weekly/Challenge_RingOut_hunterWeekly.Challenge_RingOut_hunterWeekly': {
                                                                                                       'amount': 269,
                                                                                                       'id': 'CurrencyB',
                                                                                                       'type': 'currency',
                                                                                                       'claimed': False},
-            '/Game/Challenges/Weekly/Challenge_Shields_RunnerWeekly.Challenge_Shields_RunnerWeekly': {'weight': 100,
+            '/Game/Challenges/Weekly/Challenge_Shields_RunnerWeekly.Challenge_Shields_RunnerWeekly': {
                                                                                                       'amount': 137,
                                                                                                       'id': 'CurrencyA',
                                                                                                       'type': 'currency',
@@ -649,57 +650,63 @@ def get_reward(blueprint):
                 'weight': 100, 'amount': 125, 'id': 'CurrencyB', 'type': 'currency', 'claimed': False},
             '/Game/Challenges/Weekly/Challenge_SpeedCapture_RunnerWeekly.Challenge_SpeedCapture_RunnerWeekly': {
                 'weight': 100, 'amount': 57, 'id': 'CurrencyB', 'type': 'currency', 'claimed': False},
-            '/Game/Challenges/Weekly/Challenge_Speed_HunterWeekly.Challenge_Speed_HunterWeekly': {'weight': 100,
+            '/Game/Challenges/Weekly/Challenge_Speed_HunterWeekly.Challenge_Speed_HunterWeekly': {
                                                                                                   'amount': 235,
                                                                                                   'id': 'CurrencyA',
                                                                                                   'type': 'currency',
                                                                                                   'claimed': False},
-            '/Game/Challenges/Weekly/Challenge_Stuns_RunnerWeekly.Challenge_Stuns_RunnerWeekly': {'weight': 100,
+            '/Game/Challenges/Weekly/Challenge_Stuns_RunnerWeekly.Challenge_Stuns_RunnerWeekly': {
                                                                                                   'amount': 285,
                                                                                                   'id': 'CurrencyB',
                                                                                                   'type': 'currency',
                                                                                                   'claimed': False},
-            '/Game/Challenges/Weekly/Challenge_Turrets_HunterWeekly.Challenge_Turrets_HunterWeekly': {'weight': 100,
+            '/Game/Challenges/Weekly/Challenge_Turrets_HunterWeekly.Challenge_Turrets_HunterWeekly': {
                                                                                                       'amount': 297,
                                                                                                       'id': 'CurrencyA',
                                                                                                       'type': 'currency',
                                                                                                       'claimed': False},
-            '/Game/Challenges/Weekly/Challenge_Turrets_RunnerWeekly.Challenge_Turrets_RunnerWeekly': {'weight': 100,
+            '/Game/Challenges/Weekly/Challenge_Turrets_RunnerWeekly.Challenge_Turrets_RunnerWeekly': {
                                                                                                       'amount': 37,
                                                                                                       'id': 'CurrencyA',
                                                                                                       'type': 'currency',
                                                                                                       'claimed': False},
-            '/Game/Challenges/Weekly/Challenge_UPs_RunnerWeekly.Challenge_UPs_RunnerWeekly': {'weight': 100,
+            '/Game/Challenges/Weekly/Challenge_UPs_RunnerWeekly.Challenge_UPs_RunnerWeekly': {
                                                                                               'amount': 102,
                                                                                               'id': 'CurrencyB',
                                                                                               'type': 'currency',
                                                                                               'claimed': False},
-            '/Game/Challenges/Weekly/Challenge_Wasteful_HunterWeekly.Challenge_Wasteful_HunterWeekly': {'weight': 100,
+            '/Game/Challenges/Weekly/Challenge_Wasteful_HunterWeekly.Challenge_Wasteful_HunterWeekly': {
                                                                                                         'amount': 66,
                                                                                                         'id': 'CurrencyA',
                                                                                                         'type': 'currency',
                                                                                                         'claimed': False},
-            '/Game/Challenges/Weekly/Challenge_Wasteful_RunnerWeekly.Challenge_Wasteful_RunnerWeekly': {'weight': 100,
+            '/Game/Challenges/Weekly/Challenge_Wasteful_RunnerWeekly.Challenge_Wasteful_RunnerWeekly': {
                                                                                                         'amount': 49,
                                                                                                         'id': 'CurrencyA',
                                                                                                         'type': 'currency',
                                                                                                         'claimed': False},
-            '/Game/Challenges/Weekly/Challenge_WUP_HunterWeekly.Challenge_WUP_HunterWeekly': {'weight': 100,
+            '/Game/Challenges/Weekly/Challenge_WUP_HunterWeekly.Challenge_WUP_HunterWeekly': {
                                                                                               'amount': 50,
                                                                                               'id': 'CurrencyA',
                                                                                               'type': 'currency',
                                                                                               'claimed': False},
-            '/Game/Challenges/Weekly/Challenge_WUP_RunnerWeekly.Challenge_WUP_RunnerWeekly': {'weight': 100,
+            '/Game/Challenges/Weekly/Challenge_WUP_RunnerWeekly.Challenge_WUP_RunnerWeekly': {
                                                                                               'amount': 179,
                                                                                               'id': 'CurrencyB',
                                                                                               'type': 'currency',
                                                                                               'claimed': False}}
     if blueprint in data:
         return data[blueprint]
+    elif blueprint is None:
+        # logger.graylog_logger(level="error", handler="get_reward", message=f"Blueprint {blueprint} is None")
+        return {"amount": 1,
+                "id": "CurrencyA",
+                "type": "currency",
+                "claimed": False
+                }
     else:
         logger.graylog_logger(level="error", handler="get_reward", message=f"Blueprint {blueprint} not found")
-        return {"weight": 100,
-                "amount": 1,
+        return {"amount": 1,
                 "id": "CurrencyA",
                 "type": "currency",
                 "claimed": False
@@ -751,26 +758,31 @@ def update_achievement_challenges(user_id):
 
 
 def get_challenge_ids_from_inventory(user_id):
-    Progression_HunterGroupA = mongo.get_data_with_list(login=user_id, login_steam=False,
-                                                        items={"HunterGroupA"})["HunterGroupA"]
-    Progression_HunterGroupB = mongo.get_data_with_list(login=user_id, login_steam=False,
-                                                        items={"HunterGroupB"})["HunterGroupB"]
-    Progression_HunterGroupC = mongo.get_data_with_list(login=user_id, login_steam=False,
-                                                        items={"HunterGroupC"})["HunterGroupC"]
-    Progression_HunterGroupD = mongo.get_data_with_list(login=user_id, login_steam=False,
-                                                        items={"HunterGroupD"})["HunterGroupD"]
-    Progression_RunnerGroupA = mongo.get_data_with_list(login=user_id, login_steam=False,
-                                                        items={"RunnerGroupA"})["RunnerGroupA"]
-    Progression_RunnerGroupB = mongo.get_data_with_list(login=user_id, login_steam=False,
-                                                        items={"RunnerGroupB"})["RunnerGroupB"]
-    Progression_RunnerGroupC = mongo.get_data_with_list(login=user_id, login_steam=False,
-                                                        items={"RunnerGroupC"})["RunnerGroupC"]
-    Progression_RunnerGroupD = mongo.get_data_with_list(login=user_id, login_steam=False,
-                                                        items={"RunnerGroupD"})["RunnerGroupD"]
-    Progression_RunnerGroupE = mongo.get_data_with_list(login=user_id, login_steam=False,
-                                                        items={"RunnerGroupE"})["RunnerGroupE"]
-    Progression_RunnerGroupF = mongo.get_data_with_list(login=user_id, login_steam=False,
-                                                        items={"RunnerGroupF"})["RunnerGroupF"]
+    mongo_data = mongo.get_data_with_list(login=user_id,
+                                          login_steam=False,
+                                          items={
+                                                "HunterGroupA",
+                                                "HunterGroupB",
+                                                "HunterGroupC",
+                                                "HunterGroupD",
+                                                "RunnerGroupA",
+                                                "RunnerGroupB",
+                                                "RunnerGroupC",
+                                                "RunnerGroupD",
+                                                "RunnerGroupE",
+                                                "RunnerGroupF",
+                                                "challengeProgression"
+                                          })
+    Progression_HunterGroupA = mongo_data["HunterGroupA"]
+    Progression_HunterGroupB = mongo_data["HunterGroupB"]
+    Progression_HunterGroupC = mongo_data["HunterGroupC"]
+    Progression_HunterGroupD = mongo_data["HunterGroupD"]
+    Progression_RunnerGroupA = mongo_data["RunnerGroupA"]
+    Progression_RunnerGroupB = mongo_data["RunnerGroupB"]
+    Progression_RunnerGroupC = mongo_data["RunnerGroupC"]
+    Progression_RunnerGroupD = mongo_data["RunnerGroupD"]
+    Progression_RunnerGroupE = mongo_data["RunnerGroupE"]
+    Progression_RunnerGroupF = mongo_data["RunnerGroupF"]
 
     HunterGroups = [Progression_HunterGroupA, Progression_HunterGroupB, Progression_HunterGroupC,
                     Progression_HunterGroupD]
@@ -778,8 +790,7 @@ def get_challenge_ids_from_inventory(user_id):
                     Progression_RunnerGroupD, Progression_RunnerGroupE, Progression_RunnerGroupF]
     hardcoded_challenges = new_challenge_handler.hard_code_challenges
     steam_achievements = new_challenge_handler.steam_achievements
-    user_challenges = mongo.get_data_with_list(login=user_id, login_steam=False, items={"challengeProgression"})[
-        "challengeProgression"]
+    user_challenges = mongo_data["challengeProgression"]
     for runner_group in RunnerGroups:
         if runner_group is []:
             continue
@@ -813,6 +824,10 @@ def get_challenge_ids_from_inventory(user_id):
         for int_challenge in user_challenges:
             if int_challenge["challengeId"] == challenge:
                 challenge_found = True
+                try:
+                    int_challenge["blueprint"] = challenge_data[challenge]["challengeBlueprint"]
+                except KeyError:
+                    int_challenge["blueprint"] = None
         if not challenge_found:
             new_challenge_handler.add_challenge_to_user(user_id, challenge)
     for challenge in steam_achievements:
@@ -822,6 +837,7 @@ def get_challenge_ids_from_inventory(user_id):
                 challenge_found = True
         if not challenge_found:
             new_challenge_handler.add_challenge_to_user(user_id, challenge)
+    mongo.write_data_with_list(login=user_id, login_steam=False, items_dict={"challengeProgression": user_challenges})
     update_achievement_challenges(user_id)
 
 
@@ -1095,8 +1111,6 @@ class ChallengeHandler:
                 lifetime = get_lifetime(challenge_type)[0]
                 if lifetime > current_challenge_data["lifetime"]["expirationTime"]:
                     current_challenge_data = update_challenge_time(current_challenge_data, challenge_type)
-                    user_data = mongo.get_data_with_list(login=userid, login_steam=False,
-                                                         items={"challengeProgression"})["challengeProgression"]
                     user_data[user_time_challenges.index(challenge_id)] = current_challenge_data
             return_data.append({
                 "lifetime": current_challenge_data["lifetime"],
@@ -1219,130 +1233,136 @@ class ChallengeHandler:
             }
             data = update_challenge_time(data, challenge_type)
 
-            data["challengeId"] = challenge_id + ":" + get_lifetime(challenge_type)[0]
+            data["challengeId"] = challenge_id
 
         user_challenge_data.append(data)
         mongo.write_data_with_list(login=user_id, login_steam=False,
                                    items_dict={"challengeProgression": user_challenge_data})
         return data
 
-    def get_progression_batch(self, challenge_id, userid):
-        #combine challenge dicts and see if ID is in them
-        #Should not alter anything if challenge_id is not a recognized challenge
-        if challenge_id in self.daily_challenges or challenge_id in self.weekly_challenges:
-            user_data = mongo.get_data_with_list(login=userid, login_steam=False, items={"challengeProgression"})[
-                "challengeProgression"]
-            for challenge in user_data:
-                if challenge["challengeId"] == challenge_id:
-                    if challenge["value"] == 0:
-                        data = {"challengeId": challenge["challengeId"],
-                                "completed": False}
-                    else:
-                        if challenge["completed"]:
-                            reward_key = "rewardsClaimed"
-                            # TEST should be rewardsClaimed
+    def get_progression_batch(self, challenge_ids, userid, batch=False):
+        user_data = mongo.get_data_with_list(login=userid, login_steam=False, items={"challengeProgression"})[
+            "challengeProgression"]
+        if not batch:
+            challenge_ids = [challenge_ids]
+        return_data = []
+        for challenge_id in challenge_ids:
+            if challenge_id in self.daily_challenges or challenge_id in self.weekly_challenges:
+                pass_val = False
+                for challenge in user_data:
+                    if challenge["challengeId"] == challenge_id:
+                        pass_val = True
+                        # challenge_id = Daily_Domination_Hunter
+                        if challenge["value"] == 0:
+                            data = {"challengeId": challenge["challengeId"],
+                                    "completed": False}
                         else:
-                            reward_key = "rewards"
-                        reward = get_reward(challenge["blueprint"])
-                        data = {
-                            "challengeId": challenge["challengeId"],
-                            "className": "ChallengeProgressionCounter",
-                            reward_key: [
-                                reward
-                            ],
-                            "completed": challenge["completed"],
-                            "schemaVersion": 1,
-                            "value": challenge["value"]
-                        }
-                    if challenge["challengeType"] == "Daily":
-                        create_time, expiration_time = get_lifetime("Daily")
-                    elif challenge["challengeType"] == "Weekly":
-                        create_time, expiration_time = get_lifetime("Weekly")
-                    else:
-                        return data
-                    if create_time > challenge["lifetime"]["expirationTime"]:
-                        challenge["completed"] = False
-                        challenge["completion_count"] = challenge["completion_count"] + 1
-                        challenge["lifetime"]["creationTime"] = create_time
-                        challenge["lifetime"]["expirationTime"] = expiration_time
-                        mongo.write_data_with_list(login=userid, login_steam=False,
-                                                   items_dict={"challengeProgression": user_data})
-                        return data
-                    else:
-                        start_data = challenge["lifetime"]["creationTime"]
-                        expiration_date = challenge["lifetime"]["expirationTime"]
-                        data["lifetime"] = {
-                            "creationTime": start_data,
-                            "expirationTime": expiration_date
-                        }
-                    return data
-
-                    #if not found in user db_challenge create challenge
-                else:
+                            if challenge["completed"]:
+                                reward_key = "rewardsClaimed"
+                                # TEST should be rewardsClaimed
+                            else:
+                                reward_key = "rewards"
+                            reward = get_reward(challenge["blueprint"])
+                            data = {
+                                "challengeId": challenge["challengeId"],
+                                "className": "ChallengeProgressionCounter",
+                                reward_key: [
+                                    reward
+                                ],
+                                "completed": challenge["completed"],
+                                "schemaVersion": 1,
+                                "value": challenge["value"]
+                            }
+                        if challenge["challengeType"] == "Daily":
+                            create_time, expiration_time = get_lifetime("Daily")
+                        elif challenge["challengeType"] == "Weekly":
+                            create_time, expiration_time = get_lifetime("Weekly")
+                        else:
+                            logger.graylog_logger(level="error", handler="get_progression_batch", message=f"Challenge {challenge_id} Challenge Type Error.")
+                            return_data.append(data)
+                            continue
+                        if create_time > challenge["lifetime"]["expirationTime"]:
+                            challenge["completed"] = False
+                            challenge["completion_count"] = challenge["completion_count"] + 1
+                            challenge["lifetime"]["creationTime"] = create_time
+                            challenge["lifetime"]["expirationTime"] = expiration_time
+                            mongo.write_data_with_list(login=userid, login_steam=False,
+                                                       items_dict={"challengeProgression": user_data})
+                            return_data.append(data)
+                        else:
+                            start_data = challenge["lifetime"]["creationTime"]
+                            expiration_date = challenge["lifetime"]["expirationTime"]
+                            data["lifetime"] = {
+                                "creationTime": start_data,
+                                "expirationTime": expiration_date
+                            }
+                        return_data.append(data)
+                if not pass_val:
                     challenge_type = \
                         {**self.daily_challenges, **self.weekly_challenges, **challenge_data}[challenge_id]["challengeType"]
 
                     if challenge_type == "Daily":
                         create_time, expiration_time = get_lifetime("Daily")
                         self.add_challenge_to_user(userid, challenge_id, challenge_type)
-                        return {"challengeId": challenge_id, "completed": False, "className": "Weekly",
+                        return_data.append( {"challengeId": challenge_id, "completed": False, "className": "Weekly",
                                 "lifetime": {
                                     "creationTime": create_time,
                                     "expirationTime": expiration_time
                                 },
-                                "completion_count": 0}
+                                "completion_count": 0})
                     if challenge_type == "Weekly":
                         create_time, expiration_time = get_lifetime("Weekly")
                         self.add_challenge_to_user(userid, challenge_id, challenge_type)
-                        return {"challengeId": challenge_id, "completed": False, "className": "Weekly",
+                        return_data.append( {"challengeId": challenge_id, "completed": False, "className": "Weekly",
                                 "lifetime": {
                                     "creationTime": create_time,
                                     "expirationTime": expiration_time
                                 },
-                                "completion_count": 0}
+                                "completion_count": 0})
                     self.add_challenge_to_user(userid, challenge_id, challenge_type)
-                    return {"challengeId": challenge_id, "completed": False}
+                    return_data.append( {"challengeId": challenge_id, "completed": False})
+                    logger.graylog_logger(level="info", handler="get_progression_batch", message=f"Challenge {challenge_id} not found in user data")
 
-        else:
-            user_data = mongo.get_data_with_list(login=userid, login_steam=False, items={"challengeProgression"})["challengeProgression"]
-            for challenge in user_data:
-                if challenge["challengeId"] == challenge_id:
-                    if challenge["value"] == 0:
-                        data = {"challengeId": challenge["challengeId"],
-                                "completed": False}
-                    else:
-                        if challenge["completed"]:
-                            reward_key = "rewardsClaimed"
-                            # TEST should be rewardsClaimed
+            else:
+                for challenge in user_data:
+                    if challenge["challengeId"] == challenge_id:
+                        if challenge["value"] == 0:
+                            data = {"challengeId": challenge["challengeId"],
+                                    "completed": False}
                         else:
-                            reward_key = "rewards"
-                        if challenge["challengeId"] in self.hard_code_challenges:
-                            try:
-                                rewards = get_reward(challenge["blueprint"])
-                            except KeyError:
+                            if challenge["completed"]:
+                                reward_key = "rewardsClaimed"
+                                # TEST should be rewardsClaimed
+                            else:
+                                reward_key = "rewards"
+                            if challenge["challengeId"] in self.hard_code_challenges:
+                                try:
+                                    rewards = get_reward(challenge["blueprint"])
+                                except KeyError:
+                                    rewards = {}
+                                    logger.graylog_logger(level="error", handler="get_progression_batch", message=f"Challenge {challenge_id} Blueprint Error.")
+
+                            else:
                                 rewards = {}
-                                logger.graylog_logger(level="error", handler="get_progression_batch", message=f"Challenge {challenge_id} Blueprint Error.")
-
-                        else:
-                            rewards = {}
-                        data = {
-                            "challengeId": challenge["challengeId"],
-                            "className": "ChallengeProgressionCounter",
-                            reward_key: [
-                                rewards
-                            ],
-                            "completed": challenge["completed"],
-                            "schemaVersion": 1,
-                            "value": challenge["value"]
-                        }
-                    return data
-            # disabled because the API takes a long time to print but is very fast to run
-            #logger.graylog_logger(level="info", handler="get_progression_batch", message=f"Challenge {challenge_id} not found in user data")
-            #A lot of challenges are sent that are not in challenge_data
-            #Add them anyways
-            # if challenge_id not in db_challenge:
-            #    self.add_challenge_to_user(userid, challenge_id, "ChallengeProgressionCounter")
-            return {"challengeId": challenge_id, "completed": False}
+                            data = {
+                                "challengeId": challenge["challengeId"],
+                                "className": "ChallengeProgressionCounter",
+                                reward_key: [
+                                    rewards
+                                ],
+                                "completed": challenge["completed"],
+                                "schemaVersion": 1,
+                                "value": challenge["value"]
+                            }
+                        return_data.append(data)
+                # disabled because the API takes a long time to print but is very fast to run
+                #logger.graylog_logger(level="info", handler="get_progression_batch", message=f"Challenge {challenge_id} not found in user data")
+                #A lot of challenges are sent that are not in challenge_data
+                #Add them anyways
+                # if challenge_id not in db_challenge:
+                #    self.add_challenge_to_user(userid, challenge_id, "ChallengeProgressionCounter")
+                return_data.append( {"challengeId": challenge_id, "completed": False})
+        return return_data
 
     # def login_update_time(self, userId):
     #    for challenge_int in self.daily_challenges:
