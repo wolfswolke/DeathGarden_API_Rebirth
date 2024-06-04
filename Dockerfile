@@ -1,12 +1,18 @@
 FROM python:3.13.0a6-alpine3.18
 
 RUN apk upgrade && apk add curl
-
 # copying each folder one by one so docker can cache the layers
 #COPY . /app
 RUN mkdir -p /app/
 RUN mkdir -p /app/src
 RUN mkdir -p /app/src/logic
+
+WORKDIR /app/src
+
+COPY requirements.txt /app/src/requirements.txt
+RUN pip install -r requirements.txt
+RUN pip install --upgrade pip
+
 COPY src/start_app.py /app/src/start_app.py
 COPY src/flask_definitions.py /app/src/flask_definitions.py
 
@@ -39,12 +45,6 @@ COPY src/logic/queue_handler.py /app/src/logic/queue_handler.py
 COPY src/logic/setup_handlers.py /app/src/logic/setup_handlers.py
 COPY src/logic/time_handler.py /app/src/logic/time_handler.py
 COPY src/logic/webhook_handler.py /app/src/logic/webhook_handler.py
-
-COPY requirements.txt /app/src/requirements.txt
-
-WORKDIR /app/src
-
-RUN pip install --upgrade pip && pip install -r requirements.txt
 
 EXPOSE 8080
 
