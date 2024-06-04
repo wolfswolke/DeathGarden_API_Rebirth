@@ -10,6 +10,9 @@ from logic.logging_handler import logger
 mirrors_match_status = ["None", "NoMatch", "Created", "Creating", "DelayedCreation", "Opened", "Completed", "Timedout",
                         "Closing", "Closed", "Killing", "Killed", "Destroyed"]
 
+max_b_count_dev = 1
+max_b_count_prod = 5
+
 
 def random_game_mode(match_config=None):
     if match_config:
@@ -223,9 +226,9 @@ class MatchmakingQueue:
                     return {}
 
                 if os.environ['DEV'] == "true":
-                    max_players_b = 1
+                    max_players_b = max_b_count_dev
                 else:
-                    max_players_b = 5
+                    max_players_b = max_b_count_prod
                 # TEMP
                 for openLobby in self.openLobbies:
                     if openLobby.is_private:
@@ -485,10 +488,10 @@ class MatchmakingQueue:
         try:
             if os.environ['DEV'] == "true":
                 countA = 1
-                countB = 1
+                countB = max_b_count_dev
             else:
                 countA = 1
-                countB = 5
+                countB = max_b_count_prod
             lobby_temp, id_temp = self.getLobbyById(matchId)
             if lobby_temp is None:
                 logger.graylog_logger(level="debug", handler="createMatchResponse",
@@ -568,10 +571,10 @@ class MatchmakingQueue:
         try:
             if os.environ['DEV'] == "true":
                 countA = 1
-                countB = 1
+                countB = max_b_count_dev
             else:
                 countA = 1
-                countB = 5
+                countB = max_b_count_prod
             current_timestamp, expiration_timestamp = get_time()
             gameMode = matchConfig["gameMode"]
             MatchConfiguration = matchConfig["MatchConfiguration"]
