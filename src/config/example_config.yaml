@@ -8,6 +8,7 @@ steam:
 mongodb:
   host: mongodb://IP:27017/
   db: db_name
+  db_dev: db_name_dev
   collection: collection_name
 api:
   allowed_tokens:
