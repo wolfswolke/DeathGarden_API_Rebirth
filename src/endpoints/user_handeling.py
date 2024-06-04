@@ -599,6 +599,7 @@ def challenges_execute_challenge_progression_operation_batch():
                 logger.graylog_logger(level="error", handler="executeChallengeProgressionOperationBatch",message=f"Unknown operation {operation_name}")
         if error_list:
             logger.graylog_logger(level="error", handler="executeChallengeProgressionOperationBatch", message=f"Error while saving challenges for {userId} with challenge_ids {error_list}")
+        get_challenge_ids_from_inventory(userId)
         return "", 204
     except TimeoutError:
         return jsonify({"status": "error"})
@@ -612,7 +613,7 @@ def inventories():
     check_for_game_client("strict")
     session_cookie = sanitize_input(request.cookies.get("bhvrSession"))
     userid = session_manager.get_user_id(session_cookie)
-    # This is a Base inventory with every Character unlocked and every Perk LV 2
+    # This is a Base inventory with every Character unlocked and every Perk LV 5
     base_inventory = [
         {'quantity': 1, 'objectId': '0606F8464D4C7EB70601CC84C50BCAC6', 'lastUpdateAt': 1715019493},
         {'quantity': 1, 'objectId': '22C48CEE49DC29EED48A82A7423DCCE6', 'lastUpdateAt': 1715019493},
@@ -1562,11 +1563,6 @@ def update_metadata_group():
             mongo.write_data_with_list(login=userid, login_steam=False, items_dict=database_dict)
 
         elif reason == "OnRequestCharacterOverrideEvent":
-            try:
-                new_challenge_handler.get_challenge_by_id()
-                get_challenge_ids_from_inventory(userid)
-            except Exception as e:
-                logger.graylog_logger(level="error", handler="updateMetadataGroup", message=e)
             character_id = metadata["characterId"]
             prestige_level = metadata["prestigeLevel"]
             equipment = metadata["equipment"]
@@ -1593,7 +1589,6 @@ def update_metadata_group():
 
         else:
             logger.graylog_logger(level="error", handler="updateMetadataGroup", message=f"New reason: {reason}")
-        get_challenge_ids_from_inventory(userid)
         return jsonify({"userId": userid,
                         "stateName": "MetadataGroups",
                         "objectId": "PlayerMetadata",
@@ -1722,7 +1717,6 @@ def challenges_get_challenge_progression_batch():
     try:
         data = request.get_json()
         challenge_ids = data["data"]["challengeIds"]
-        challenge_list = []
         userid = data["data"]["userId"]
 
         #moved this call to outside get_progression_batch to reduce the amount of database calls
@@ -1730,22 +1724,19 @@ def challenges_get_challenge_progression_batch():
         #for challenge in db_challenge:
         #    #We do not want timestamp in our key otherwise duplicate weekly/daily challenges are created
         #    db_challenge_dict[challenge["challengeId"].split(":")[0]] = challenge
-
+        parsed_challenge_ids = []
         for challenge in challenge_ids:
-            challenge_data = None
             if ":" in challenge:
                 challenge = challenge.split(":")[0]
-            challenge_data = new_challenge_handler.get_progression_batch(challenge, userid)
+            parsed_challenge_ids.append(challenge)
+        if parsed_challenge_ids:
+            challenge_list = new_challenge_handler.get_progression_batch(challenge_ids=parsed_challenge_ids, userid=userid, batch=True)
 
-
-            if challenge_data:
-                challenge_list.append(challenge_data)
-            else:
-                logger.graylog_logger(level="error", handler="logging_missing_challenge",
-                                      message=f"Unknown challenge id {challenge}")
-
-        response = {"progressionBatch": challenge_list}
-        return jsonify(response)
+            response = {"progressionBatch": challenge_list}
+            return jsonify(response)
+        else:
+            logger.graylog_logger(level="error", handler="logging_getChallengeProgressionBatch", message="No challenge ids")
+            return jsonify({"status": "error"})
         # return jsonify({"ProgressionBatch": challenge_list})
     except TimeoutError:
         return jsonify({"status": "error"})
