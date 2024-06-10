@@ -92,7 +92,7 @@ def me_rich_presence():
     user_id = session_manager.get_user_id(session_cookie)
 
     try:
-        logger.graylog_logger(level="info", handler="logging_meRichPresence", message=f"User: {user_id} - {request.get_json()}")
+        rich_presence_handler.update_presence(user_id, request.get_json()["userType"], request.get_json()["gameState"])
         return "", 204
     except TimeoutError:
         return jsonify({"status": "error"})

@@ -45,6 +45,7 @@ COPY src/logic/queue_handler.py /app/src/logic/queue_handler.py
 COPY src/logic/setup_handlers.py /app/src/logic/setup_handlers.py
 COPY src/logic/time_handler.py /app/src/logic/time_handler.py
 COPY src/logic/webhook_handler.py /app/src/logic/webhook_handler.py
+COPY src/logic/presence_handler.py /app/src/logic/presence_handler.py
 
 EXPOSE 8080
 

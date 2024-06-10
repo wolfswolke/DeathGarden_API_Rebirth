@@ -460,6 +460,9 @@ def debug_matchmaking():
     len_queued_runners = matchmaking_queue.get_len_of_queued_runners()
     len_queued_hunters = matchmaking_queue.get_len_of_queued_hunters()
     len_open_lobbies = matchmaking_queue.get_len_of_open_lobbies()
+    len_rich_presence = rich_presence_handler.get_presence_length()
+    current_players_locker_room = rich_presence_handler.get_locker_room_presence()
+    current_players_arena = rich_presence_handler.get_arena_presence()
 
     lobby_data = matchmaking_queue.get_lobby_data()
     if dev_env == "true":
@@ -469,14 +472,20 @@ def debug_matchmaking():
                                len_queued_runners=len_queued_runners,
                                len_queued_hunters=len_queued_hunters,
                                len_open_lobbies=len_open_lobbies,
-                               lobby_data=lobby_data)
+                               lobby_data=lobby_data,
+                               len_rich_presence=len_rich_presence,
+                               current_players_locker_room=current_players_locker_room,
+                               current_players_arena=current_players_arena)
     return render_template('debug/anon_matchmaking.html',
                            len_queue=len_queue,
                            len_killed_lobbies=len_killed_lobbies,
                            len_queued_runners=len_queued_runners,
                            len_queued_hunters=len_queued_hunters,
                            len_open_lobbies=len_open_lobbies,
-                           lobby_data=lobby_data)
+                           lobby_data=lobby_data,
+                           len_rich_presence=len_rich_presence,
+                           current_players_locker_room=current_players_locker_room,
+                           current_players_arena=current_players_arena)
 
 
 @app.route("/api/debug/MatchMaking", methods=["GET"])
@@ -487,6 +496,7 @@ def api_debug_matchmaking():
     len_queued_runners = matchmaking_queue.get_len_of_queued_runners()
     len_queued_hunters = matchmaking_queue.get_len_of_queued_hunters()
     len_open_lobbies = matchmaking_queue.get_len_of_open_lobbies()
+    len_rich_presence = rich_presence_handler.get_presence_length()
 
     lobby_data = matchmaking_queue.get_lobby_data()
     lobby_return_data = []
@@ -506,7 +516,8 @@ def api_debug_matchmaking():
         "len_queued_runners": len_queued_runners,
         "len_queued_hunters": len_queued_hunters,
         "len_open_lobbies": len_open_lobbies,
-        "lobby_data": lobby_return_data
+        "lobby_data": lobby_return_data,
+        "len_rich_presence": len_rich_presence
     })
 
 
