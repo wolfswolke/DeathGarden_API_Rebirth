@@ -22,7 +22,7 @@ class Mongo:
             'challengeProgression': [],
             'unread_msg_ids': [],
             'unlocked_special_item_ids': [],
-            'last_played_faction': 'Runner',
+            'last_played_faction': 'None',
             'tutorial_completed': False,
             'last_runner': 'Runner.Smoke',
             'last_hunter': 'Hunter.Inquisitor',
