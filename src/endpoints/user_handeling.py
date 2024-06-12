@@ -1223,11 +1223,7 @@ def ban_status():
                                                                            "BanEnd": ban_data["ban_expire"],
                                                                            "Confirmed": False, "Pending": False}})
         elif not ban_data["is_banned"]:
-            return jsonify({"IsBanned": ban_data["is_banned"], "BanInfo": {"BanPeriod": 0,
-                                                                           "BanReason": "None",
-                                                                           "BanStart": 0,
-                                                                           "BanEnd": 0,
-                                                                           "Confirmed": False, "Pending": False}})
+            return jsonify({"IsBanned": ban_data["is_banned"]})
         else:
             return jsonify({"status": "error"})
     except TimeoutError:
@@ -1268,11 +1264,7 @@ def wallet_currencies():
                                  {"Currency": "CurrencyB", "Balance": currencies["currency_blood_cells"],
                                   "CurrencyGroup": "SoftCurrencyGroup", "LastRefillTimeStamp": "1684862187"},
                                  {"Currency": "CurrencyC", "Balance": currencies["currency_ink_cells"],
-                                  "CurrencyGroup": "SoftCurrencyGroup", "LastRefillTimeStamp": "1684862187"},
-                                 {"Currency": "HARD_CURRENCY", "Balance": 6969,
-                                  "CurrencyGroup": "HardCurrencyGroup", "LastRefillTimeStamp": "1684862187"},
-                                 {"Currency": "PROGRESSION_CURRENCY", "Balance": 10000,
-                                  "CurrencyGroup": "HardCurrencyGroup", "LastRefillTimeStamp": "1684862187"}]})
+                                  "CurrencyGroup": "SoftCurrencyGroup", "LastRefillTimeStamp": "1684862187"}]})
     except TypeError:
         return jsonify({"status": "error"})
 
