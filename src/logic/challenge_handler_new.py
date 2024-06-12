@@ -1148,65 +1148,6 @@ class ChallengeHandler:
         mongo.write_data_with_list(login=user_id, login_steam=False, items_dict=data)
         return returning
 
-    def build_challenges(self):
-        # getChallenges.php.json
-        # Get all challenges
-        # Get all user challenges
-        # Compare
-        # Return
-        # {
-        #    "challenges":[
-        #       {
-        #          "lifetime":{
-        #             "creationTime":"2019-11-25T02:17:22.484Z",
-        #             "expirationTime":"2019-11-25T17:59:59.000Z"
-        #          },
-        #          "challengeType":"Daily",
-        #          "challengeId":"Challenge_Deliver_Runner:2019-11-25T02:17:22.484Z",
-        #          "challengeCompletionValue":50,
-        #          "faction":"Runner",
-        #          "challengeBlueprint":"\/Game\/Challenges\/Challenge_Deliver_Runner.Challenge_Deliver_Runner",
-        #          "rewards":[
-        #             {
-        #                "weight":100,
-        #                "amount":30,
-        #                "id":"CurrencyA",
-        #                "type":"currency",
-        #                "claimed":False
-        #             }
-        #          ]
-        #       },
-        #       {
-        #          "lifetime":{
-        #             "creationTime":"2019-11-25T02:17:22.484Z",
-        #             "expirationTime":"2019-11-25T17:59:59.000Z"
-        #          },
-        #          "challengeType":"Daily",
-        #          "challengeId":"Challenge_Domination_Hunter:2019-11-25T02:17:22.484Z",
-        #          "challengeCompletionValue":1,
-        #          "faction":"Hunter",
-        #          "challengeBlueprint":"\/Game\/Challenges\/Daily\/Challenge_Domination_Hunter.Challenge_Domination_Hunter",
-        #          "rewards":[
-        #             {
-        #                "weight":100,
-        #                "amount":30,
-        #                "id":"CurrencyA",
-        #                "type":"currency",
-        #                "claimed":False
-        #             }
-        #          ]
-        #       }
-        #    ]
-        # }
-        pass
-
-    #def generate_challenge(self, challenge_id):
-    #    challengeCompletionValue = random.randint(1, 100)
-    #    progression.append({"challengeId": challenge_id, "value": 0, "completed": False,
-    #                        "challengeCompletionValue": challengeCompletionValue,
-    #                        "lifetime": {"creationTime": "2019-11-25T02:17:22.484Z",
-    #                                     "expirationTime": "2020-11-25T02:17:22.484Z"}})
-
     def add_challenge_to_user(self, user_id, challenge_id, challenge_type="progression", blueprint=None):
         user_challenge_data = \
             mongo.get_data_with_list(login=user_id, login_steam=False, items={"challengeProgression"})[
@@ -1283,7 +1224,7 @@ class ChallengeHandler:
                             continue
                         if create_time > challenge["lifetime"]["expirationTime"]:
                             challenge["completed"] = False
-                            challenge["completion_count"] = challenge["completion_count"] + 1
+                            # challenge["completion_count"] = challenge["completion_count"] + 1
                             challenge["lifetime"]["creationTime"] = create_time
                             challenge["lifetime"]["expirationTime"] = expiration_time
                             mongo.write_data_with_list(login=userid, login_steam=False,
@@ -1335,15 +1276,11 @@ class ChallengeHandler:
                                 # TEST should be rewardsClaimed
                             else:
                                 reward_key = "rewards"
-                            if challenge["challengeId"] in self.hard_code_challenges:
-                                try:
-                                    rewards = get_reward(challenge["blueprint"])
-                                except KeyError:
-                                    rewards = {}
-                                    logger.graylog_logger(level="error", handler="get_progression_batch", message=f"Challenge {challenge_id} Blueprint Error.")
-
-                            else:
+                            try:
+                                rewards = get_reward(challenge["blueprint"])
+                            except KeyError:
                                 rewards = {}
+                                logger.graylog_logger(level="error", handler="get_progression_batch", message=f"Challenge {challenge_id} Blueprint Error.")
                             data = {
                                 "challengeId": challenge["challengeId"],
                                 "className": "ChallengeProgressionCounter",
