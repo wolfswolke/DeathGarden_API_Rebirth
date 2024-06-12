@@ -9,7 +9,7 @@ def receive_event():
     try:
         data = request.get_json()
         logger.graylog_logger(level="info", handler="logging_client_Event", message=data)
-        return jsonify({"status": "success"})
+        return "", 204
     except TimeoutError:
         return jsonify({"status": "error"})
     except Exception as e:
@@ -22,7 +22,7 @@ def metrics_httplog_event():
     try:
         data = request.get_json()
         logger.graylog_logger(level="info", handler="logging_httplog_Event", message=data)
-        return jsonify({"status": "success"})
+        return "", 204
     except TimeoutError:
         return jsonify({"status": "error"})
     except Exception as e:
@@ -105,7 +105,7 @@ def metrics_server_event():
     check_for_game_client()
     try:
         logger.graylog_logger(level="info", handler="logging_server_Event", message=request.get_json())
-        return jsonify({"status": "success"})
+        return "", 204
     except TimeoutError:
         return jsonify({"status": "error"})
     except Exception as e:
