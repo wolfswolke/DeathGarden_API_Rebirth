@@ -14,7 +14,7 @@ max_b_count_dev = 1
 max_b_count_prod = 5
 
 
-def random_game_mode(match_config=None):
+def random_game_mode(match_config=None, hash_of_map=None):
     if match_config:
         md5 = hashlib.md5(match_config.encode('utf-8')).hexdigest()
         return {'gameMode': f'{md5}-Default',
@@ -101,6 +101,25 @@ def random_game_mode(match_config=None):
                              'MatchConfiguration': '/Game/Configuration/MatchConfig/MatchConfig_WA_Rivers.MatchConfig_WA_Rivers'}
     MatchConfig_WA_Rivers_2Hunters = {'gameMode': 'feac811fdef1d1a2f2fc26b3c99205fd-Default',
                                       'MatchConfiguration': '/Game/Configuration/MatchConfig/MatchConfig_WA_Rivers_2Hunters.MatchConfig_WA_Rivers_2Hunters'}
+
+    all_maps = [MatchConfig_SLU_DownTown, MatchConfig_Demo_HarvestYourExit_1v5, MatchConfig_Demo,
+                MatchConfig_ARC_Fortress, MatchConfig_ARC_BlastFurnace, MatchConfig_ARC_BlastFurnace_2Hunters,
+                MatchConfig_ARC_Expedition, MatchConfig_ARC_Expedition_2Hunters, MatchConfig_ARC_ScrapYard,
+                MatchConfig_ARC_ScrapYard_2Hunters, MatchConfig_CAV_All, MatchConfig_CAV_All_2Hunters,
+                MatchConfig_Custom, MatchConfig_CustomMatch, MatchConfig_Demo_2v10_4Needles,
+                MatchConfig_Demo_2v10_5Needles, MatchConfig_Demo_2v8_4Needles, MatchConfig_Demo_2v8_5Needles,
+                MatchConfig_Demo_HarvestYourExit, MatchConfig_DES_City, MatchConfig_DES_City_2Hunters,
+                MatchConfig_DES_Fortress, MatchConfig_DES_Fortress_2Hunters, MatchConfig_DES_GoldRush,
+                MatchConfig_DES_GoldRush_2v10_5Needles, MatchConfig_DES_Mayan, MatchConfig_DES_Mayan_2v10_5Needles,
+                MatchConfig_DES_Oilfield, MatchConfig_DES_Oilfield_2Hunters, MatchConfig_JUN_Fortress,
+                MatchConfig_JUN_Fortress_2Hunters, MatchConfig_NewMaps, MatchConfig_PRM_Special,
+                MatchConfig_RUI_All, MatchConfig_RUI_All_2Hunters, MatchConfig_WA_Cemetery,
+                MatchConfig_WA_Cemetery_2Hunters, MatchConfig_WA_Rivers, MatchConfig_WA_Rivers_2Hunters]
+
+    if hash_of_map != "Default":
+        for MatchConfig in all_maps:
+            if MatchConfig['gameMode'] == hash_of_map:
+                return MatchConfig
 
     high_probability = [MatchConfig_DES_GoldRush, MatchConfig_WA_Rivers, MatchConfig_ARC_BlastFurnace] * 3
     normal_probability = [MatchConfig_WA_Cemetery, MatchConfig_ARC_Expedition, MatchConfig_JUN_Fortress] * 2
@@ -203,7 +222,7 @@ class MatchmakingQueue:
             logger.graylog_logger(level="error", handler="matchmaking_getQueuedPlayer", message=e)
             return None
 
-    def getQueueStatus(self, side, userId, region, additional_user_ids=None):
+    def getQueueStatus(self, side, userId, region, additional_user_ids=None, game_mode=None):
         with self.matchmaking_lock:
             try:
                 eta_data = {
@@ -390,7 +409,10 @@ class MatchmakingQueue:
                                 logger.graylog_logger(level="info", handler="matchmaking_getQueueStatus",
                                                       message="Killed broken lobby")
                     matchId = self.genMatchUUID()
-                    Match_Config = random_game_mode()
+                    if game_mode:
+                        Match_Config = random_game_mode(hash_of_map=game_mode)
+                    else:
+                        Match_Config = random_game_mode()
                     current_time = get_time()[0]
                     lobby = Lobby(isReady=False, host=queuedPlayer, nonHosts=[], id=matchId, isPrepared=False,
                                   hasStarted=False, status="OPENED", MatchConfig=Match_Config,

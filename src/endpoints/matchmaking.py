@@ -85,7 +85,6 @@ def queue():
     region = sanitize_input(request.json.get("region"))
     count_a = request.json.get("countA")
     count_b = request.json.get("countB")
-    epoch = datetime.now().timestamp()
     if additional_user_ids:
         logger.graylog_logger(level="info",
                               handler="logging_queue",
@@ -116,7 +115,7 @@ def queue():
             return jsonify(response_data)
 
         else:
-            response_data = matchmaking_queue.getQueueStatus(side, userid, region)
+            response_data = matchmaking_queue.getQueueStatus(side, userid, region, game_mode=game_mode)
             return jsonify(response_data)
 
     except Exception as e:
@@ -256,7 +255,38 @@ def match_register(match_id_unsanitized):
                     game_mode = "4 Needles"
                 else:
                     game_mode = "Default"
-
+                # "KeysToMetaData": {
+                #         "Map_WashingtonRuins_Name": "FIRST STRIKE",
+                #         "Map_DesertMayan_Name": "DUST & BLOOD",
+                #         "Map_WashingtonRivers_Name": "SALT CREEK",
+                #         "Map_ArcticBlastFurnace_Name": "FIRE IN THE SKY",
+                #         "Map_ArcticExpedition_Name": "DESPERATE EXPEDITION",
+                #         "Map_WashingtonCemetary_Name": "TOMBSTONE",
+                #         "Map_DesertGoldRush_Name": "GOLD RUSH",
+                #         "Map_DesertOilField_Name": "BLOWOUT",
+                #         "Map_WashingtonFortress_Name": "FOREST CITADEL",
+                #         "Map_DesertFortress_Name": "LEGIONS REST",
+                #         "Map_DesertCity_Name": "BARREN CITY",
+                #         "Map_ArcticScrapYard_Name": "ARC SCRAPYARD",
+                #         "Map_SlumsDownTown_Map": "CURFEW",
+                #         "Map_ArcticBlastFurnace_2Hunters_Name": "FIRE IN THE SKY - 2 Hunters",
+                #         "Map_ArcticExpedition_2Hunters_Name": "DESPERATE EXPEDITION - 2 Hunters",
+                #         "Map_ArcticScrapYard_2Hunters_Name": "ARC SCRAPYARD - 2 Hunters",
+                #         "Map_DesertCity_2Hunters_Name": "BARREN CITY - 2 Hunters",
+                #         "Map_DesertFortress_2Hunters_Name": "LEGIONS REST - 2 Hunters",
+                #         "Map_DesertGoldRush_2Hunters_Name": "GOLD RUSH - 2 Hunters",
+                #         "Map_DesertMayan_2Hunters_Name": "DUST & BLOOD - 2 Hunters",
+                #         "Map_DesertOilField_2Hunters_Name": "BLOWOUT - 2 Hunters",
+                #         "Map_SlumsDownTown_2Hunters_Name": "CURFEW - 2 Hunters",
+                #         "Map_WashingtonCemetary_2Hunters_Name": "TOMBSTONE - 2 Hunters",
+                #         "Map_WashingtonFortress_2Hunters_Name": "FOREST CITADEL - 2 Hunters",
+                #         "Map_WashingtonRivers_2Hunters_Name": "SALT CREEK - 2 Hunters",
+                #         "Map_WashingtonRuins_2Hunters_Name": "FIRST STRIKE - 2 Hunters",
+                #         "Map_DesertMayan_2v10_5Needles_Name": "DUST & BLOOD - 2 Hunters",
+                #         "Map_DesertMayan_2v10_4Needles_Name": "DUST & BLOOD - 2 Hunters",
+                #         "Map_DesertMayan_2v8_5Needles_Name": "DUST & BLOOD - 2 Hunters",
+                #         "Map_DesertMayan_2v8_4Needles_Name": "DUST & BLOOD - 2 Hunters"
+                #       }
                 match_configuration = response["props"]["MatchConfiguration"]
                 if match_configuration == "/Game/Configuration/MatchConfig/MatchConfig_Demo_HarvestYourExit_1v5.MatchConfig_Demo_HarvestYourExit_1v5":
                     match_configuration = "Harvest Your Exit 1v5"
@@ -380,7 +410,9 @@ def close_lobby(match_id_unsanitized):
 
 @app.route("/api/v1/match/create", methods=["POST"])
 def match_create():
-    # {'category': 'Steam-te-18f25613-36778-ue4-374f864b', 'region': 'US', 'playersA': [],
+    # {'category': 'Steam-te-18f25613-36778-ue4-374f864b',
+    # 'region': 'US',
+    # 'playersA': [],
     # 'playersB': ['00658d11-2dfd-41e8-b6d2-2462e8f3aa47', '95041085-e7e4-4759-be3d-e72c69167578',
     # '0385496c-f0ae-44d3-a777-26092750f39c'],
     # 'props': {'MatchConfiguration': '/Game/Configuration/MatchConfig/MatchConfig_Demo.MatchConfig_Demo'},
@@ -453,6 +485,39 @@ def match_create():
             "Players": users,
             "status": "CREATED"
         }
+    }
+    # Test new data
+    # MatchId FString
+    # Category FString
+    # Rank FString
+    # CreationDateTime double
+    # ExcludeFriends bool
+    # ExcludeClanMembers bool
+    # Status FString
+    # Reason FString
+    # Creator FString
+    # Players TARRAY FString
+    # SideA TARRAY FString
+    # SideB TARRAY FString
+    # CustomData TARRAY Json
+    # Props TARRAY Json
+    # Schema double
+    data = {
+        "MatchId": matchid,
+        "Category": category,
+        "Rank": 1,
+        "CreationDateTime": epoch,
+        "ExcludeFriends": False,
+        "ExcludeClanMembers": False,
+        "Status": "OPEN",
+        "Reason": "FString",
+        "Creator": userid,
+        "Players": player_list,
+        "SideA": players_a,
+        "SideB": players_b,
+        "CustomData": {},
+        "Props": props,
+        "Schema": 1
     }
     return jsonify(data)
 
@@ -1184,7 +1249,7 @@ def metrics_matchmaking_event():
             matchmaking_queue.removePlayerFromQueue(userid)
             return jsonify({"status": "success"})
 
-        return jsonify({"status": "success"})
+        return "", 204
     except TimeoutError:
         return jsonify({"status": "error"})
     except Exception as e:
