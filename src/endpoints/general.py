@@ -73,7 +73,7 @@ def content_version_latest(version):
     elif version_san == "2.5":
         return jsonify({"LatestSupportedVersion": "te-40131b9e-33193-ue4-fbccc218"}), 200
     elif version_san == "2.11":
-        return jsonify({"LatestSupportedVersion": "te-18f25613-36778-ue4-374f864b"}), 200
+        return jsonify({"LatestSupportedVersion": "2.11.2-1574441597"}), 200
     elif version_san == "2.12":
         return jsonify({"LatestSupportedVersion": "balance111"}), 200
     elif version_san == "3.0":
@@ -121,7 +121,7 @@ def gameservers_live():
     check_for_game_client("strict")
 
     try:
-        data = message=request.get_json()
+        data = message = request.get_json()
         # graylog_logger(request.get_json(), "warning")
         logger.graylog_logger(level="info", handler="gameserver-live", message=data)
         return jsonify({"status": "success"})
@@ -528,28 +528,29 @@ def feedback():
             if steam_id:
                 player_list.append(steam_id["steamid"])
         resp = {
-                    "content": "",
-                    "embeds": [
-                        {
-                            "title": f"User {reporter_steam} reported.",
-                            "description": f"Reported for {reason} \nReport Type {report_type}\nDetails: {details} \nMatch ID: {match_id} \nReporter: {reporter_steam}\nPlayers in Lobby:\n"
-                                           f"{player_list[0]}\n"
-                                           f"{player_list[1]}\n"
-                                           f"{player_list[2]}\n"
-                                           f"{player_list[3]}\n"
-                                           f"{player_list[4]}\n"
-                                           f"{player_list[5]}\n",
-                            "color": 7932020
-                        }
-                    ],
-                    "attachments": []
+            "content": "",
+            "embeds": [
+                {
+                    "title": f"User {reporter_steam} reported.",
+                    "description": f"Reported for {reason} \nReport Type {report_type}\nDetails: {details} \nMatch ID: {match_id} \nReporter: {reporter_steam}\nPlayers in Lobby:\n"
+                                   f"{player_list[0]}\n"
+                                   f"{player_list[1]}\n"
+                                   f"{player_list[2]}\n"
+                                   f"{player_list[3]}\n"
+                                   f"{player_list[4]}\n"
+                                   f"{player_list[5]}\n",
+                    "color": 7932020
                 }
+            ],
+            "attachments": []
+        }
         discord_webhook(moderation_urls, resp)
         return jsonify({"status": "success"})
     except TimeoutError:
         return jsonify({"status": "error"})
     except Exception as e:
         logger.graylog_logger(level="error", handler="logging_feedback", message=e)
+
 
 @app.route("/api/v1/extensions/purchase/set", methods=["POST"])
 def purchase_set():
@@ -640,7 +641,8 @@ def purchase_set():
 
         if CurrencyA < 0 or CurrencyB < 0 or CurrencyC < 0:
             return jsonify({"status": "error"}), 500
-        logger.graylog_logger(level="debug", handler="logging_purchase_item", message=f"bought_items: {bought_items}, user_inventory: {inventory}")
+        logger.graylog_logger(level="debug", handler="logging_purchase_item",
+                              message=f"bought_items: {bought_items}, user_inventory: {inventory}")
         inventory.extend(bought_items)
         mongo.write_data_with_list(login=userid, login_steam=False,
                                    items_dict={"inventory": inventory, "currency_blood_cells": CurrencyB,
@@ -683,13 +685,16 @@ def purchase_item():
 
     try:
         logger.graylog_logger(level="info", handler="logging_purchase_item", message=request.get_json())
-        data = mongo.get_data_with_list(login=userid, login_steam=False, items={"inventory", "currency_blood_cells", "currency_iron", "currency_ink_cells"})
+        data = mongo.get_data_with_list(login=userid, login_steam=False,
+                                        items={"inventory", "currency_blood_cells", "currency_iron",
+                                               "currency_ink_cells"})
         inventory = data["inventory"]
         CurrencyB = int(data["currency_blood_cells"])
         CurrencyA = int(data["currency_iron"])
         CurrencyC = int(data["currency_ink_cells"])
 
-        catalog = json.load(open(os.path.join(app.root_path, "json", "catalog", "te-18f25613-36778-ue4-374f864b", "catalog.json"), "r"))
+        catalog = json.load(
+            open(os.path.join(app.root_path, "json", "catalog", "te-18f25613-36778-ue4-374f864b", "catalog.json"), "r"))
         wallet = []
         for item in catalog["result"]:
             if item["id"] == itemid:
@@ -707,7 +712,9 @@ def purchase_item():
         if CurrencyA < 0 or CurrencyB < 0 or CurrencyC < 0:
             return jsonify({"status": "error"}), 500
         inventory.append(itemid)
-        mongo.write_data_with_list(login=userid, login_steam=False, items_dict={"inventory": inventory, "currency_blood_cells": CurrencyB, "currency_iron": CurrencyA, "currency_ink_cells": CurrencyC})
+        mongo.write_data_with_list(login=userid, login_steam=False,
+                                   items_dict={"inventory": inventory, "currency_blood_cells": CurrencyB,
+                                               "currency_iron": CurrencyA, "currency_ink_cells": CurrencyC})
 
         return jsonify({
             "PlayerId": userid,

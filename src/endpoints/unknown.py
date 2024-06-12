@@ -1,4 +1,6 @@
+import requests
 import werkzeug.exceptions
+from flask import Response
 
 from flask_definitions import *
 
@@ -13,18 +15,11 @@ def catalog_get(game_version_unsanitized):
     if game_version == "dev030":
         output = json.load(open(os.path.join(app.root_path, "json", "catalog", "dev030", "catalog.json"), "r"))
         return jsonify(output)
-
-    try:
-        output = json.load(open(os.path.join(app.root_path, "json", "catalog", game_version, "catalog.json"), "r"))
+    elif game_version == "2.11.2-1574441597":
+        output = json.load(open(os.path.join(app.root_path, "json", "catalog", "te-18f25613-36778-ue4-374f864b", "catalog.json"), "r"))
         return jsonify(output)
-
-    except TimeoutError:
-        return jsonify({"status": "error"})
-    except FileNotFoundError:
-        logger.graylog_logger(level="error", handler="catalog", message=f"File not found: {game_version}")
-        return jsonify({"status": "error", "message": "File not found"}), 404
-    except Exception as e:
-        logger.graylog_logger(level="error", handler="catalog", message=e)
+    else:
+        return jsonify({"message": "Unknown game version"}), 404
 
 
 @app.errorhandler(404)
@@ -85,49 +80,6 @@ def debug_500(e):
                                                                         f"<Error: {e}>")
     print(e)
     return jsonify({"message": "Internal Server Error"}), 500
-
-
-@app.route("/replay", methods=["GET", "POST", "PUT", "DELETE"])
-def replay():
-    # Probably the not implemented replay game function. Who triggerd this?!?!?! 2023-12-17 19:24:20
-    check_for_game_client("strict")
-    session_cookie = request.cookies.get("bhvrSession")
-    userid = session_manager.get_user_id(session_cookie)
-
-    try:
-        if request.method == "GET":
-            return jsonify({"status": "success"})
-        elif request.method == "POST":
-            # This gets called on launch of EMCEE Replay System
-            # POST https://api.zkwolf.com//replay?app=TheExit&version=1933146466&cl=0&friendlyName=Arena&meta=te-18f25613-36778-ue4-374f864b HTTP/1.1
-            # {
-            # 	"users": [
-            # 		"765611991694444485"
-            # 	]
-            # }
-            app = request.args["app"]
-            version = request.args["version"]
-            cl = request.args["cl"]
-            friendly_name = request.args["friendlyName"]
-            meta = request.args["meta"]
-
-            users = request.json["users"][0]
-            logger.graylog_logger(level="info", handler="replay", message=f"New Replay: "
-                                                                          f"Users: {users}, "
-                                                                          f"App: {app}, "
-                                                                          f"Version: {version}, "
-                                                                          f"CL: {cl}, "
-                                                                          f"Friendly_name: {friendly_name}, "
-                                                                          f"Meta: {meta}")
-            return jsonify({"status": "success"})
-        elif request.method == "PUT":
-            return jsonify({"status": "success"})
-        elif request.method == "DELETE":
-            return jsonify({"status": "success"})
-    except TimeoutError:
-        return jsonify({"status": "error"})
-    except Exception as e:
-        logger.graylog_logger(level="error", handler="replay", message=e)
 
 
 @app.route("/nice ports,/Trinity.txt.bak", methods=["GET"])
