@@ -599,7 +599,8 @@ def challenges_execute_challenge_progression_operation_batch():
                 logger.graylog_logger(level="error", handler="executeChallengeProgressionOperationBatch",message=f"Unknown operation {operation_name}")
         if error_list:
             logger.graylog_logger(level="error", handler="executeChallengeProgressionOperationBatch", message=f"Error while saving challenges for {userId} with challenge_ids {error_list}")
-        get_challenge_ids_from_inventory(userId)
+        if dev_env:
+            get_challenge_ids_from_inventory(userId)
         return "", 204
     except TimeoutError:
         return jsonify({"status": "error"})
@@ -1222,6 +1223,17 @@ def ban_status():
                                                                            "BanStart": ban_data["ban_start"],
                                                                            "BanEnd": ban_data["ban_expire"],
                                                                            "Confirmed": False, "Pending": False}})
+            # Ban Reasons Hardcoded:
+            # enum class EBanReasonEnum : uint8 {
+            #     Unknown,
+            #     HackingExploiting,
+            #     Harassment,
+            #     Spamming,
+            #     PlayerDevImpersonation,
+            #     InappropriateLanguage,
+            #     RepeatedDisconnections,
+            #     Griefing,
+            # };
         elif not ban_data["is_banned"]:
             return jsonify({"IsBanned": ban_data["is_banned"]})
         else:
@@ -1456,7 +1468,7 @@ def messages_mark_as():
         return jsonify({"status": "API error"})
 
 
-@app.route("/moderation/check/chat", methods=["POST"])
+@app.route('/moderation/check/chat', methods=["POST"])
 def moderation_check_chat():
     check_for_game_client("strict")
     session_cookie = sanitize_input(request.cookies.get("bhvrSession"))
