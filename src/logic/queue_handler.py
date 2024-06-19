@@ -279,8 +279,21 @@ class MatchmakingQueue:
                             logger.graylog_logger(level="debug",
                                                   handler="fu",
                                                   message=f"H: {host}, Useres: {users}, UWH: {users_with_host}, HID: {openLobby.host}")
+                            # Status Outside is EQueueStatus
+                            # None
+                            # PendingOnline
+                            # Online
+                            # PendingWarparty
+                            # Queued
+                            # Matched
+                            # Failed
+                            # ServerFull
+                            # FriendNotPlaying
+                            # WarpartyFull
+
+                            # Status inside is EMirrorsMatchStatus
                             return {
-                                "status": "MATCHED",
+                                "status": "Online",
                                 "matchData": {
                                     "category": "Steam-te-18f25613-36778-ue4-374f864b",
                                     "creationDateTime": current_timestamp,
@@ -299,9 +312,24 @@ class MatchmakingQueue:
                                     "sideA": [host],
                                     "sideB": users,
                                     "Players": users_with_host,
-                                    "status": "CREATED"
+                                    "status": "NoMatch",
                                 },
                             }
+
+                        # enum class EPlatform : uint8 {
+                        #     None,
+                        #     Windows,
+                        #     XboxOne,
+                        #     Ps4,
+                        # };
+                        # Funny thing. There is Platform and Platforms
+                        # enum class EPlatforms : uint8 {
+                        #     None,
+                        #     Steam,
+                        #     Xbox1,
+                        #     PS4,
+                        #     Dev,
+                        # };
                         else:
                             logger.graylog_logger(level="debug", handler="matchmaking_getQueueStatus",
                                                   message="ERROR???")
@@ -343,7 +371,7 @@ class MatchmakingQueue:
                                 if userId in openLobby.nonHosts or userId == openLobby.host:
                                     data = self.createQueueResponseMatched(openLobby.host, openLobby.id, userId,
                                                                            matchConfig=openLobby.matchConfig,
-                                                                           SessionSettings=openLobby.SessionSettings)
+                                                                           SessionSettings=openLobby.SessionSettings, PrivateMatch=True)
                                     self.queuedPlayers.pop(index)
                                     return data
                                 else:
@@ -589,7 +617,7 @@ class MatchmakingQueue:
             logger.graylog_logger(level="error", handler="matchmaking_createMatchResponse", message=e)
 
     def createQueueResponseMatched(self, creatorId, matchId, joinerId=None, region=None, matchConfig=None,
-                                   SessionSettings=None):
+                                   SessionSettings=None, PrivateMatch=False):
         try:
             if os.environ['DEV'] == "true":
                 countA = 1
@@ -606,8 +634,14 @@ class MatchmakingQueue:
             else:
                 host = [creatorId]
                 players = [creatorId] + ([joinerId] if joinerId else [])
+            if PrivateMatch:
+                status_base = "NoMatch"
+                status_int = "NoMatch"
+            else:
+                status_base = "MATCHED"
+                status_int = "CREATED"
             return {
-                "status": "MATCHED",
+                "status": status_base,
                 "matchData": {
                     "category": "Steam-te-18f25613-36778-ue4-374f864b",
                     "creationDateTime": current_timestamp,
@@ -635,7 +669,7 @@ class MatchmakingQueue:
                     "sideA": host,
                     "sideB": [joinerId] if joinerId else [],
                     "Players": players,
-                    "status": "CREATED"
+                    "status": status_int
                 },
             }
         except Exception as e:
