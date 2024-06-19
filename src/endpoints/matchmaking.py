@@ -435,57 +435,10 @@ def match_create():
     for player in players_b:
         player_list.append(player)
     matchid, Match_Config = matchmaking_queue.register_private_match(players_a=players_a, players_b=players_b, match_config=props)
-    # EPrivateMatchState:
-    # Disabled
-    # InGameSession
-    # NotCreated
-    # NotEnoughPlayers
-    # HunterNotSelected
-    # CanStart
-
-    # EMatchmakingState:
-    # None
-    # SearchingForMatch
-    # WaitingForPlayers
-    data = {"MatchId": matchid, "Category": category, "Rank": 1, "Region": region,
-            "CreationDateTime": epoch, "ExcludeFriends": False,
-            "ExcludeClanMembers": False, "Status": "OPEN", "Reason": "FString", "Creator": userid,
-            "Players": player_list, "SideA": players_a, "SideB": players_b, "CustomData": {}, "Props": props,
-            "Schema": 1}
     users = players_a.copy()
     users.append(players_b)
     current_time = get_time()[0]
     countB = len(players_b)
-    data = {
-        "status": "PendingWarparty",
-        "QueueData": {
-            "Position": 1,
-            "ETA": 0,
-            "Stable": False,
-            "SizeA": 1,
-            "SizeB": countB
-        },
-        "matchData": {
-            "category": "Steam-te-18f25613-36778-ue4-374f864b",
-            "creationDateTime": current_time,
-            "creator": players_a,
-            "customData": {},
-            "matchId": matchid,
-            "props": {
-                "countA": 1,
-                "countB": countB,
-                "gameMode": Match_Config["gameMode"],
-                "MatchConfiguration": Match_Config["MatchConfiguration"],
-                "platform": "Windows",
-            },
-            "rank": 1,
-            "schema": 3,
-            "sideA": players_a,
-            "sideB": players_b,
-            "Players": users,
-            "status": "CREATED"
-        }
-    }
     # Test new data
     # MatchId FString
     # Category FString
@@ -509,16 +462,30 @@ def match_create():
         "CreationDateTime": epoch,
         "ExcludeFriends": False,
         "ExcludeClanMembers": False,
-        "Status": "OPEN",
-        "Reason": "FString",
+        "Status": "NoMatch",
+        "Reason": "",
         "Creator": userid,
         "Players": player_list,
         "SideA": players_a,
         "SideB": players_b,
         "CustomData": {},
         "Props": props,
-        "Schema": 1
+        "Schema": 3
     }
+    # Status:
+    # None
+    # NoMatch
+    # Created
+    # Creating
+    # DelayedCreation
+    # Opened
+    # Completed
+    # Timedout
+    # Closing
+    # Closed
+    # Killing
+    # Killed
+    # Destroyed
     return jsonify(data)
 
 
