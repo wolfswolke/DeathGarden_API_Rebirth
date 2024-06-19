@@ -4,11 +4,11 @@ MirrorsApi=
 FileServiceApi=
 GameNewsApi=
 MetricApi=
-TModerationnApi=
+TModerationApi=
 MetricApi=
 PollSystemApi=
-StashboarApi=
-RepllayApi=
+StashboardApi=
+ReplayApi=
 TAuthenticationApi=
 
 -ServiceApi=
