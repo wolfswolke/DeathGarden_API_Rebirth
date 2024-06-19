@@ -2,39 +2,444 @@
    "TopScores":{
       "Scores":[
          {
+            "playerID":"n-6-t-6",
+            "PlayerName":"David",
+            "Rank":2,
+            "Score":7,
+            "Percentile":93,
+            "ShouldTruncatePlayerName": false
+         },
+         {
+            "playerID":"w-8-h-8",
+            "PlayerName":"Mark",
+            "Rank":10,
+            "Score":7,
+            "Percentile":17,
+            "ShouldTruncatePlayerName": false
+         },
+         {
+            "playerID":"o-7-m-6",
+            "PlayerName":"Emily",
+            "Rank":8,
+            "Score":9,
+            "Percentile":21,
+            "ShouldTruncatePlayerName": false
+         },
+         {
+            "playerID":"d-8-v-2",
+            "PlayerName":"Mark",
+            "Rank":6,
+            "Score":1,
+            "Percentile":81,
+            "ShouldTruncatePlayerName": false
+         },
+         {
+            "playerID":"g-3-y-7",
+            "PlayerName":"Lisa",
+            "Rank":8,
+            "Score":6,
+            "Percentile":72,
+            "ShouldTruncatePlayerName": false
+         },
+         {
+            "playerID":"k-2-m-4",
+            "PlayerName":"Emily",
+            "Rank":6,
+            "Score":8,
+            "Percentile":13,
+            "ShouldTruncatePlayerName": false
+         },
+         {
+            "playerID":"c-1-r-7",
+            "PlayerName":"Jennifer",
+            "Rank":7,
+            "Score":4,
+            "Percentile":58,
+            "ShouldTruncatePlayerName": false
+         },
+         {
+            "playerID":"k-8-v-4",
+            "PlayerName":"Sarah",
+            "Rank":9,
+            "Score":2,
+            "Percentile":60,
+            "ShouldTruncatePlayerName": false
+         },
+         {
+            "playerID":"u-3-l-1",
+            "PlayerName":"Mark",
+            "Rank":2,
+            "Score":4,
+            "Percentile":36,
+            "ShouldTruncatePlayerName": false
+         },
+         {
+            "playerID":"n-2-b-6",
+            "PlayerName":"Lisa",
+            "Rank":8,
+            "Score":4,
+            "Percentile":97,
+            "ShouldTruncatePlayerName": false
+         },
+         {
+            "playerID":"j-2-s-5",
+            "PlayerName":"Chris",
+            "Rank":9,
+            "Score":10,
+            "Percentile":64,
+            "ShouldTruncatePlayerName": false
+         },
+         {
+            "playerID":"x-9-v-0",
+            "PlayerName":"Alex",
+            "Rank":7,
+            "Score":2,
+            "Percentile":57,
+            "ShouldTruncatePlayerName": false
+         },
+         {
+            "playerID":"g-3-m-9",
+            "PlayerName":"Jennifer",
+            "Rank":7,
+            "Score":3,
+            "Percentile":64,
+            "ShouldTruncatePlayerName": false
+         },
+         {
+            "playerID":"o-1-w-1",
+            "PlayerName":"John",
+            "Rank":4,
+            "Score":10,
+            "Percentile":9,
+            "ShouldTruncatePlayerName": false
+         },
+         {
+            "playerID":"q-7-s-3",
+            "PlayerName":"Emily",
+            "Rank":5,
+            "Score":8,
+            "Percentile":77,
+            "ShouldTruncatePlayerName": false
+         },
+         {
+            "playerID":"i-0-o-3",
+            "PlayerName":"Lisa",
+            "Rank":10,
+            "Score":10,
+            "Percentile":38,
+            "ShouldTruncatePlayerName": false
+         },
+         {
+            "playerID":"k-5-j-4",
+            "PlayerName":"Mark",
+            "Rank":6,
+            "Score":2,
+            "Percentile":8,
+            "ShouldTruncatePlayerName": false
+         },
+         {
+            "playerID":"a-4-k-8",
+            "PlayerName":"John",
+            "Rank":9,
+            "Score":6,
+            "Percentile":13,
+            "ShouldTruncatePlayerName": false
+         },
+         {
+            "playerID":"i-5-l-2",
+            "PlayerName":"Michael",
+            "Rank":10,
+            "Score":9,
+            "Percentile":49,
+            "ShouldTruncatePlayerName": false
+         },
+         {
+            "playerID":"e-0-o-8",
+            "PlayerName":"David",
+            "Rank":9,
+            "Score":5,
+            "Percentile":32,
+            "ShouldTruncatePlayerName": false
+         },
+         {
+            "playerID":"j-0-z-0",
+            "PlayerName":"John",
+            "Rank":8,
+            "Score":3,
+            "Percentile":38,
+            "ShouldTruncatePlayerName": false
+         },
+         {
+            "playerID":"u-8-a-3",
+            "PlayerName":"Emily",
+            "Rank":10,
+            "Score":4,
+            "Percentile":78,
+            "ShouldTruncatePlayerName": false
+         },
+         {
+            "playerID":"n-1-w-4",
+            "PlayerName":"David",
+            "Rank":10,
+            "Score":3,
+            "Percentile":88,
+            "ShouldTruncatePlayerName": false
+         },
+         {
+            "playerID":"s-4-v-3",
+            "PlayerName":"Mark",
+            "Rank":7,
+            "Score":9,
+            "Percentile":94,
+            "ShouldTruncatePlayerName": false
+         },
+         {
+            "playerID":"p-3-c-7",
+            "PlayerName":"Lisa",
+            "Rank":2,
+            "Score":10,
+            "Percentile":82,
+            "ShouldTruncatePlayerName": false
+         },
+         {
+            "playerID":"q-4-l-8",
+            "PlayerName":"Lisa",
+            "Rank":8,
+            "Score":7,
+            "Percentile":1,
+            "ShouldTruncatePlayerName": false
+         },
+         {
+            "playerID":"e-1-z-7",
+            "PlayerName":"Chris",
+            "Rank":2,
+            "Score":6,
+            "Percentile":13,
+            "ShouldTruncatePlayerName": false
+         },
+         {
+            "playerID":"s-0-a-9",
+            "PlayerName":"Jennifer",
+            "Rank":4,
+            "Score":2,
+            "Percentile":97,
+            "ShouldTruncatePlayerName": false
+         },
+         {
+            "playerID":"v-4-g-2",
+            "PlayerName":"Lisa",
+            "Rank":7,
+            "Score":5,
+            "Percentile":11,
+            "ShouldTruncatePlayerName": false
+         },
+         {
+            "playerID":"m-1-p-7",
+            "PlayerName":"Chris",
+            "Rank":8,
+            "Score":9,
+            "Percentile":82,
+            "ShouldTruncatePlayerName": false
+         },
+         {
+            "playerID":"w-5-q-5",
+            "PlayerName":"Jennifer",
+            "Rank":3,
+            "Score":10,
+            "Percentile":92,
+            "ShouldTruncatePlayerName": false
+         },
+         {
+            "playerID":"z-0-o-5",
+            "PlayerName":"Mark",
+            "Rank":7,
+            "Score":5,
+            "Percentile":33,
+            "ShouldTruncatePlayerName": false
+         },
+         {
+            "playerID":"u-6-a-3",
+            "PlayerName":"Jennifer",
+            "Rank":8,
+            "Score":7,
+            "Percentile":20,
+            "ShouldTruncatePlayerName": false
+         },
+         {
+            "playerID":"a-8-z-3",
+            "PlayerName":"Michael",
+            "Rank":2,
+            "Score":5,
+            "Percentile":80,
+            "ShouldTruncatePlayerName": false
+         },
+         {
+            "playerID":"a-7-p-4",
+            "PlayerName":"Sarah",
+            "Rank":8,
+            "Score":3,
+            "Percentile":8,
+            "ShouldTruncatePlayerName": false
+         },
+         {
+            "playerID":"q-9-c-7",
+            "PlayerName":"Emily",
+            "Rank":2,
+            "Score":6,
+            "Percentile":79,
+            "ShouldTruncatePlayerName": false
+         },
+         {
+            "playerID":"n-9-t-4",
+            "PlayerName":"Alex",
+            "Rank":9,
+            "Score":8,
+            "Percentile":38,
+            "ShouldTruncatePlayerName": false
+         },
+         {
+            "playerID":"l-3-g-9",
+            "PlayerName":"John",
+            "Rank":2,
+            "Score":10,
+            "Percentile":36,
+            "ShouldTruncatePlayerName": false
+         },
+         {
+            "playerID":"r-0-t-5",
+            "PlayerName":"Michael",
+            "Rank":6,
+            "Score":2,
+            "Percentile":88,
+            "ShouldTruncatePlayerName": false
+         },
+         {
+            "playerID":"w-1-a-5",
+            "PlayerName":"Lisa",
+            "Rank":10,
+            "Score":7,
+            "Percentile":81,
+            "ShouldTruncatePlayerName": false
+         },
+         {
+            "playerID":"s-8-g-9",
+            "PlayerName":"Mark",
+            "Rank":6,
+            "Score":10,
+            "Percentile":65,
+            "ShouldTruncatePlayerName": false
+         },
+         {
+            "playerID":"k-9-k-9",
+            "PlayerName":"Sarah",
+            "Rank":4,
+            "Score":5,
+            "Percentile":65,
+            "ShouldTruncatePlayerName": false
+         },
+         {
+            "playerID":"h-7-r-2",
+            "PlayerName":"John",
+            "Rank":2,
+            "Score":9,
+            "Percentile":90,
+            "ShouldTruncatePlayerName": false
+         },
+         {
+            "playerID":"p-8-u-0",
+            "PlayerName":"Chris",
+            "Rank":5,
+            "Score":6,
+            "Percentile":57,
+            "ShouldTruncatePlayerName": false
+         },
+         {
+            "playerID":"o-1-f-0",
+            "PlayerName":"Emily",
+            "Rank":1,
+            "Score":10,
+            "Percentile":94,
+            "ShouldTruncatePlayerName": false
+         },
+         {
+            "playerID":"x-2-f-1",
+            "PlayerName":"David",
+            "Rank":4,
+            "Score":8,
+            "Percentile":8,
+            "ShouldTruncatePlayerName": false
+         },
+         {
+            "playerID":"i-8-g-4",
+            "PlayerName":"Jennifer",
+            "Rank":6,
+            "Score":9,
+            "Percentile":4,
+            "ShouldTruncatePlayerName": false
+         },
+         {
+            "playerID":"x-4-n-9",
+            "PlayerName":"Mark",
+            "Rank":3,
+            "Score":10,
+            "Percentile":4,
+            "ShouldTruncatePlayerName": false
+         },
+         {
+            "playerID":"z-9-x-9",
+            "PlayerName":"Chris",
+            "Rank":1,
+            "Score":1,
+            "Percentile":26,
+            "ShouldTruncatePlayerName": false
+         },
+         {
+            "playerID":"v-3-a-4",
+            "PlayerName":"David",
+            "Rank":9,
+            "Score":3,
+            "Percentile":75,
+            "ShouldTruncatePlayerName": false
+         },
+         {
             "playerID":"a-1-b-2",
             "PlayerName":"Hans",
             "Rank":1,
             "Score":10,
-            "Percentile":1
+            "Percentile":1,
+            "ShouldTruncatePlayerName": false
          },
          {
             "playerID":"a-2-b-2",
             "PlayerName":"Peter",
             "Rank":2,
             "Score":9,
-            "Percentile":2
+            "Percentile":2,
+            "ShouldTruncatePlayerName": false
          },
          {
             "playerID":"a-3-b-3",
             "PlayerName":"Lukas",
             "Rank":3,
             "Score":8,
-            "Percentile":3
+            "Percentile":3,
+            "ShouldTruncatePlayerName": false
          },
          {
             "playerID":"a-4-b-4",
             "PlayerName":"Jonas",
             "Rank":4,
             "Score":7,
-            "Percentile":4
+            "Percentile":4,
+            "ShouldTruncatePlayerName": false
          },
          {
             "playerID":"a-5-b-5",
             "PlayerName":"Mark",
             "Rank":5,
             "Score":6,
-            "Percentile":5
+            "Percentile":5,
+            "ShouldTruncatePlayerName": false
          }
       ]
    },
@@ -45,35 +450,40 @@
             "PlayerName":"Hans",
             "Rank":1,
             "Score":10,
-            "Percentile":1
+            "Percentile":1,
+            "ShouldTruncatePlayerName": false
          },
          {
             "playerID":"a-2-b-2",
             "PlayerName":"Peter",
             "Rank":2,
             "Score":9,
-            "Percentile":2
+            "Percentile":2,
+            "ShouldTruncatePlayerName": false
          },
          {
             "playerID":"a-3-b-3",
             "PlayerName":"Lukas",
             "Rank":3,
             "Score":8,
-            "Percentile":3
+            "Percentile":3,
+            "ShouldTruncatePlayerName": false
          },
          {
             "playerID":"a-4-b-4",
             "PlayerName":"Jonas",
             "Rank":4,
             "Score":7,
-            "Percentile":4
+            "Percentile":4,
+            "ShouldTruncatePlayerName": false
          },
          {
             "playerID":"a-5-b-5",
             "PlayerName":"Mark",
             "Rank":5,
             "Score":6,
-            "Percentile":5
+            "Percentile":5,
+            "ShouldTruncatePlayerName": false
          }
       ]
    }
