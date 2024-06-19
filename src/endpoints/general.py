@@ -89,48 +89,6 @@ def content_version_latest(version):
         logger.graylog_logger(level="error", handler="general-content-version", message=e)
 
 
-@app.route("/gameservers.dev", methods=["POST", "GET"])
-def gameservers_dev():
-    check_for_game_client("strict")
-
-    try:
-        # logger.graylog_logger(level="info", handler="logging_gameservers-dev", message=request.get_json())
-        return jsonify({"status": "success"})
-    except TimeoutError:
-        return jsonify({"status": "error"})
-    except Exception as e:
-        logger.graylog_logger(level="error", handler="general-gameserver-dev", message=e)
-
-
-@app.route("/gameservers.uat", methods=["POST"])
-def gameservers_uat():
-    check_for_game_client("strict")
-
-    try:
-        # graylog_logger(request.get_json(), "warning")
-        return jsonify({"status": "success"})
-    except TimeoutError:
-        return jsonify({"status": "error"})
-    except Exception as e:
-        logger.graylog_logger(level="error", handler="general-gameserver-dev", message=e)
-        return jsonify({"status": "error"})
-
-
-@app.route("/gameservers.live", methods=["POST", "GET"])
-def gameservers_live():
-    check_for_game_client("strict")
-
-    try:
-        data = message = request.get_json()
-        # graylog_logger(request.get_json(), "warning")
-        logger.graylog_logger(level="info", handler="gameserver-live", message=data)
-        return jsonify({"status": "success"})
-    except TimeoutError:
-        return jsonify({"status": "error"})
-    except Exception as e:
-        logger.graylog_logger(level="error", handler="general-gameserver-dev", message=e)
-
-
 @app.route("/api/v1/config/UseMirrorsMM_Steam",
            methods=["GET"])  # What is this even??? Maybe Use Matchmaking? Its only in old Versions tho...
 def config_use_mirrors_mm_steam():

@@ -90,6 +90,8 @@ def me_rich_presence():
     session_cookie = request.cookies.get("bhvrSession")
     session_manager.extend_session(session_cookie)
     user_id = session_manager.get_user_id(session_cookie)
+    if "gameState" not in request.get_json():
+        request.get_json()["gameState"] = "BOOT"
 
     try:
         rich_presence_handler.update_presence(user_id, request.get_json()["userType"], request.get_json()["gameState"])
@@ -125,3 +127,21 @@ def crashreporter_check_report():
         return jsonify({"status": "error"})
     except Exception as e:
         logger.graylog_logger(level="error", handler="logging_crashreporter_CheckReport", message=e)
+
+
+@app.route("/gameservers.dev", methods=["POST", "GET"])
+def gameservers_dev():
+    check_for_game_client("strict")
+    return "", 204
+
+
+@app.route("/gameservers.uat", methods=["POST"])
+def gameservers_uat():
+    check_for_game_client("strict")
+    return "", 204
+
+
+@app.route("/gameservers.live", methods=["POST", "GET"])
+def gameservers_live():
+    check_for_game_client("strict")
+    return "", 204
