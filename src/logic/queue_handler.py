@@ -223,173 +223,174 @@ class MatchmakingQueue:
             return None
 
     def getQueueStatus(self, side, userId, region, additional_user_ids=None, game_mode=None):
-        with self.matchmaking_lock:
-            try:
-                eta_data = {
-                    "queueData": {
-                        "ETA": -10000,
-                        "position": 0,
-                        "sizeA": 0,
-                        "sizeB": 1
-                    },
-                    "status": "QUEUED"
-                }
 
-                self.cleanup_queue_players()
-                for player in self.queuedPlayers:
-                    if player.userId == userId:
-                        player.lastCheckedForMatch = get_time()[0]
+        try:
+            eta_data = {
+                "queueData": {
+                    "ETA": -10000,
+                    "position": 0,
+                    "sizeA": 0,
+                    "sizeB": 1
+                },
+                "status": "QUEUED"
+            }
 
-                queuedPlayer, index = self.getQueuedPlayer(userId)
-                if not queuedPlayer:
-                    return {}
+            self.cleanup_queue_players()
+            for player in self.queuedPlayers:
+                if player.userId == userId:
+                    player.lastCheckedForMatch = get_time()[0]
 
-                if os.environ['DEV'] == "true":
-                    max_players_b = max_b_count_dev
-                else:
-                    max_players_b = max_b_count_prod
-                # TEMP
-                for openLobby in self.openLobbies:
-                    if openLobby.is_private:
-                        is_non_host = False
+            queuedPlayer, index = self.getQueuedPlayer(userId)
+            if not queuedPlayer:
+                return {}
+
+            if os.environ['DEV'] == "true":
+                max_players_b = max_b_count_dev
+            else:
+                max_players_b = max_b_count_prod
+            # TEMP
+            for openLobby in self.openLobbies:
+                if openLobby.is_private:
+                    is_non_host = False
+                    for user in openLobby.nonHosts:
+                        if userId == user.userId:
+                            is_non_host = True
+                    if is_non_host:
+                        data = self.createQueueResponseMatched(openLobby.host, openLobby.id, userId,
+                                                               matchConfig=openLobby.matchConfig)
+                    elif userId == openLobby.host:
+                        current_timestamp, expiration_timestamp = get_time()
+                        gameMode = openLobby.matchConfig["gameMode"]
+                        MatchConfiguration = openLobby.matchConfig["MatchConfiguration"]
+                        countB = len(openLobby.nonHosts)
+                        logger.graylog_logger(level="debug", handler="fu",
+                                              message=f"noHosts is {openLobby.nonHosts}")
+                        users = []
+                        for element in openLobby.nonHosts:
+                            logger.graylog_logger(level="debug", handler="fu", message=f"ELEMENT {element}")
                         for user in openLobby.nonHosts:
-                            if userId == user.userId:
-                                is_non_host = True
-                        if is_non_host:
-                            data = self.createQueueResponseMatched(openLobby.host, openLobby.id, userId,
-                                                                   matchConfig=openLobby.matchConfig)
-                        elif userId == openLobby.host:
-                            current_timestamp, expiration_timestamp = get_time()
-                            gameMode = openLobby.matchConfig["gameMode"]
-                            MatchConfiguration = openLobby.matchConfig["MatchConfiguration"]
-                            countB = len(openLobby.nonHosts)
-                            logger.graylog_logger(level="debug", handler="fu",
-                                                  message=f"noHosts is {openLobby.nonHosts}")
-                            users = []
-                            for element in openLobby.nonHosts:
-                                logger.graylog_logger(level="debug", handler="fu", message=f"ELEMENT {element}")
-                            for user in openLobby.nonHosts:
-                                users.append(user.userId)
-                            if type(openLobby.host) == QueuedPlayer:
-                                host = openLobby.host.userId
-                            else:
-                                host = openLobby.host
-                            users_with_host = users.copy()
-                            users_with_host.append(host)
-                            logger.graylog_logger(level="debug",
-                                                  handler="fu",
-                                                  message=f"H: {host}, Useres: {users}, UWH: {users_with_host}, HID: {openLobby.host}")
-                            # Status Outside is EQueueStatus
-                            # None
-                            # PendingOnline
-                            # Online
-                            # PendingWarparty
-                            # Queued
-                            # Matched
-                            # Failed
-                            # ServerFull
-                            # FriendNotPlaying
-                            # WarpartyFull
-
-                            # Status inside is EMirrorsMatchStatus
-                            return {
-                                "status": "Online",
-                                "matchData": {
-                                    "category": "Steam-te-18f25613-36778-ue4-374f864b",
-                                    "creationDateTime": current_timestamp,
-                                    "creator": openLobby.host,
-                                    "customData": {},
-                                    "matchId": openLobby.id,
-                                    "props": {
-                                        "countA": 1,
-                                        "countB": countB,
-                                        "gameMode": gameMode,
-                                        "MatchConfiguration": MatchConfiguration,
-                                        "platform": "Windows",
-                                    },
-                                    "rank": 1,
-                                    "schema": 3,
-                                    "sideA": [host],
-                                    "sideB": users,
-                                    "Players": users_with_host,
-                                    "status": "NoMatch",
-                                },
-                            }
-
-                        # enum class EPlatform : uint8 {
-                        #     None,
-                        #     Windows,
-                        #     XboxOne,
-                        #     Ps4,
-                        # };
-                        # Funny thing. There is Platform and Platforms
-                        # enum class EPlatforms : uint8 {
-                        #     None,
-                        #     Steam,
-                        #     Xbox1,
-                        #     PS4,
-                        #     Dev,
-                        # };
+                            users.append(user.userId)
+                        if type(openLobby.host) == QueuedPlayer:
+                            host = openLobby.host.userId
                         else:
-                            logger.graylog_logger(level="debug", handler="matchmaking_getQueueStatus",
-                                                  message="ERROR???")
-                        self.queuedPlayers.pop(index)
-                        return data
+                            host = openLobby.host
+                        users_with_host = users.copy()
+                        users_with_host.append(host)
+                        logger.graylog_logger(level="debug",
+                                              handler="fu",
+                                              message=f"H: {host}, Useres: {users}, UWH: {users_with_host}, HID: {openLobby.host}")
+                        # Status Outside is EQueueStatus
+                        # None
+                        # PendingOnline
+                        # Online
+                        # PendingWarparty
+                        # Queued
+                        # Matched
+                        # Failed
+                        # ServerFull
+                        # FriendNotPlaying
+                        # WarpartyFull
+
+                        # Status inside is EMirrorsMatchStatus
+                        return {
+                            "status": "Online",
+                            "matchData": {
+                                "category": "Steam-te-18f25613-36778-ue4-374f864b",
+                                "creationDateTime": current_timestamp,
+                                "creator": openLobby.host,
+                                "customData": {},
+                                "matchId": openLobby.id,
+                                "props": {
+                                    "countA": 1,
+                                    "countB": countB,
+                                    "gameMode": gameMode,
+                                    "MatchConfiguration": MatchConfiguration,
+                                    "platform": "Windows",
+                                },
+                                "rank": 1,
+                                "schema": 3,
+                                "sideA": [host],
+                                "sideB": users,
+                                "Players": users_with_host,
+                                "status": "NoMatch",
+                            },
+                        }
+
+                    # enum class EPlatform : uint8 {
+                    #     None,
+                    #     Windows,
+                    #     XboxOne,
+                    #     Ps4,
+                    # };
+                    # Funny thing. There is Platform and Platforms
+                    # enum class EPlatforms : uint8 {
+                    #     None,
+                    #     Steam,
+                    #     Xbox1,
+                    #     PS4,
+                    #     Dev,
+                    # };
                     else:
-                        continue
+                        logger.graylog_logger(level="debug", handler="matchmaking_getQueueStatus",
+                                              message="ERROR???")
+                    self.queuedPlayers.pop(index)
+                    return data
+                else:
+                    continue
 
-                if side == 'B':
-                    if self.openLobbies:
-                        for openLobby in self.openLobbies:
-                            if not openLobby.status == "CLOSED":
-                                if openLobby.last_host_check < get_time()[0] - 15:
-                                    self.openLobbies.pop(self.openLobbies.index(openLobby))
-                                    logger.graylog_logger(level="info", handler="matchmaking_getQueueStatus",
-                                                          message="Lobby killed due to host not checking in")
-                                    return eta_data
-                                if openLobby.host == userId:
-                                    if openLobby.is_private:
-                                        logger.graylog_logger(level="debug", handler="matchmaking_getQueueStatus",
-                                                              message="Lobby is private CHECK 1")
-                                        continue
-                                    logger.graylog_logger(level="info", handler="matchmaking_getQueueStatus",
-                                                          message=f"Kill lobby due to host not checking in: {openLobby.id}"
-                                                                  f", index: {index}, val: "
-                                                                  f"{self.openLobbies.index(openLobby)}")
-                                    self.openLobbies.pop(self.openLobbies.index(openLobby))
-                                    logger.graylog_logger(level="info", handler="matchmaking_getQueueStatus",
-                                                          message="Killed broken lobby Host on Side RUNNER.")
-                                    return eta_data
-                        for openLobby in self.openLobbies:
-                            if not openLobby.isReady or openLobby.hasStarted or openLobby.status == "CLOSED" or openLobby.status == "KILLED":
-                                continue
-
-                            # Private match logic
-                            if openLobby.is_private:
-                                logger.graylog_logger(level="debug", handler="matchmaking_getQueueStatus",
-                                                      message="Lobby is private")
-                                if userId in openLobby.nonHosts or userId == openLobby.host:
-                                    data = self.createQueueResponseMatched(openLobby.host, openLobby.id, userId,
-                                                                           matchConfig=openLobby.matchConfig,
-                                                                           SessionSettings=openLobby.SessionSettings, PrivateMatch=True)
-                                    self.queuedPlayers.pop(index)
-                                    return data
-                                else:
+            if side == 'B':
+                if self.openLobbies:
+                    for openLobby in self.openLobbies:
+                        if not openLobby.status == "CLOSED":
+                            if openLobby.last_host_check < get_time()[0] - 15:
+                                self.openLobbies.pop(self.openLobbies.index(openLobby))
+                                logger.graylog_logger(level="info", handler="matchmaking_getQueueStatus",
+                                                      message="Lobby killed due to host not checking in")
+                                return eta_data
+                            if openLobby.host == userId:
+                                if openLobby.is_private:
+                                    logger.graylog_logger(level="debug", handler="matchmaking_getQueueStatus",
+                                                          message="Lobby is private CHECK 1")
                                     continue
-                            else:
-                                logger.graylog_logger(level="debug", handler="matchmaking_getQueueStatus",
-                                                      message="Lobby is NOT private")
+                                logger.graylog_logger(level="info", handler="matchmaking_getQueueStatus",
+                                                      message=f"Kill lobby due to host not checking in: {openLobby.id}"
+                                                              f", index: {index}, val: "
+                                                              f"{self.openLobbies.index(openLobby)}")
+                                self.openLobbies.pop(self.openLobbies.index(openLobby))
+                                logger.graylog_logger(level="info", handler="matchmaking_getQueueStatus",
+                                                      message="Killed broken lobby Host on Side RUNNER.")
+                                return eta_data
+                    for openLobby in self.openLobbies:
+                        if not openLobby.isReady or openLobby.hasStarted or openLobby.status == "CLOSED" or openLobby.status == "KILLED":
+                            continue
 
-                            if userId in openLobby.nonHosts:
+                        # Private match logic
+                        if openLobby.is_private:
+                            logger.graylog_logger(level="debug", handler="matchmaking_getQueueStatus",
+                                                  message="Lobby is private")
+                            if userId in openLobby.nonHosts or userId == openLobby.host:
                                 data = self.createQueueResponseMatched(openLobby.host, openLobby.id, userId,
                                                                        matchConfig=openLobby.matchConfig,
-                                                                       SessionSettings=openLobby.SessionSettings)
+                                                                       SessionSettings=openLobby.SessionSettings, PrivateMatch=True)
                                 self.queuedPlayers.pop(index)
                                 return data
-                            if len(openLobby.nonHosts) < max_players_b:
-                                logger.graylog_logger(level="debug", handler="matchmaking_getQueueStatus",
-                                                      message=f"Len is {len(openLobby.nonHosts)}")
-                                if additional_user_ids:
+                            else:
+                                continue
+                        else:
+                            logger.graylog_logger(level="debug", handler="matchmaking_getQueueStatus",
+                                                  message="Lobby is NOT private")
+
+                        if userId in openLobby.nonHosts:
+                            data = self.createQueueResponseMatched(openLobby.host, openLobby.id, userId,
+                                                                   matchConfig=openLobby.matchConfig,
+                                                                   SessionSettings=openLobby.SessionSettings)
+                            self.queuedPlayers.pop(index)
+                            return data
+                        if len(openLobby.nonHosts) < max_players_b:
+                            logger.graylog_logger(level="debug", handler="matchmaking_getQueueStatus",
+                                                  message=f"Len is {len(openLobby.nonHosts)}")
+                            if additional_user_ids:
+                                with self.matchmaking_lock:
                                     open_slots = max_players_b - len(openLobby.nonHosts)
                                     queued_player_count = 1 + len(additional_user_ids)
                                     if queued_player_count <= open_slots:
@@ -401,56 +402,56 @@ class MatchmakingQueue:
                                                 self.queuedPlayers.pop(additional_index)
                                     else:
                                         continue
-                                openLobby.nonHosts.append(queuedPlayer)
-                                self.queuedPlayers.pop(index)
+                            openLobby.nonHosts.append(queuedPlayer)
+                            self.queuedPlayers.pop(index)
+                            data = self.createQueueResponseMatched(openLobby.host, openLobby.id, userId,
+                                                                   matchConfig=openLobby.matchConfig,
+                                                                   SessionSettings=openLobby.SessionSettings)
+                            if data:
+                                return data
+                            else:
+                                return eta_data
+                        else:
+                            logger.graylog_logger(level="debug", handler="matchmaking_getQueueStatus",
+                                                  message=f"Len Non Hosts >= 3 for {openLobby.id}")
+                            return eta_data
+                    logger.graylog_logger(level="debug", handler="matchmaking_getQueueStatus",
+                                          message="No Open Lobbies fit the criteria.")
+                    return eta_data
+
+                else:
+                    return eta_data
+            else:
+                if self.openLobbies:
+                    for openLobby in self.openLobbies:
+                        if openLobby.is_private:
+                            if userId == openLobby.host:
                                 data = self.createQueueResponseMatched(openLobby.host, openLobby.id, userId,
                                                                        matchConfig=openLobby.matchConfig,
                                                                        SessionSettings=openLobby.SessionSettings)
-                                if data:
-                                    return data
-                                else:
-                                    return eta_data
+                                self.queuedPlayers.pop(index)
+                                return data
                             else:
-                                logger.graylog_logger(level="debug", handler="matchmaking_getQueueStatus",
-                                                      message=f"Len Non Hosts >= 3 for {openLobby.id}")
-                                return eta_data
-                        logger.graylog_logger(level="debug", handler="matchmaking_getQueueStatus",
-                                              message="No Open Lobbies fit the criteria.")
-                        return eta_data
-
-                    else:
-                        return eta_data
+                                continue
+                        if openLobby.host == userId:
+                            self.openLobbies.pop(self.openLobbies.index(openLobby))
+                            logger.graylog_logger(level="info", handler="matchmaking_getQueueStatus",
+                                                  message="Killed broken lobby")
+                matchId = self.genMatchUUID()
+                if game_mode:
+                    Match_Config = random_game_mode(hash_of_map=game_mode)
                 else:
-                    if self.openLobbies:
-                        for openLobby in self.openLobbies:
-                            if openLobby.is_private:
-                                if userId == openLobby.host:
-                                    data = self.createQueueResponseMatched(openLobby.host, openLobby.id, userId,
-                                                                           matchConfig=openLobby.matchConfig,
-                                                                           SessionSettings=openLobby.SessionSettings)
-                                    self.queuedPlayers.pop(index)
-                                    return data
-                                else:
-                                    continue
-                            if openLobby.host == userId:
-                                self.openLobbies.pop(self.openLobbies.index(openLobby))
-                                logger.graylog_logger(level="info", handler="matchmaking_getQueueStatus",
-                                                      message="Killed broken lobby")
-                    matchId = self.genMatchUUID()
-                    if game_mode:
-                        Match_Config = random_game_mode(hash_of_map=game_mode)
-                    else:
-                        Match_Config = random_game_mode()
-                    current_time = get_time()[0]
-                    lobby = Lobby(isReady=False, host=queuedPlayer, nonHosts=[], id=matchId, isPrepared=False,
-                                  hasStarted=False, status="OPENED", MatchConfig=Match_Config,
-                                  last_host_check=current_time, is_private=False)
-                    self.openLobbies.append(lobby)
-                    self.queuedPlayers.pop(index)
-                    return self.createQueueResponseMatched(userId, matchId, region=region, matchConfig=Match_Config)
-            except Exception as e:
-                logger.graylog_logger(level="error", handler="matchmaking_getQueueStatus", message=e)
-                return None
+                    Match_Config = random_game_mode()
+                current_time = get_time()[0]
+                lobby = Lobby(isReady=False, host=queuedPlayer, nonHosts=[], id=matchId, isPrepared=False,
+                              hasStarted=False, status="OPENED", MatchConfig=Match_Config,
+                              last_host_check=current_time, is_private=False)
+                self.openLobbies.append(lobby)
+                self.queuedPlayers.pop(index)
+                return self.createQueueResponseMatched(userId, matchId, region=region, matchConfig=Match_Config)
+        except Exception as e:
+            logger.graylog_logger(level="error", handler="matchmaking_getQueueStatus", message=e)
+            return None
 
     def removePlayerFromQueue(self, userid):
         _, index = self.getQueuedPlayer(userid)
