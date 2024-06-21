@@ -467,15 +467,12 @@ def moderation_check_username():
         username = sanitize_input(request_var["username"])
         # This would be to censor usernames, but we don't need to do that.
         # Also not sure if this is the right response
-        steam_id = mongo.get_data_with_list(login=userid, login_steam=False, items={"steamid"})["steamid"]
-        developers = ["76561198124949660", "76561199169781285"]
-        if steam_id in developers:
-            username = "Dev: " + username
-            return username
-        return jsonify({
-            "Username": username,
-            "UserId": userid
-        })
+        # steam_id = mongo.get_data_with_list(login=userid, login_steam=False, items={"steamid"})["steamid"]
+        # developers = ["76561198124949660", "76561199169781285"]
+        # if steam_id in developers:
+        #     username = "Dev: " + username
+        #     return username
+        return "", 204
     except TimeoutError:
         return jsonify({"status": "error"})
     except Exception as e:
