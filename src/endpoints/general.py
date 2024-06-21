@@ -473,30 +473,34 @@ def feedback():
         data = request.get_json()
         report_type = data["type"]
         entity_id = data["entityId"]
-        reporter_steam = mongo.get_data_with_list(login=entity_id, login_steam=False, items={"steamid"})["steamid"]
-        platform_id = data["platformId"]
+        reported_steam = mongo.get_data_with_list(login=entity_id, login_steam=False, items={"steamid"})["steamid"]
+        # platform_id = data["platformId"]
         reason = data["reason"]
         details = data["details"]
         game_specific_data = data["gameSpecificData"]
         match_id = game_specific_data["matchId"]
         playerInfoList = game_specific_data["playerInfoList"]
         player_list = []
+        reporter_steam = "NONE/ERROR"
         for player in playerInfoList:
             steam_id = mongo.get_data_with_list(login=player["playerId"], login_steam=False, items={"steamid"})
             if steam_id:
                 player_list.append(steam_id["steamid"])
+            if player["isReporterPlayer"]:
+                reporter_steam = steam_id["steamid"]
+        players_in_lobby = "\n".join(player_list)
         resp = {
             "content": "",
             "embeds": [
                 {
-                    "title": f"User {reporter_steam} reported.",
-                    "description": f"Reported for {reason} \nReport Type {report_type}\nDetails: {details} \nMatch ID: {match_id} \nReporter: {reporter_steam}\nPlayers in Lobby:\n"
-                                   f"{player_list[0]}\n"
-                                   f"{player_list[1]}\n"
-                                   f"{player_list[2]}\n"
-                                   f"{player_list[3]}\n"
-                                   f"{player_list[4]}\n"
-                                   f"{player_list[5]}\n",
+                    "title": f"User {reported_steam} reported.",
+                    "description": f"Reported for {reason} \n"
+                                   f"Report Type {report_type}\n"
+                                   f"Details: {details} \n"
+                                   f"Match ID: {match_id} \n"
+                                   f"Reporter: {reporter_steam}\n"
+                                   f"Players in Lobby:\n"
+                                   f"{players_in_lobby}\n",
                     "color": 7932020
                 }
             ],
