@@ -523,33 +523,37 @@ def api_debug_matchmaking():
 
 @app.route("/api/matchmaking/json", methods=["GET"])
 def api_matchmaking_json():
-    matchmaking_queue.cleanup_queue_players()
-    len_queue = matchmaking_queue.get_len_of_queue()
-    len_killed_lobbies = matchmaking_queue.get_len_of_killed_lobbies()
-    len_queued_runners = matchmaking_queue.get_len_of_queued_runners()
-    len_queued_hunters = matchmaking_queue.get_len_of_queued_hunters()
-    len_open_lobbies = matchmaking_queue.get_len_of_open_lobbies()
+    try:
+        matchmaking_queue.cleanup_queue_players()
+        len_queue = matchmaking_queue.get_len_of_queue()
+        len_killed_lobbies = matchmaking_queue.get_len_of_killed_lobbies()
+        len_queued_runners = matchmaking_queue.get_len_of_queued_runners()
+        len_queued_hunters = matchmaking_queue.get_len_of_queued_hunters()
+        len_open_lobbies = matchmaking_queue.get_len_of_open_lobbies()
 
-    lobby_data = matchmaking_queue.get_lobby_data()
-    lobby_return_data = []
-    for item in lobby_data:
-        # Hunters needs to be changed from STRING to LIST some day
-        lobby_info = {
-            "id": item.id,
-            "Hunters": 1,
-            "Runners": item.nonHosts,
-            "status": item.status
-        }
-        lobby_return_data.append(lobby_info)
+        lobby_data = matchmaking_queue.get_lobby_data()
+        lobby_return_data = []
+        for item in lobby_data:
+            # Hunters needs to be changed from STRING to LIST some day
+            lobby_info = {
+                "id": item.id,
+                "Hunters": 1,
+                "Runners": item.nonHosts,
+                "status": item.status
+            }
+            lobby_return_data.append(lobby_info)
 
-    return jsonify({
-        "len_queue": len_queue,
-        "len_killed_lobbies": len_killed_lobbies,
-        "len_queued_runners": len_queued_runners,
-        "len_queued_hunters": len_queued_hunters,
-        "len_open_lobbies": len_open_lobbies,
-        "lobby_data": lobby_return_data
-    })
+        return jsonify({
+            "len_queue": len_queue,
+            "len_killed_lobbies": len_killed_lobbies,
+            "len_queued_runners": len_queued_runners,
+            "len_queued_hunters": len_queued_hunters,
+            "len_open_lobbies": len_open_lobbies,
+            "lobby_data": lobby_return_data
+        })
+    except Exception as e:
+        logger.graylog_logger(level="error", handler="web-api-matchmaking-json", message=e)
+        return jsonify({"status": "error"}), 500
 
 
 @app.route("/en/eula", methods=["GET"])
