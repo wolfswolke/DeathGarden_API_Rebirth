@@ -115,7 +115,8 @@ def queue():
             return jsonify(response_data)
 
         else:
-            response_data = matchmaking_queue.getQueueStatus(side, userid, region, game_mode=game_mode)
+            response_data = matchmaking_queue.getQueueStatus(side, userid, region, game_mode=game_mode,
+                                                             version=category)
             return jsonify(response_data)
 
     except Exception as e:
@@ -434,7 +435,7 @@ def match_create():
         player_list.append(player)
     for player in players_b:
         player_list.append(player)
-    matchid, Match_Config = matchmaking_queue.register_private_match(players_a=players_a, players_b=players_b, match_config=props)
+    matchid, Match_Config = matchmaking_queue.register_private_match(players_a=players_a, players_b=players_b, match_config=props, version=category)
     users = players_a.copy()
     users.append(players_b)
     current_time = get_time()[0]

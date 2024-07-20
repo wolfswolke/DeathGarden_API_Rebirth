@@ -151,7 +151,7 @@ class QueuedPlayer:
 
 class Lobby:
     def __init__(self, isReady, host, nonHosts, id, isPrepared, hasStarted, status, MatchConfig, last_host_check,
-                 is_private=False):
+                 version, is_private=False,):
         self.isReady = isReady
         self.host = host
         self.nonHosts = nonHosts
@@ -162,6 +162,7 @@ class Lobby:
         self.matchConfig = MatchConfig
         self.last_host_check = last_host_check
         self.is_private = is_private
+        self.version = version
 
 
 class KilledLobby:
@@ -222,7 +223,7 @@ class MatchmakingQueue:
             logger.graylog_logger(level="error", handler="matchmaking_getQueuedPlayer", message=e)
             return None
 
-    def getQueueStatus(self, side, userId, region, additional_user_ids=None, game_mode=None):
+    def getQueueStatus(self, side, userId, region, additional_user_ids=None, game_mode=None, version=None):
 
         try:
             eta_data = {
@@ -243,13 +244,16 @@ class MatchmakingQueue:
             queuedPlayer, index = self.getQueuedPlayer(userId)
             if not queuedPlayer:
                 return {}
+            if not version:
+                return {}
 
             if os.environ['DEV'] == "true":
                 max_players_b = max_b_count_dev
             else:
                 max_players_b = max_b_count_prod
-            # TEMP
             for openLobby in self.openLobbies:
+                if openLobby.version != version:
+                    continue
                 if openLobby.is_private:
                     is_non_host = False
                     for user in openLobby.nonHosts:
@@ -363,7 +367,8 @@ class MatchmakingQueue:
                     for openLobby in self.openLobbies:
                         if not openLobby.isReady or openLobby.hasStarted or openLobby.status == "CLOSED" or openLobby.status == "KILLED":
                             continue
-
+                        if openLobby.version != version:
+                            continue
                         # Private match logic
                         if openLobby.is_private:
                             logger.graylog_logger(level="debug", handler="matchmaking_getQueueStatus",
@@ -424,6 +429,8 @@ class MatchmakingQueue:
             else:
                 if self.openLobbies:
                     for openLobby in self.openLobbies:
+                        if openLobby.version != version:
+                            continue
                         if openLobby.is_private:
                             if userId == openLobby.host:
                                 data = self.createQueueResponseMatched(openLobby.host, openLobby.id, userId,
@@ -445,7 +452,7 @@ class MatchmakingQueue:
                 current_time = get_time()[0]
                 lobby = Lobby(isReady=False, host=queuedPlayer, nonHosts=[], id=matchId, isPrepared=False,
                               hasStarted=False, status="OPENED", MatchConfig=Match_Config,
-                              last_host_check=current_time, is_private=False)
+                              last_host_check=current_time, is_private=False, version=version)
                 self.openLobbies.append(lobby)
                 self.queuedPlayers.pop(index)
                 return self.createQueueResponseMatched(userId, matchId, region=region, matchConfig=Match_Config)
@@ -483,7 +490,7 @@ class MatchmakingQueue:
                 return killedLobby
         return None
 
-    def register_private_match(self, players_a, players_b, match_config):
+    def register_private_match(self, players_a, players_b, match_config, version):
         match_id = self.genMatchUUID()
         current_time = get_time()[0]
         Match_Config = random_game_mode(match_config)
@@ -499,7 +506,7 @@ class MatchmakingQueue:
         logger.graylog_logger(level="debug", handler="fy", message=f"PA {players_a}, PB {players_b}, MC {Match_Config}")
         lobby = Lobby(isReady=False, host=players_a[0], nonHosts=queuedPlayers, id=match_id, isPrepared=False,
                       hasStarted=False, status="OPENED", MatchConfig=Match_Config, last_host_check=current_time,
-                      is_private=True)
+                      is_private=True, version=version)
         self.openLobbies.append(lobby)
         return match_id, Match_Config
 
