@@ -44,7 +44,8 @@ def debug_404(e):
                                                                         f"<Endpoint: {response_endpoint}>"
                                                                         f"<Methode: {sanitize_input(request.method)}>"
                                                                         f"<JSON: {response_json}>"
-                                                                        f"<IP: {user_ip}>")
+                                                                        f"<IP: {user_ip}>"
+                                                                        f"<Error: {e}>")
 
     return jsonify({"message": "Endpoint not found"}), 404
 
