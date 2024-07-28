@@ -6,6 +6,7 @@ import random
 from collections import Counter
 from logic.time_handler import get_time
 from logic.logging_handler import logger
+from logic.mongodb_handler import mongo
 
 mirrors_match_status = ["None", "NoMatch", "Created", "Creating", "DelayedCreation", "Opened", "Completed", "Timedout",
                         "Closing", "Closed", "Killing", "Killed", "Destroyed"]
@@ -151,7 +152,7 @@ class QueuedPlayer:
 
 class Lobby:
     def __init__(self, isReady, host, nonHosts, id, isPrepared, hasStarted, status, MatchConfig, last_host_check,
-                 version, is_private=False,):
+                 version=None, is_private=False, max_a_count=1, max_b_count=5, private_players=None):
         self.isReady = isReady
         self.host = host
         self.nonHosts = nonHosts
@@ -163,6 +164,9 @@ class Lobby:
         self.last_host_check = last_host_check
         self.is_private = is_private
         self.version = version
+        self.max_a_count = max_a_count
+        self.max_b_count = max_b_count
+        self.private_players = private_players
 
 
 class KilledLobby:
@@ -252,37 +256,48 @@ class MatchmakingQueue:
             else:
                 max_players_b = max_b_count_prod
             for openLobby in self.openLobbies:
-                if openLobby.version != version:
-                    continue
+                if openLobby.version:
+                    if openLobby.version != version:
+                        continue
                 if openLobby.is_private:
                     is_non_host = False
-                    for user in openLobby.nonHosts:
-                        if userId == user.userId:
-                            is_non_host = True
+                    if openLobby.private_players:
+                        for user in openLobby.private_players:
+                            if userId == user:
+                                is_non_host = True
                     if is_non_host:
-                        data = self.createQueueResponseMatched(openLobby.host, openLobby.id, userId,
-                                                               matchConfig=openLobby.matchConfig)
-                    elif userId == openLobby.host:
-                        current_timestamp, expiration_timestamp = get_time()
-                        gameMode = openLobby.matchConfig["gameMode"]
-                        MatchConfiguration = openLobby.matchConfig["MatchConfiguration"]
-                        countB = len(openLobby.nonHosts)
-                        logger.graylog_logger(level="debug", handler="fu",
-                                              message=f"noHosts is {openLobby.nonHosts}")
-                        users = []
-                        for element in openLobby.nonHosts:
-                            logger.graylog_logger(level="debug", handler="fu", message=f"ELEMENT {element}")
-                        for user in openLobby.nonHosts:
-                            users.append(user.userId)
-                        if type(openLobby.host) == QueuedPlayer:
-                            host = openLobby.host.userId
+                        ret = mongo.write_data_with_list(userId, login_steam=False,
+                                                         items_dict={"last_played_faction": "Runner"})
+                        if ret:
+                            # remove player from openLobby.private_players
+                            openLobby.private_players.pop(openLobby.private_players.index(userId))
+                            openLobby.nonHosts.append(queuedPlayer)
+                            # creatorId, matchId, joinerId=None, region=None, matchConfig=None,
+                            #                                    SessionSettings=None, PrivateMatch=False, countA=1, countB=5
+                            data = self.createQueueResponseMatched(creatorId=openLobby.host, matchId=openLobby.id,
+                                                                   joinerId=userId, matchConfig=openLobby.matchConfig,
+                                                                   SessionSettings=openLobby.SessionSettings, PrivateMatch=True,
+                                                                   countB=openLobby.max_b_count, countA=openLobby.max_a_count)
+                            self.queuedPlayers.pop(index)
+                            return data
                         else:
-                            host = openLobby.host
-                        users_with_host = users.copy()
-                        users_with_host.append(host)
-                        logger.graylog_logger(level="debug",
-                                              handler="fu",
-                                              message=f"H: {host}, Useres: {users}, UWH: {users_with_host}, HID: {openLobby.host}")
+                            logger.graylog_logger(level="error", handler="matchmaking_getQueueStatus",
+                                                  message="Failed to set last_played_faction to Runner")
+                            return eta_data
+                    elif userId == openLobby.host:
+                        ret = mongo.write_data_with_list(userId, login_steam=False,
+                                                         items_dict={"last_played_faction": "Hunter"})
+                        if ret:
+                            data = self.createQueueResponseMatched(openLobby.host, openLobby.id,
+                                                                   matchConfig=openLobby.matchConfig, PrivateMatch=True,
+                                                                   countB=openLobby.max_b_count,
+                                                                   countA=openLobby.max_a_count)
+                            self.queuedPlayers.pop(index)
+                            return data
+                        else:
+                            logger.graylog_logger(level="error", handler="matchmaking_getQueueStatus",
+                                                  message="Failed to set last_played_faction to Hunter")
+                            return eta_data
                         # Status Outside is EQueueStatus
                         # None
                         # PendingOnline
@@ -296,29 +311,7 @@ class MatchmakingQueue:
                         # WarpartyFull
 
                         # Status inside is EMirrorsMatchStatus
-                        return {
-                            "status": "Online",
-                            "matchData": {
-                                "category": "Steam-te-18f25613-36778-ue4-374f864b",
-                                "creationDateTime": current_timestamp,
-                                "creator": openLobby.host,
-                                "customData": {},
-                                "matchId": openLobby.id,
-                                "props": {
-                                    "countA": 1,
-                                    "countB": countB,
-                                    "gameMode": gameMode,
-                                    "MatchConfiguration": MatchConfiguration,
-                                    "platform": "Windows",
-                                },
-                                "rank": 1,
-                                "schema": 3,
-                                "sideA": [host],
-                                "sideB": users,
-                                "Players": users_with_host,
-                                "status": "NoMatch",
-                            },
-                        }
+
 
                     # enum class EPlatform : uint8 {
                     #     None,
@@ -335,10 +328,8 @@ class MatchmakingQueue:
                     #     Dev,
                     # };
                     else:
-                        logger.graylog_logger(level="debug", handler="matchmaking_getQueueStatus",
-                                              message="ERROR???")
-                    self.queuedPlayers.pop(index)
-                    return data
+                        # Player not in that private lobby
+                        continue
                 else:
                     continue
 
@@ -376,7 +367,7 @@ class MatchmakingQueue:
                             if userId in openLobby.nonHosts or userId == openLobby.host:
                                 data = self.createQueueResponseMatched(openLobby.host, openLobby.id, userId,
                                                                        matchConfig=openLobby.matchConfig,
-                                                                       SessionSettings=openLobby.SessionSettings, PrivateMatch=True)
+                                                                       SessionSettings=openLobby.SessionSettings, PrivateMatch=False)
                                 self.queuedPlayers.pop(index)
                                 return data
                             else:
@@ -490,25 +481,42 @@ class MatchmakingQueue:
                 return killedLobby
         return None
 
-    def register_private_match(self, players_a, players_b, match_config, version):
+    def register_private_match(self, len_a_hunter, len_b_runner, match_config, host):
+        # check if already hosting:
+        for openLobby in self.openLobbies:
+            if openLobby.host == host:
+                return None
         match_id = self.genMatchUUID()
-        current_time = get_time()[0]
+        current_time = get_time()[0] + 5 * 60 * 1000
         Match_Config = random_game_mode(match_config)
-        for player_a in players_a:
-            self.queuePlayer("A", player_a)
-        for player_b in players_b:
-            self.queuePlayer("B", player_b)
         queuedPlayers = []
-        for player_b in players_b:
-            queuedPlayer, index = self.getQueuedPlayer(player_b)
-            queuedPlayers.append(queuedPlayer)
-            logger.graylog_logger(level="debug", handler="fu", message=f"QP {queuedPlayer}")
-        logger.graylog_logger(level="debug", handler="fy", message=f"PA {players_a}, PB {players_b}, MC {Match_Config}")
-        lobby = Lobby(isReady=False, host=players_a[0], nonHosts=queuedPlayers, id=match_id, isPrepared=False,
+        logger.graylog_logger(level="debug", handler="register_private_match",
+                              message=f"Match Config: {Match_Config} with {len_a_hunter} and {len_b_runner}")
+        lobby = Lobby(isReady=False, host=host, nonHosts=queuedPlayers, id=match_id, isPrepared=False,
                       hasStarted=False, status="OPENED", MatchConfig=Match_Config, last_host_check=current_time,
-                      is_private=True, version=version)
+                      is_private=True, max_a_count=len_a_hunter, max_b_count=len_b_runner, private_players=[])
         self.openLobbies.append(lobby)
-        return match_id, Match_Config
+        return match_id
+
+    def join_private_match(self, match_id, user_id):
+        lobby, _ = self.getLobbyById(match_id)
+        if lobby:
+            if lobby.is_private:
+                if user_id == lobby.host:
+                    return {"status": "ERROR", "message": "Host cannot be a runner in their own match."}, 400
+                if len(lobby.nonHosts) < lobby.max_b_count:
+                    # private_players + user_id
+                    if user_id not in lobby.private_players:
+                        lobby.private_players.append(user_id)
+                        return {"status": "OK", "message": "User added to private match."}, 200
+                    else:
+                        return {"status": "ERROR", "message": "User already in private match."}, 400
+                else:
+                    return {"status": "ERROR", "message": "Private match is full."}, 400
+            else:
+                return {"status": "ERROR", "message": "Match is not private."}, 400
+        else:
+            return {"status": "ERROR", "message": "Match not found."}, 400
 
     def registerMatch(self, matchId, sessionSettings, userId):
         lobby, _ = self.getLobbyById(matchId)
@@ -544,12 +552,6 @@ class MatchmakingQueue:
 
     def createMatchResponse(self, matchId, killed=None, userId=None):
         try:
-            if os.environ['DEV'] == "true":
-                countA = 1
-                countB = max_b_count_dev
-            else:
-                countA = 1
-                countB = max_b_count_prod
             lobby_temp, id_temp = self.getLobbyById(matchId)
             if lobby_temp is None:
                 logger.graylog_logger(level="debug", handler="createMatchResponse",
@@ -585,6 +587,12 @@ class MatchmakingQueue:
             except:
                 SessionSettings = ""
             gameMode = lobby.matchConfig["gameMode"]
+            #if os.environ['DEV'] == "true":
+            #    count_a = 1
+            #    count_b = max_b_count_dev
+            #else:
+            count_a = lobby.max_a_count
+            count_b = lobby.max_b_count
             MatchConfiguration = lobby.matchConfig["MatchConfiguration"]
             if host == "147d48b8-6c71-456c-8c72-8d75cff31c51":
                 sideA = []
@@ -601,8 +609,8 @@ class MatchmakingQueue:
                 },
                 "MatchId": matchId,
                 "props": {
-                    "countA": countA,
-                    "countB": countB,
+                    "countA": count_a,
+                    "countB": count_b,
                     "gameMode": gameMode,
                     "MatchConfiguration": MatchConfiguration,
                     "platform": "",
@@ -625,14 +633,8 @@ class MatchmakingQueue:
             logger.graylog_logger(level="error", handler="matchmaking_createMatchResponse", message=e)
 
     def createQueueResponseMatched(self, creatorId, matchId, joinerId=None, region=None, matchConfig=None,
-                                   SessionSettings=None, PrivateMatch=False):
+                                   SessionSettings=None, PrivateMatch=False, countA=1, countB=5):
         try:
-            if os.environ['DEV'] == "true":
-                countA = 1
-                countB = max_b_count_dev
-            else:
-                countA = 1
-                countB = max_b_count_prod
             current_timestamp, expiration_timestamp = get_time()
             gameMode = matchConfig["gameMode"]
             MatchConfiguration = matchConfig["MatchConfiguration"]
@@ -643,11 +645,17 @@ class MatchmakingQueue:
                 host = [creatorId]
                 players = [creatorId] + ([joinerId] if joinerId else [])
             if PrivateMatch:
-                status_base = "NoMatch"
-                status_int = "NoMatch"
+                status_base = "MATCHED"
+                status_int = "CREATED"
             else:
                 status_base = "MATCHED"
                 status_int = "CREATED"
+            #if os.environ['DEV'] == "true":
+            #    count_a = 1
+            #    count_b = max_b_count_dev
+            #else:
+            count_a = countA
+            count_b = countB
             return {
                 "status": status_base,
                 "matchData": {
@@ -659,8 +667,8 @@ class MatchmakingQueue:
                     },
                     "matchId": matchId,
                     "props": {
-                        "countA": countA,
-                        "countB": countB,
+                        "countA": count_a,
+                        "countB": count_b,
                         "gameMode": gameMode,
                         "MatchConfiguration": MatchConfiguration,
                         "platform": "",
