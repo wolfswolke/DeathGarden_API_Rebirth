@@ -60,6 +60,7 @@
     <p><strong>Currently online players: {{ len_rich_presence }}<br></strong></p>
     <p><strong>Current players in LockerRoom: {{ current_players_locker_room }}<br></strong></p>
     <p><strong>Current players in Arena: {{ current_players_arena }}<br></strong></p>
+    <p><strong>Currently open privat lobbys: {{ len_private_lobbies }}<br></strong></p>
     <p></p>
     <p><strong>Killed Lobbies:</strong> {{ len_killed_lobbies }}</p>
     <p><strong>Queued Runners:</strong> {{ len_queued_runners }}</p>
@@ -76,13 +77,7 @@
         <tr>
             <td>{{ lobby.id }}</td>
             <td>1</td>
-            <td>
-                <ul>
-                    {% for runner in lobby.nonHosts  %}
-                    <li>{{ runner.userId }}</li>
-                    {% endfor %}
-                </ul>
-            </td>
+            <td>{{ lobby.nonHosts|length }}</td>
             <td>{{ lobby.status }}</td>
         </tr>
         {% endfor %}
