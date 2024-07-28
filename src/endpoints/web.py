@@ -659,10 +659,23 @@ def api_join_private_match():
 @app.route("/cdn/matchmaking/<path:filename>", methods=["GET"])
 def matchmaking_images(filename):
     try:
-        #     # image url: ROOT/cdn/matchmaking/NameOfImage
-        #     # base path of images: src\image\CDN\Matchmaking\
-        #     image_root = "/cdn/matchmaking/"
-        # todo add check if filename is known
+        file_names = [
+            "BlastFurnace_Matchmaking_Map.png",
+            "Blowout_Matchmaking_Map.png",
+            "DesertCity.png",
+            "DesertFortress.png",
+            "DesperateExpedition_Matchmaking_Map.png",
+            "FirstStrike_Matchmaking_Map.png",
+            "ForestFortress.png",
+            "GoldRush_Matchmaking_Map.png",
+            "Map_Matchmaking_Placeholder.png",
+            "Matchmaking_MapBackground.png",
+            "Mayan_Matchmaking_Map.png",
+            "SaltCreek_Matchmaking_Map.png",
+            "Tombstone_Matchmaking_Map.png"
+        ]
+        if filename not in file_names:
+            return jsonify({"status": "error"}), 404
         return send_from_directory(os.path.join(app.root_path, 'image', 'CDN', 'Matchmaking'), filename)
     except TimeoutError:
         return jsonify({"status": "error"})
