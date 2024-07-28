@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Matchmaking</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/private_mm.css') }}">
+    <script>
+        function updateGameMode() {
+            const selectedGameMode = document.getElementById("gameMode").value;
+            const gameModes = {{ game_modes | tojson }};
+            const gameMode = gameModes.find(gm => gm.value === selectedGameMode);
+            const gameModeImage = document.getElementById("gameModeImage");
+
+            if (gameMode) {
+                gameModeImage.src = gameMode.image;
+            } else {
+                gameModeImage.src = "{{ url_for('matchmaking_images', filename='Map_Matchmaking_Placeholder.png') }}";
+            }
+        }
+
+        function showResponse(elementId, response) {
+            const responseElement = document.getElementById(elementId);
+            responseElement.style.display = 'block';
+            if (response.status === 'OK') {
+                responseElement.style.color = 'green';
+                responseElement.innerHTML = 'Success: ' + response.message;
+            } else {
+                responseElement.style.color = 'red';
+                responseElement.innerHTML = 'Error: ' + response.message;
+            }
+        }
+
+        async function submitHostForm() {
+            const cloudID = document.getElementById("hostCloudID").value;
+            const gameMode = document.getElementById("gameMode").value;
+            const runners = parseInt(document.getElementById("runners").value);
+            const hunters = 1;
+
+            if (!cloudID || !gameMode || isNaN(runners) || runners <= 0) {
+                alert("Please fill in all the fields correctly.");
+                return;
+            }
+
+            const data = {
+                cloudID,
+                gameMode,
+                runners,
+                hunters
+            };
+
+            const response = await fetch('/api/matchmaking/register_private_match', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            }).then(res => res.json());
+
+            showResponse('hostResponse', response);
+        }
+
+        async function submitJoinForm() {
+            const cloudID = document.getElementById("joinCloudID").value;
+            const matchID = document.getElementById("matchID").value;
+
+            if (!cloudID || !matchID) {
+                alert("Please fill in all the fields.");
+                return;
+            }
+
+            const data = {
+                cloudID,
+                matchID
+            };
+
+            const response = await fetch('/api/matchmaking/join_private_match', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            }).then(res => res.json());
+
+            showResponse('joinResponse', response);
+        }
+        window.onload = function() {
+            document.getElementById("gameModeImage").src = "{{ url_for('matchmaking_images', filename='Map_Matchmaking_Placeholder.png') }}";
+        };
+    </script>
+</head>
+<body>
+    <h1>Matchmaking</h1>
+    <div class="container">
+        <button onclick="document.getElementById('hostForm').style.display='block'; document.getElementById('joinForm').style.display='none'">HOST</button>
+        <button onclick="document.getElementById('hostForm').style.display='none'; document.getElementById('joinForm').style.display='block'">JOIN</button>
+
+        <div id="hostForm" style="display:none">
+            <h2>Host a Game</h2>
+            <div class="form-group">
+                <label for="gameMode">Game Mode:</label>
+                <select id="gameMode" onchange="updateGameMode()">
+                    <option value="">Select a game mode</option>
+                    {% for mode in game_modes %}
+                        <option value="{{ mode.value }}">{{ mode.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <img id="gameModeImage" src="" alt="Game Mode Image" class="game-image">
+
+            <div class="form-group">
+                <label for="runners">Number of Runners:</label>
+                <input type="number" id="runners" min="1"> <span>MAX 10</span>
+            </div>
+
+            <div class="form-group">
+                <label for="hunters">Number of Hunters:</label>
+                <input type="number" id="hunters" value="1" disabled> <span>Work in progress</span>
+            </div>
+
+            <div class="form-group">
+                <label for="hostCloudID">Your Cloud ID:</label>
+                <input type="text" id="hostCloudID">
+            </div>
+            <div class="label">
+                <br>
+                <span>WARNING! Going above 5 players can result in lag!</span>
+                <br>
+                <span>Please note that higher Spec machines can hold more players.</span>
+            </div>
+
+            <button onclick="submitHostForm()" style="margin-top: 10px;">SUBMIT</button>
+            <div id="hostResponse" class="response" style="display:none"></div>
+        </div>
+
+        <div id="joinForm" style="display:none">
+            <h2>Join a Game</h2>
+            <div class="form-group">
+                <label for="matchID">Match ID:</label>
+                <input type="text" id="matchID">
+            </div>
+
+            <div class="form-group">
+                <label for="joinCloudID">Your Cloud ID:</label>
+                <input type="text" id="joinCloudID">
+            </div>
+            <button onclick="submitJoinForm()" style="margin-top: 10px;">SUBMIT</button>
+            <div id="joinResponse" class="response" style="display:none"></div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,76 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #1e1e1e;
+    color: #c9c9c9;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h1 {
+    margin-top: 20px;
+    color: #f5f5f5;
+}
+
+.container {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #2e2e2e;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    width: 800px;
+    text-align: center;
+}
+
+.form-group {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    width: 100%;
+}
+
+label {
+    text-align: left;
+    width: 30%;
+}
+
+input, select {
+    padding: 5px;
+    margin-left: 10px;
+    background-color: #3e3e3e;
+    color: #c9c9c9;
+    border: 1px solid #555;
+    border-radius: 5px;
+    width: 50%;
+}
+
+button {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.response {
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.game-image {
+    display: block;
+    margin: 20px auto;
+    width: 100%;
+    max-width: 755px;
+    height: auto;
+    border-radius: 5px;
+    border: 1px solid #555;
+}
