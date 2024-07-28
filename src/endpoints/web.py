@@ -1,3 +1,5 @@
+from flask import redirect
+
 from flask_definitions import *
 from logic.queue_handler import matchmaking_queue
 
@@ -201,7 +203,8 @@ def admin_ban():
             return jsonify({"status": "error", "message": "No api token found"}), 401
         if login_token not in allowed_tokens:
             ip = check_for_game_client("remote")
-            logger.graylog_logger(level="error", handler="web_admin_ban", message={"IP": ip, "message": "Invalid api token"})
+            logger.graylog_logger(level="error", handler="web_admin_ban",
+                                  message={"IP": ip, "message": "Invalid api token"})
             error_message = "Invalid api token"
             return render_template('ban.html', error=error_message)
         chosen_date = sanitize_input(request.form.get("datetime"))
@@ -454,6 +457,12 @@ def updater_script():
 @app.route("/debug/matchmaking", methods=["GET"])
 @app.route("/debug/MatchMaking", methods=["GET"])
 def debug_matchmaking():
+    # Redirect to the root matchmaking page as its not used for DEBUG anymore and is a Feature.
+    return redirect(url_for('root_matchmaking'))
+
+
+@app.route("/matchmaking", methods=["GET"])
+def root_matchmaking():
     matchmaking_queue.cleanup_queue_players()
     len_queue = matchmaking_queue.get_len_of_queue()
     len_killed_lobbies = matchmaking_queue.get_len_of_killed_lobbies()
@@ -464,9 +473,15 @@ def debug_matchmaking():
     current_players_locker_room = rich_presence_handler.get_locker_room_presence()
     current_players_arena = rich_presence_handler.get_arena_presence()
 
-    lobby_data = matchmaking_queue.get_lobby_data()
+    original_lobby_data = matchmaking_queue.get_lobby_data()
+    lobby_data = original_lobby_data.copy()
+    len_private_lobbies = 0
+    for lobby in lobby_data:
+        if lobby.is_private:
+            lobby_data.remove(lobby)
+            len_private_lobbies += 1
     if dev_env == "true":
-        return render_template('debug/matchmaking.html',
+        return render_template('matchmaking/matchmaking.html',
                                len_queue=len_queue,
                                len_killed_lobbies=len_killed_lobbies,
                                len_queued_runners=len_queued_runners,
@@ -475,8 +490,9 @@ def debug_matchmaking():
                                lobby_data=lobby_data,
                                len_rich_presence=len_rich_presence,
                                current_players_locker_room=current_players_locker_room,
-                               current_players_arena=current_players_arena)
-    return render_template('debug/anon_matchmaking.html',
+                               current_players_arena=current_players_arena,
+                               len_private_lobbies=len_private_lobbies)
+    return render_template('matchmaking/anon_matchmaking.html',
                            len_queue=len_queue,
                            len_killed_lobbies=len_killed_lobbies,
                            len_queued_runners=len_queued_runners,
@@ -485,7 +501,173 @@ def debug_matchmaking():
                            lobby_data=lobby_data,
                            len_rich_presence=len_rich_presence,
                            current_players_locker_room=current_players_locker_room,
-                           current_players_arena=current_players_arena)
+                           current_players_arena=current_players_arena,
+                           len_private_lobbies=len_private_lobbies)
+
+
+@app.route("/matchmaking/private_match", methods=["GET"])
+def private_match():
+    image_root = f"{request.scheme}://{request.host}/cdn/matchmaking/"
+    placeholder_image = f'{image_root}Map_Matchmaking_Placeholder.png'
+    GAME_MODES = [
+        {
+            "value": "/Game/Configuration/MatchConfig/MatchConfig_Demo_HarvestYourExit_1v5.MatchConfig_Demo_HarvestYourExit_1v5",
+            "name": "HARVEST YOUR EXIT - 1v5",
+            "image": placeholder_image
+        },
+        {
+            "value": "/Game/Configuration/MatchConfig/MatchConfig_Demo.MatchConfig_Demo",
+            "name": "REBOOT MAPS",
+            "image": placeholder_image
+        },
+        {
+            'value': '/Game/Configuration/MatchConfig/MatchConfig_ARC_Fortress.MatchConfig_ARC_Fortress',
+            'name': 'PH - ARC - Fortress',
+            'image': placeholder_image
+        },
+        {
+            'value': '/Game/Configuration/MatchConfig/MatchConfig_ARC_BlastFurnace.MatchConfig_ARC_BlastFurnace',
+            'name': 'FIRE IN THE SKY',
+            'image': f'{image_root}BlastFurnace_Matchmaking_Map.png'
+        },
+        {
+            'value': '/Game/Configuration/MatchConfig/MatchConfig_ARC_Expedition.MatchConfig_ARC_Expedition',
+            'name': 'DESPERATE EXPEDITION',
+            'image': f'{image_root}DesperateExpedition_Matchmaking_Map.png'
+        },
+        {
+            'value': '/Game/Configuration/MatchConfig/MatchConfig_Custom.MatchConfig_Custom',
+            'name': 'CUSTOM',
+            'image': placeholder_image
+        },
+        {
+            'value': '/Game/Configuration/MatchConfig/MatchConfig_Demo_HarvestYourExit.MatchConfig_Demo_HarvestYourExit',
+            'name': 'Harvest Your Exit',
+            'image': placeholder_image
+        },
+        {
+            'value': '/Game/Configuration/MatchConfig/MatchConfig_DES_City.MatchConfig_DES_City',
+            'name': 'BARREN CITY',
+            'image': f'{image_root}DesertCity.png'
+        },
+        {
+            'value': '/Game/Configuration/MatchConfig/MatchConfig_DES_Fortress.MatchConfig_DES_Fortress',
+            'name': 'LEGIONS REST',
+            'image': f'{image_root}DesertFortress.png'
+        },
+        {
+            'value': '/Game/Configuration/MatchConfig/MatchConfig_DES_GoldRush.MatchConfig_DES_GoldRush',
+            'name': 'GOLD RUSH',
+            'image': f'{image_root}GoldRush_Matchmaking_Map.png'
+        },
+        {
+            'value': '/Game/Configuration/MatchConfig/MatchConfig_DES_Mayan.MatchConfig_DES_Mayan',
+            'name': 'DUST & BLOOD',
+            'image': f'{image_root}Mayan_Matchmaking_Map.png'
+        },
+        {
+            'value': '/Game/Configuration/MatchConfig/MatchConfig_DES_Oilfield.MatchConfig_DES_Oilfield',
+            'name': 'BLOWOUT',
+            'image': f'{image_root}Blowout_Matchmaking_Map.png'
+        },
+        {
+            'value': '/Game/Configuration/MatchConfig/MatchConfig_JUN_Fortress.MatchConfig_JUN_Fortress',
+            'name': 'FOREST CITADEL',
+            'image': f"{image_root}ForestFortress.png"
+        },
+        {
+            'value': '/Game/Configuration/MatchConfig/MatchConfig_NewMaps.MatchConfig_NewMaps',
+            'name': 'ALL NEW MAPS',
+            'image': placeholder_image
+        },
+        {
+            'value': '/Game/Configuration/MatchConfig/MatchConfig_PRM_Special.MatchConfig_PRM_Special',
+            'name': "PRM'S SPECIAL",
+            'image': placeholder_image
+        },
+        {
+            'value': '/Game/Configuration/MatchConfig/MatchConfig_RUI_All.MatchConfig_RUI_All',
+            'name': 'FIRST STRIKE',
+            'image': f'{image_root}FirstStrike_Matchmaking_Map.png'
+        },
+        {
+            'value': '/Game/Configuration/MatchConfig/MatchConfig_WA_Cemetery.MatchConfig_WA_Cemetery',
+            'name': 'TOMBSTONE',
+            'image': f'{image_root}Tombstone_Matchmaking_Map.png'
+        },
+        {
+            'value': '/Game/Configuration/MatchConfig/MatchConfig_WA_Rivers.MatchConfig_WA_Rivers',
+            'name': 'SALT CREEK',
+            'image': f'{image_root}SaltCreek_Matchmaking_Map.png'
+        }
+    ]
+    return render_template("matchmaking/private_match.html", game_modes=GAME_MODES, placeholder_image=placeholder_image)
+
+
+@app.route("/api/matchmaking/register_private_match", methods=["POST"])
+def api_register_private_match():
+    # {"cloudID":"05ee4a16-23b6-4575-b639-fc0109ee3237","gameMode":"/Game/Configuration/MatchConfig/MatchConfig_DES_Oilfield.MatchConfig_DES_Oilfield","runners":6,"hunters":1}
+    data = request.json
+    if data['gameMode'] is None:
+        return jsonify({"status": "ERROR", "message": "No gameMode found."}), 400
+    if isinstance(data['hunters'], int) is False:
+        return jsonify({"status": "ERROR", "message": "No hunters found."}), 400
+    # if data runner is not INT
+    if isinstance(data['runners'], int) is False:
+        return jsonify({"status": "ERROR", "message": "No runners found."}), 400
+    if data['runners'] >= 11:
+        return jsonify({"status": "ERROR", "message": "Too many runners."}), 400
+    if data['cloudID'] == "":
+        return jsonify({"status": "ERROR", "message": "No cloudID found."}), 400
+    # if cloudID is not in the right format
+    if data['cloudID'] is None:
+        return jsonify({"status": "ERROR", "message": "No cloudID found."}), 400
+    ret = mongo.get_data_with_list(login=data['cloudID'], login_steam=False, items=["steamid"])
+    if ret is None:
+        return jsonify({"status": "ERROR", "message": "Invalid cloudID."}), 400
+    logger.graylog_logger(level="info",
+                          handler="web-api-register-private-match",
+                          message=f"User {ret['steamid']} registered a private match with {data['runners']} runners and {data['hunters']} hunters on {data['gameMode']}")
+    match_id = matchmaking_queue.register_private_match(len_a_hunter=data["hunters"], len_b_runner=data["runners"],
+                                                        match_config=data["gameMode"], host=data["cloudID"])
+    if match_id:
+        return jsonify({"status": "OK", "message": f"MatchID: {match_id}"}), 200
+    else:
+        return jsonify({"status": "ERROR", "message": "Already hosting another match."}), 500
+
+
+@app.route("/api/matchmaking/join_private_match", methods=["POST"])
+def api_join_private_match():
+    data = request.json
+    if data['matchID'] is None:
+        return jsonify({"status": "ERROR", "message": "No matchID found."}), 400
+    if data['matchID'] == "":
+        return jsonify({"status": "ERROR", "message": "No matchID found."}), 400
+    if data['cloudID'] is None:
+        return jsonify({"status": "ERROR", "message": "No cloudID found."}), 400
+    if data['cloudID'] == "":
+        return jsonify({"status": "ERROR", "message": "No cloudID found."}), 400
+    ret = mongo.get_data_with_list(login=data['cloudID'], login_steam=False, items=["steamid"])
+    if ret is None:
+        return jsonify({"status": "ERROR", "message": "Invalid cloudID."}), 400
+    logger.graylog_logger(level="info", handler="web-api-join-private-match",
+                          message=f"User {ret['steamid']} joined a private match with matchID {data['matchID']}")
+    msg, code = matchmaking_queue.join_private_match(data['matchID'], data['cloudID'])
+    return jsonify(msg), code
+
+
+@app.route("/cdn/matchmaking/<path:filename>", methods=["GET"])
+def matchmaking_images(filename):
+    try:
+        #     # image url: ROOT/cdn/matchmaking/NameOfImage
+        #     # base path of images: src\image\CDN\Matchmaking\
+        #     image_root = "/cdn/matchmaking/"
+        # todo add check if filename is known
+        return send_from_directory(os.path.join(app.root_path, 'image', 'CDN', 'Matchmaking'), filename)
+    except TimeoutError:
+        return jsonify({"status": "error"})
+    except Exception as e:
+        logger.graylog_logger(level="error", handler="web-matchmaking-images", message=e)
 
 
 @app.route("/api/debug/MatchMaking", methods=["GET"])
