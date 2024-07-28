@@ -336,22 +336,25 @@ class Mongo:
             client = pymongo.MongoClient(self.dyn_server)
             dyn_client_db = client[self.dyn_db]
             dyn_collection = dyn_client_db[self.dyn_collection]
+            glob_id = ""
             if login_steam:
                 steam_id = str(login)
                 existing_document = dyn_collection.find_one({'steamid': steam_id})
+                glob_id = steam_id
             else:
                 user_id = str(login)
                 existing_document = dyn_collection.find_one({"userId": user_id})
+                glob_id = user_id
             if existing_document:
                 update_query = {'$set': items_dict}
                 if login_steam:
-                    dyn_collection.update_one({'steamid': steam_id}, update_query)
+                    dyn_collection.update_one({'steamid': glob_id}, update_query)
                 else:
-                    dyn_collection.update_one({'userId': user_id}, update_query)
+                    dyn_collection.update_one({'userId': glob_id}, update_query)
                 client.close()
                 return {"status": "success", "message": "Data updated"}
             else:
-                print(f"No user found with steamid: {steam_id}")
+                print(f"No user found with steamid: {glob_id}")
                 client.close()
                 return None
         except Exception as e:
