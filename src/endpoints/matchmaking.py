@@ -239,7 +239,9 @@ def match_register(match_id_unsanitized):
         custom_data = data.get("customData", {})
         session_settings = custom_data.get("SessionSettings", "")
 
-        response = matchmaking_queue.registerMatch(match_id, session_settings, userid)
+        response, private = matchmaking_queue.registerMatch(match_id, session_settings, userid)
+        if private:
+            return jsonify(response)
 
         if response:
             if use_discord:
@@ -626,6 +628,179 @@ def progression_player_end_of_match():
 
         # MirrorsExtModelProgressionPlayerEndOfMatchResponse
         # todo remove this test
+        # Found in TheExit\Content\Configuration\Experience\PlayerEndOfMatchDataAsset.uasset
+        # [
+        #   {
+        #     "Type": "GMPlayerEndOfMatchConfiguration",
+        #     "Name": "PlayerEndOfMatchDataAsset",
+        #     "Class": "UScriptClass'GMPlayerEndOfMatchConfiguration'",
+        #     "Properties": {
+        #       "PlayTimeRunnerXPBonus": 20,
+        #       "PlayTimeRunnerXPFrequency": 60.0,
+        #       "EscapeXpBonus": 1150,
+        #       "ConstructDestructionXps": [
+        #         {
+        #           "ConstructClass": {
+        #             "ObjectName": "BlueprintGeneratedClass'BP_Mine_C'",
+        #             "ObjectPath": "TheExit/Content/Items/ItemTemplates/Powers/SpawnMine/BP_Mine.1"
+        #           },
+        #           "DestructionXp": 25
+        #         },
+        #         {
+        #           "ConstructClass": {
+        #             "ObjectName": "BlueprintGeneratedClass'BP_HT_Turret_Mount_C'",
+        #             "ObjectPath": "TheExit/Content/PROPS/GamePlay/Turrets/HT_XX_Turret_Turret01/BP_HT_Turret_Mount.1"
+        #           },
+        #           "DestructionXp": 50
+        #         }
+        #       ],
+        #       "RescueXpBonus": 460,
+        #       "FriendlyEffectXpBonus": 60,
+        #       "FriendlyEffectAssistXpBonus": 115,
+        #       "ResourceDepositXpBonus": 75,
+        #       "ResourceLootXpBonus": 15,
+        #       "ResourceEscapeXpBonus": 40,
+        #       "MarkedSupplierXpBonus": 15,
+        #       "EscapingPlayXpBonus": 300,
+        #       "EscapingPlayAssistXpBonus": 175,
+        #       "DangerClosePlayXpBonus": 60,
+        #       "LastManStandingXpBonus": 100,
+        #       "BloodDeliveryMasterXpBonus": 575,
+        #       "RunnerGoldenCrateLootXpBonus": 60,
+        #       "HunterGoldenCrateLootXpBonus": 50,
+        #       "PlayTimeHunterXPBonus": 5,
+        #       "PlayTimeHunterXPFrequency": 60.0,
+        #       "BloodModeEscapeXp": 100,
+        #       "QuickExecutorXpBonus": 500,
+        #       "DownedXpBonus": 400,
+        #       "RingOutKillXpBonus": 500,
+        #       "ExecutionXpBonus": 500,
+        #       "MercyXpBonus": 500,
+        #       "BleedOutXpBonus": 500,
+        #       "DroneActivationXpBonus": 45,
+        #       "DroneActivatedKillXpBonus": 45,
+        #       "DroneDeactivatedKillXpBonus": 10,
+        #       "HackingInteractionStartXpBonus": 20,
+        #       "HackedInteractionEffectXpBonus": 50,
+        #       "DroneRevealXpBonus": 10,
+        #       "RagdollMinTravelDistance": 100.0,
+        #       "RagdollTravelStepDistance": 50.0,
+        #       "RagdollTravelXPBonusPerStep": 5,
+        #       "RagdollTravelBaseXP": 5,
+        #       "RagdollTravelMaxXP": 100,
+        #       "HunterAttackDamageStep": 30,
+        #       "SelfDeterminationConfigurations": [
+        #         {
+        #           "Key": {
+        #             "TagName": "MatchGameMode.OneVsFive"
+        #           },
+        #           "Value": {
+        #             "SelfDeterminationXpBonuses": [
+        #               {
+        #                 "Key": "1",
+        #                 "Value": 300
+        #               },
+        #               {
+        #                 "Key": "2",
+        #                 "Value": 600
+        #               },
+        #               {
+        #                 "Key": "3",
+        #                 "Value": 1200
+        #               },
+        #               {
+        #                 "Key": "4",
+        #                 "Value": 2000
+        #               },
+        #               {
+        #                 "Key": "5",
+        #                 "Value": 5000
+        #               }
+        #             ]
+        #           }
+        #         },
+        #         {
+        #           "Key": {
+        #             "TagName": "MatchGameMode.TwoVsTen"
+        #           },
+        #           "Value": {
+        #             "SelfDeterminationXpBonuses": [
+        #               {
+        #                 "Key": "1",
+        #                 "Value": 300
+        #               },
+        #               {
+        #                 "Key": "2",
+        #                 "Value": 600
+        #               },
+        #               {
+        #                 "Key": "3",
+        #                 "Value": 1200
+        #               },
+        #               {
+        #                 "Key": "4",
+        #                 "Value": 2000
+        #               },
+        #               {
+        #                 "Key": "5",
+        #                 "Value": 4000
+        #               },
+        #               {
+        #                 "Key": "6",
+        #                 "Value": 6000
+        #               },
+        #               {
+        #                 "Key": "7",
+        #                 "Value": 8000
+        #               },
+        #               {
+        #                 "Key": "8",
+        #                 "Value": 10000
+        #               },
+        #               {
+        #                 "Key": "9",
+        #                 "Value": 14000
+        #               },
+        #               {
+        #                 "Key": "10",
+        #                 "Value": 18000
+        #               }
+        #             ]
+        #           }
+        #         },
+        #         {
+        #           "Key": {
+        #             "TagName": "None"
+        #           },
+        #           "Value": {
+        #             "SelfDeterminationXpBonuses": [
+        #               {
+        #                 "Key": "1",
+        #                 "Value": 300
+        #               },
+        #               {
+        #                 "Key": "2",
+        #                 "Value": 600
+        #               },
+        #               {
+        #                 "Key": "3",
+        #                 "Value": 1200
+        #               },
+        #               {
+        #                 "Key": "4",
+        #                 "Value": 2000
+        #               },
+        #               {
+        #                 "Key": "5",
+        #                 "Value": 5000
+        #               }
+        #             ]
+        #           }
+        #         }
+        #       ]
+        #     }
+        #   }
+        # ]
         return jsonify({"Player": {"Success": True}})
         return jsonify({
             "Player": {
