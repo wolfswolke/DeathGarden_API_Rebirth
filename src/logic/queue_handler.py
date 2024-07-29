@@ -524,7 +524,9 @@ class MatchmakingQueue:
             lobby.host = userId
             lobby.isReady = True
             lobby.SessionSettings = sessionSettings
-            return self.createMatchResponse(matchId=matchId, userId=userId)
+            if lobby.is_private:
+                return self.createMatchResponse(matchId=matchId, userId=userId), True
+            return self.createMatchResponse(matchId=matchId, userId=userId), False
 
     def closeMatch(self, matchId):
         lobby, _ = self.getLobbyById(matchId)
