@@ -5,6 +5,7 @@ from logic.logging_handler import logger
 
 class Mongo:
     def __init__(self):
+        self.migration_level = 1
         self.dyn_server = ""
         self.dyn_db = ""
         self.dyn_collection = ""
@@ -26,6 +27,7 @@ class Mongo:
             'tutorial_completed': False,
             'last_runner': 'Runner.Smoke',
             'last_hunter': 'Hunter.Inquisitor',
+            'migration_status': 1,
             'hasPlayedDeathGarden1': False,
             'RunnerGroupA': {
                 'prestige': 0,
@@ -218,6 +220,28 @@ class Mongo:
         self.dyn_db = db
         self.dyn_collection = collection
 
+    def migration_status(self, userId, status):
+        if status == 0:
+            try:
+                client = pymongo.MongoClient(self.dyn_server)
+                dyn_client_db = client[self.dyn_db]
+                dyn_collection = dyn_client_db[self.dyn_collection]
+                existing_document = dyn_collection.find_one({'userId': userId})
+                if existing_document:
+                    new_userId = str(uuid.uuid4())
+                    dyn_collection.update_one({'userId': userId}, {'$set': {'migration_status': 1}})
+                    dyn_collection.update_one({'userId': userId}, {'$set': {'userId': new_userId}})
+                    client.close()
+                    return True
+                else:
+                    client.close()
+                    return False
+            except Exception as e:
+                logger.graylog_logger(level="error", handler="mongodb_migration_status", message=e)
+                return None
+        else:
+            return True
+
     def user_db_handler(self, steamid):
         try:
             client = pymongo.MongoClient(self.dyn_server)
@@ -234,6 +258,13 @@ class Mongo:
                     if key not in existing_document:
                         existing_document[key] = default_value
                         logger.graylog_logger(level="info", handler="mongodb", message=f"New key added to database: {key} for user {steamid}")
+                        if key == "migration_status":
+                            ret = self.migration_status(userId, 0)
+                            if ret:
+                                logger.graylog_logger(level="info", handler="mongodb", message=f"Migration status updated for user {steamid}")
+                                return self.user_db_handler(steamid)
+                            else:
+                                logger.graylog_logger(level="error", handler="mongodb_migration_status", message=f"Migration status not updated for user {steamid}")
 
                     if type(default_value) == dict:
                         for k, val in default_value.items():
@@ -241,6 +272,14 @@ class Mongo:
                                 existing_document[key][k] = val
                                 logger.graylog_logger(level="info", handler="mongodb", message=f"New key added to database: {k} for user {steamid}")
 
+                migration_status = existing_document['migration_status']
+                if migration_status != self.migration_level:
+                    ret = self.migration_status(userId, migration_status)
+                    if ret:
+                        logger.graylog_logger(level="info", handler="mongodb", message=f"Migration status updated for user {steamid}")
+                        return self.user_db_handler(steamid)
+                    else:
+                        logger.graylog_logger(level="error", handler="mongodb_migration_status", message=f"Migration status not updated for user {steamid}")
                 dyn_collection.replace_one({'steamid': steamid}, existing_document)
 
                 client.close()
