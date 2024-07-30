@@ -274,6 +274,8 @@ class MatchmakingQueue:
                             openLobby.nonHosts.append(queuedPlayer)
                             # creatorId, matchId, joinerId=None, region=None, matchConfig=None,
                             #                                    SessionSettings=None, PrivateMatch=False, countA=1, countB=5
+                            if not openLobby.SessionSettings:
+                                return eta_data
                             data = self.createQueueResponseMatched(creatorId=openLobby.host, matchId=openLobby.id,
                                                                    joinerId=userId, matchConfig=openLobby.matchConfig,
                                                                    SessionSettings=openLobby.SessionSettings, PrivateMatch=True,
