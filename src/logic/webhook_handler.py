@@ -25,5 +25,8 @@ class WebhookHandler:
         response = requests.get(url)
         return response.json()
 
+    def send_discord_webhook_msg(self, url, data):
+        discord_webhook([url], data)
+
 
 webhook_handler = WebhookHandler()
