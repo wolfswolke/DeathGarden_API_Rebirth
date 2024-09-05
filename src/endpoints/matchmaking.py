@@ -592,7 +592,6 @@ def progression_player_end_of_match():
         CurrencyB = user_wallet["currency_blood_cells"]
         CurrencyC = user_wallet["currency_ink_cells"]
         wallet = []
-
         for currency in data["earnedCurrencies"]:
             if currency["currencyName"] == "CurrencyA":
                 wallet.append({"Currency": "CurrencyA", "Amount": currency["amount"]})
@@ -801,7 +800,7 @@ def progression_player_end_of_match():
         #     }
         #   }
         # ]
-        return jsonify({"Player": {"Success": True}})
+
         return jsonify({
             "Player": {
                 "InitialExperienceProgressions": [
@@ -821,10 +820,21 @@ def progression_player_end_of_match():
                     }
                 ],
                 "TotalEarnedCurrency": wallet,
-                "Wallet": wallet,
-                "Events": [
-
-                ]
+                "Wallet": [
+                    {
+                        "Currency": "CurrencyA",
+                        "Amount": CurrencyA
+                    },
+                    {
+                        "Currency": "CurrencyB",
+                        "Amount": CurrencyB
+                    },
+                    {
+                        "Currency": "CurrencyC",
+                        "Amount": CurrencyC
+                    }
+                ],
+                "Events": []
             }
         })
     except TimeoutError:
