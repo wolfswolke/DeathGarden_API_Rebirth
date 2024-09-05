@@ -66,6 +66,8 @@ def check_bogon_ip(ip_addr):
         "2001:0:f000::/36",
         "2001:0:ffff:ffff::/64"
     ]
+    if os.environ['DEV'] == "True":
+        return False
     for bogon_range in bogon_ranges:
         ip_addr_obj = ipaddress.ip_address(ip_addr)
         network = ipaddress.ip_network(bogon_range)
@@ -75,6 +77,7 @@ def check_bogon_ip(ip_addr):
 
 
 def _get_remote_ip(check_type="strict"):
+    local_ip = "1.1.1.1"
     if check_type == "strict":
         if request.environ.get('HTTP_CF_CONNECTING_IP'):
             ip_addr = request.environ['HTTP_CF_CONNECTING_IP']
