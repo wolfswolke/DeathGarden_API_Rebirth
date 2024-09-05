@@ -16,3 +16,5 @@ TAuthenticationApi=
 -UseMatchmakingPlatform=
 -UseMirrors=
 -CdnClientData=
+
+-LogRemoteEndpoint= FluentdRemoteEndpointURL
