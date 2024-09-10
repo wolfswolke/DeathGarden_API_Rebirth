@@ -10,4 +10,4 @@ We currently dont have any releases so this applies to the MAIN/MASTER branch.
 
 ## Reporting a Vulnerability
 
-If you find any Vulnerability please either create a ISSUE or PULL-REQUEST.
+EOL Project. No longer maintained. No longer hosted.

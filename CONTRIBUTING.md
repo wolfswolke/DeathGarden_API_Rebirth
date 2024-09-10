@@ -1,5 +1,18 @@
 # Contributing to DeathGarden_API_Rebirth
 
+# EOL NOTICE
+
+This Project has stoped development and is no longer maintained.
+
+DO NOT CONTRIBUTE TO THIS PROJECT ANYMORE!
+
+****
+****
+****
+****
+# OLD CONTRIBUTING.MD BELOW
+
+
 Thank you for considering contributing to DeathGarden_API_Rebirth! This Flask API is designed for the game Deathgarden Bloodharvest, and we welcome any additions, bug fixes, improvements, or other contributions from the community.
 
 We believe that collaboration is essential to building a successful project, and we value every contribution made by individuals like you. To ensure a smooth and effective collaboration, please take a moment to read and follow the guidelines outlined in this document.

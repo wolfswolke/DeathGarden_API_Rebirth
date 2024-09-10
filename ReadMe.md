@@ -1,20 +1,29 @@
 # DeathGarden Bloodharvest API Rebirth Project
 
+# END OF LIFE NOTICE
+
+This Project has stoped development and is no longer maintained.
+
+This Project was taken over by Project Chronos with their own PHP backend.
+
+This means that nothing will be updated anymore and the API is NOT hosted anymore on the known URL.
+
+Thank you all for the time we had and the fun we had together.
+
+If you want to see future work by me you can check on Project Rebirth here: https://projectrebirth.net
+
+****
+****
+****
+
+#  OLD README BELOW
+
 *Quick jump [Setup](https://github.com/wolfswolke/DeathGarden_API_Rebirth?tab=readme-ov-file#usage)*
-
-**This project is a work in progress! That means there are bugs!**
-
-**In its current state, you can play, and most features have been implemented. 
-For info about missing features, check out the [to-do page](https://github.com/users/wolfswolke/projects/2/views/1).**
 
 **Please note that this project is not affiliated with Behaviour Interactive or any other company.**
 
 **This project is for educational purposes only!**
 
-**This Repository will probably not be updated a lot anymore because 
-Project Chronos started to work on their own backend in PHP.**
-
-****
 
 ****
 
@@ -52,8 +61,7 @@ For more detailed information about our project's tasks, please visit the [to-do
 The goal of this project is to revive the Deathgarden backend and servers. 
 
 **Contact Information:**
-- Matrix: @zkwolf:matrix.org
-- Discord: sunywolf
+- ~
 
 ## Usage
  To find your Game folder right-click on Deathgarden in your Steam Library, hover over Manage and click on Browse Local Files.
